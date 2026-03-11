@@ -1,0 +1,141 @@
+/*--================ LAYOUT ================--*/
+#main {width: 738px;}
+        
+
+/*-- DATE --*/
+#teams ul {display: block; width: 500px; margin-top: 13px;}
+#teams,#teams ul li ul li {}
+
+
+/*-- MAIN NAVIGATION --*/
+#navigation {margin: 0px auto 0px; display: block;}
+#navigation a {padding-left: 30px; padding-right: 30px; width: 86px; text-align: center; font-size: 1.3em;}
+
+/*-- CLOCK --*/	
+#clock {margin-bottom: 15px;}
+
+
+
+/*--================ ACCORDIAN STYLES ================--*/
+#menu li ul {height: 485px;}
+
+
+/*--================ PLAY ENTRY AREA ================--*/
+#play_entry_area {width: 463px; height: 716px;}
+#play_entry_area .buttons a {line-height: 25px; font-size: 11px;}
+#play_entry_area h1 {font-size: 12px; margin-bottom: 10px;}
+#play_entry_area h1 span {font-size: 22px; vertical-align: middle; margin-right: 5px; font-weight: normal;}
+
+/*-- SELECT PLAY --*/
+#play_entry_area #select_play {float: none; margin-right: none; padding-right: none; height: 180px; border-right: none; display: block; padding-bottom: 10px; margin-bottom: 10px; border-bottom: dotted 1px #666666;}
+#play_entry_area #select_play .buttons li a {width: 104px;}
+#play_entry_area #select_play .buttons li {margin: 0px 5px 5px; float: left;}
+
+
+/*-- SELECT SHOT RESULT --*/
+#play_entry_area #shot_result {width: 460px;}
+#play_entry_area #shot_result .buttons {height: 220px;}
+
+/*-- CONFIRM TIME --*/
+#play_entry_area #confirm_time {width: 460px;}
+#play_entry_area #confirm_time ul .comment textarea {width: auto;}
+
+
+/*--ADDED 6/4 DESI ARAGON ================ INITIAL PAGE ================--*/
+#main #statentrydiv div #selection_area {width: 708px; height: 964px;}
+#main #statentrydiv div #selection_area #events, #main #statentrydiv div #selection_area #rosters {width: 306px;}
+#main #statentrydiv {height: 994px;}
+#main #powered_by {width: 708px;height: 60px;}
+#main #statentrydiv div #selection_area #profiles{width: 665px;}
+
+/*--ADDED 6/17 DESI ARAGON ================ ARAGON PAGE CRUMB ================--*/
+#page_crumb a {width: 40px; text-align: center; line-height: normal;}
+
+
+.cellPadding, .selPlayCell {padding: 10px 10px;}
+#play_entry_area #keystrokes {top:950px;height: 40px;width: 430px;}
+#play_entry_area #rosters {width: 430px;}
+#report_container{
+	overflow: auto;
+	height: 700px;
+	width: 450px;
+}
+
+#report{	
+	height: 650px;
+}
+.gwt-TabPanelBottomLarge {
+	padding: 10px;
+	height: 650px;
+	border: solid 1px #BBB;
+	overflow: auto;
+	width: 440px;
+	background-color: #000000;
+}
+#team_roster{
+	width:450px;
+	height:630px;	
+}
+div#players_roster {height: 630px;overflow: auto;width: 460px;}
+
+/*-- ADDED 9-1-11 - by Javier: support help -*/
+#helppanel {
+	height:730px;
+	overflow: auto;	
+}
+
+/**/
+#main #statentrydiv div #selection_area #events.event_selector{
+	width: 90%;
+	height: 450px;
+}
+
+#main #statentrydiv div #selection_area #rosters.event_selector {
+width: 90%;
+height: 350px;
+}
+
+div#setupTable {
+	height: 600px;
+}
+.box {width: 150px;}
+
+
+.buttons ul{
+    width:100%
+}
+
+.buttons ul li{
+    float: left;
+    width: 130px;
+}
+
+.buttons_ ul li{
+    float: left;
+    width: 50px;
+}
+
+.buttons ul li p{
+    width: 90%;
+    padding: 2px 2px 2px 2px;
+}
+
+.buttons ul li p a{
+    width: 90%;
+    height: 40px;
+}
+
+.buttons.gameCtrl ul li p a{
+    width: 85%;
+    height: 40px;
+}
+
+.buttons.gameCtrl ul li{
+    float: left;
+    width: 150px;
+}
+
+.buttons.gameCtrl ul li a {
+    margin: 2px;
+    height: 40px;
+}

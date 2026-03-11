@@ -1,4 +1,4 @@
-"""Parser for PrestoSports XML game files."""
+"""Parser for Gameday Stats XML game files."""
 
 from lxml import etree
 from app import db
@@ -31,7 +31,7 @@ def _bool_yn(val):
 
 def parse_game_xml(xml_content, league):
     """
-    Parse a PrestoSports XML game file and insert data into the database.
+    Parse a Gameday Stats XML game file and insert data into the database.
 
     Args:
         xml_content: XML string or bytes

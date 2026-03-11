@@ -1,0 +1,478 @@
+{% extends "team.html" %}
+
+{% block page_title %}{% if is_add %}Add Event{% elif game %}{{ season.name if season }}: Editing {{ game.visitor_team.name if game.visitor_team }} vs. {{ game.home_team.name if game.home_team }}{% endif %}{% endblock %}
+
+{% block head_extra %}
+<style>
+    .alert-ok  { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 3px; padding: 9px 14px; margin-bottom: 14px; font-size: 13px; }
+    .alert-err { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 3px; padding: 9px 14px; margin-bottom: 14px; font-size: 13px; }
+
+    /* Typeahead */
+    .twitter-typeahead { position: relative; display: inline-block; }
+    .tt-input { position: relative; vertical-align: top; }
+    .tt-menu {
+        position: absolute; top: 100%; left: 0; z-index: 200;
+        min-width: 320px; max-height: 320px; overflow-y: auto;
+        background: #fff; border: 1px solid #ccc; border-radius: 3px;
+        box-shadow: 0 4px 12px rgba(0,0,0,.15);
+    }
+    .tt-suggestion {
+        padding: 6px 10px; cursor: pointer;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    .tt-suggestion:last-child { border-bottom: none; }
+    .tt-suggestion:hover, .tt-suggestion.tt-cursor { background: #f0f6ff; }
+    .autocomplete-item {
+        display: flex; align-items: center; gap: 8px; font-size: 13px;
+    }
+    .autocomplete-item .details { flex: 1; }
+    .autocomplete-item .details .name label { margin: 0; cursor: pointer; font-size: 13px; font-weight: normal; }
+    .autocomplete-item .details .description { color: #888; font-size: 11px; margin-top: 1px; }
+    .tt-highlight { font-weight: bold; }
+    .tt-empty { padding: 8px 10px; color: #999; font-size: 12px; font-style: italic; }
+</style>
+{% endblock %}
+
+{% block top_level_name %}Game day{% endblock %}
+
+{% block secondary_nav_links %}
+    <li class="{% if request.path == '/admin/team/gameday3/' or request.path == '/admin/team/gameday3' %}active{% endif %}">
+        <a href="/admin/team/gameday3/">Scores</a>
+    </li>
+    <li class="{% if request.path.startswith('/admin/team/checklist') %}active{% endif %}">
+        <a href="/admin/team/checklist/">Upcoming</a>
+    </li>
+    <li class="{% if request.path.startswith('/admin/team/season') %}active{% endif %}">
+        <a href="/admin/team/season/">Seasons</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+
+<table class="layout event-view">
+<tbody><tr>
+<td>
+
+<h1 style="clear: none">
+<a href="/admin/team/season/">Seasons</a>:
+{% if season %}
+<a href="/admin/team/season/sport.jsp?sport_id={{ season.sport_code }}">{{ sport_name }}</a>:
+<a href="/admin/team/season/season.jsp?season_id={{ season.id }}">{{ season.name }}</a>
+{% if not is_add and game %}:
+<a href="/admin/team/event/view.jsp?event_id={{ game.id }}">{{ game.visitor_team.name if game.visitor_team }} vs. {{ game.home_team.name if game.home_team }}</a>
+{% endif %}
+{% endif %}
+</h1>
+
+</td>
+<td align="right">
+
+    <div id="progressMsg" style="display:none;"> Loading...</div>
+    <div id="errorMsg" style="display:none;border:1px solid #e00;background-color:#fee;color:#900"></div>
+
+</td>
+</tr>
+</tbody></table>
+
+<table class="layoutView event-view">
+  <tbody><tr>
+    <td id="view" valign="top">
+
+{% if success %}<div class="alert-ok">{{ success }}</div>{% endif %}
+{% if error %}  <div class="alert-err">{{ error }}</div>{% endif %}
+
+    <form name="editForm" action="{{ form_action }}" method="post" class="edit-event">
+
+        <table class="dataentry" width="100%">
+
+            <tbody><tr>
+                <td colspan="100">
+                    <h3>{% if season %}{{ season.name }}: {% endif %}{% if is_add %}Add Event{% else %}Editing
+                {% if game and game.visitor_team %}{{ game.visitor_team.name }}{% endif %} vs. {% if game and game.home_team %}{{ game.home_team.name }}{% endif %} on
+                {{ date_display }} {{ game.start_time or '' if game else '' }}{% endif %}</h3>
+                </td>
+            </tr>
+            <tr>
+                <td width="140"><b>Date</b></td>
+                <td colspan="4">
+                    <div class="input-group" style="display:inline-flex;width:auto;">
+                        <input type="text" name="date" value="{{ date_display }}" id="date" data-picker="date" size="10" maxlength="10" class="form-control" style="width:120px;">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" id="date-picker-btn" title="Pick a date">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </button>
+                        </span>
+                    </div>
+                    <br>
+                    <span class="small">mm/dd/yyyy, e.g., 03/03/2026</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td><b>Time</b><br><span class="small">Leave blank if TBA</span></td>
+                <td colspan="4">
+                    <input type="text" name="time" value="{{ game.start_time or '' if game else '' }}" id="time" data-picker="time" class="timepicker" size="10" maxlength="10">
+                    <select name="timezone">
+                        <option value="America/New_York">America/New_York (Eastern Standard Time)</option>
+                        <option value="America/Montreal">America/Montreal (Eastern Standard Time)</option>
+                        <option value="America/Chicago" selected="">America/Chicago (Central Standard Time)</option>
+                        <option value="America/Winnipeg">America/Winnipeg (Central Standard Time)</option>
+                        <option value="America/Regina">America/Regina (Central Standard Time)</option>
+                        <option value="America/Denver">America/Denver (Mountain Standard Time)</option>
+                        <option value="America/Phoenix">America/Phoenix (Mountain Standard Time)</option>
+                        <option value="America/Edmonton">America/Edmonton (Mountain Standard Time)</option>
+                        <option value="America/Los_Angeles">America/Los_Angeles (Pacific Standard Time)</option>
+                        <option value="America/Vancouver">America/Vancouver (Pacific Standard Time)</option>
+                        <option value="America/Anchorage">America/Anchorage (Alaska Standard Time)</option>
+                        <option value="Pacific/Honolulu">Pacific/Honolulu (Hawaii Standard Time)</option>
+                        <option value="CET">CET (Central European Time)</option>
+                        <option value="GMT">GMT (Greenwich Mean Time)</option>
+                        <option value="Asia/Dubai">Asia/Dubai (Gulf Standard Time)</option>
+                        <option value="America/St_Johns">America/St_Johns (Newfoundland Standard Time)</option>
+                        <option value="America/Halifax">America/Halifax (Atlantic Standard Time)</option>
+                    </select><br>
+                    <span class="small">h:mm am/pm, e.g., 9:28 AM</span>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td><b>Team name</b></td>
+
+                        <td colspan="2">
+                            <b>Result</b>
+                        </td>
+                    </tr>
+                    <tr class="team-container">
+                        <td valign="top"><b>Visitor</b></td>
+                        <td valign="top" nowrap="">
+                            <div class="name-container">
+                                <input type="hidden" name="visitor_team_id" id="visitor_team_id"
+                                       value="{{ game.visitor_team_id if game else '' }}">
+                                <span class="twitter-typeahead">
+                                    <input type="text" id="visitor_team_name" class="tt-input" size="40"
+                                           autocomplete="off" placeholder="Type to search teams…"
+                                           value="{{ game.visitor_team.name if game and game.visitor_team else '' }}">
+                                    <div class="tt-menu" id="visitor_team_menu" style="display:none;"></div>
+                                </span>
+                            </div>
+                        </td>
+                        <td valign="top" colspan="2"><input type="text" name="team_0_result" value="{{ game.visitor_runs if game else '' }}" size="5"></td>
+                    </tr>
+                    <tr class="team-container">
+                        <td valign="top"><b>Home</b></td>
+                        <td valign="top" nowrap="">
+                            <div class="name-container">
+                                <input type="hidden" name="home_team_id" id="home_team_id"
+                                       value="{{ game.home_team_id if game else '' }}">
+                                <span class="twitter-typeahead">
+                                    <input type="text" id="home_team_name" class="tt-input" size="40"
+                                           autocomplete="off" placeholder="Type to search teams…"
+                                           value="{{ game.home_team.name if game and game.home_team else '' }}">
+                                    <div class="tt-menu" id="home_team_menu" style="display:none;"></div>
+                                </span>
+                            </div>
+                        </td>
+                        <td valign="top" colspan="2"><input type="text" name="team_1_result" value="{{ game.home_runs if game else '' }}" size="5"></td>
+                    </tr>
+
+            <tr>
+                <td><b>Location</b><br><span class="small">(full address preferred, optional)</span></td>
+                <td colspan="4">
+                    <input type="text" name="location" value="{{ game.location or '' if game else '' }}" size="80">
+                </td>
+            </tr>
+            <tr>
+                <td><b>Venue</b><br><span class="small">(optional)</span></td>
+                <td colspan="4">
+                    <input type="text" name="venue" value="{{ game.stadium or '' if game else '' }}" size="50" maxlength="50">
+                </td>
+            </tr>
+            <tr>
+                <td width="140"><b>Neutral site</b><br><span class="small">(optional)</span></td>
+                <td colspan="4">
+                    <input type="text" name="neutralSite" value="{{ game.location if game and game.is_neutral else '' }}" size="50">
+                </td>
+            </tr>
+
+            <tr id="inProgressRow">
+                <td valign="top"><b>Status</b></td>
+                <td>
+                    <div style="float: left; height: 25px; padding-right: 20px">
+                        <select name="status_code" id="statusCode">
+                            <option value="-2" {% if current_status_code == -2 %}selected{% endif %}>Not started</option>
+                            <option value="-1" {% if current_status_code == -1 %}selected{% endif %}>In progress</option>
+                            {% for opt in status_options %}
+                            <option value="{{ loop.index0 }}" {% if current_status_code == loop.index0 %}selected{% endif %}>{{ opt }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div id="statusExtra" style="visibility: hidden">
+                        <input type="text" name="status" value="{{ game.state or '' if game else '' }}" size="20">
+                        <br>
+                        <span class="small">(e.g., "Halftime" or "12:53 2nd" or "BOT 3")</span>
+                    </div>
+                </td>
+                <td colspan="3">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <b> Forfeit Visitor: </b><input type="checkbox" name="forfeitAway" value="true">
+                            </div>
+                            <div class="col-md-12">
+                                <b> Forfeit Home:</b> <input type="checkbox" name="forfeitHome" value="true">
+                            </div>
+                        </div>
+
+                </td>
+            </tr>
+
+            <tr>
+                <td><b>Notes</b><br><span class="small">(optional)</span></td>
+                <td colspan="4">
+                    <input type="text" name="notesShared" value="{{ game.notes or '' if game else '' }}" size="50">
+                    <br>
+                    <span class="small">e.g., "Conference semi-final."</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td><b>Type</b></td>
+                <td colspan="4">
+                    <table>
+                        <tbody><tr>
+                            <td style="border: none">
+                                <select name="eventType" id="eventType">
+                                    <option value="regular" {% if not game or not game.is_exhibition %}selected{% endif %}>Regular Season</option>
+                                    <option value="preSeason">Pre-Season</option>
+                                    <option value="postSeason">Post-Season/Play-Offs</option>
+                                    <option value="exhibition" {% if game and game.is_exhibition %}selected{% endif %}>Exhibition</option>
+                                    <option value="scrimmage">Scrimmage</option>
+                                    <option value="allStar">All-Star Game</option>
+                                    <option value="tournament">Tournament</option>
+                                </select>
+                            </td>
+                            <td style="border: none; padding-left: 30px"><b>Stats Count:</b></td>
+                            <td style="border: none"><input type="checkbox" name="overall" value="true" checked="" id="overall"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr>
+                <td><b>Status</b></td>
+                <td colspan="4">
+                    <table>
+                        <tbody><tr>
+                            <td style="border: none">
+                                <b>Rain Delay:</b>
+                            </td>
+                            <td style="border: none"><input type="checkbox" name="weatherDelay" value="true"></td>
+                            <td style="border: none; padding-left: 30px"><b>Suspended:</b></td>
+                            <td style="border: none"><input type="checkbox" name="suspended" value="true"></td>
+                            <td style="border: none; padding-left: 30px"><b>Postponed:</b></td>
+                            <td style="border: none"><input type="checkbox" name="postponed" value="true"></td>
+                            <td style="border: none; padding-left: 30px"><b>Cancelled:</b></td>
+                            <td style="border: none"><input type="checkbox" name="cancelled" value="true"></td>
+                            <td style="border: none; padding-left: 30px"><b>No contest:</b></td>
+                            <td style="border: none"><input type="checkbox" name="noContest" value="true"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr>
+                <td><b>Description</b></td>
+                <td colspan="4">
+                    <table>
+                        <tbody><tr>
+                            <td style="border: none;"><b>Conference:</b></td>
+                            <td style="border: none"><input type="checkbox" name="conference" value="true" {% if game and game.is_league_game %}checked{% endif %}></td>
+                            <td style="border: none; padding-left: 30px"><b>Regional:</b></td>
+                            <td style="border: none"><input type="checkbox" name="regional" value="true" {% if game and game.is_region %}checked{% endif %}></td>
+                            <td style="border: none; padding-left: 30px"><b>Division:</b></td>
+                            <td style="border: none"><input type="checkbox" name="division" value="true" {% if game and game.is_conf_division %}checked{% endif %}></td>
+                            <td style="border: none; padding-left: 30px"><b>National:</b></td>
+                            <td style="border: none"><input type="checkbox" name="national" value="true"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="5">
+                    <input type="submit" name="submit_action" value="Save">
+                    <input type="submit" name="submit_action" value="Cancel">
+                </td>
+            </tr>
+
+        </tbody></table>
+
+    </form>
+
+    </td>
+
+  </tr></tbody></table>
+
+<script>
+(function() {
+    // Schools with their corresponding team in this season
+    var TEAMS = [
+        {% for s in school_teams | default([]) %}
+        {
+            id:    {{ s.team_id }},
+            name:  {{ s.name  | tojson }},
+            rpi:   {{ s.rpi   | tojson }},
+            code:  {{ s.code  | tojson }},
+            city:  {{ s.city  | tojson }},
+            state: {{ s.state | tojson }}
+        }{% if not loop.last %},{% endif %}
+        {% endfor %}
+    ];
+
+    function escapeHtml(s) {
+        return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    function highlight(text, query) {
+        if (!query) return escapeHtml(text);
+        var idx = text.toLowerCase().indexOf(query.toLowerCase());
+        if (idx < 0) return escapeHtml(text);
+        return escapeHtml(text.slice(0, idx)) +
+               '<strong class="tt-highlight">' + escapeHtml(text.slice(idx, idx + query.length)) + '</strong>' +
+               escapeHtml(text.slice(idx + query.length));
+    }
+
+    function buildTypeahead(inputId, menuId, hiddenId) {
+        var input  = document.getElementById(inputId);
+        var menu   = document.getElementById(menuId);
+        var hidden = document.getElementById(hiddenId);
+        var cursor = -1;
+
+        function getItems() {
+            return menu.querySelectorAll('.tt-suggestion');
+        }
+
+        function renderMenu(query) {
+            var q = query.trim().toLowerCase();
+            var matches = q.length === 0 ? TEAMS : TEAMS.filter(function(t) {
+                return t.name.toLowerCase().indexOf(q) >= 0 ||
+                       (t.rpi   && t.rpi.toLowerCase().indexOf(q)   >= 0) ||
+                       (t.code  && t.code.toLowerCase().indexOf(q)  >= 0) ||
+                       (t.city  && t.city.toLowerCase().indexOf(q)  >= 0) ||
+                       (t.state && t.state.toLowerCase().indexOf(q) >= 0);
+            });
+
+            if (matches.length === 0) {
+                menu.innerHTML = '<div class="tt-empty">No schools found in this season</div>';
+                menu.style.display = '';
+                cursor = -1;
+                return;
+            }
+
+            menu.innerHTML = matches.map(function(t) {
+                var sub = [];
+                if (t.city)  sub.push(t.city);
+                if (t.state) sub.push(t.state);
+                if (t.rpi)   sub.push('RPI: ' + escapeHtml(t.rpi));
+                return '<div class="suggestion tt-suggestion tt-selectable" data-id="' + t.id + '" data-name="' + escapeHtml(t.name) + '">' +
+                    '<div class="autocomplete-item">' +
+                        '<div class="details">' +
+                            '<div class="name"><label>' + highlight(t.name, query.trim()) + '</label></div>' +
+                            (sub.length ? '<div class="description"><span>' + escapeHtml(sub.join(', ')) + '</span></div>' : '') +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
+            }).join('');
+            menu.style.display = '';
+
+            menu.style.display = '';
+            cursor = -1;
+
+            // Click handlers
+            menu.querySelectorAll('.tt-suggestion').forEach(function(el) {
+                el.addEventListener('mousedown', function(e) {
+                    e.preventDefault();
+                    selectItem(el.getAttribute('data-id'), el.getAttribute('data-name'));
+                });
+            });
+        }
+
+        function selectItem(id, name) {
+            hidden.value = id;
+            input.value  = name;
+            menu.style.display = 'none';
+            cursor = -1;
+        }
+
+        function moveCursor(dir) {
+            var items = getItems();
+            if (!items.length) return;
+            items[cursor] && items[cursor].classList.remove('tt-cursor');
+            cursor = (cursor + dir + items.length) % items.length;
+            items[cursor].classList.add('tt-cursor');
+            items[cursor].scrollIntoView({block: 'nearest'});
+        }
+
+        input.addEventListener('input', function() {
+            hidden.value = '';   // clear selection when user edits
+            renderMenu(input.value);
+        });
+
+        input.addEventListener('keydown', function(e) {
+            var items = getItems();
+            if (e.key === 'ArrowDown')  { e.preventDefault(); moveCursor(1); }
+            else if (e.key === 'ArrowUp') { e.preventDefault(); moveCursor(-1); }
+            else if (e.key === 'Enter' && cursor >= 0) {
+                e.preventDefault();
+                var el = items[cursor];
+                selectItem(el.getAttribute('data-id'), el.getAttribute('data-name'));
+            }
+            else if (e.key === 'Escape') { menu.style.display = 'none'; cursor = -1; }
+        });
+
+        input.addEventListener('blur', function() {
+            setTimeout(function() { menu.style.display = 'none'; cursor = -1; }, 150);
+        });
+
+        input.addEventListener('focus', function() {
+            renderMenu(input.value);
+        });
+    }
+
+    // Date picker
+    (function() {
+        var $wrap = $('#date').parent();
+        $wrap.datetimepicker({
+            format: 'MM/DD/YYYY',
+            useCurrent: false,
+            showTodayButton: true,
+            toolbarPlacement: 'bottom',
+            icons: {
+                time:     'glyphicon glyphicon-time',
+                date:     'glyphicon glyphicon-calendar',
+                up:       'glyphicon glyphicon-chevron-up',
+                down:     'glyphicon glyphicon-chevron-down',
+                previous: 'glyphicon glyphicon-chevron-left',
+                next:     'glyphicon glyphicon-chevron-right',
+                today:    'glyphicon glyphicon-screenshot',
+                clear:    'glyphicon glyphicon-trash',
+                close:    'glyphicon glyphicon-remove'
+            }
+        });
+        $('#date-picker-btn').on('click', function() {
+            $wrap.data('DateTimePicker').toggle();
+        });
+        // When picker selects a date, write mm/dd/yyyy into the input
+        $wrap.on('dp.change', function(e) {
+            if (e.date) {
+                $('#date').val(e.date.format('MM/DD/YYYY'));
+            }
+        });
+    })();
+
+    buildTypeahead('visitor_team_name', 'visitor_team_menu', 'visitor_team_id');
+    buildTypeahead('home_team_name',    'home_team_menu',    'home_team_id');
+})();
+</script>
+
+{% endblock %}

@@ -10,4 +10,4 @@ class Config:
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     UPLOAD_FOLDER = os.path.join(basedir, "uploads")
-    MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16MB max upload
+    MAX_CONTENT_LENGTH = 50 * 1024 * 1024  # 50MB for GWT saveboxscore (large game blobs)

@@ -1,236 +1,707 @@
 {% extends "base.html" %}
 {% block title %}{{ game.visitor_team.name }} @ {{ game.home_team.name }} - {{ game.date }}{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/gameday-main.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/gameday-statentry.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/gameday-icons.css') }}">
+{% endblock %}
 {% block content %}
-
-<!-- ═══ LINE SCORE (auto-width, top) ═══ -->
-<div class="scoring-panel" style="margin-bottom: 0.5rem; flex-shrink: 0; align-self: flex-start; display: inline-block;">
-    <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center;">
-        <span>Line Score</span>
-        <span id="inning-indicator" style="font-weight: 400; text-transform: none; letter-spacing: 0;">
-            {% if game.is_complete %}Final
-            {% elif innings %}
-                {% set last_inn = innings[-1] %}
-                {% if last_inn.home_score == '-' or last_inn.home_score is none %}Top {{ last_inn.inning }}
-                {% else %}Bot {{ last_inn.inning }}{% endif %}
-            {% else %}Top 1{% endif %}
-        </span>
-    </div>
-    <div class="table-responsive">
-        <table class="linescore-table ls-compact" id="linescore-table" style="width: auto;">
-            <thead>
-                <tr>
-                    <th style="text-align: left; min-width: 50px;"></th>
-                    {% for inn in innings %}
-                    <th>{{ inn.inning }}</th>
-                    {% endfor %}
-                    {% if not innings %}
-                    <th>1</th>
-                    {% endif %}
-                    <th class="totals-col">R</th>
-                    <th>H</th>
-                    <th>E</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td style="text-align: left; font-weight: 700;">{{ game.visitor_team.name }}</td>
-                    {% for inn in innings %}
-                    <td>{{ inn.visitor_score }}</td>
-                    {% endfor %}
-                    {% if not innings %}<td>0</td>{% endif %}
-                    <td class="totals-col">{{ game.visitor_runs }}</td>
-                    <td>{{ game.visitor_hits }}</td>
-                    <td>{{ game.visitor_errors }}</td>
-                </tr>
-                <tr>
-                    <td style="text-align: left; font-weight: 700;">{{ game.home_team.name }}</td>
-                    {% for inn in innings %}
-                    <td>{{ inn.home_score }}</td>
-                    {% endfor %}
-                    {% if not innings %}<td>-</td>{% endif %}
-                    <td class="totals-col">{{ game.home_runs }}</td>
-                    <td>{{ game.home_hits }}</td>
-                    <td>{{ game.home_errors }}</td>
-                </tr>
-            </tbody>
-        </table>
+<!-- ═══ SCOREBOARD + NAVIGATION ═══ -->
+<div id="statentryPanel" style="flex-shrink:0;">
+    <table class="baseballScoreboard" id="teams">
+        <tbody>
+            <tr class="first">
+                <td class="sbtl"></td>
+                {% for inn in innings %}<td>{{ inn.inning }}</td>{% endfor %}
+                {% if not innings %}<td>1</td>{% endif %}
+                <td class="totals-col">R</td>
+                <td>H</td>
+                <td>E</td>
+            </tr>
+            <tr class="second">
+                <td class="sbtl">{{ game.visitor_team.abbreviation or game.visitor_team.name[:3]|upper }}</td>
+                {% for inn in innings %}<td>{{ inn.visitor_score }}</td>{% endfor %}
+                {% if not innings %}<td class="hilite">0</td>{% endif %}
+                <td class="totals-col">{{ game.visitor_runs }}</td>
+                <td>{{ game.visitor_hits }}</td>
+                <td>{{ game.visitor_errors }}</td>
+            </tr>
+            <tr class="third">
+                <td class="sbtl">{{ game.home_team.abbreviation or game.home_team.name[:3]|upper }}</td>
+                {% for inn in innings %}<td>{{ inn.home_score }}</td>{% endfor %}
+                {% if not innings %}<td>-</td>{% endif %}
+                <td class="totals-col">{{ game.home_runs }}</td>
+                <td>{{ game.home_hits }}</td>
+                <td>{{ game.home_errors }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div id="navigation">
+        <a class="gwt-Anchor{% if not show_cover %} selected{% endif %}" id="nav-addplay" href="javascript:void(0)" onclick="showScoringView()">Add Play</a>
+        <a class="gwt-Anchor" id="nav-rosters" href="javascript:void(0)" onclick="showRostersView()">Rosters</a>
+        <a class="gwt-Anchor" id="nav-setup" href="javascript:void(0)" onclick="showGameInfoView()">Setup</a>
     </div>
 </div>
 
-<!-- ═══ MAIN 3-COLUMN AREA ═══ -->
-<div class="scoring-layout">
-
-    <!-- LEFT: Play-by-Play -->
-    <div class="scoring-left">
-        <div class="scoring-panel" style="height: 100%; display: flex; flex-direction: column;">
-            <div class="panel-header">Play-by-Play</div>
-            <div id="pbp-list" style="flex: 1; overflow-y: auto; padding: 0.4rem;">
-                {% if plays %}
-                {% set current_inning = [0] %}
-                {% set current_half = [''] %}
-                {% for play in plays %}
-                    {% if play.inning != current_inning[0] or play.half != current_half[0] %}
-                        {% if current_inning.append(play.inning) %}{% endif %}
-                        {% if current_half.append(play.half) %}{% endif %}
-                        {% if current_inning | length > 1 %}{% if current_inning.pop(0) is not none %}{% endif %}{% endif %}
-                        {% if current_half | length > 1 %}{% if current_half.pop(0) is not none %}{% endif %}{% endif %}
-                        <div class="pbp-inning-hdr">
-                            {% if play.half == 'top' %}&#9650;{% else %}&#9660;{% endif %} {{ play.inning }}
+<!-- ── Game Info View (JS moves this into #content-panel) ──── -->
+<div id="section-game-info" style="flex: 1; display: none; min-height: 0; min-width: 0; flex-direction: column;">
+    <div class="scoring-panel" style="flex: 1; display: flex; flex-direction: column; overflow: hidden;">
+        <div class="panel-header">Game Information</div>
+        <div id="game-config-error" style="display:none; background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5; border-radius:4px; padding:0.4rem 0.75rem; margin: 0.5rem 1rem 0; font-size:0.85rem;"></div>
+        <div style="flex: 1; overflow-y: auto; padding: 1rem;">
+        <div style="border: 1px solid var(--border); border-radius: 6px; padding: 1rem; margin-bottom: 1rem;">
+            <h3 style="margin-bottom: 0.75rem; font-size: 0.95rem; border-bottom: 1px solid var(--border); padding-bottom: 0.4rem;">Game Information</h3>
+            <div style="display: flex; gap: 1.25rem;">
+                <div style="flex: 1;">
+                    <div style="margin-bottom: 0.5rem;">
+                        <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 0.25rem;">Visiting Team:</label>
+                        <input type="text" disabled style="width: 100%; padding: 0.35rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.85rem; background: #f5f5f5;" value="{{ game.visitor_team.name }}">
+                    </div>
+                    <div style="margin-bottom: 0.5rem;">
+                        <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 0.25rem;">Home Team:</label>
+                        <input type="text" disabled style="width: 100%; padding: 0.35rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.85rem; background: #f5f5f5;" value="{{ game.home_team.name }}">
+                    </div>
+                    <div style="display: flex; gap: 0.75rem; margin-bottom: 0.5rem;">
+                        <div style="min-width: 110px;">
+                            <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 0.25rem; white-space: nowrap;">Start Time:</label>
+                            <input type="text" id="gd-start-time" style="width: 100%; height: 30px; padding: 0 0.35rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.85rem; box-sizing: border-box;" value="{{ game.start_time or '' }}">
                         </div>
+                        <div style="min-width: 110px;">
+                            <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 0.25rem; white-space: nowrap;">Total Time (H:MM):</label>
+                            <input type="text" id="gd-duration" placeholder="0:00" maxlength="4" style="width: 100%; height: 30px; padding: 0 0.5rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.85rem; box-sizing: border-box;" value="{{ game.duration or '' }}">
+                        </div>
+                        <div style="min-width: 130px;">
+                            <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 0.25rem; white-space: nowrap;">Delayed Time (H:MM):</label>
+                            <input type="text" id="gd-delayed" placeholder="0:00" maxlength="4" style="width: 100%; height: 30px; padding: 0 0.5rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.85rem; box-sizing: border-box;" value="{{ game.delayed_time or '' }}">
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 0.5rem;">
+                        <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 0.25rem;">Tournament:</label>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <select id="gd-tournament" style="flex: 1; padding: 0.35rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.85rem;">
+                                <option value="">None</option>
+                            </select>
+                            <button class="btn" style="font-size: 0.8rem; padding: 0.35rem 0.75rem; white-space: nowrap;">New</button>
+                        </div>
+                    </div>
+                </div>
+                <div style="flex: 1;">
+                    <div style="margin-bottom: 0.5rem;">
+                        <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 0.25rem;">Date:</label>
+                        <input type="date" id="gd-date" style="width: 100%; padding: 0.35rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.85rem;" value="{{ game.date or '' }}">
+                    </div>
+                    <div style="display: flex; gap: 0.75rem; margin-bottom: 0.5rem;">
+                        <div style="flex: 1;">
+                            <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 0.25rem;">Visitor Record:</label>
+                            <input type="text" id="gd-visitor-record" placeholder="0-0" style="width: 100%; padding: 0.35rem 0.5rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.85rem;" value="{{ game.visitor_record or '' }}">
+                        </div>
+                        <div style="flex: 1;">
+                            <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 0.25rem;">Conf Record:</label>
+                            <input type="text" id="gd-visitor-conf" placeholder="0-0" style="width: 100%; padding: 0.35rem 0.5rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.85rem;" value="{{ game.visitor_conf or '' }}">
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 0.75rem; margin-bottom: 0.5rem;">
+                        <div style="flex: 1;">
+                            <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 0.25rem;">Home Record:</label>
+                            <input type="text" id="gd-home-record" placeholder="0-0" style="width: 100%; padding: 0.35rem 0.5rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.85rem;" value="{{ game.home_record or '' }}">
+                        </div>
+                        <div style="flex: 1;">
+                            <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 0.25rem;">Conf Record:</label>
+                            <input type="text" id="gd-home-conf" placeholder="0-0" style="width: 100%; padding: 0.35rem 0.5rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.85rem;" value="{{ game.home_conf or '' }}">
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 0.5rem;">
+                        <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 0.25rem;"># of Innings:</label>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <button class="btn" style="font-size: 0.85rem; padding: 0.2rem 0.6rem; line-height: 1;" onclick="document.getElementById('gd-innings').stepDown()">-</button>
+                            <input type="number" id="gd-innings" value="{{ game.scheduled_innings or 7 }}" min="1" max="15" style="width: 50px; padding: 0.35rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.85rem; text-align: center;">
+                            <button class="btn" style="font-size: 0.85rem; padding: 0.2rem 0.6rem; line-height: 1;" onclick="document.getElementById('gd-innings').stepUp()">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Location Information Section -->
+        <div style="border: 1px solid var(--border); border-radius: 6px; padding: 1rem; margin-bottom: 1rem;">
+            <h3 style="margin-bottom: 0.75rem; font-size: 0.95rem; border-bottom: 1px solid var(--border); padding-bottom: 0.4rem;">Location Information</h3>
+            <div style="display: flex; gap: 1.25rem;">
+                <div style="flex: 1;">
+                    <div style="margin-bottom: 0.5rem;">
+                        <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 0.25rem;">Stadium:</label>
+                        <input type="text" id="gd-stadium" style="width: 100%; height: 30px; padding: 0 0.5rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.85rem; box-sizing: border-box;" value="{{ game.stadium or '' }}">
+                    </div>
+                    <div style="margin-bottom: 0.5rem;">
+                        <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 0.25rem;">City:</label>
+                        <input type="text" id="gd-city" style="width: 100%; height: 30px; padding: 0 0.5rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.85rem; box-sizing: border-box;" value="{{ game.location or '' }}">
+                    </div>
+                    <div style="margin-bottom: 0.5rem;">
+                        <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 0.25rem;">State:</label>
+                        <input type="text" id="gd-state" style="width: 100%; height: 30px; padding: 0 0.5rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.85rem; box-sizing: border-box;" value="{{ game.state or '' }}">
+                    </div>
+                    <div style="margin-bottom: 0.5rem;">
+                        <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 0.25rem;">Weather:</label>
+                        <input type="text" id="gd-weather" style="width: 100%; height: 30px; padding: 0 0.5rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.85rem; box-sizing: border-box;" value="{{ game.weather or '' }}">
+                    </div>
+                </div>
+                <div style="flex: 1;">
+                    <div style="margin-bottom: 0.5rem;">
+                        <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 0.25rem;">Attendance:</label>
+                        <input type="text" id="gd-attendance" style="width: 100%; height: 30px; padding: 0 0.5rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.85rem; box-sizing: border-box;" value="{{ game.attendance or '' }}">
+                    </div>
+                    <div style="margin-bottom: 0.5rem;">
+                        <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 0.25rem;">Doubleheader Game #:</label>
+                        <select id="gd-doubleheader" style="width: 100%; height: 30px; padding: 0 0.35rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.85rem; box-sizing: border-box;">
+                            <option value="0"{% if game.doubleheader == 0 %} selected{% endif %}>0</option>
+                            <option value="1"{% if game.doubleheader == 1 %} selected{% endif %}>1</option>
+                            <option value="2"{% if game.doubleheader == 2 %} selected{% endif %}>2</option>
+                        </select>
+                    </div>
+                    <div style="margin-bottom: 0.5rem;">
+                        <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 0.25rem;">Scorer:</label>
+                        <input type="text" id="gd-scorer" style="width: 100%; height: 30px; padding: 0 0.5rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.85rem; box-sizing: border-box;" value="{{ game.scorer or '' }}">
+                    </div>
+                </div>
+                <div style="flex: 1;">
+                    <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+                        <label style="font-size: 0.85rem; display: flex; align-items: center; gap: 0.4rem;"><input type="checkbox" id="gd-chk-conference"{% if game.is_league_game %} checked{% endif %}> Conference</label>
+                        <label style="font-size: 0.85rem; display: flex; align-items: center; gap: 0.4rem;"><input type="checkbox" id="gd-chk-neutral"{% if game.is_neutral %} checked{% endif %}> Neutral</label>
+                        <label style="font-size: 0.85rem; display: flex; align-items: center; gap: 0.4rem;"><input type="checkbox" id="gd-chk-exhibition"{% if game.is_exhibition %} checked{% endif %}> Exhibition</label>
+                        <label style="font-size: 0.85rem; display: flex; align-items: center; gap: 0.4rem;"><input type="checkbox" id="gd-chk-region"{% if game.is_region %} checked{% endif %}> Region</label>
+                        <label style="font-size: 0.85rem; display: flex; align-items: center; gap: 0.4rem;"><input type="checkbox" id="gd-chk-conf-division"{% if game.is_conf_division %} checked{% endif %}> Conference Division</label>
+                        <label style="font-size: 0.85rem; display: flex; align-items: center; gap: 0.4rem;"><input type="checkbox" id="gd-chk-night"{% if game.is_night %} checked{% endif %}> Night Game</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Officials Section -->
+        <div style="border: 1px solid var(--border); border-radius: 6px; padding: 1rem; margin-bottom: 1rem;">
+            <h3 style="margin-bottom: 0.75rem; font-size: 0.95rem; border-bottom: 1px solid var(--border); padding-bottom: 0.4rem;">Officials</h3>
+            <div style="display: flex; gap: 0.75rem; margin-bottom: 0.5rem;">
+                <div style="flex: 1;">
+                    <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 0.25rem;">Home Plate:</label>
+                    <input type="text" id="gd-ump-hp" style="width: 100%; height: 30px; padding: 0 0.5rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.85rem; box-sizing: border-box;" value="{{ game.ump_hp or '' }}">
+                </div>
+                <div style="flex: 1;">
+                    <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 0.25rem;">1st Base:</label>
+                    <input type="text" id="gd-ump-1b" style="width: 100%; height: 30px; padding: 0 0.5rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.85rem; box-sizing: border-box;" value="{{ game.ump_1b or '' }}">
+                </div>
+                <div style="flex: 1;">
+                    <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 0.25rem;">2nd Base:</label>
+                    <input type="text" id="gd-ump-2b" style="width: 100%; height: 30px; padding: 0 0.5rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.85rem; box-sizing: border-box;" value="{{ game.ump_2b or '' }}">
+                </div>
+                <div style="flex: 1;">
+                    <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 0.25rem;">3rd Base:</label>
+                    <input type="text" id="gd-ump-3b" style="width: 100%; height: 30px; padding: 0 0.5rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.85rem; box-sizing: border-box;" value="{{ game.ump_3b or '' }}">
+                </div>
+            </div>
+            <div>
+                <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 0.25rem;">Game Notes:</label>
+                <textarea id="gd-notes" rows="3" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.85rem; box-sizing: border-box; resize: vertical;">{{ game.notes or '' }}</textarea>
+            </div>
+        </div>
+        </div><!-- /scrollable form area -->
+        <div style="padding: 0.75rem 1rem; border-top: 1px solid var(--border); flex-shrink: 0; display: flex; gap: 0.5rem;">
+            <button class="btn" style="flex: 1;" onclick="saveGameConfig()">Save</button>
+            <button class="btn" style="flex: 1; background: var(--text-light);" onclick="showScoringView()">Close</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- ═══ MAIN AREA: Sidebar + Content ═══ -->
+<div style="position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column;">
+<div id="main-scoring-layout">
+
+    <!-- LEFT: Sidebar accordion -->
+    <div id="sidebar-panel">
+        <ul id="menu">
+            <li class="menu-item open">
+                <a class="gwt-Anchor sidebar-toggle" onclick="toggleSidebar('pbp')">&#9660; Recent Plays</a>
+                <ul id="recent_plays" class="{% if is_new_game %}greyed-out{% endif %}">
+                    {% if plays %}
+                    {% for play in plays %}
+                        {% if play.narrative %}
+                        <li><a class="time">{{ 'T' if play.half == 'top' else 'B' }}{{ play.inning }}</a> {{ play.narrative }}</li>
+                        {% endif %}
+                    {% endfor %}
+                    {% else %}
+                    <li class="sidebar-empty">No plays recorded.</li>
                     {% endif %}
-                    {% if play.narrative %}
-                    <div class="pbp-play">{{ play.narrative }}</div>
-                    {% endif %}
-                {% endfor %}
-                {% else %}
-                <div style="color: var(--text-light); font-size: 0.8rem; padding: 0.5rem;">No plays recorded.</div>
+                </ul>
+            </li>
+            <li class="menu-item">
+                <a class="gwt-Anchor sidebar-toggle" onclick="toggleSidebar('pitcher')">&#9658; Pitcher Stats</a>
+                <ul id="menu_3" style="display:none;">
+                    <li class="player"><p id="pitcher-stat-name">---</p></li>
+                    <li><h1>PITCH</h1><p id="pitcher-stat-pitches">0</p></li>
+                    <li><h1>BALLS</h1><p id="pitcher-stat-balls">0</p></li>
+                    <li><h1>STRK</h1><p id="pitcher-stat-strikes">0</p></li>
+                </ul>
+            </li>
+            <li class="menu-item">
+                <a class="gwt-Anchor sidebar-toggle" onclick="toggleSidebar('prev-ab')">&#9658; Previous At-Bats</a>
+                <ul id="menu_4" style="display:none;">
+                    <li id="prev-ab-list" class="player"><p style="color:#aaa; white-space:normal; width:auto;">Select a batter.</p></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <!-- RIGHT: Content panel (scoring / setup / rosters) -->
+    <div id="content-panel">
+
+        <!-- SCORING VIEW -->
+        <div id="scoring-view" style="display:{% if show_cover %}none{% else %}flex{% endif %}; flex-direction:column; flex:1; overflow:auto;">
+            <div id="play_entry_area">
+
+                <!-- GLKONBIOJ: status header -->
+                <div class="GLKONBIOJ{% if is_new_game %} greyed-out{% endif %}">
+                    <span id="play-entry-label">Adding play</span>
+                    <span>
+                        <span id="de-inning-half-text">Top 1</span>
+                        &nbsp;|&nbsp; Outs:&nbsp;
+                        <span id="de-outs" style="display:none;">0</span>
+                        <span id="out-dot-0" class="out-dot"></span>
+                        <span id="out-dot-1" class="out-dot"></span>
+                        <span id="out-dot-2" class="out-dot"></span>
+                    </span>
+                </div>
+
+                <!-- Buttons: batting lineup list + field diagram -->
+                <div class="buttons{% if is_new_game %} greyed-out{% endif %}">
+                    <!-- Batting lineup -->
+                    <ul class="baseballLineup" id="batting-lineup">
+                        <!-- populated by JS -->
+                    </ul>
+                    <!-- Baseball field table -->
+                    <table class="baseballField">
+                        <tbody>
+                            <tr class="row1">
+                                <td></td>
+                                <td><a class="gwt-Anchor defensive defensiveEight" id="field-cf"></a></td>
+                                <td></td>
+                            </tr>
+                            <tr class="row2">
+                                <td><a class="gwt-Anchor defensive defensiveSeven" id="field-lf"></a></td>
+                                <td id="field-runner-2b"><input type="text" class="second field-base-input" readonly></td>
+                                <td><a class="gwt-Anchor defensive defensiveNine" id="field-rf"></a></td>
+                            </tr>
+                            <tr class="row3">
+                                <td><a class="gwt-Anchor defensive defensiveSix" id="field-ss"></a></td>
+                                <td></td>
+                                <td><a class="gwt-Anchor defensive defensiveFour" id="field-2b-pos"></a></td>
+                            </tr>
+                            <tr class="row4">
+                                <td><a class="gwt-Anchor defensive defensiveFive" id="field-3b-pos"></a></td>
+                                <td><a class="gwt-Anchor defensive defensiveOne" id="field-p"></a></td>
+                                <td><a class="gwt-Anchor defensive defensiveThree" id="field-1b-pos"></a></td>
+                            </tr>
+                            <tr class="row5 field-gap-row"><td colspan="3"></td></tr>
+                            <tr class="row6">
+                                <td id="field-runner-3b"><input type="text" class="third field-base-input" readonly></td>
+                                <td id="field-batter-btn"><a class="gwt-Anchor offensive offensiveOne" id="field-batter-anchor"></a></td>
+                                <td id="field-runner-1b"><input type="text" class="first field-base-input" readonly></td>
+                            </tr>
+                            <tr class="row7">
+                                <td></td>
+                                <td><input type="text" id="field-batter-input" class="home field-play-input" placeholder=""></td>
+                                <td></td>
+                            </tr>
+                            <tr class="row8"><td colspan="3"></td></tr>
+                            <tr class="row9">
+                                <td></td>
+                                <td><a class="gwt-Anchor defensive defensiveTwo" id="field-c"></a></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Wrapup links -->
+                <div class="baseball-wrapup{% if is_new_game %} greyed-out{% endif %}">
+                    <a class="normal-button" href="javascript:void(0)" onclick="showGameInfoView()">Complete Game Information</a>
+                    <a class="normal-button" href="javascript:void(0)">Input Pitching Decisions</a>
+                    <a class="normal-button" href="javascript:void(0)" onclick="openPitchModal()"><u>I</u>nput Pitches</a>
+                </div>
+
+                <!-- Data Entry Panel -->
+                <div class="de-panel{% if is_new_game %} greyed-out{% endif %}" id="batter-action-panel">
+                    <div class="de-panel-header">
+                        <span>
+                            <span id="de-batter-name" style="font-weight:700;">---</span>
+                            <span id="de-batter-num" style="opacity:0.75; font-size:0.78rem;">&nbsp;#--</span>
+                        </span>
+                        <span style="font-size:0.78rem;">
+                            P:&nbsp;<span id="de-pitcher-name">---</span>
+                        </span>
+                    </div>
+                    <div class="de-panel-body">
+                        <div class="de-btn-row">
+                            <button class="de-btn de-btn-hit" onclick="deAction('single')">1B</button>
+                            <button class="de-btn de-btn-hit" onclick="deAction('double')">2B</button>
+                            <button class="de-btn de-btn-hit" onclick="deAction('triple')">3B</button>
+                            <button class="de-btn de-btn-hit" onclick="deAction('hr')">HR</button>
+                            <button class="de-btn de-btn-hit" onclick="deAction('grd')">GRD</button>
+                            <button class="de-btn de-btn-hit" onclick="deAction('itp')">ITP</button>
+                        </div>
+                        <div class="de-btn-row">
+                            <button class="de-btn de-btn-out" onclick="deAction('so')">K</button>
+                            <button class="de-btn de-btn-out" onclick="deAction('kl')">KL</button>
+                            <button class="de-btn de-btn-out" onclick="deAction('go')">GO</button>
+                            <button class="de-btn de-btn-out" onclick="deAction('fo')">FO</button>
+                            <button class="de-btn de-btn-out" onclick="deAction('lo')">LO</button>
+                            <button class="de-btn de-btn-out" onclick="deAction('pu')">PU</button>
+                            <button class="de-btn de-btn-out" onclick="deAction('foul')">FOUL</button>
+                            <button class="de-btn de-btn-out" onclick="deAction('fc')">FC</button>
+                            <button class="de-btn de-btn-out" onclick="deAction('dp')">DP</button>
+                            <button class="de-btn de-btn-out" onclick="deAction('gdp')">GDP</button>
+                        </div>
+                        <div class="de-btn-row">
+                            <button class="de-btn de-btn-walk" onclick="deAction('bb')">BB</button>
+                            <button class="de-btn de-btn-walk" onclick="deAction('ibb')">IBB</button>
+                            <button class="de-btn de-btn-walk" onclick="deAction('hbp')">HBP</button>
+                            <button class="de-btn de-btn-walk" onclick="deAction('ci')">CI</button>
+                            <button class="de-btn de-btn-walk" onclick="deAction('sac')">SAC</button>
+                            <button class="de-btn de-btn-walk" onclick="deAction('sf')">SF</button>
+                            <button class="de-btn de-btn-walk" onclick="deAction('e')">E</button>
+                        </div>
+                        <div class="de-btn-row">
+                            <button class="de-btn de-btn-runner" onclick="deAction('sb')">SB</button>
+                            <button class="de-btn de-btn-runner" onclick="deAction('cs')">CS</button>
+                            <button class="de-btn de-btn-runner" onclick="deAction('wp')">WP</button>
+                            <button class="de-btn de-btn-runner" onclick="deAction('pb')">PB</button>
+                            <button class="de-btn de-btn-runner" onclick="deAction('bk')">BK</button>
+                            <button class="de-btn de-btn-runner" onclick="deAction('po')">PO</button>
+                        </div>
+                        <div class="de-btn-row" style="border-top:1px solid var(--border); padding-top:4px; margin-top:1px;">
+                            <button id="btn-end-half" class="de-btn de-btn-end-half" onclick="endHalfInning()" style="font-size:0.72rem; background:#e2e8f0;">3 Outs</button>
+                            <button id="btn-input-pitches" class="de-btn" onclick="openPitchModal()" style="font-size:0.78rem;"><u>I</u>nput Pitches</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div><!-- /scoring-view -->
+
+        <!-- SETUP COVER -->
+        <div id="section-setup-required" style="flex:1; display:{% if show_cover %}flex{% else %}none{% endif %}; min-height:0; align-items:center; justify-content:center; background:#e8ecf0; border-radius:6px; padding:1.5rem;">
+            <div style="display:flex; flex-direction:row; gap:1rem; width:100%; height:100%; max-height:340px;">
+                {% if needs_setup %}
+                <div class="scoring-panel" style="flex:1; display:flex; flex-direction:column;">
+                    <div class="panel-header">Game Setup</div>
+                    <div style="flex:1; padding:1rem; display:flex; flex-direction:column;">
+                        <p style="font-size:0.8rem; color:var(--text-light); margin-bottom:0.6rem;">Missing required fields:</p>
+                        <ul style="font-size:0.85rem; margin:0 0 auto 1.25rem; padding:0; line-height:1.8;">
+                            {% for f in missing_fields %}<li>{{ f }}</li>{% endfor %}
+                        </ul>
+                        <button class="btn accent" onclick="showGameInfoView()" style="width:100%; margin-top:1rem;">Edit</button>
+                    </div>
+                </div>
+                {% endif %}
+                {% if needs_roster %}
+                <div class="scoring-panel" style="flex:1; display:flex; flex-direction:column;">
+                    <div class="panel-header">Roster Manager</div>
+                    <div style="flex:1; padding:1rem; display:flex; flex-direction:column;">
+                        {% if v_starter_count < 9 %}
+                        <p style="font-size:0.85rem; color:var(--text-light); margin-bottom:0.5rem;">Select at least 9 {{ game.visitor_team.name }} starters</p>
+                        {% endif %}
+                        {% if h_starter_count < 9 %}
+                        <p style="font-size:0.85rem; color:var(--text-light); margin-bottom:0.5rem;">Select at least 9 {{ game.home_team.name }} starters</p>
+                        {% endif %}
+                        <button class="btn accent" onclick="showRostersView()" style="width:100%; margin-top:auto;">Edit</button>
+                    </div>
+                </div>
                 {% endif %}
             </div>
         </div>
-    </div>
 
-    <!-- CENTER: Field + Data Entry -->
-    <div class="scoring-center">
-        <!-- Baseball Field -->
-        <div class="field-wrapper">
-            <svg class="baseball-field-svg" viewBox="15 30 370 305" preserveAspectRatio="xMidYMid meet">
-                <defs>
-                    <clipPath id="fairClip">
-                        <polygon points="200,300 0,85 0,0 400,0 400,85"/>
-                    </clipPath>
-                </defs>
-
-                <!-- ── Outfield grass (fair territory, vertex at new home) ── -->
-                <polygon points="200,300 0,85 0,0 400,0 400,85" fill="#3a7a32"/>
-
-                <!-- Mowing stripes (keep outfield origin unchanged at 200,285) -->
-                <path d="M 200,285 L 59,144 A 200 200 0 0 1 341,144 Z" fill="#408036"/>
-                <path d="M 200,285 L 83,168 A 165 165 0 0 1 317,168 Z" fill="#3a7a32"/>
-                <path d="M 200,285 L 105,190 A 130 130 0 0 1 295,190 Z" fill="#408036"/>
-                <path d="M 200,285 L 122,207 A 110 110 0 0 1 278,207 Z" fill="#3a7a32"/>
-
-                <!-- ── Infield dirt (clipped to fair territory) ── -->
-                <g clip-path="url(#fairClip)">
-                    <path d="M 85,240 A 125,180 0 0,1 315,240 Z" fill="#c4a46c"/>
-                    <polygon points="147,240 200,300 253,240" fill="#c4a46c"/>
-                </g>
-                <!-- Home plate dirt (visible outside foul lines) -->
-                <circle cx="200" cy="300" r="24" fill="#c4a46c"/>
-
-                <!-- Infield grass (diamond cutout) -->
-                <polygon points="200,180 260,240 200,300 140,240" fill="#4a9040"/>
-
-                <!-- Base dirt cutouts -->
-                <circle cx="256" cy="236" r="9" fill="#c4a46c"/>
-                <circle cx="200" cy="180" r="9" fill="#c4a46c"/>
-                <circle cx="144" cy="236" r="9" fill="#c4a46c"/>
-
-                <!-- Foul lines (from home through bases to edges) -->
-                <line x1="200" y1="300" x2="0" y2="85" stroke="white" stroke-width="2" opacity="0.7"/>
-                <line x1="200" y1="300" x2="400" y2="85" stroke="white" stroke-width="2" opacity="0.7"/>
-
-                <!-- Pitcher's mound -->
-                <circle cx="200" cy="240" r="14" fill="#c4a46c"/>
-                <rect x="194" y="238" width="12" height="4" fill="white" rx="1"/>
-
-                <!-- Bases (inside foul lines) -->
-                <polygon points="200,305 206,300 206,295 194,295 194,300" fill="white"/>
-                <rect x="251" y="231" width="10" height="10" fill="white" transform="rotate(45 256 236)" rx="1"/>
-                <rect x="195" y="175" width="10" height="10" fill="white" transform="rotate(45 200 180)" rx="1"/>
-                <rect x="139" y="231" width="10" height="10" fill="white" transform="rotate(45 144 236)" rx="1"/>
-
-                <!-- Base runner indicators (hidden by default) -->
-                <circle id="svg-runner-1b" cx="256" cy="236" r="7" fill="#ff6b35" stroke="white" stroke-width="2" display="none"/>
-                <circle id="svg-runner-2b" cx="200" cy="180" r="7" fill="#ff6b35" stroke="white" stroke-width="2" display="none"/>
-                <circle id="svg-runner-3b" cx="144" cy="236" r="7" fill="#ff6b35" stroke="white" stroke-width="2" display="none"/>
-
-                <!-- Position labels (number above name) -->
-                <text x="200" y="253" class="pos-num-svg" text-anchor="middle">1</text>
-                <text x="200" y="266" class="pos-name-svg" text-anchor="middle">{{ defense.get('P', '') }}</text>
-                <text x="200" y="321" class="pos-num-svg" text-anchor="middle">2</text>
-                <text x="200" y="334" class="pos-name-svg" text-anchor="middle">{{ defense.get('C', '') }}</text>
-                <text x="308" y="236" class="pos-num-svg" text-anchor="middle">3</text>
-                <text x="308" y="249" class="pos-name-svg" text-anchor="middle">{{ defense.get('1B', '') }}</text>
-                <text x="293" y="176" class="pos-num-svg" text-anchor="middle">4</text>
-                <text x="293" y="189" class="pos-name-svg" text-anchor="middle">{{ defense.get('2B', '') }}</text>
-                <text x="92" y="236" class="pos-num-svg" text-anchor="middle">5</text>
-                <text x="92" y="249" class="pos-name-svg" text-anchor="middle">{{ defense.get('3B', '') }}</text>
-                <text x="107" y="176" class="pos-num-svg" text-anchor="middle">6</text>
-                <text x="107" y="189" class="pos-name-svg" text-anchor="middle">{{ defense.get('SS', '') }}</text>
-                <text x="67" y="96" class="pos-num-svg" text-anchor="middle">7</text>
-                <text x="67" y="109" class="pos-name-svg" text-anchor="middle">{{ defense.get('LF', '') }}</text>
-                <text x="200" y="44" class="pos-num-svg" text-anchor="middle">8</text>
-                <text x="200" y="57" class="pos-name-svg" text-anchor="middle">{{ defense.get('CF', '') }}</text>
-                <text x="333" y="96" class="pos-num-svg" text-anchor="middle">9</text>
-                <text x="333" y="109" class="pos-name-svg" text-anchor="middle">{{ defense.get('RF', '') }}</text>
-            </svg>
-        </div>
-
-        <!-- Data Entry -->
-        <div class="scoring-panel" style="flex-shrink: 0; margin-top: 0.5rem;">
-            <div class="panel-header">Data Entry</div>
-            <div style="padding: 0.5rem;">
-                <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.4rem;">
-                    <label style="font-size: 0.8rem; font-weight: 600; white-space: nowrap;">Batter:</label>
-                    <span id="de-batter-name" style="font-size: 0.85rem; font-weight: 700; color: var(--primary);">---</span>
-                    <span id="de-batter-num" style="font-size: 0.8rem; color: var(--text-light);">#--</span>
-                    <span style="margin-left: auto; font-size: 0.8rem; color: var(--text-light);">
-                        Outs: <span id="de-outs" style="font-weight: 700;">0</span>
-                    </span>
+        <!-- ROSTERS VIEW -->
+        <div id="section-rosters" style="flex:1; display:none; min-height:0; flex-direction:column;">
+            <div id="roster-main-view" class="scoring-panel" style="flex:1; display:flex; flex-direction:column; overflow:hidden;">
+                <div style="display:flex; align-items:center; justify-content:space-between; padding:0.35rem 0.6rem; border-bottom:1px solid var(--border); gap:0.5rem; flex-shrink:0; background:#f8f9fa;">
+                    <div style="display:flex; gap:0;">
+                        <button class="roster-team-tab active" id="tab-v-roster" onclick="showRosterTeam('v')">{{ game.visitor_team.name }}</button>
+                        <button class="roster-team-tab" id="tab-h-roster" onclick="showRosterTeam('h')">{{ game.home_team.name }}</button>
+                    </div>
+                    <div style="display:flex; gap:0.3rem; flex-wrap:wrap; justify-content:flex-end;">
+                        <button class="btn" style="font-size:0.82rem; padding:0.75rem 1rem;" onclick="openAddPlayerModal()">Add</button>
+                        <button class="btn" style="font-size:0.82rem; padding:0.75rem 1rem;">Paste Roster</button>
+                        <button class="btn" style="font-size:0.82rem; padding:0.75rem 1rem;">Import Stat Crew Roster</button>
+                        <button class="btn" style="font-size:0.82rem; padding:0.75rem 1rem;">Grab Roster</button>
+                    </div>
                 </div>
-                <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.5rem;">
-                    <label style="font-size: 0.8rem; font-weight: 600; white-space: nowrap;">Count:</label>
-                    <span id="de-count" style="font-size: 0.85rem; font-weight: 700;">0-0</span>
-                    <label style="font-size: 0.8rem; font-weight: 600; white-space: nowrap; margin-left: 1rem;">Pitcher:</label>
-                    <span id="de-pitcher-name" style="font-size: 0.85rem; color: var(--primary);">---</span>
-                </div>
-                <div style="display: flex; flex-wrap: wrap; gap: 4px;">
-                    <button class="de-btn" onclick="deAction('single')">1B</button>
-                    <button class="de-btn" onclick="deAction('double')">2B</button>
-                    <button class="de-btn" onclick="deAction('triple')">3B</button>
-                    <button class="de-btn" onclick="deAction('hr')">HR</button>
-                    <button class="de-btn" onclick="deAction('bb')">BB</button>
-                    <button class="de-btn" onclick="deAction('hbp')">HBP</button>
-                    <button class="de-btn" onclick="deAction('so')">K</button>
-                    <button class="de-btn" onclick="deAction('kl')">KL</button>
-                    <button class="de-btn" onclick="deAction('go')">GO</button>
-                    <button class="de-btn" onclick="deAction('fo')">FO</button>
-                    <button class="de-btn" onclick="deAction('fc')">FC</button>
-                    <button class="de-btn" onclick="deAction('sac')">SAC</button>
-                    <button class="de-btn" onclick="deAction('sf')">SF</button>
-                    <button class="de-btn" onclick="deAction('e')">E</button>
-                    <button class="de-btn" onclick="deAction('dp')">DP</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- RIGHT: Previous At-Bats / Pitcher Stats / Batting Lineup -->
-    <div class="scoring-right" style="display: flex; flex-direction: column; gap: 0.5rem;">
-        <div class="scoring-panel" style="flex: 1; display: flex; flex-direction: column; min-height: 0;">
-            <div class="panel-header">Previous At-Bats</div>
-            <div id="prev-ab-list" style="flex: 1; overflow-y: auto; padding: 0.4rem;">
-                <div style="color: var(--text-light); font-size: 0.8rem; padding: 0.5rem;">Select a batter to see at-bat history.</div>
-            </div>
-        </div>
-        <div class="scoring-panel" style="flex-shrink: 0;">
-            <div class="panel-header">Pitcher</div>
-            <div id="pitcher-stats" style="padding: 0.4rem;">
-                <div id="pitcher-stats-content" style="font-size: 0.78rem;">
-                    <div style="font-weight: 700; margin-bottom: 0.2rem;" id="pitcher-stat-name">---</div>
-                    <table style="width: 100%; font-size: 0.75rem;">
-                        <tr><td>Balls</td><td style="text-align: right; font-weight: 700;" id="pitcher-stat-balls">0</td></tr>
-                        <tr><td>Strikes</td><td style="text-align: right; font-weight: 700;" id="pitcher-stat-strikes">0</td></tr>
-                        <tr><td>Total Pitches</td><td style="text-align: right; font-weight: 700;" id="pitcher-stat-pitches">0</td></tr>
+                <div style="flex:1; overflow-y:auto; min-height:0;">
+                    <table class="roster-player-table">
+                        <thead>
+                            <tr>
+                                <th style="width:52px;">Start</th>
+                                <th style="width:90px;">Participation</th>
+                                <th style="width:38px;">No.</th>
+                                <th style="width:44px;">Pos.</th>
+                                <th style="text-align:left; width:160px;">Name</th>
+                                <th style="width:38px;">B/T</th>
+                                <th style="width:46px;"></th>
+                                <th style="width:58px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="roster-table-body"></tbody>
                     </table>
                 </div>
+                <div style="padding:0.5rem 0.6rem; border-top:1px solid var(--border); flex-shrink:0; margin-top:auto;">
+                    <div id="selected-starters-label" style="font-size:0.78rem; color:var(--text-light); margin-bottom:0.4rem;">Selected Starters (0)</div>
+                    <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+                        <button class="btn" style="font-size:0.82rem; padding:0.75rem 1rem;" onclick="showLineupEntry()">Starting Lineup</button>
+                        <button class="btn" style="font-size:0.82rem; padding:0.75rem 1rem; opacity:0.35; pointer-events:none;" disabled>Change Lineup</button>
+                        <button class="btn" style="font-size:0.82rem; padding:0.75rem 1rem;">Set Participation</button>
+                        <button class="btn" style="font-size:0.82rem; padding:0.75rem 1rem; background:#dc2626; color:white;">Wipe Roster</button>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="scoring-panel" style="flex-shrink: 0;">
-            <div class="panel-header" id="lineup-header">Batting Lineup</div>
-            <div id="batting-lineup" style="padding: 0.4rem;">
+
+    </div><!-- /content-panel -->
+
+</div><!-- /main-scoring-layout -->
+</div><!-- /relative wrapper -->
+
+<!-- ── Starting Lineup Modal ──────────────────────────────────────────── -->
+<div id="lineup-entry-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-box" style="width: 460px; max-height: 90vh; overflow-y: auto;">
+        <h2 id="lineup-modal-team-name" style="text-align: center; margin-bottom: 0.75rem;"></h2>
+        <p style="font-size: 0.8rem; color: var(--text-light); margin-bottom: 1rem; line-height: 1.5;">
+            Please fill out the starting lineup by selecting a player and entering the player's position in each spot. If your team is playing with a DH or DP, use the DF field at the bottom of the lineup to select the player who is only fielding.
+        </p>
+
+        <!-- Visitor lineup inputs -->
+        <div id="lineup-v-section" style="display: none;">
+            <table class="lineup-entry-table" style="width: 100%;">
+                {% for i in range(1, 10) %}
+                <tr>
+                    <td style="width: 24px; font-weight: 700; font-size: 0.82rem;">{{ i }}</td>
+                    <td>
+                        <select id="v-player-{{ i }}" class="lineup-player-select" data-side="v" data-slot="{{ i }}">
+                            <option value="">Select Player</option>
+                            {% for p in v_roster %}
+                            <option value="{{ p.id }}" data-number="{{ p.uniform_number | numfmt }}">{{ p.uniform_number | numfmt }} - {{ p.last_name or p.name.split()[-1] }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td style="width: 70px;">
+                        <input type="text" id="v-pos-{{ i }}" class="lineup-pos-input" data-side="v" data-slot="{{ i }}" autocomplete="off" placeholder="Pos">
+                    </td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td style="width: 24px; font-weight: 700; font-size: 0.82rem;">DF</td>
+                    <td>
+                        <select id="v-player-dp" class="lineup-player-select" data-side="v" data-slot="dp">
+                            <option value="">Select Player</option>
+                            {% for p in v_roster %}
+                            <option value="{{ p.id }}" data-number="{{ p.uniform_number | numfmt }}">{{ p.uniform_number | numfmt }} - {{ p.last_name or p.name.split()[-1] }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td style="width: 70px;">
+                        <input type="text" id="v-pos-dp" class="lineup-pos-input" data-side="v" data-slot="dp" autocomplete="off" placeholder="Pos">
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Home lineup inputs -->
+        <div id="lineup-h-section" style="display: none;">
+            <table class="lineup-entry-table" style="width: 100%;">
+                {% for i in range(1, 10) %}
+                <tr>
+                    <td style="width: 24px; font-weight: 700; font-size: 0.82rem;">{{ i }}</td>
+                    <td>
+                        <select id="h-player-{{ i }}" class="lineup-player-select" data-side="h" data-slot="{{ i }}">
+                            <option value="">Select Player</option>
+                            {% for p in h_roster %}
+                            <option value="{{ p.id }}" data-number="{{ p.uniform_number | numfmt }}">{{ p.uniform_number | numfmt }} - {{ p.last_name or p.name.split()[-1] }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td style="width: 70px;">
+                        <input type="text" id="h-pos-{{ i }}" class="lineup-pos-input" data-side="h" data-slot="{{ i }}" autocomplete="off" placeholder="Pos">
+                    </td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td style="width: 24px; font-weight: 700; font-size: 0.82rem;">DF</td>
+                    <td>
+                        <select id="h-player-dp" class="lineup-player-select" data-side="h" data-slot="dp">
+                            <option value="">Select Player</option>
+                            {% for p in h_roster %}
+                            <option value="{{ p.id }}" data-number="{{ p.uniform_number | numfmt }}">{{ p.uniform_number | numfmt }} - {{ p.last_name or p.name.split()[-1] }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td style="width: 70px;">
+                        <input type="text" id="h-pos-dp" class="lineup-pos-input" data-side="h" data-slot="dp" autocomplete="off" placeholder="Pos">
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div style="display: flex; gap: 0.5rem; justify-content: center; margin-top: 1.25rem;">
+            <button class="btn accent" onclick="submitLineups()" style="min-width: 120px;">Save Lineups</button>
+            <button class="btn" style="background: var(--text-light); min-width: 120px;" onclick="hideLineupModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- ── Add / Edit Player Modal ────────────────────────────────────────── -->
+<div id="player-addedit-modal" class="modal-overlay" style="display: none; z-index: 1050;">
+    <div class="modal-box" style="width: 360px;">
+        <h2 id="player-modal-title" style="margin-bottom: 1rem;">Add player</h2>
+        <div id="player-modal-error" style="display:none; background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5; border-radius:4px; padding:0.4rem 0.75rem; margin-bottom:0.75rem; font-size:0.85rem;"></div>
+        <table style="width: 100%; border-collapse: collapse;">
+            <tr>
+                <td style="padding: 0.35rem 1rem 0.35rem 0; width: 80px; font-size: 0.88rem;">Number</td>
+                <td><input type="text" id="pm-number" maxlength="2" style="width: 60px; padding: 0.3rem 0.4rem; font-size: 0.85rem; border: 1px solid var(--border); border-radius: 3px;"></td>
+            </tr>
+            <tr>
+                <td style="padding: 0.35rem 1rem 0.35rem 0; font-size: 0.88rem;">Name</td>
+                <td><input type="text" id="pm-name" maxlength="20" style="width: 100%; padding: 0.3rem 0.4rem; font-size: 0.85rem; border: 1px solid var(--border); border-radius: 3px; box-sizing: border-box;"></td>
+            </tr>
+            <tr>
+                <td style="padding: 0.35rem 1rem 0.35rem 0; font-size: 0.88rem;">Position</td>
+                <td><input type="text" id="pm-position" class="lineup-pos-input" autocomplete="off" placeholder="" style="width: 80px;"></td>
+            </tr>
+            <tr>
+                <td style="padding: 0.35rem 1rem 0.35rem 0; font-size: 0.88rem; vertical-align: top;">Bats</td>
+                <td>
+                    <label style="display: block; font-size: 0.85rem; margin-bottom: 0.2rem;"><input type="radio" name="pm-bats" value="Switch"> Switch</label>
+                    <label style="display: block; font-size: 0.85rem; margin-bottom: 0.2rem;"><input type="radio" name="pm-bats" value="Left"> Left</label>
+                    <label style="display: block; font-size: 0.85rem;"><input type="radio" name="pm-bats" value="Right" checked> Right</label>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding: 0.35rem 1rem 0.35rem 0; font-size: 0.88rem; vertical-align: top;">Throws</td>
+                <td>
+                    <label style="display: block; font-size: 0.85rem; margin-bottom: 0.2rem;"><input type="radio" name="pm-throws" value="Left"> Left</label>
+                    <label style="display: block; font-size: 0.85rem;"><input type="radio" name="pm-throws" value="Right" checked> Right</label>
+                </td>
+            </tr>
+        </table>
+        <div style="display: flex; gap: 0.5rem; justify-content: center; margin-top: 1.25rem;">
+            <button class="btn" onclick="submitPlayerModal()">Save</button>
+            <button class="btn" onclick="hidePlayerModal()" style="background: var(--text-light);">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- ── Remove Player Modal ────────────────────────────────────────────── -->
+<div id="player-remove-modal" class="modal-overlay" style="display: none; z-index: 1050;">
+    <div class="modal-box" style="width: 320px; text-align: center;">
+        <p id="player-remove-msg" style="margin-bottom: 1.25rem; font-size: 0.9rem; line-height: 1.5;"></p>
+        <div style="display: flex; gap: 0.5rem; justify-content: center;">
+            <button class="btn" style="background: #dc2626; color: white;" onclick="submitRemovePlayer()">Remove</button>
+            <button class="btn" onclick="hideRemoveModal()" style="background: var(--text-light);">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- ── Next Lineup Prompt ─────────────────────────────────────────────── -->
+<div id="next-lineup-prompt-modal" class="modal-overlay" style="display: none; z-index: 1050;">
+    <div class="modal-box" style="width: 320px; text-align: center;">
+        <p id="next-lineup-prompt-msg" style="font-size: 1rem; font-weight: 600; margin-bottom: 1.5rem;"></p>
+        <div style="display: flex; gap: 0.5rem; justify-content: center;">
+            <button class="btn accent" onclick="acceptNextLineupPrompt()">OK</button>
+            <button class="btn" onclick="skipNextLineupPrompt()" style="background: var(--text-light);">Skip</button>
+        </div>
+    </div>
+</div>
+
+<!-- ── Validation Error Popup ─────────────────────────────────────────── -->
+<div id="lineup-error-popup" class="modal-overlay" style="display: none; z-index: 1100;">
+    <div class="modal-box" style="width: 380px; text-align: center;">
+        <p id="lineup-error-msg" style="font-size: 0.9rem; margin-bottom: 1.25rem; line-height: 1.5;"></p>
+        <button class="btn" onclick="hideLineupError()" style="min-width: 80px;">OK</button>
+    </div>
+</div>
+
+<!-- ── Runner Advancement Modal ───────────────────────────────────── -->
+<div id="runner-adv-modal" class="modal-overlay" style="display:none; z-index:1150;">
+    <div class="modal-box" style="width:400px; padding:1.25rem;">
+        <div style="font-size:0.9rem; font-weight:700; margin-bottom:0.75rem;" id="adv-play-desc">Set Runner Positions</div>
+        <table id="adv-runner-table" style="width:100%; border-collapse:collapse; font-size:0.85rem; margin-bottom:0.75rem;"></table>
+        <div style="margin-bottom:0.75rem;">
+            <label style="font-size:0.85rem; font-weight:600;">Narrative:</label>
+            <textarea id="adv-narrative" rows="2" placeholder="e.g. Levi Hudson tripled to right field, scoring Nico, Will, and Miguel. Miguel's run was unearned."
+                style="width:100%; padding:0.35rem; border:1px solid var(--border); border-radius:4px; font-size:0.85rem; margin-top:0.25rem; box-sizing:border-box; resize:vertical;"></textarea>
+        </div>
+        <div style="margin-bottom:0.75rem;">
+            <label style="font-size:0.85rem; font-weight:600;">Action:</label>
+            <input type="text" id="adv-action" placeholder="e.g. 3B RL RBI3"
+                style="width:100%; padding:0.35rem; border:1px solid var(--border); border-radius:4px; font-size:0.85rem; margin-top:0.25rem; box-sizing:border-box;">
+        </div>
+        <div style="display:flex; gap:0.75rem; align-items:center; margin-bottom:0.75rem;">
+            <label style="font-size:0.85rem; font-weight:600;">RBI:</label>
+            <input type="number" id="adv-rbi" min="0" max="4" value="0"
+                style="width:50px; padding:0.25rem; border:1px solid var(--border); border-radius:4px; font-size:0.85rem; text-align:center;">
+            <label style="font-size:0.85rem; font-weight:600; margin-left:0.75rem;">Earned Runs:</label>
+            <input type="number" id="adv-earned" min="0" max="4" value="0"
+                style="width:50px; padding:0.25rem; border:1px solid var(--border); border-radius:4px; font-size:0.85rem; text-align:center;">
+        </div>
+        <div style="display:flex; gap:0.5rem; justify-content:center;">
+            <button class="btn accent" onclick="confirmAdvancement()" style="min-width:100px;">OK</button>
+            <button class="btn" onclick="cancelAdvancement()" style="background:var(--text-light); min-width:80px;">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- ── Pitch Input Modal ─────────────────────────────────────────── -->
+<div id="pitch-modal" class="modal-overlay" style="display: none; z-index: 1200;">
+    <div class="pitch-modal-box">
+        <!-- Header: pitcher left / batter right -->
+        <div class="pm-header">
+            <div>
+                <div class="pm-header-label">Pitcher</div>
+                <div id="pm-pitcher-name" class="pm-header-name">---</div>
+            </div>
+            <div style="text-align: right;">
+                <div class="pm-header-label">Batter</div>
+                <div id="pm-batter-name" class="pm-header-name">---</div>
             </div>
         </div>
+        <!-- Stats + AB sequence -->
+        <div class="pm-play-stats">
+            <div class="pm-stat-item">
+                <div id="pm-balls" class="pm-stat-number">0</div>
+                <div class="pm-stat-label">Balls</div>
+            </div>
+            <div class="pm-stat-item">
+                <div id="pm-strikes" class="pm-stat-number">0</div>
+                <div class="pm-stat-label">Strikes</div>
+            </div>
+            <div class="pm-stat-item">
+                <div id="pm-outs" class="pm-stat-number">0</div>
+                <div class="pm-stat-label">Outs</div>
+            </div>
+        </div>
+        <div class="pm-play-actions">
+            <div class="pm-seq-row">
+                <span class="pm-seq-label">THIS AB:</span>
+                <span id="pm-ab-seq" class="pm-seq-val">---</span>
+            </div>
+            <div class="pm-seq-row">
+                <span class="pm-seq-label">TOT:</span>
+                <span id="pm-tot-count" class="pm-seq-val">0</span>
+            </div>
+        </div>
+        <!-- Buttons: vertical two-toned pills -->
+        <ul class="pm-play-buttons">
+            <li class="pm-action-item" onclick="pitchAction('F')"><span class="pm-hotkey">F</span><span class="pm-action-label">Foul</span></li>
+            <li class="pm-action-item" onclick="pitchAction('S')"><span class="pm-hotkey">S</span><span class="pm-action-label">Swinging Strike</span></li>
+            <li class="pm-action-item" onclick="pitchAction('K')"><span class="pm-hotkey">K</span><span class="pm-action-label">Looking Strike</span></li>
+            <li class="pm-action-item" onclick="pitchAction('B')"><span class="pm-hotkey">B</span><span class="pm-action-label">Ball</span></li>
+            <li class="pm-action-item" onclick="pitchAction('I')"><span class="pm-hotkey">I</span><span class="pm-action-label">IBB</span></li>
+            <li class="pm-action-item" onclick="pitchAction('H')"><span class="pm-hotkey">H</span><span class="pm-action-label">HBP</span></li>
+            <li class="pm-action-item" onclick="pitchAction('P')"><span class="pm-hotkey">P</span><span class="pm-action-label">In Play</span></li>
+            <li class="pm-action-item pm-close-item" onclick="closePitchModal()"><span class="pm-hotkey">ESC</span><span class="pm-action-label">Close</span></li>
+        </ul>
     </div>
 </div>
 
@@ -238,21 +709,205 @@
 
 {% block scripts %}
 <style>
-    /* ── Override container for scoring page ──────────────────────── */
+    /* ══ Layout overrides — gameday-main.css + gameday-statentry.css handle visuals ══ */
     html, body { overflow: hidden; height: 100%; }
     footer { display: none; }
+    body { background: #000000; }
+
+    /* .container maps to Gameday Stats #main */
     .container {
-        max-width: 960px;
+        max-width: none;
+        width: 994px;
         margin: 0 auto;
-        padding: 0.5rem 0.75rem;
+        padding: 15px;
         height: calc(100vh - 56px);
         display: flex;
         flex-direction: column;
         overflow: hidden;
         box-sizing: border-box;
+        background-color: #999999;
+        background-image: linear-gradient(#999999, #eeeeee);
+        box-shadow: #eeeeee 0px -1px 0px;
     }
 
-    /* ── Scoring Panels ──────────────────────────────────────────── */
+    /* scoreboard + nav row */
+    #statentryPanel {
+        flex-shrink: 0;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+    }
+
+    /* override main.css float for flexbox layout */
+    table#teams { float: none; }
+    #navigation { float: none; }
+
+    /* main 2-column area */
+    #main-scoring-layout {
+        display: flex;
+        flex: 1;
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    /* sidebar — main.css ul#menu handles visual, we control layout */
+    #sidebar-panel {
+        flex-shrink: 0;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+    }
+    ul#menu { float: none !important; width: 230px; margin: 0; }
+    /* Override main.css fixed 299px height on submenu panels */
+    #recent_plays, #menu_3, #menu_4 { height: auto !important; box-sizing: border-box; }
+    #recent_plays { max-height: 270px; overflow-y: auto; overflow-x: hidden; }
+    /* Stat-column panels: overflow:hidden clears float:left li items */
+    #menu_3, #menu_4 { overflow: hidden; }
+    /* PBP entry: a.time badge — dark red, styled by ul#recent_plays li a.time in gameday-statentry.css */
+    ul#recent_plays li { list-style: none; }
+    .sidebar-empty { color: #aaa; font-size: 0.78rem; padding: 0.5rem; }
+
+    /* content panel */
+    #content-panel {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        overflow: hidden;
+        margin-left: 15px;
+    }
+
+    /* play entry area — override main.css fixed sizes for flex */
+    #play_entry_area {
+        float: none !important;
+        width: auto !important;
+        height: auto !important;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        flex: 1;
+    }
+
+    /* GLKONBIOJ status bar (GWT-obfuscated class name) */
+    .GLKONBIOJ {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #272c2d;
+        background-image: linear-gradient(#272c2d 0%, #282a2c 50%, #0a0e0a 51%, #0a0809 100%);
+        color: white;
+        padding: 5px 10px;
+        font-size: 13px;
+        font-weight: bold;
+        border-radius: 4px;
+        flex-shrink: 0;
+        box-shadow: #000000 0px 0px 3px;
+        text-shadow: 0px -1px 0px #000000;
+        margin-bottom: 5px;
+    }
+
+    /* out dots */
+    .out-dot {
+        display: inline-block; width: 11px; height: 11px; border-radius: 50%;
+        border: 2px solid rgba(255,255,255,0.7); background: transparent;
+        vertical-align: middle; margin-left: 2px;
+    }
+    .out-dot-filled { background: #f87171; border-color: #f87171; }
+
+    /* buttons flex container */
+    .buttons { display: flex; gap: 0.5rem; align-items: flex-start; flex-wrap: nowrap; }
+
+    /* batting lineup list */
+    .baseballLineup {
+        list-style: none; margin: 0; padding: 0; width: 140px; flex-shrink: 0;
+        border: 1px solid #ccc; border-radius: 4px; overflow: hidden; background: #fff;
+    }
+    .baseballLineup li {
+        display: flex; gap: 0.2rem; align-items: center; padding: 0.2rem 0.35rem;
+        cursor: pointer; font-size: 0.73rem; border-bottom: 1px solid #eee; color: #222;
+    }
+    .baseballLineup li:last-child { border-bottom: none; }
+    .baseballLineup li:hover { background: #dbeafe; color: #1e3a8a; }
+    .baseballLineup li.current-batter { background: #272c2d; color: white; }
+    .li-order { min-width: 14px; font-weight: 700; }
+    .li-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .li-pos { min-width: 22px; text-align: right; opacity: 0.75; font-size: 0.68rem; }
+
+    /* baseball field */
+    .baseballField {
+        flex: 1; min-width: 0; border-collapse: collapse; width: 100%;
+        background: #1c592d; border-radius: 6px; overflow: hidden; table-layout: fixed;
+    }
+    .baseballField td { text-align: center; vertical-align: middle; padding: 2px 3px; height: 26px; }
+    .baseballField tr.field-gap-row td { height: 10px; }
+    /* Field player buttons — dark gradient comes from #play_entry_area .buttons a in gameday-main.css */
+    .baseballField a.gwt-Anchor {
+        display: inline-block; padding: 2px 5px; line-height: 18px;
+        border-radius: 3px; font-size: 0.68rem; font-weight: 700; cursor: pointer;
+        text-decoration: none; white-space: nowrap; max-width: 80px;
+        overflow: hidden; text-overflow: ellipsis;
+    }
+    /* Current batter — orange highlight (same as Gameday Stats a.selected) */
+    .baseballField a.gwt-Anchor.selected {
+        background: orange; color: #222222; text-shadow: none;
+    }
+    .field-base-input {
+        width: 60px; height: 17px; padding: 0 2px; border: 1px solid #ccc;
+        border-radius: 2px; background: #fff; font-size: 0.67rem; text-align: center;
+        box-sizing: border-box; color: #333;
+    }
+    .field-play-input {
+        width: 88%; padding: 2px 4px; font-size: 0.7rem; border: 1px solid #ccc;
+        border-radius: 2px; background: #fff; color: #222; text-align: center; box-sizing: border-box;
+    }
+    .field-play-input:focus { outline: none; border-color: #888; }
+
+    /* wrapup buttons */
+    .baseball-wrapup { display: flex; gap: 0.4rem; flex-wrap: wrap; padding: 0.1rem 0; }
+    a.normal-button {
+        text-decoration: none; padding: 5px 10px; vertical-align: middle; line-height: 30px;
+        display: inline-block; font-weight: bold; font-size: small; text-align: center;
+        color: #ffffff; text-shadow: 0px -1px 0px #000000; border-radius: 4px;
+        box-shadow: #000000 0px 0px 3px; background-color: #111111;
+        background-image: linear-gradient(#111111, #333333); cursor: pointer; user-select: none;
+    }
+    a.normal-button:hover { opacity: 0.85; }
+
+    /* data entry panel */
+    .de-panel {
+        background: #f5f5f5; border: 1px solid #aaa; border-radius: 4px;
+        overflow: hidden; flex-shrink: 0; box-shadow: #000000 0px 0px 3px;
+    }
+    .de-panel-header {
+        background-color: #272c2d;
+        background-image: linear-gradient(#272c2d 0%, #282a2c 50%, #0a0e0a 51%, #0a0809 100%);
+        color: white; padding: 0.28rem 0.6rem; display: flex; justify-content: space-between;
+        align-items: center; font-size: 0.8rem; text-shadow: 0px -1px 0px #000000; font-weight: bold;
+    }
+    .de-panel-body { padding: 0.4rem; }
+    .de-btn-row { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 3px; }
+    .de-btn {
+        padding: 0.28rem 0.45rem; font-size: 0.78rem; font-weight: 700;
+        border: 1px solid #ccc; border-radius: 4px; background: white; cursor: pointer;
+        min-width: 32px; text-align: center; transition: background 0.1s;
+    }
+    .de-btn:hover { background: #edf2f7; }
+    .de-btn:active { background: #272c2d; color: white; }
+    .de-btn-hit   { background:#dcfce7; border-color:#86efac; color:#166534; }
+    .de-btn-hit:hover { background:#bbf7d0; }
+    .de-btn-out   { background:#fee2e2; border-color:#fca5a5; color:#991b1b; }
+    .de-btn-out:hover { background:#fecaca; }
+    .de-btn-walk  { background:#dbeafe; border-color:#93c5fd; color:#1e3a8a; }
+    .de-btn-walk:hover { background:#bfdbfe; }
+    .de-btn-runner { background:#fef3c7; border-color:#fcd34d; color:#78350f; }
+    .de-btn-runner:hover { background:#fde68a; }
+    .adv-dest-btn {
+        padding: 0.18rem 0.35rem; font-size: 0.72rem; font-weight: 700;
+        border: 1px solid #ccc; border-radius: 3px; background: white; cursor: pointer; min-width: 36px;
+    }
+    .adv-dest-btn:hover { background: #edf2f7; }
+
+    /* scoring panel (game info form) */
     .scoring-panel {
         background: var(--card-bg);
         border: 1px solid var(--border);
@@ -269,133 +924,217 @@
         padding: 0.3rem 0.6rem;
     }
 
-    /* ── Line Score ──────────────────────────────────────────────── */
-    .ls-compact { font-size: 0.8rem; margin: 0; }
-    .ls-compact th, .ls-compact td {
-        padding: 0.25rem 0.5rem;
-        min-width: 26px;
-        text-align: center;
-    }
-    .ls-compact th { font-size: 0.72rem; }
-
-    /* ── 3-Column Layout ─────────────────────────────────────────── */
-    .scoring-layout {
-        display: flex;
-        gap: 0.5rem;
-        flex: 1;
-        min-height: 0;
-    }
-    .scoring-left {
-        width: 180px;
-        flex-shrink: 0;
-        display: flex;
-        flex-direction: column;
-    }
-    .scoring-center {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        min-width: 0;
-    }
-    .scoring-right {
-        width: 170px;
-        flex-shrink: 0;
-    }
-
-    /* ── Play-by-Play ────────────────────────────────────────────── */
-    .pbp-inning-hdr {
-        font-size: 0.75rem;
-        font-weight: 700;
-        color: var(--primary);
-        padding: 0.25rem 0;
-        border-bottom: 1px solid var(--border);
-        margin-top: 0.25rem;
-    }
-    .pbp-play {
-        font-size: 0.78rem;
-        padding: 0.15rem 0 0.15rem 0.5rem;
-        border-left: 2px solid var(--border);
-        margin: 2px 0;
-        color: var(--text);
-    }
-
-    /* ── Baseball Field (SVG) ────────────────────────────────────── */
-    .field-wrapper {
-        flex: 1;
-        min-height: 0;
+    /* ── Modal ─────────────────────────────────────────────────────── */
+    .modal-overlay {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
         display: flex;
         align-items: center;
         justify-content: center;
-        background: #1a4a1a;
-        border-radius: 6px;
-        overflow: hidden;
+        z-index: 1000;
     }
-    .baseball-field-svg {
-        width: 100%;
-        height: 100%;
-        display: block;
+    .modal-box {
+        background: var(--card-bg);
+        border-radius: 8px;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+        padding: 1.5rem;
+        width: 420px;
+        max-width: 90vw;
+        max-height: 80vh;
+        overflow-y: auto;
     }
-    .pos-num-svg {
-        fill: white;
-        font-size: 13px;
-        font-weight: 700;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        stroke: rgba(0,0,0,0.6);
-        stroke-width: 3px;
-        paint-order: stroke fill;
-    }
-    .pos-name-svg {
-        fill: white;
-        font-size: 11px;
-        font-weight: 600;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        stroke: rgba(0,0,0,0.6);
-        stroke-width: 3px;
-        paint-order: stroke fill;
-    }
+    .modal-box h2 { margin-bottom: 1rem; }
 
-    /* ── Data Entry ──────────────────────────────────────────────── */
-    .de-btn {
-        padding: 0.35rem 0.6rem;
-        font-size: 0.78rem;
-        font-weight: 700;
+    /* ── Greyed out sections ───────────────────────────────────────── */
+    .greyed-out {
+        opacity: 0.3;
+        pointer-events: none;
+    }
+    .lineup-entry-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.75rem;
+    }
+    .lineup-entry-table td {
+        padding: 0.15rem 0.2rem;
+    }
+    .lineup-player-select {
+        width: 100%;
+        padding: 0.2rem 0.25rem;
+        font-size: 0.72rem;
         border: 1px solid var(--border);
-        border-radius: 4px;
+        border-radius: 3px;
+    }
+    .lineup-pos-input {
+        width: 100%;
+        padding: 0.2rem 0.25rem;
+        font-size: 0.72rem;
+        border: 1px solid var(--border);
+        border-radius: 3px;
+        box-sizing: border-box;
+    }
+    .pos-sug-item {
+        padding: 0.28rem 0.5rem;
+        font-size: 0.72rem;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+    .pos-sug-item:hover {
+        background: var(--primary);
+        color: white;
+    }
+    .pos-sug-item:hover .pos-sug-full { color: rgba(255,255,255,0.75); }
+    .pos-sug-full { color: #888; font-size: 0.67rem; }
+
+    /* ── Roster View ────────────────────────────────────────────────── */
+    .roster-team-tab {
+        padding: 0.6rem 1rem;
+        font-size: 0.82rem;
+        font-weight: 600;
+        border: 1px solid var(--border);
         background: white;
         cursor: pointer;
-        min-width: 36px;
-        text-align: center;
+        color: var(--text);
         transition: background 0.15s;
     }
-    .de-btn:hover { background: #edf2f7; }
-    .de-btn:active { background: var(--primary); color: white; }
-
-    /* ── Batting Lineup Table ──────────────────────────────────────── */
-    .lineup-table {
-        width: 100%;
-        font-size: 0.72rem;
+    .roster-team-tab:first-child { border-radius: 4px 0 0 4px; }
+    .roster-team-tab + .roster-team-tab { border-left: none; border-radius: 0 4px 4px 0; }
+    .roster-team-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
+    .roster-player-table {
+        table-layout: fixed;
         border-collapse: collapse;
+        font-size: 0.75rem;
     }
-    .lineup-table th {
-        font-size: 0.68rem;
+    .roster-player-table th {
+        font-size: 0.78rem;
         font-weight: 700;
         text-transform: uppercase;
         color: var(--text-light);
         border-bottom: 1px solid var(--border);
-        padding: 0.2rem 0.3rem;
+        padding: 0.3rem 0.6rem;
         text-align: left;
+        white-space: nowrap;
+        background: #f8f9fa;
+        position: sticky;
+        top: 0;
+        z-index: 1;
     }
-    .lineup-table td {
-        padding: 0.2rem 0.3rem;
+    .roster-player-table td {
+        padding: 0.25rem 0.6rem;
         border-bottom: 1px solid var(--border);
+        text-align: left;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 0.85rem;
     }
-    .lineup-table tr:last-child td { border-bottom: none; }
+    .roster-action-btn {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        border: 1px solid var(--border);
+        border-radius: 3px;
+        background: white;
+        cursor: pointer;
+    }
+    .roster-action-btn:hover { background: #edf2f7; }
+    .roster-player-table tbody tr:nth-child(odd)  { background: #ffffff; }
+    .roster-player-table tbody tr:nth-child(even) { background: #f3f6fa; }
+
+    /* ── Pitch Modal ────────────────────────────────────────────────── */
+    .pitch-modal-box {
+        background: #111111;
+        border-radius: 8px;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.6);
+        padding: 1rem 1.25rem 1.25rem;
+        width: 260px;
+        max-width: 90vw;
+    }
+    .pm-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 0.85rem;
+    }
+    .pm-header-label {
+        font-size: 0.6rem;
+        color: #888;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .pm-header-name {
+        font-size: 13.5pt;
+        font-weight: bold;
+        color: white;
+        line-height: 1.2;
+    }
+    .pm-play-stats {
+        background-color: #b1b1b1;
+        border-radius: 5px 5px 0 0;
+        padding: 10px 0;
+        display: flex;
+        justify-content: space-around;
+        width: 215px;
+        margin: 0 auto 0;
+    }
+    .pm-stat-item { text-align: center; }
+    .pm-stat-number { font-size: 16.5pt; font-weight: 800; line-height: 1; color: #222; }
+    .pm-stat-label { font-size: 8.25pt; font-weight: bold; color: #727272; }
+    .pm-play-actions {
+        background-color: #474747;
+        border-radius: 0 0 5px 5px;
+        width: 215px;
+        margin: 0 auto 0.5rem;
+        padding: 5px 10px;
+    }
+    .pm-seq-row { display: flex; gap: 0.5rem; line-height: 1.7; }
+    .pm-seq-label { font-size: 0.72rem; color: #aaa; font-weight: 600; min-width: 52px; }
+    .pm-seq-val { font-size: 0.72rem; color: #fff; font-family: monospace; letter-spacing: 1px; }
+    .pm-play-buttons { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 3px; }
+    .pm-action-item {
+        width: 215px;
+        margin: 0 auto;
+        overflow: hidden;
+        cursor: pointer;
+        border-radius: 5px;
+        height: 30px;
+        line-height: 30px;
+    }
+    .pm-hotkey {
+        background-color: #ffffff;
+        float: left;
+        width: 38px;
+        line-height: 30px;
+        border-radius: 5px 0 0 5px;
+        font-weight: 900;
+        font-size: 10.5pt;
+        text-align: center;
+        display: block;
+    }
+    .pm-action-label {
+        display: block;
+        padding-left: 44px;
+        line-height: 30px;
+        background-color: #b1b1b1;
+        color: #555555;
+        border-radius: 5px;
+        font-weight: 800;
+        font-size: 10.5pt;
+    }
+    .pm-action-item:hover .pm-action-label { background-color: #cbcbcb; }
+    .pm-action-item:hover .pm-hotkey { background-color: #f0f0f0; }
+    .pm-close-item .pm-hotkey { background-color: #cccccc; font-size: 7.5pt; letter-spacing: -0.5px; }
+    .pm-close-item .pm-action-label { background-color: #555; color: #ddd; }
+    .pm-close-item:hover .pm-action-label { background-color: #666; }
 </style>
 
 <script>
-    // ── Game state ─────────────────────────────────────────────────
+    // ── Game identifiers ───────────────────────────────────────────
     var currentGameId = {{ game.id }};
-    var currentGameUrl = '{{ url_for("main.game_detail", season_slug=season.slug, game_slug=game.slug) }}';
+    var currentGameUrl = '{{ url_for("main.game_detail", game_id=game.id) }}';
+    var vTeamId = {{ game.visitor_team_id }};
+    var hTeamId = {{ game.home_team_id }};
     gameIsOpen = true;
     updateFileMenuState();
 
@@ -403,32 +1142,36 @@
     var homeDefense = {{ defense | tojson }};
     var visDefense = {{ vis_defense | tojson }};
 
-    // At-bat data
+    // At-bat data (order ≤ 9 = starters in lineup; order 10 = DF/DH slot)
     var vBattingData = [
         {% for stat in v_batting %}
         {
+            playerId: {{ stat.player_id }},
             name: "{{ stat.player.name }}",
             lastName: "{{ stat.player.last_name or stat.player.name.split()[-1] }}",
-            num: "{{ stat.player.uniform_number or '' }}",
+            num: "{{ stat.player.uniform_number | numfmt }}",
             pos: "{{ stat.position }}",
             ab: {{ stat.ab }}, r: {{ stat.r }}, h: {{ stat.h }},
             rbi: {{ stat.rbi }}, bb: {{ stat.bb }}, so: {{ stat.so }},
             doubles: {{ stat.doubles }}, triples: {{ stat.triples }}, hr: {{ stat.hr }},
-            hbp: {{ stat.hbp }}, order: {{ stat.batting_order or 0 }}
+            hbp: {{ stat.hbp }}, order: {{ stat.batting_order or 0 }},
+            isStarter: {{ 'true' if stat.is_starter else 'false' }}
         },
         {% endfor %}
     ];
     var hBattingData = [
         {% for stat in h_batting %}
         {
+            playerId: {{ stat.player_id }},
             name: "{{ stat.player.name }}",
             lastName: "{{ stat.player.last_name or stat.player.name.split()[-1] }}",
-            num: "{{ stat.player.uniform_number or '' }}",
+            num: "{{ stat.player.uniform_number | numfmt }}",
             pos: "{{ stat.position }}",
             ab: {{ stat.ab }}, r: {{ stat.r }}, h: {{ stat.h }},
             rbi: {{ stat.rbi }}, bb: {{ stat.bb }}, so: {{ stat.so }},
             doubles: {{ stat.doubles }}, triples: {{ stat.triples }}, hr: {{ stat.hr }},
-            hbp: {{ stat.hbp }}, order: {{ stat.batting_order or 0 }}
+            hbp: {{ stat.hbp }}, order: {{ stat.batting_order or 0 }},
+            isStarter: {{ 'true' if stat.is_starter else 'false' }}
         },
         {% endfor %}
     ];
@@ -437,9 +1180,10 @@
     var vPitchingData = [
         {% for stat in v_pitching %}
         {
+            playerId: {{ stat.player_id }},
             name: "{{ stat.player.name }}",
             lastName: "{{ stat.player.last_name or stat.player.name.split()[-1] }}",
-            num: "{{ stat.player.uniform_number or '' }}",
+            num: "{{ stat.player.uniform_number | numfmt }}",
             pitches: {{ stat.pitches }}, strikes: {{ stat.strikes }},
             ip: {{ stat.ip }}, h: {{ stat.h }}, r: {{ stat.r }},
             er: {{ stat.er }}, bb: {{ stat.bb }}, so: {{ stat.so }}
@@ -449,9 +1193,10 @@
     var hPitchingData = [
         {% for stat in h_pitching %}
         {
+            playerId: {{ stat.player_id }},
             name: "{{ stat.player.name }}",
             lastName: "{{ stat.player.last_name or stat.player.name.split()[-1] }}",
-            num: "{{ stat.player.uniform_number or '' }}",
+            num: "{{ stat.player.uniform_number | numfmt }}",
             pitches: {{ stat.pitches }}, strikes: {{ stat.strikes }},
             ip: {{ stat.ip }}, h: {{ stat.h }}, r: {{ stat.r }},
             er: {{ stat.er }}, bb: {{ stat.bb }}, so: {{ stat.so }}
@@ -459,8 +1204,100 @@
         {% endfor %}
     ];
 
-    // Track which half is batting: "top" = visitor bats, "bottom" = home bats
+    // ── Core game state ────────────────────────────────────────────
+    // "top" = visitor bats, "bottom" = home bats
     var currentHalf = "top";
+    var currentInning = 1;
+    var currentOuts = 0;
+    // Runners: null or {name, lastName, num, order, playerId}
+    var runners = {first: null, second: null, third: null};
+    // Separate batter-index cursors per half so each team cycles independently
+    var batterIdx = {top: 0, bottom: 0};
+
+    // Reconstruct inning/half/outs from the last recorded play
+    {% if plays %}
+    {%- set lp = plays[-1] %}
+    currentInning = {{ lp.inning }};
+    currentHalf   = "{{ lp.half }}";
+    // outs_before + outs_on_play of the last play = outs after that play
+    currentOuts   = ({{ lp.outs_before }} + {{ lp.outs_on_play or 0 }}) % 3;
+    // If that last play ended the half (outs_on_play brought total to 3) currentOuts wraps to 0
+    // and currentHalf/Inning already advanced via endHalfInning — but we stored the NEXT half
+    // on plays where a third out ended the half, so no extra adjustment needed here.
+    {% endif %}
+
+    // ── Field display ─────────────────────────────────────────────────
+    var POS_NUM = {'P':1,'C':2,'1B':3,'2B':4,'3B':5,'SS':6,'LF':7,'CF':8,'RF':9};
+    var POS_SLOTS = {
+        'P':  'field-p',   'C':  'field-c',
+        '1B': 'field-1b-pos', '2B': 'field-2b-pos', '3B': 'field-3b-pos',
+        'SS': 'field-ss',  'LF': 'field-lf', 'CF': 'field-cf', 'RF': 'field-rf'
+    };
+    // Legacy runner display vars — kept for _updateRunners() compatibility
+    var _runner1b = null, _runner2b = null, _runner3b = null;
+
+    function _fieldLabel(numPrefix, formattedName) {
+        return numPrefix + '-' + (formattedName || '?');
+    }
+
+    function _runnerLabel(battingOrder, fullName) {
+        var parts = (fullName || '').trim().split(' ');
+        var last = parts[parts.length - 1];
+        var init = parts[0] ? parts[0].charAt(0) + '.' : '';
+        return battingOrder + '-' + init + ' ' + last;
+    }
+
+    function updateFieldDisplay() {
+        var def = currentHalf === 'top' ? homeDefense : visDefense;
+        // Fielders — update anchor text content directly
+        for (var pos in POS_SLOTS) {
+            var el = document.getElementById(POS_SLOTS[pos]);
+            if (!el) continue;
+            var name = def[pos] || '';
+            el.textContent = name ? _fieldLabel(POS_NUM[pos], name) : '';
+        }
+        // Current batter — update offensive anchor
+        var battingData = currentHalf === 'top' ? vBattingData : hBattingData;
+        var lineup = battingData.filter(function(b) { return b.isStarter; });
+        lineup.sort(function(a, b) { return a.order - b.order; });
+        var batter = lineup[batterIdx[currentHalf]] || lineup[0] || null;
+        var batterAnchor = document.getElementById('field-batter-anchor');
+        if (batterAnchor) {
+            batterAnchor.textContent = batter ? _runnerLabel(batter.order, batter.name) : '';
+            // Orange highlight for current batter (Gameday Stats a.selected style)
+            batterAnchor.classList.toggle('selected', !!batter);
+        }
+        // Update batter / pitcher name in data entry panel
+        if (batter) {
+            document.getElementById('de-batter-name').textContent = batter.name;
+            document.getElementById('de-batter-num').textContent = '#' + batter.num;
+        }
+        var pitchers = currentHalf === 'top' ? hPitchingData : vPitchingData;
+        if (pitchers.length > 0) {
+            document.getElementById('de-pitcher-name').textContent = pitchers[pitchers.length - 1].name;
+        }
+        _updateRunners();
+    }
+
+    function _updateRunners() {
+        var bases = [
+            {id: 'field-runner-1b', r: runners.first,  inputClass: 'first'},
+            {id: 'field-runner-2b', r: runners.second, inputClass: 'second'},
+            {id: 'field-runner-3b', r: runners.third,  inputClass: 'third'}
+        ];
+        bases.forEach(function(b) {
+            var el = document.getElementById(b.id);
+            if (!el) return;
+            var inputHtml = '<input type="text" class="' + b.inputClass + ' field-base-input" readonly' +
+                            (b.r ? ' value="' + _runnerLabel(b.r.order, b.r.name) + '"' : '') + '>';
+            if (b.r) {
+                el.innerHTML = '<a class="gwt-Anchor offensive" title="' + b.r.name + '">' +
+                               _runnerLabel(b.r.order, b.r.name) + '</a><br>' + inputHtml;
+            } else {
+                el.innerHTML = inputHtml;
+            }
+        });
+    }
 
     function updatePitcherStats() {
         // When top half, home team is pitching; bottom half, visitor is pitching
@@ -482,30 +1319,1330 @@
 
     function updateBattingLineup() {
         var data = currentHalf === "top" ? vBattingData : hBattingData;
-        var teamName = currentHalf === "top"
-            ? "{{ game.visitor_team.abbreviation or game.visitor_team.name[:3] | upper }}"
-            : "{{ game.home_team.abbreviation or game.home_team.name[:3] | upper }}";
-        document.getElementById('lineup-header').textContent = teamName + ' Batting';
-
-        // Filter to starters (order > 0), sort by batting order
-        var lineup = data.filter(function(b) { return b.order > 0; });
-        lineup.sort(function(a, b) { return a.order - b.order; });
-
-        var html = '<table class="lineup-table"><tbody>';
+        var lineup = _sortedLineup(data);
+        var ul = document.getElementById('batting-lineup');
+        if (!ul) return;
+        var html = '';
         for (var i = 0; i < lineup.length; i++) {
             var b = lineup[i];
-            html += '<tr><td>' + b.order + '</td><td>' + b.lastName + '</td></tr>';
+            var isCurrent = (i === batterIdx[currentHalf]);
+            var cls = isCurrent ? ' class="current-batter"' : '';
+            html += '<li' + cls + ' onclick="selectBatter(' + i + ')">' +
+                    '<span class="li-order">' + b.order + '</span>' +
+                    '<span class="li-name">' + b.lastName + '</span>' +
+                    '<span class="li-pos">' + (b.pos || '') + '</span>' +
+                    '</li>';
         }
-        html += '</tbody></table>';
-        document.getElementById('batting-lineup').innerHTML = html;
+        ul.innerHTML = html;
+    }
+
+    function _sortedLineup(data) {
+        return data.filter(function(b) { return b.order > 0 && b.order <= 9; })
+                   .sort(function(a, b) { return a.order - b.order; });
+    }
+
+    function selectBatter(idx) {
+        batterIdx[currentHalf] = idx;
+        updateFieldDisplay();
+        updateBattingLineup();
+    }
+
+    // ── Outs display ───────────────────────────────────────────────
+    function updateOutsDisplay() {
+        document.getElementById('de-outs').textContent = currentOuts;
+        for (var i = 0; i < 3; i++) {
+            var dot = document.getElementById('out-dot-' + i);
+            if (!dot) continue;
+            dot.className = 'out-dot' + (i < currentOuts ? ' out-dot-filled' : '');
+        }
+        var halfLabel = currentHalf === 'top' ? 'Top' : 'Bot';
+        var halfEl = document.getElementById('de-inning-half-text');
+        if (halfEl) halfEl.textContent = halfLabel + ' ' + currentInning;
     }
 
     // Initialize on load
+    updateFieldDisplay();
     updatePitcherStats();
     updateBattingLineup();
+    updateOutsDisplay();
+
+    // Disable Starting Lineups once plays have been recorded
+    var outsRecorded = {{ 'true' if plays else 'false' }};
+    if (outsRecorded) {
+        var slBtn = document.getElementById('btn-starting-lineups');
+        if (slBtn) { slBtn.style.opacity = '0.4'; slBtn.style.pointerEvents = 'none'; }
+    }
+
+    // ── View switching ───────────────────────────────────────────────
+    // Read from DOM: Jinja2 correctly sets the initial display on section-setup-required.
+    var _scoringReady = (function() {
+        var cover = document.getElementById('section-setup-required');
+        return !cover || cover.style.display === 'none';
+    }());
+
+    function setViewParam(view) {
+        var url = new URL(window.location.href);
+        if (view) { url.searchParams.set('view', view); } else { url.searchParams.delete('view'); }
+        history.replaceState(null, '', url.toString());
+    }
+
+    function _hideAllViews() {
+        ['scoring-view', 'section-setup-required', 'section-rosters', 'section-game-info'].forEach(function(id) {
+            var el = document.getElementById(id);
+            if (el) el.style.display = 'none';
+        });
+        ['nav-addplay', 'nav-rosters', 'nav-setup'].forEach(function(id) {
+            var el = document.getElementById(id);
+            if (el) el.classList.remove('selected');
+        });
+    }
+
+    function showScoringView() {
+        _hideAllViews();
+        if (_scoringReady) {
+            document.getElementById('scoring-view').style.display = 'flex';
+        } else {
+            document.getElementById('section-setup-required').style.display = 'flex';
+        }
+        var nav = document.getElementById('nav-addplay');
+        if (nav) nav.classList.add('selected');
+        setViewParam(null);
+    }
+
+    function showRostersView() {
+        _hideAllViews();
+        document.getElementById('section-rosters').style.display = 'flex';
+        var nav = document.getElementById('nav-rosters');
+        if (nav) nav.classList.add('selected');
+        renderRosterTable();
+        setViewParam('rosters');
+    }
+
+    function showGameInfoView() {
+        _hideAllViews();
+        document.getElementById('game-config-error').style.display = 'none';
+        document.getElementById('section-game-info').style.display = 'flex';
+        var nav = document.getElementById('nav-setup');
+        if (nav) nav.classList.add('selected');
+        setViewParam(null);
+    }
+
+    // ── Sidebar accordion toggle ───────────────────────────────────
+    function toggleSidebar(key) {
+        var map = {pbp: 'recent_plays', pitcher: 'menu_3', 'prev-ab': 'menu_4'};
+        var el = document.getElementById(map[key]);
+        if (!el) return;
+        var isOpen = el.style.display !== 'none';
+        el.style.display = isOpen ? 'none' : '';
+        // Update toggle arrow text
+        var li = el.parentElement;
+        if (li) {
+            var a = li.querySelector('a.sidebar-toggle');
+            if (a) {
+                a.textContent = a.textContent.replace(/[▶▼]/, isOpen ? '▶' : '▼');
+            }
+        }
+    }
+
+    function editGameInfo() { showGameInfoView(); }
+    function hideGameConfig() { showScoringView(); }
+
+    function saveGameConfig() {
+        var errEl = document.getElementById('game-config-error');
+        errEl.style.display = 'none';
+        fetch('/configure/game/' + currentGameId + '/edit', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                date: document.getElementById('gd-date').value,
+                start_time: document.getElementById('gd-start-time').value,
+                duration: document.getElementById('gd-duration').value,
+                delayed_time: document.getElementById('gd-delayed').value,
+                scheduled_innings: document.getElementById('gd-innings').value,
+                doubleheader: document.getElementById('gd-doubleheader').value,
+                stadium: document.getElementById('gd-stadium').value,
+                location: document.getElementById('gd-city').value,
+                state: document.getElementById('gd-state').value,
+                weather: document.getElementById('gd-weather').value,
+                attendance: document.getElementById('gd-attendance').value || 0,
+                scorer: document.getElementById('gd-scorer').value,
+                ump_hp: document.getElementById('gd-ump-hp').value,
+                ump_1b: document.getElementById('gd-ump-1b').value,
+                ump_2b: document.getElementById('gd-ump-2b').value,
+                ump_3b: document.getElementById('gd-ump-3b').value,
+                notes: document.getElementById('gd-notes').value,
+                visitor_record: document.getElementById('gd-visitor-record').value,
+                visitor_conf: document.getElementById('gd-visitor-conf').value,
+                home_record: document.getElementById('gd-home-record').value,
+                home_conf: document.getElementById('gd-home-conf').value,
+                is_league_game: document.getElementById('gd-chk-conference').checked,
+                is_neutral: document.getElementById('gd-chk-neutral').checked,
+                is_exhibition: document.getElementById('gd-chk-exhibition').checked,
+                is_region: document.getElementById('gd-chk-region').checked,
+                is_conf_division: document.getElementById('gd-chk-conf-division').checked,
+                is_night: document.getElementById('gd-chk-night').checked,
+                visitor_team_id: {{ game.visitor_team_id }},
+                home_team_id: {{ game.home_team_id }}
+            })
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            if (!data.ok) {
+                errEl.textContent = data.error || 'Save failed. Please try again.';
+                errEl.style.display = '';
+                return;
+            }
+            window.location.reload();
+        })
+        .catch(function() {
+            errEl.textContent = 'Network error — changes not saved.';
+            errEl.style.display = '';
+        });
+    }
+
+    function submitLineups() {
+        var error = validateLineup(_lineupModalSide);
+        if (error) { showLineupError(error); return; }
+
+        // Check now (pre-save) whether the other team already has starters
+        var otherSide = _lineupModalSide === 'v' ? 'h' : 'v';
+        var otherData = otherSide === 'v' ? vBattingData : hBattingData;
+        var otherHasStarters = otherData.some(function(d) { return d.isStarter; });
+
+        var visitor = [];
+        var home = [];
+        var slots = [1,2,3,4,5,6,7,8,9,'dp'];
+        for (var si = 0; si < slots.length; si++) {
+            var s = slots[si];
+            var order = (s === 'dp') ? 10 : s;
+            var vp   = document.getElementById('v-player-' + s);
+            var vpos = document.getElementById('v-pos-'    + s);
+            var hp   = document.getElementById('h-player-' + s);
+            var hpos = document.getElementById('h-pos-'    + s);
+            if (vp && vp.value) visitor.push({player_id: vp.value, position: (vpos ? vpos.value.toUpperCase() : ''), order: order});
+            if (hp && hp.value) home.push({player_id: hp.value, position: (hpos ? hpos.value.toUpperCase() : ''), order: order});
+        }
+        fetch('/api/games/' + currentGameId + '/lineups', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({visitor: visitor, home: home})
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            if (data.ok) {
+                hideLineupModal();
+                if (!otherHasStarters) {
+                    var params = new URLSearchParams(window.location.search);
+                    params.set('view', 'rosters');
+                    params.set('prompt-lineup', otherSide);
+                    window.location.href = window.location.pathname + '?' + params.toString();
+                } else {
+                    window.location.reload();
+                }
+            } else {
+                showLineupError(data.error || 'Save failed. Please try again.');
+            }
+        })
+        .catch(function() {
+            showLineupError('Network error — lineup not saved.');
+        });
+    }
+
+    // ── Position autocomplete ─────────────────────────────────────────
+    var POS_MAP = [
+        {abbr: 'P',  full: 'Pitcher',            terms: ['p', '1']},
+        {abbr: 'C',  full: 'Catcher',            terms: ['c', '2']},
+        {abbr: '1B', full: 'First Base',         terms: ['1b', '3']},
+        {abbr: '2B', full: 'Second Base',        terms: ['2b', '4']},
+        {abbr: '3B', full: 'Third Base',         terms: ['3b', '5']},
+        {abbr: 'SS', full: 'Shortstop',          terms: ['ss', '6']},
+        {abbr: 'LF', full: 'Left Field',         terms: ['lf', '7']},
+        {abbr: 'CF', full: 'Center Field',       terms: ['cf', '8']},
+        {abbr: 'RF', full: 'Right Field',        terms: ['rf', '9']},
+        {abbr: 'DH', full: 'Designated Hitter',  terms: ['dh']},
+        {abbr: 'PH', full: 'Pinch Hitter',       terms: ['ph']},
+        {abbr: 'PR', full: 'Pinch Runner',       terms: ['pr']},
+        {abbr: 'EH', full: 'Extra Hitter',       terms: ['eh']},
+    ];
+    var lineupSlotOrder = ['1','2','3','4','5','6','7','8','9','dp'];
+
+    function getNextLineupSlot(slot) {
+        var idx = lineupSlotOrder.indexOf(String(slot));
+        return (idx >= 0 && idx < lineupSlotOrder.length - 1) ? lineupSlotOrder[idx + 1] : null;
+    }
+
+    function matchPositions(q) {
+        if (!q) return [];
+        q = q.toLowerCase();
+        return POS_MAP.filter(function(p) {
+            return p.terms.some(function(t) { return t === q || t.startsWith(q); }) ||
+                   p.abbr.toLowerCase().startsWith(q);
+        });
+    }
+
+    // Floating suggestion panel — appended to body to escape overflow:hidden containers
+    var _posSugPanel = (function() {
+        var el = document.createElement('div');
+        el.style.cssText = 'position:fixed;background:#fff;border:1px solid #ccc;border-radius:4px;' +
+                           'box-shadow:0 3px 12px rgba(0,0,0,0.18);z-index:9999;display:none;min-width:140px;';
+        document.body.appendChild(el);
+        return el;
+    }());
+    var _posSugActive = null;
+
+    function showPosSuggestions(inputEl) {
+        _posSugActive = inputEl;
+        var val = inputEl.value.trim();
+        var matches = val ? matchPositions(val) : POS_MAP;
+        if (matches.length === 0) {
+            _posSugPanel.style.display = 'none';
+            return;
+        }
+        var rect = inputEl.getBoundingClientRect();
+        _posSugPanel.style.top  = (rect.bottom + 2) + 'px';
+        _posSugPanel.style.left = rect.left + 'px';
+        _posSugPanel.style.width = Math.max(rect.width, 140) + 'px';
+        var html = '';
+        matches.forEach(function(m) {
+            html += '<div class="pos-sug-item" data-abbr="' + m.abbr + '">' +
+                    '<strong>' + m.abbr + '</strong> <span class="pos-sug-full">' + m.full + '</span></div>';
+        });
+        _posSugPanel.innerHTML = html;
+        _posSugPanel.style.display = '';
+        _posSugPanel.querySelectorAll('.pos-sug-item').forEach(function(item) {
+            item.addEventListener('mousedown', function(e) {
+                e.preventDefault();
+                inputEl.value = item.getAttribute('data-abbr');
+                _posSugPanel.style.display = 'none';
+            });
+        });
+    }
+
+    function acceptFirstPosSuggestion(inputEl) {
+        var first = _posSugPanel.querySelector('.pos-sug-item');
+        if (first && _posSugPanel.style.display !== 'none' && _posSugActive === inputEl) {
+            inputEl.value = first.getAttribute('data-abbr');
+            _posSugPanel.style.display = 'none';
+            return true;
+        }
+        return false;
+    }
+
+    // ── Player number-key buffering ───────────────────────────────────
+    var lineupNumBuf = '';
+    var lineupNumTimer = null;
+
+    function initLineupInputs() {
+        // Position inputs
+        document.querySelectorAll('.lineup-pos-input').forEach(function(input) {
+            input.addEventListener('focus', function() { showPosSuggestions(this); });
+            input.addEventListener('input', function() { showPosSuggestions(this); });
+            input.addEventListener('blur', function() {
+                setTimeout(function() { _posSugPanel.style.display = 'none'; }, 150);
+            });
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Tab') {
+                    var accepted = acceptFirstPosSuggestion(this);
+                    var slot = this.getAttribute('data-slot');
+                    var side = this.getAttribute('data-side');
+                    var next = getNextLineupSlot(slot);
+                    if (next) {
+                        e.preventDefault();
+                        var nextEl = document.getElementById(side + '-player-' + next);
+                        if (nextEl) nextEl.focus();
+                    }
+                } else if (e.key === 'Enter') {
+                    acceptFirstPosSuggestion(this);
+                    e.preventDefault();
+                } else if (e.key === 'Escape') {
+                    _posSugPanel.style.display = 'none';
+                }
+            });
+        });
+
+        // Player selects — number key buffering
+        document.querySelectorAll('.lineup-player-select').forEach(function(sel) {
+            sel.addEventListener('keydown', function(e) {
+                if (e.key >= '0' && e.key <= '9') {
+                    e.preventDefault();
+                    lineupNumBuf += e.key;
+                    clearTimeout(lineupNumTimer);
+                    var opts = this.options;
+                    for (var i = 1; i < opts.length; i++) {
+                        if (opts[i].getAttribute('data-number') === lineupNumBuf) {
+                            this.value = opts[i].value;
+                            break;
+                        }
+                    }
+                    lineupNumTimer = setTimeout(function() { lineupNumBuf = ''; }, 500);
+                }
+            });
+        });
+    }
+
+    initLineupInputs();
+
+    // ── Roster data ───────────────────────────────────────────────────
+    var gameRosterOverrides = {};
+    {% for o in game_overrides %}
+    gameRosterOverrides[{{ o.player_id }}] = {
+        uniform_number: "{{ o.uniform_number or '' }}",
+        display_name: "{{ o.display_name or '' }}",
+        position: "{{ o.position or '' }}",
+        bats: "{{ o.bats or '' }}",
+        throws: "{{ o.throws or '' }}",
+        is_removed: {{ 'true' if o.is_removed else 'false' }}
+    };
+    {% endfor %}
+
+    var vRosterData = [
+        {% for p in v_roster %}
+        {id: {{ p.id }}, num: "{{ p.uniform_number | numfmt }}", pos: "{{ p.position or '' }}", firstName: "{{ p.first_name or '' }}", lastName: "{{ p.last_name or p.name.split()[-1] }}", bats: "{{ p.bats or '' }}", throws: "{{ p.throws or '' }}"},
+        {% endfor %}
+    ];
+    var hRosterData = [
+        {% for p in h_roster %}
+        {id: {{ p.id }}, num: "{{ p.uniform_number | numfmt }}", pos: "{{ p.position or '' }}", firstName: "{{ p.first_name or '' }}", lastName: "{{ p.last_name or p.name.split()[-1] }}", bats: "{{ p.bats or '' }}", throws: "{{ p.throws or '' }}"},
+        {% endfor %}
+    ];
+    var currentRosterSide = 'v';
+
+    function showRosterTeam(side) {
+        currentRosterSide = side;
+        document.getElementById('tab-v-roster').classList.toggle('active', side === 'v');
+        document.getElementById('tab-h-roster').classList.toggle('active', side === 'h');
+        renderRosterTable();
+    }
+
+    function _esc(s) {
+        return String(s || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+    }
+
+    function renderRosterTable() {
+        var data = currentRosterSide === 'v' ? vRosterData : hRosterData;
+        var battingData = currentRosterSide === 'v' ? vBattingData : hBattingData;
+        var teamId = currentRosterSide === 'v' ? vTeamId : hTeamId;
+        var body = document.getElementById('roster-table-body');
+        if (!body) return;
+
+        var battingByNum = {};
+        for (var i = 0; i < battingData.length; i++) {
+            battingByNum[battingData[i].num] = battingData[i];
+        }
+
+        var html = '';
+        var starterCount = 0;
+        for (var i = 0; i < data.length; i++) {
+            var p = data[i];
+            var ov = gameRosterOverrides[p.id];
+            if (ov && ov.is_removed) continue;
+
+            // Apply override values for display
+            var dispNum  = (ov && ov.uniform_number) ? ov.uniform_number : p.num;
+            var rawName  = (ov && ov.display_name)   ? ov.display_name : (p.firstName + ' ' + p.lastName).trim();
+            var nameParts = rawName.split(' ');
+            var dispName = (nameParts[0] ? nameParts[0].charAt(0) + '. ' : '') + nameParts.slice(1).join(' ');
+            var bt       = battingByNum[p.num];
+            var isStarter = bt && bt.isStarter;
+            var participated = isStarter;
+            var dispPos  = (ov && ov.position) ? ov.position : (bt ? bt.pos : '');
+            var dispBats = (ov && ov.bats) ? ov.bats : p.bats;
+            var dispThrows = (ov && ov.throws) ? ov.throws : p.throws;
+            var btStr    = (dispBats ? dispBats.charAt(0) : '-') + '/' + (dispThrows ? dispThrows.charAt(0) : '-');
+            if (isStarter) starterCount++;
+
+            html += '<tr>';
+            html += '<td>' + (isStarter ? 'Yes' : 'No') + '</td>';
+            html += '<td>' + (participated ? 'Yes' : 'No') + '</td>';
+            html += '<td>' + dispNum + '</td>';
+            html += '<td>' + (dispPos || '') + '</td>';
+            html += '<td>' + dispName + '</td>';
+            html += '<td>' + btStr + '</td>';
+            html += '<td><button class="roster-action-btn" onclick="openEditPlayerModal(' +
+                p.id + ',\'' + _esc(dispNum) + '\',\'' + _esc(rawName) + '\',\'' +
+                _esc(dispPos) + '\',\'' + _esc(dispBats) + '\',\'' + _esc(dispThrows) + '\',' +
+                teamId + ')">Edit</button></td>';
+            html += '<td><button class="roster-action-btn" style="color:#dc2626;" onclick="openRemovePlayerModal(' +
+                p.id + ',\'' + _esc(dispName) + '\',' + teamId + ')">Remove</button></td>';
+            html += '</tr>';
+        }
+        body.innerHTML = html;
+        document.getElementById('selected-starters-label').textContent = 'Selected Starters (' + starterCount + ')';
+    }
+
+    // ── Player modal state ────────────────────────────────────────────
+    var _playerModalMode = 'add';
+    var _editingPlayerId = null;
+    var _removingPlayerId = null;
+    var _playerModalTeamId = null;
+
+    function openAddPlayerModal() {
+        _playerModalMode = 'add';
+        _editingPlayerId = null;
+        _playerModalTeamId = currentRosterSide === 'v' ? vTeamId : hTeamId;
+        document.getElementById('player-modal-title').textContent = 'Add player';
+        document.getElementById('pm-number').value = '';
+        document.getElementById('pm-name').value = '';
+        document.getElementById('pm-position').value = '';
+        document.querySelector('input[name="pm-bats"][value="Right"]').checked = true;
+        document.querySelector('input[name="pm-throws"][value="Right"]').checked = true;
+        document.getElementById('player-modal-error').style.display = 'none';
+        document.getElementById('player-addedit-modal').style.display = '';
+    }
+
+    function openEditPlayerModal(playerId, num, name, pos, bats, throws, teamId) {
+        _playerModalMode = 'edit';
+        _editingPlayerId = playerId;
+        _playerModalTeamId = teamId;
+        document.getElementById('player-modal-title').textContent = 'Edit player';
+        document.getElementById('pm-number').value = num;
+        document.getElementById('pm-name').value = name;
+        document.getElementById('pm-position').value = pos;
+        var batsEl = document.querySelector('input[name="pm-bats"][value="' + bats + '"]');
+        if (batsEl) batsEl.checked = true;
+        var throwsEl = document.querySelector('input[name="pm-throws"][value="' + throws + '"]');
+        if (throwsEl) throwsEl.checked = true;
+        document.getElementById('player-modal-error').style.display = 'none';
+        document.getElementById('player-addedit-modal').style.display = '';
+    }
+
+    function hidePlayerModal() {
+        document.getElementById('player-addedit-modal').style.display = 'none';
+    }
+
+    function submitPlayerModal() {
+        var num    = document.getElementById('pm-number').value.trim();
+        var name   = document.getElementById('pm-name').value.trim();
+        var pos    = document.getElementById('pm-position').value.trim();
+        var batsEl   = document.querySelector('input[name="pm-bats"]:checked');
+        var throwsEl = document.querySelector('input[name="pm-throws"]:checked');
+        var errEl  = document.getElementById('player-modal-error');
+        if (!name) {
+            errEl.textContent = 'Name is required.';
+            errEl.style.display = '';
+            return;
+        }
+        var url = _playerModalMode === 'add'
+            ? '/api/games/' + currentGameId + '/roster/add'
+            : '/api/games/' + currentGameId + '/roster/' + _editingPlayerId + '/edit';
+        fetch(url, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                team_id: _playerModalTeamId,
+                uniform_number: num, name: name, position: pos,
+                bats: batsEl ? batsEl.value : 'Right',
+                throws: throwsEl ? throwsEl.value : 'Right'
+            })
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            if (!data.ok) { errEl.textContent = data.error || 'Save failed.'; errEl.style.display = ''; return; }
+            hidePlayerModal();
+            window.location.reload();
+        })
+        .catch(function() { errEl.textContent = 'Network error.'; errEl.style.display = ''; });
+    }
+
+    function openRemovePlayerModal(playerId, displayName, teamId) {
+        _removingPlayerId = playerId;
+        _playerModalTeamId = teamId;
+        document.getElementById('player-remove-msg').textContent =
+            'Are you sure you want to remove ' + displayName + '?';
+        document.getElementById('player-remove-modal').style.display = '';
+    }
+
+    function hideRemoveModal() {
+        document.getElementById('player-remove-modal').style.display = 'none';
+    }
+
+    function submitRemovePlayer() {
+        fetch('/api/games/' + currentGameId + '/roster/' + _removingPlayerId + '/remove', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({team_id: _playerModalTeamId})
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            if (!data.ok) { alert(data.error || 'Remove failed.'); return; }
+            hideRemoveModal();
+            window.location.reload();
+        })
+        .catch(function() { alert('Network error — player not removed.'); });
+    }
+
+    var _lineupTeamNames = {
+        v: "{{ game.visitor_team.name }}",
+        h: "{{ game.home_team.name }}"
+    };
+    var _lineupModalSide = 'v';
+    var _nextLineupPromptSide = null;
+
+    function showNextLineupPrompt(side) {
+        _nextLineupPromptSide = side;
+        var name = _lineupTeamNames[side] || (side === 'v' ? 'Visitor' : 'Home');
+        document.getElementById('next-lineup-prompt-msg').textContent = 'Select ' + name + ' Starters';
+        document.getElementById('next-lineup-prompt-modal').style.display = 'flex';
+        // Clean the param from URL now so a refresh won't re-show the prompt
+        var params = new URLSearchParams(window.location.search);
+        params.delete('prompt-lineup');
+        var newUrl = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
+        history.replaceState(null, '', newUrl);
+    }
+
+    function acceptNextLineupPrompt() {
+        document.getElementById('next-lineup-prompt-modal').style.display = 'none';
+        var side = _nextLineupPromptSide;
+        _nextLineupPromptSide = null;
+        if (side) {
+            showRosterTeam(side);
+            showLineupEntry();
+        }
+    }
+
+    function skipNextLineupPrompt() {
+        document.getElementById('next-lineup-prompt-modal').style.display = 'none';
+        _nextLineupPromptSide = null;
+    }
+
+    function prefillLineup(side) {
+        var battingData = side === 'v' ? vBattingData : hBattingData;
+
+        // Build lookup: batting order -> entry
+        var byOrder = {};
+        for (var i = 0; i < battingData.length; i++) {
+            if (battingData[i].order > 0) byOrder[battingData[i].order] = battingData[i];
+        }
+
+        // Slots 1-9 map to order 1-9; DP slot maps to order 10
+        var slots = [1,2,3,4,5,6,7,8,9,'dp'];
+        for (var si = 0; si < slots.length; si++) {
+            var slot  = slots[si];
+            var order = slot === 'dp' ? 10 : slot;
+            var bt    = byOrder[order];
+            var playerEl = document.getElementById(side + '-player-' + slot);
+            var posEl    = document.getElementById(side + '-pos-'    + slot);
+            if (!playerEl) continue;
+
+            if (bt) {
+                // Match option by jersey number
+                var opts = playerEl.options;
+                for (var oi = 1; oi < opts.length; oi++) {
+                    if (opts[oi].getAttribute('data-number') === bt.num) {
+                        playerEl.value = opts[oi].value;
+                        break;
+                    }
+                }
+                if (posEl) posEl.value = bt.pos || '';
+            } else {
+                playerEl.value = '';
+                if (posEl) posEl.value = '';
+            }
+        }
+    }
+
+    function showLineupEntry() {
+        _lineupModalSide = currentRosterSide;
+        document.getElementById('lineup-modal-team-name').textContent = _lineupTeamNames[_lineupModalSide];
+        document.getElementById('lineup-v-section').style.display = _lineupModalSide === 'v' ? '' : 'none';
+        document.getElementById('lineup-h-section').style.display = _lineupModalSide === 'h' ? '' : 'none';
+        prefillLineup(_lineupModalSide);
+        document.getElementById('lineup-entry-modal').style.display = '';
+    }
+
+    function hideLineupModal() {
+        document.getElementById('lineup-entry-modal').style.display = 'none';
+    }
+
+    function showLineupError(msg) {
+        document.getElementById('lineup-error-msg').textContent = msg;
+        document.getElementById('lineup-error-popup').style.display = '';
+    }
+
+    function hideLineupError() {
+        document.getElementById('lineup-error-popup').style.display = 'none';
+    }
+
+    function validateLineup(side) {
+        var rosterData = side === 'v' ? vRosterData : hRosterData;
+        var playerById = {};
+        for (var i = 0; i < rosterData.length; i++) {
+            playerById[String(rosterData[i].id)] = rosterData[i];
+        }
+
+        var seenPlayers  = {};  // playerId  -> spot number
+        var seenPositions = {}; // pos abbr  -> spot number
+
+        for (var spot = 1; spot <= 9; spot++) {
+            var playerEl = document.getElementById(side + '-player-' + spot);
+            var posEl    = document.getElementById(side + '-pos-'    + spot);
+            var playerId = playerEl ? playerEl.value : '';
+            var pos      = posEl    ? posEl.value.trim().toUpperCase() : '';
+
+            // Spot must have a player
+            if (!playerId) {
+                return 'Invalid player on spot: ' + spot + '.';
+            }
+
+            // Player must have a position
+            if (!pos) {
+                var p = playerById[playerId];
+                var num  = p ? p.num : '';
+                var name = p ? (p.firstName ? p.firstName.charAt(0) + '. ' : '') + p.lastName : '';
+                return 'Please set the position for player #' + num + ' ' + name + '.';
+            }
+
+            // No duplicate players
+            if (seenPlayers[playerId] !== undefined) {
+                var p = playerById[playerId];
+                var num  = p ? p.num : '';
+                var name = p ? (p.firstName ? p.firstName.charAt(0) + '. ' : '') + p.lastName : '';
+                return num + '-' + name + ' was selected twice. Please choose a different player for each starting position.';
+            }
+            seenPlayers[playerId] = spot;
+
+            // No duplicate positions
+            if (seenPositions[pos] !== undefined) {
+                return 'Position ' + pos + ' was already assigned.';
+            }
+            seenPositions[pos] = spot;
+        }
+
+        // If DH is active, DF slot must have a player
+        if (seenPositions['DH'] !== undefined) {
+            var dpEl = document.getElementById(side + '-player-dp');
+            if (!dpEl || !dpEl.value) {
+                return 'A DH is active — please select the fielder-only player in the DF spot.';
+            }
+        }
+
+        return null; // valid
+    }
+
+    var playSequence = {{ ((plays | map(attribute='sequence') | list) + [0]) | max }};
+
+    // ── Narrative generation ───────────────────────────────────────
+    var ACTION_LABELS = {
+        single:'singled', double:'doubled', triple:'tripled', hr:'homered',
+        grd:'hit a ground rule double', itp:'hit an inside-the-park home run',
+        so:'struck out swinging', kl:'struck out looking',
+        go:'grounded out', fo:'flied out', lo:'lined out',
+        pu:'popped up', foul:'fouled out', fc:'reached on a fielder\'s choice',
+        dp:'hit into a double play', gdp:'hit into a double play',
+        bb:'walked', ibb:'was intentionally walked',
+        hbp:'was hit by a pitch', ci:'reached on catcher\'s interference',
+        sac:'laid down a sacrifice bunt', sf:'hit a sacrifice fly',
+        e:'reached on an error',
+        sb:'stole', cs:'was caught stealing',
+        wp:'wild pitch', pb:'passed ball', bk:'balk', po:'was picked off'
+    };
+
+    function buildNarrative(type, batterName, rbi) {
+        var verb = ACTION_LABELS[type] || type.toUpperCase();
+        var base = (batterName || 'Batter') + ' ' + verb;
+        if (type === 'sb') base += ' a base';
+        if (rbi > 0) {
+            base += ', ' + rbi + ' RBI' + (rbi > 1 ? '' : '');
+        }
+        return base;
+    }
+
+    // ── Action types categorized ───────────────────────────────────
+    var OUT_ACTIONS  = ['so','kl','go','fo','lo','pu','foul','fc','dp','gdp','cs','po'];
+    var HIT_ACTIONS  = ['single','double','triple','hr','grd','itp'];
+    var TYPE_TO_ACTION = {
+        single:'1B', double:'2B', triple:'3B', hr:'HR', itp:'HR', grd:'2B',
+        bb:'BB', ibb:'IBB', hbp:'HBP', ci:'CI', so:'KS', k:'KS', kl:'KL',
+        go:'GO', fo:'FO', lo:'LO', pu:'PU', foul:'FO', fc:'FC', dp:'DP', gdp:'GDP',
+        sac:'SAC', sf:'SF', e:'E', cs:'CS', po:'PO', sb:'SB'
+    };
+    function actionForType(type) { return TYPE_TO_ACTION[type] || (type ? type.toUpperCase().slice(0,4) : ''); }
+    var WALK_ACTIONS = ['bb','ibb','hbp','ci'];
+    var BATTER_PA    = HIT_ACTIONS.concat(OUT_ACTIONS).concat(WALK_ACTIONS).concat(['sac','sf','e']);
+    var RUNNER_ONLY  = ['sb','wp','pb','bk']; // no PA for batter
+    // Outs produced per action
+    var OUTS_MAP = {dp:2, gdp:2}; // all other out actions produce 1
+
+    // Auto-advance runners based on play type (returns proposed new runner state)
+    // Returns {runners: {first, second, third}, scored: [runner,...]}
+    function autoAdvanceRunners(type, batter) {
+        var r1 = runners.first, r2 = runners.second, r3 = runners.third;
+        var scored = [];
+        var n1 = null, n2 = null, n3 = null;
+
+        if (type === 'hr' || type === 'itp') {
+            if (r3) scored.push(r3);
+            if (r2) scored.push(r2);
+            if (r1) scored.push(r1);
+            scored.push(batter);
+        } else if (type === 'triple' || type === 'grd') {
+            if (r3) scored.push(r3);
+            if (r2) scored.push(r2);
+            if (r1) scored.push(r1);
+            n3 = batter;
+        } else if (type === 'double') {
+            if (r3) scored.push(r3);
+            if (r2) scored.push(r2);
+            n2 = batter;
+            n3 = r1; // runner on 1B advances to 3B
+        } else if (type === 'single') {
+            if (r3) scored.push(r3);
+            n3 = r2;
+            n2 = r1;
+            n1 = batter;
+        } else if (type === 'bb' || type === 'ibb' || type === 'hbp' || type === 'ci') {
+            // Forced advances only
+            n1 = batter;
+            if (r1) {
+                n2 = r1;
+                if (r2) {
+                    n3 = r2;
+                    if (r3) scored.push(r3);
+                } else {
+                    n3 = r3;
+                }
+            } else {
+                n2 = r2; n3 = r3;
+            }
+        } else if (type === 'sac') {
+            // Batter out, runners advance 1
+            if (r3) scored.push(r3);
+            n3 = r2; n2 = r1; n1 = null;
+        } else if (type === 'sf') {
+            if (r3) scored.push(r3);
+            n3 = r2; n2 = r1; n1 = null;
+        } else if (type === 'wp' || type === 'pb' || type === 'bk') {
+            // All runners advance 1
+            if (r3) scored.push(r3);
+            n3 = r2; n2 = r1; n1 = null;
+        } else if (type === 'sb') {
+            // Default: runner on 1B steals 2B
+            n1 = null; n2 = r1 || r2; n3 = r3;
+        } else if (type === 'cs') {
+            // Runner out
+            n1 = null; n2 = r2; n3 = r3;
+        } else {
+            // Outs / FC / E: keep runners where they are by default
+            n1 = r1; n2 = r2; n3 = r3;
+        }
+        return {
+            runners: {first: n1, second: n2, third: n3},
+            scored: scored
+        };
+    }
+
+    // Pending action state (used by advancement modal)
+    var _pendingAction = null;
 
     function deAction(type) {
-        console.log('Action:', type);
+        outsRecorded = true;
+        var lineup = _sortedLineup(currentHalf === 'top' ? vBattingData : hBattingData);
+        var pitchers = currentHalf === 'top' ? hPitchingData : vPitchingData;
+        var batter   = lineup[batterIdx[currentHalf]] || null;
+        var pitcher  = pitchers.length ? pitchers[pitchers.length - 1] : null;
+
+        var isRunnerOnly = RUNNER_ONLY.indexOf(type) !== -1;
+        var isPA = BATTER_PA.indexOf(type) !== -1;
+        var isOut = OUT_ACTIONS.indexOf(type) !== -1;
+        var outsOnPlay = isOut ? (OUTS_MAP[type] || 1) : 0;
+        // Baserunner-only events that cause outs (cs, po)
+        if (type === 'cs' || type === 'po') outsOnPlay = 1;
+
+        var proposed = autoAdvanceRunners(type, batter);
+        var runsScored = proposed.scored.length;
+        var batterName = batter ? batter.name : '';
+        var narrative  = buildNarrative(type, batterName, 0);
+
+        _pendingAction = {
+            type: type,
+            batter: batter,
+            pitcher: pitcher,
+            isPA: isPA,
+            isRunnerOnly: isRunnerOnly,
+            outsOnPlay: outsOnPlay,
+            proposed: proposed,
+            narrative: narrative,
+            pitchSeq: _pitchAbSeq || ''
+        };
+
+        // For plays that involve any runners or produce hits, show advancement dialog
+        var hasRunners = runners.first || runners.second || runners.third;
+        var needsDialog = (HIT_ACTIONS.indexOf(type) !== -1 && hasRunners) ||
+                          (WALK_ACTIONS.indexOf(type) !== -1 && hasRunners) ||
+                          type === 'sac' || type === 'sf' || type === 'e' ||
+                          type === 'fc' || type === 'sb' || type === 'cs' ||
+                          type === 'wp' || type === 'pb' || type === 'bk';
+
+        if (needsDialog) {
+            openAdvancementModal(type, batter, proposed);
+        } else {
+            applyAction(_pendingAction, runsScored, runsScored, 0, proposed.runners, actionForType(type), null, runners);
+        }
     }
+
+    // ── Runner advancement modal ───────────────────────────────────
+    function openAdvancementModal(type, batter, proposed) {
+        var scored = proposed.scored.length;
+        document.getElementById('adv-play-desc').textContent =
+            'Play: ' + buildNarrative(type, batter ? batter.name : '', 0);
+        document.getElementById('adv-narrative').value = buildNarrative(type, batter ? batter.name : '', scored);
+        document.getElementById('adv-action').value = actionForType(type);
+        document.getElementById('adv-rbi').value   = scored;
+        document.getElementById('adv-earned').value = scored;
+
+        var tbody = document.getElementById('adv-runner-table');
+        var html  = '<tr style="font-weight:700; font-size:0.78rem; color:var(--text-light);">' +
+                    '<td>Runner</td><td>Was</td><td colspan="5">Goes to</td></tr>';
+
+        // Build list: existing runners + batter (if batter is involved in a PA)
+        var runnerEntries = [];
+        if (runners.third)  runnerEntries.push({r: runners.third,  was: '3B', key: 'r3'});
+        if (runners.second) runnerEntries.push({r: runners.second, was: '2B', key: 'r2'});
+        if (runners.first)  runnerEntries.push({r: runners.first,  was: '1B', key: 'r1'});
+        if (_pendingAction && _pendingAction.isPA && batter) {
+            runnerEntries.push({r: batter, was: 'Bat', key: 'rb'});
+        }
+
+        for (var i = 0; i < runnerEntries.length; i++) {
+            var e = runnerEntries[i];
+            var r = e.r;
+            var dispName = r ? (r.order + '-' + r.lastName) : '?';
+            // Determine default destination
+            var dest = _defaultDest(e.key, type, proposed);
+            html += '<tr data-runner-key="' + e.key + '">' +
+                    '<td style="padding:3px 4px;">' + dispName + '</td>' +
+                    '<td style="padding:3px 4px; color:var(--text-light);">' + e.was + '</td>' +
+                    _advBtn(e.key, '1B',  dest === '1B') +
+                    _advBtn(e.key, '2B',  dest === '2B') +
+                    _advBtn(e.key, '3B',  dest === '3B') +
+                    _advBtn(e.key, 'OUT', dest === 'OUT') +
+                    _advBtn(e.key, 'SCR', dest === 'SCR') +
+                    '</tr>';
+        }
+        tbody.innerHTML = html;
+        document.getElementById('runner-adv-modal').style.display = 'flex';
+    }
+
+    function _advBtn(key, dest, active) {
+        var color = dest === 'SCR' ? '#16a34a' : dest === 'OUT' ? '#dc2626' : '';
+        var style = active
+            ? 'background:' + (color || 'var(--primary)') + ';color:white;'
+            : (color ? 'color:' + color + ';' : '');
+        return '<td style="padding:2px;"><button class="adv-dest-btn" style="' + style + '" ' +
+               'data-key="' + key + '" data-dest="' + dest + '" ' +
+               'onclick="selectAdvDest(this)">' + dest + '</button></td>';
+    }
+
+    function _defaultDest(key, type, proposed) {
+        var n = proposed.runners;
+        var scored = proposed.scored;
+        if (key === 'r1') {
+            if (scored.some(function(x){return x === runners.first;})) return 'SCR';
+            if (n.second === runners.first) return '2B';
+            if (n.third === runners.first) return '3B';
+            return 'OUT';
+        }
+        if (key === 'r2') {
+            if (scored.some(function(x){return x === runners.second;})) return 'SCR';
+            if (n.third === runners.second) return '3B';
+            if (n.second === runners.second) return '2B';
+            return 'OUT';
+        }
+        if (key === 'r3') {
+            if (scored.some(function(x){return x === runners.third;})) return 'SCR';
+            return '3B';
+        }
+        if (key === 'rb') { // batter
+            if (scored.some(function(x){return x && _pendingAction && x === _pendingAction.batter;})) return 'SCR';
+            if (n.first === _pendingAction.batter) return '1B';
+            if (n.second === _pendingAction.batter) return '2B';
+            if (n.third === _pendingAction.batter) return '3B';
+            return 'OUT';
+        }
+        return 'OUT';
+    }
+
+    function selectAdvDest(btn) {
+        var key  = btn.getAttribute('data-key');
+        var dest = btn.getAttribute('data-dest');
+        // Deactivate siblings, activate clicked
+        var row = btn.closest('tr[data-runner-key]');
+        row.querySelectorAll('.adv-dest-btn').forEach(function(b) {
+            var d = b.getAttribute('data-dest');
+            var color = d === 'SCR' ? '#16a34a' : d === 'OUT' ? '#dc2626' : '';
+            b.style.background = '';
+            b.style.color = color || '';
+        });
+        var c = dest === 'SCR' ? '#16a34a' : dest === 'OUT' ? '#dc2626' : '';
+        btn.style.background = c || 'var(--primary)';
+        btn.style.color = 'white';
+    }
+
+    function confirmAdvancement() {
+        if (!_pendingAction) { document.getElementById('runner-adv-modal').style.display='none'; return; }
+        // Read runner destinations from modal
+        var newRunners = {first: null, second: null, third: null};
+        var scored = 0;
+        var runnerSources = {};
+        if (runners.third)  runnerSources['r3'] = runners.third;
+        if (runners.second) runnerSources['r2'] = runners.second;
+        if (runners.first)  runnerSources['r1'] = runners.first;
+        if (_pendingAction.isPA && _pendingAction.batter) runnerSources['rb'] = _pendingAction.batter;
+
+        document.querySelectorAll('#adv-runner-table tr[data-runner-key]').forEach(function(row) {
+            var key = row.getAttribute('data-runner-key');
+            var runner = runnerSources[key];
+            var activBtn = row.querySelector('.adv-dest-btn[style*="var(--primary)"], .adv-dest-btn[style*="#16a34a"], .adv-dest-btn[style*="#dc2626"]');
+            // Fall back: find button with white color (active)
+            var dest = 'OUT';
+            row.querySelectorAll('.adv-dest-btn').forEach(function(b) {
+                if (b.style.color === 'white' || b.style.background.indexOf('var(--primary)') !== -1 ||
+                    b.style.background.indexOf('#16a34a') !== -1 || b.style.background.indexOf('#dc2626') !== -1) {
+                    dest = b.getAttribute('data-dest');
+                }
+            });
+            if (dest === 'SCR') { scored++; }
+            else if (dest === '1B') { newRunners.first  = runner; }
+            else if (dest === '2B') { newRunners.second = runner; }
+            else if (dest === '3B') { newRunners.third  = runner; }
+            // OUT: runner is removed (null stays)
+        });
+
+        var rbi    = parseInt(document.getElementById('adv-rbi').value, 10) || 0;
+        var earned = parseInt(document.getElementById('adv-earned').value, 10) || 0;
+        var action = (document.getElementById('adv-action').value || '').trim();
+        var narrative = (document.getElementById('adv-narrative').value || '').trim();
+        document.getElementById('runner-adv-modal').style.display = 'none';
+        applyAction(_pendingAction, scored, earned, rbi, newRunners, action, narrative, runners);
+    }
+
+    function cancelAdvancement() {
+        _pendingAction = null;
+        document.getElementById('runner-adv-modal').style.display = 'none';
+    }
+
+    // ── Apply confirmed play to state + save to server ─────────────
+    function applyAction(pa, runsScored, earnedRuns, rbi, newRunners, actionOverride, narrativeOverride, runnersBefore) {
+        var type = pa.type;
+        var batter  = pa.batter;
+        var pitcher = pa.pitcher;
+        var outsOnPlay = pa.outsOnPlay;
+        var narrative  = (narrativeOverride && narrativeOverride.trim()) ? narrativeOverride.trim() : buildNarrative(type, batter ? batter.name : '', rbi);
+        var action = (actionOverride || '').trim() || actionForType(type);
+        var runnersAtStart = runnersBefore || runners;
+
+        // Update runner state
+        runners = newRunners;
+        _updateRunners();
+
+        // Record outs
+        var totalOuts = currentOuts + outsOnPlay;
+        currentOuts = totalOuts % 3;
+
+        // Update line score display immediately
+        if (runsScored > 0) {
+            updateLinescoreCell(currentHalf, currentInning, runsScored);
+        }
+
+        // Advance batter to next in lineup (only if this was a plate appearance)
+        // Dropped foul (E* DF) does NOT change the batter — same batter stays up
+        var isDroppedFoul = (action || '').toUpperCase().indexOf('DF') !== -1;
+        if (pa.isPA && !pa.isRunnerOnly && !isDroppedFoul) {
+            var lineup = _sortedLineup(currentHalf === 'top' ? vBattingData : hBattingData);
+            if (lineup.length > 0) {
+                // Optimistic local stat update so lineup table reflects new ab/h
+                if (batter) _updateLocalBatterStats(batter, type, rbi);
+                batterIdx[currentHalf] = (batterIdx[currentHalf] + 1) % lineup.length;
+            }
+        }
+
+        // End half-inning if 3 outs reached
+        if (totalOuts >= 3) {
+            _doEndHalf();
+        }
+
+        updateOutsDisplay();
+        updateFieldDisplay();
+        updateBattingLineup();
+        updatePitcherStats();
+        _appendPBPEntry(currentHalf, currentInning, narrative);
+
+        // Disable Starting Lineups button
+        var slBtn = document.getElementById('btn-starting-lineups');
+        if (slBtn) { slBtn.style.opacity = '0.4'; slBtn.style.pointerEvents = 'none'; }
+
+        // Persist to server (runners = state before play, i.e. who was on base)
+        playSequence++;
+        var body = {
+            type: type,
+            action: action,
+            inning: currentInning,
+            half: currentHalf,
+            sequence: playSequence,
+            outs_before: Math.max(0, (currentOuts - outsOnPlay + 3) % 3),
+            outs_on_play: outsOnPlay,
+            rbi: rbi,
+            runs_scored: runsScored,
+            earned_runs: earnedRuns,
+            runners_after: _runnersToCode(runners),
+            narrative: narrative,
+            batter_name: batter ? batter.name : '',
+            pitcher_name: pitcher ? pitcher.name : '',
+            batter_id: batter ? batter.playerId : null,
+            pitcher_id: pitcher ? pitcher.playerId : null,
+            runner_first: runnersAtStart.first ? (runnersAtStart.first.name || '') : '',
+            runner_second: runnersAtStart.second ? (runnersAtStart.second.name || '') : '',
+            runner_third: runnersAtStart.third ? (runnersAtStart.third.name || '') : ''
+        };
+        fetch('/api/games/' + currentGameId + '/action', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(body)
+        });
+
+        _pendingAction = null;
+        _pitchAbSeq = '';
+    }
+
+    function _runnersToCode(r) {
+        return (r.first ? '1' : '0') + (r.second ? '1' : '0') + (r.third ? '1' : '0');
+    }
+
+    function _updateLocalBatterStats(batter, type, rbi) {
+        rbi = rbi || 0;
+        if (HIT_ACTIONS.indexOf(type) !== -1) { batter.ab++; batter.h++; batter.rbi += rbi; }
+        else if (['bb','ibb','hbp','ci'].indexOf(type) !== -1) { batter.rbi += rbi; }
+        else if (BATTER_PA.indexOf(type) !== -1 && type !== 'bb' && type !== 'ibb' && type !== 'hbp') {
+            if (['sac','sf'].indexOf(type) === -1) batter.ab++;
+            batter.rbi += rbi;
+        }
+    }
+
+    // ── End half-inning (3 outs or manual) ────────────────────────
+    function endHalfInning() { _doEndHalf(); updateOutsDisplay(); updateFieldDisplay(); updateBattingLineup(); }
+
+    function _doEndHalf() {
+        runners = {first: null, second: null, third: null};
+        currentOuts = 0;
+        if (currentHalf === 'top') {
+            currentHalf = 'bottom';
+            // Ensure inning row exists in linescore with home placeholder
+            _ensureInningCell(currentInning);
+        } else {
+            currentHalf = 'top';
+            currentInning++;
+            _ensureInningCell(currentInning);
+        }
+        _updateRunners();
+    }
+
+    // ── Live linescore helpers ─────────────────────────────────────
+    // The baseballScoreboard uses tr.second = visitor, tr.third = home
+    // and tr.first = header row with inning numbers.
+    function updateLinescoreCell(half, inning, runsToAdd) {
+        var table = document.getElementById('teams');
+        if (!table) return;
+        var headerRow = table.querySelector('tr.first');
+        var dataRow   = table.querySelector(half === 'top' ? 'tr.second' : 'tr.third');
+        if (!headerRow || !dataRow) return;
+
+        var hdrCells  = headerRow.querySelectorAll('td');
+        var dataCells = dataRow.querySelectorAll('td');
+        // Find the inning column index (col 0 = team label)
+        var colIdx = -1;
+        for (var i = 1; i < hdrCells.length; i++) {
+            if (hdrCells[i].textContent.trim() === String(inning)) { colIdx = i; break; }
+        }
+        if (colIdx < 0) {
+            // Add a new inning column before .totals-col
+            var newHdrTd = document.createElement('td');
+            newHdrTd.textContent = inning;
+            var totHdr = headerRow.querySelector('.totals-col');
+            headerRow.insertBefore(newHdrTd, totHdr);
+            // Add to visitor and home rows
+            var visRow  = table.querySelector('tr.second');
+            var homeRow = table.querySelector('tr.third');
+            [visRow, homeRow].forEach(function(row, ri) {
+                var newTd = document.createElement('td');
+                newTd.textContent = (half === 'top' && ri === 0) ? '0' :
+                                    (half === 'bottom' && ri === 1) ? '0' : '-';
+                var totCell = row.querySelector('.totals-col');
+                row.insertBefore(newTd, totCell);
+            });
+            // Re-fetch after DOM update
+            dataCells = dataRow.querySelectorAll('td');
+            hdrCells  = headerRow.querySelectorAll('td');
+            for (var j = 1; j < hdrCells.length; j++) {
+                if (hdrCells[j].textContent.trim() === String(inning)) { colIdx = j; break; }
+            }
+        }
+        if (dataCells[colIdx]) {
+            var cur = parseInt(dataCells[colIdx].textContent, 10) || 0;
+            dataCells[colIdx].textContent = cur + runsToAdd;
+        }
+        // Update R total column
+        var totCell = dataRow.querySelector('.totals-col');
+        if (totCell) {
+            var curR = parseInt(totCell.textContent, 10) || 0;
+            totCell.textContent = curR + runsToAdd;
+        }
+    }
+
+    function _ensureInningCell(inning) {
+        var table = document.getElementById('teams');
+        if (!table) return;
+        var headerRow = table.querySelector('tr.first');
+        if (!headerRow) return;
+        var hdrCells = headerRow.querySelectorAll('td');
+        for (var i = 0; i < hdrCells.length; i++) {
+            if (hdrCells[i].textContent.trim() === String(inning)) return;
+        }
+        var newHdrTd = document.createElement('td');
+        newHdrTd.textContent = inning;
+        var totHdr = headerRow.querySelector('.totals-col');
+        headerRow.insertBefore(newHdrTd, totHdr);
+        var visRow  = table.querySelector('tr.second');
+        var homeRow = table.querySelector('tr.third');
+        [visRow, homeRow].forEach(function(row, ri) {
+            var td = document.createElement('td');
+            td.textContent = ri === 0 ? '0' : '-';  // visitor gets 0, home gets -
+            var totCell = row.querySelector('.totals-col');
+            row.insertBefore(td, totCell);
+        });
+    }
+
+    // ── Play-by-play panel update ──────────────────────────────────
+    function _appendPBPEntry(half, inning, narrative) {
+        var list = document.getElementById('recent_plays');
+        if (!list || !narrative) return;
+        // <li><a class="time">T1</a> narrative</li>
+        // a.time is styled by ul#recent_plays li a.time in gameday-statentry.css (dark red badge)
+        var li = document.createElement('li');
+        var badge = document.createElement('a');
+        badge.className = 'time';
+        badge.textContent = (half === 'top' ? 'T' : 'B') + inning;
+        li.appendChild(badge);
+        li.appendChild(document.createTextNode(' ' + narrative));
+        list.appendChild(li);
+        list.scrollTop = list.scrollHeight;
+    }
+
+    // ── Pitch Modal ───────────────────────────────────────────────────
+    var _pitchModalOpen = false;
+    var _pitchAbSeq = '';
+    var _pitchBalls = 0;
+    var _pitchStrikes = 0;
+    var _pitchTotalPitches = 0;
+
+    function openPitchModal() {
+        _pitchModalOpen = true;
+        _pitchAbSeq = '';
+        _pitchBalls = 0;
+        _pitchStrikes = 0;
+        document.getElementById('pm-pitcher-name').textContent =
+            document.getElementById('de-pitcher-name').textContent;
+        document.getElementById('pm-batter-name').textContent =
+            document.getElementById('de-batter-name').textContent;
+        document.getElementById('pm-outs').textContent =
+            document.getElementById('de-outs').textContent;
+        _updatePitchDisplay();
+        document.getElementById('pitch-modal').style.display = 'flex';
+    }
+
+    function closePitchModal() {
+        _pitchModalOpen = false;
+        document.getElementById('pitch-modal').style.display = 'none';
+    }
+
+    function _updatePitchDisplay() {
+        document.getElementById('pm-balls').textContent = _pitchBalls;
+        document.getElementById('pm-strikes').textContent = _pitchStrikes;
+        document.getElementById('pm-ab-seq').textContent = _pitchAbSeq || '---';
+        document.getElementById('pm-tot-count').textContent = _pitchTotalPitches;
+    }
+
+    function pitchAction(type) {
+        _pitchTotalPitches++;
+        switch (type) {
+            case 'F':
+                _pitchAbSeq += 'F';
+                if (_pitchStrikes < 2) _pitchStrikes++;
+                _updatePitchDisplay();
+                break;
+            case 'S':
+                _pitchAbSeq += 'S';
+                _pitchStrikes++;
+                _updatePitchDisplay();
+                if (_pitchStrikes >= 3) { closePitchModal(); deAction('so'); }
+                break;
+            case 'K':
+                _pitchAbSeq += 'K';
+                _pitchStrikes++;
+                _updatePitchDisplay();
+                if (_pitchStrikes >= 3) { closePitchModal(); deAction('kl'); }
+                break;
+            case 'B':
+                _pitchAbSeq += 'B';
+                _pitchBalls++;
+                _updatePitchDisplay();
+                if (_pitchBalls >= 4) { closePitchModal(); deAction('bb'); }
+                break;
+            case 'I':
+                _pitchAbSeq += 'I';
+                _updatePitchDisplay();
+                closePitchModal();
+                deAction('bb');
+                break;
+            case 'H':
+                _pitchAbSeq += 'H';
+                _updatePitchDisplay();
+                closePitchModal();
+                deAction('hbp');
+                break;
+            case 'P':
+                _pitchAbSeq += 'P';
+                _updatePitchDisplay();
+                closePitchModal();
+                break;
+        }
+    }
+
+    document.addEventListener('keydown', function(e) {
+        var tag = document.activeElement ? document.activeElement.tagName : '';
+        if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') return;
+        if (_pitchModalOpen) {
+            var key = e.key.toUpperCase();
+            if (key === 'F' || key === 'S' || key === 'K' || key === 'B' ||
+                key === 'I' || key === 'H' || key === 'P') {
+                e.preventDefault();
+                pitchAction(key);
+            } else if (e.key === 'Escape') {
+                e.preventDefault();
+                closePitchModal();
+            }
+        } else {
+            if (e.key.toLowerCase() === 'i') {
+                e.preventDefault();
+                openPitchModal();
+            }
+        }
+    });
+
+    // Move #section-game-info into #content-panel so it participates in flex layout
+    (function() {
+        var gi = document.getElementById('section-game-info');
+        var cp = document.getElementById('content-panel');
+        if (gi && cp) cp.appendChild(gi);
+    }());
+
+    // Restore view from URL — runs last so all var assignments are complete
+    (function() {
+        var params = new URLSearchParams(window.location.search);
+        if (params.get('view') === 'rosters') { showRostersView(); }
+        var promptSide = params.get('prompt-lineup');
+        if (promptSide === 'v' || promptSide === 'h') {
+            showNextLineupPrompt(promptSide);
+        }
+    }());
 </script>
 {% endblock %}

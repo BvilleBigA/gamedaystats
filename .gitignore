@@ -11,3 +11,4 @@ uploads/
 venv/
 .venv/
 .DS_Store
+user-management-app/node_modules/

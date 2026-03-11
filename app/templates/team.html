@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>{% block page_title %}Gameday Stats{% endblock %}</title>
+
+    <script type="text/javascript" src="/admin/team/gameday3/vendor/jquery-1.12.1.min.js"></script>
+    <script type="text/javascript" src="/admin/team/gameday3/vendor/jquery-migrate-1.4.0.min.js"></script>
+    <script type="text/javascript" src="/admin/team/gameday3/vendor/jquery.tools.tiny.min.js"></script>
+    <script type="text/javascript" src="/admin/team/gameday3/vendor/general-config.js"></script>
+
+    <link rel="stylesheet" href="/admin/team/gameday3/vendor/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="/admin/team/gameday3/vendor/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="/admin/team/gameday3/vendor/bootstrap.extensions.css" type="text/css" />
+    <link rel="stylesheet" href="/admin/team/gameday3/vendor/font-awesome.css" type="text/css" />
+    <link rel="stylesheet" href="/admin/team/gameday3/vendor/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="/admin/team/gameday3/vendor/bootstrap-tour.min.css" type="text/css" />
+    <link rel="stylesheet" href="/admin/team/gameday3/vendor/bootstrap-datetimepicker.min.css" type="text/css" />
+    <link rel="stylesheet" href="/admin/team/gameday3/vendor/bootstrap-toggle.min.css" type="text/css" />
+
+    <link rel="stylesheet" href="/admin/team/gameday3/skins/css.css" type="text/css">
+    <link href='/admin/team/gameday3/skins/OpenSans.css' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/admin/team/gameday3/skins/styles.css" type="text/css">
+    <link rel="stylesheet" href="/admin/team/gameday3/skins/responsive-admin.css" type="text/css">
+    <link rel="stylesheet" href="/admin/team/gameday3/skins/ajaxtags.css" type="text/css">
+
+    <script type="text/javascript" src="/admin/team/gameday3/vendor/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/admin/team/gameday3/vendor/jquery.stickytabs.js"></script>
+    <script type="text/javascript" src="/admin/team/gameday3/vendor/moment.js"></script>
+    <script type="text/javascript" src="/admin/team/gameday3/vendor/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="/admin/team/gameday3/vendor/loading-modal.js"></script>
+    <script type="text/javascript" src="/admin/team/gameday3/vendor/bootstrap-tour.min.js"></script>
+    <script type="text/javascript" src="/admin/team/gameday3/vendor/bootstrap-toggle.min.js"></script>
+    <script type="text/javascript" src="/admin/team/gameday3/vendor/clipboard.min.js"></script>
+
+    <script type="text/javascript">
+        var ps = ps || {};
+        ps.admin = (function($) {
+            $(document).ready(function() {
+                $(".adminoverlay[rel]").overlay({
+                    effect: 'default',
+                    speed: 500,
+                    closeOnClick: true,
+                    mask: {
+                        color: '#000',
+                        loadSpeed: 200,
+                        opacity: 0.7
+                    },
+                    onBeforeLoad: function() {
+                        if ($(window).width() > 1010) {
+                            this.getOverlay().css("left", ($(window).width()
+                            - 1010) / 2 + "px");
+                        } else {
+                            this.getOverlay().css("left", "auto");
+                        }
+                        var wrap = this.getOverlay().find(".contentWrap");
+                        wrap.attr("src", this.getTrigger().attr("href"));
+                        wrap.height("500px");
+                        wrap.width("1010px");
+                    },
+                    onLoad: function() {
+                        this.getOverlay().find(".contentWrap").contents().find(".layout").attr("align", "center");
+                        var wrap = this.getOverlay();
+                        var docHeight = $(window).height();
+                        var pos = (docHeight - ($(wrap).find(".contentWrap").height() + 50)) / 2;
+                        if (pos < 0) {
+                            $(wrap).find(".contentWrap").animate(
+                                    {"height": ($(window).height() - 50) + "px"},
+                                    "fast",
+                                    function() {
+                                        pos = (docHeight - $(wrap).find(".contentWrap").height()) / 2;
+                                        $(wrap).animate({"top": pos + "px"}, "slow");
+                            });
+                        } else {
+                            $(wrap).animate({"top": pos + "px"}, "slow");
+                        }
+                        $(wrap).css("position", "absolute");
+                    },
+                    onClose: function() {
+                        var wrap = this.getOverlay().find(".contentWrap");
+                        wrap.attr('src', '');
+                    }
+                });
+
+                $("#ask-recordBook-feature-overlay").overlay();
+                $("#askaboutbroadcastingoverlay").overlay();
+                $("#ask-camp-feature-overlay").overlay();
+                $(document).live("keydown", function(e) {
+                    if(e.keyCode == 27) {
+                        $("#overlay .close").click();
+                    }
+                });
+
+                $(".nav-tabs-sticky").stickyTabs();
+                initDateTimePickers();
+                initTooltips();
+                $(".bootstrap-ajax-panel ul").addClass("nav nav-pills nav-stacked");
+                $('.toggle-menu').click(function() {
+                    $('.left-sidebar-row-offcanvas').toggleClass('active');
+                });
+                addBootstrapSelectorSelectedValueBehaviour();
+            });
+
+            function getTourInstance(params){
+                var config = params || {};
+                var tour = new Tour({
+                    container: config.container || '#mainbody',
+                    template:   "<div class='popover tour'>" +
+                    "<div class='arrow'></div>" +
+                    "<h3 class='popover-title'></h3>" +
+                    "<div class='popover-content'></div>" +
+                    "<div class='popover-navigation'>" +
+                    "<button class='btn btn-primary btn-xs glyphicon glyphicon-triangle-left' data-role='prev'></button>" +
+                    "<span data-role='separator'>&nbsp;</span>" +
+                    "<button class='btn btn-primary btn-xs glyphicon glyphicon-triangle-right' data-role='next'></button>" +
+                    "<button class='btn btn-primary btn-xs' data-role='end'>End tour</button>" +
+                    "</div>" +
+                    "</div>",
+                    steps: config.steps || []
+                });
+                return tour;
+            }
+
+            return {
+                getTourInstance: getTourInstance
+            }
+        })(jQuery);
+
+        function addBootstrapSelectorSelectedValueBehaviour() {
+            jQuery(".dropdown-display-selected-value .dropdown-menu li a")
+                .on("click", function() {
+                    var parent =
+                        jQuery(this).parents(".dropdown-display-selected-value");
+                    parent.find(".selected-value").text(jQuery(this).text());
+                    parent.attr("data-selected-id",
+                        jQuery(this).attr("data-id"));
+                });
+        }
+
+        function initTooltips(additionalOptions) {
+            var options = {
+                container : "body",
+                delay : { "show" : 500, "hide" : 100 }
+            };
+            jQuery.extend(options, additionalOptions);
+            jQuery('[data-toggle="tooltip"]').tooltip(options);
+        }
+
+        function initClipboardButtons() {
+            var clipboard = new Clipboard('.btn');
+            clipboard.on('success', function(e) {
+                var prevTitle = jQuery(e.trigger).attr("data-original-title");
+                jQuery(e.trigger).tooltip("hide")
+                    .attr('data-original-title', "Copied to clipboard!")
+                    .tooltip('show');
+                setTimeout(function() {
+                    jQuery(e.trigger)
+                        .tooltip('hide')
+                        .attr("title", prevTitle)
+                        .attr('data-original-title', prevTitle);
+                }, 1000);
+                e.clearSelection();
+            });
+        }
+
+        function initDateTimePickers() {
+            const datePickers = jQuery("[data-picker='date']");
+            datePickers.each(function() {
+                jQuery(this).datetimepicker({format: 'MM/DD/YYYY', useCurrent: false});
+            });
+            const datetimePickers = jQuery("[data-picker='datetime']");
+            datetimePickers.each(function() {
+                jQuery(this).datetimepicker({format: 'MM/DD/YYYY hh:mm A', useCurrent: false});
+            });
+            const timePickers = jQuery("[data-picker='time']");
+            timePickers.each(function() {
+                if (jQuery(this).val() === "") {
+                    jQuery(this).datetimepicker({format: 'hh:mm A', useCurrent: false, defaultDate: moment("12:00 PM", "hh:mm a")});
+                    jQuery(this).val("");
+                } else {
+                    jQuery(this).datetimepicker({format: 'hh:mm A', useCurrent: false, defaultDate: moment(jQuery(this).val(), "hh:mm a")});
+                }
+            });
+        }
+    </script>
+
+    <script type="text/javascript" src="/admin/team/gameday3/vendor/overlibmws.js"></script>
+    <script type="text/javascript" src="/admin/team/gameday3/vendor/overlibmws_modal.js"></script>
+
+    {% block head_extra %}{% endblock %}
+
+    <style>
+        /* ── Shared site-wide utility styles ───────────────────────── */
+
+        /* Form rows */
+        .sd-form-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 16px; }
+        .sd-fg { flex: 1; min-width: 120px; }
+        .sd-fg label { display: block; font-size: 12px; font-weight: bold; color: #555; margin-bottom: 3px; }
+
+        /* Buttons */
+        .btn-gameday {
+            padding: 6px 16px; background: #d94f00; color: #fff; border: none;
+            border-radius: 3px; font-size: 13px; font-weight: bold; cursor: pointer; white-space: nowrap;
+        }
+        .btn-gameday:hover { background: #b84200; color: #fff; }
+        .btn-del {
+            padding: 3px 9px; background: #c0392b; color: #fff; border: none;
+            border-radius: 3px; font-size: 12px; cursor: pointer;
+        }
+        .btn-del:hover { background: #a93226; }
+        .btn-open-sm {
+            display: inline-block; padding: 2px 8px; background: #d94f00;
+            color: #fff; border-radius: 3px; text-decoration: none; font-size: 11px; font-weight: bold;
+        }
+        .btn-open-sm:hover { background: #b84200; color: #fff; }
+
+        /* Alerts */
+        .alert-ok  { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 3px; padding: 9px 14px; margin-bottom: 14px; font-size: 13px; }
+        .alert-err { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 3px; padding: 9px 14px; margin-bottom: 14px; font-size: 13px; }
+
+        /* Badges */
+        .badge-admin   { background: #ffd6b0; color: #8b3a00; display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: bold; }
+        .badge-scorer  { background: #d6e8ff; color: #0047ab; display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: bold; }
+        .badge-active  { background: #d4f5d4; color: #155a15; display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: bold; }
+        .badge-inactive{ background: #f5d4d4; color: #5a1515; display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: bold; }
+
+        /* Card sections */
+        .gs-card {
+            background: #fff; border-radius: 6px; padding: 24px;
+            margin-bottom: 24px; box-shadow: 0 1px 4px rgba(0,0,0,.08);
+        }
+        .gs-card h2 {
+            font-size: 15px; font-weight: bold; color: #333;
+            margin-bottom: 18px; padding-bottom: 8px;
+            border-bottom: 1px solid #e8e8e8;
+            text-transform: uppercase; letter-spacing: .04em;
+        }
+
+        /* Data tables */
+        .gs-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .gs-table th { text-align: left; padding: 7px 10px; background: #f5f5f5; border-bottom: 2px solid #e0e0e0; font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: #666; }
+        .gs-table td { padding: 7px 10px; border-bottom: 1px solid #eee; vertical-align: middle; }
+        .gs-table tr:last-child td { border-bottom: none; }
+        .gs-table tr:hover td { background: #fafafa; }
+
+        /* Two-column form grid */
+        .gs-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        @media (max-width: 640px) { .gs-two-col { grid-template-columns: 1fr; } }
+    </style>
+</head>
+
+<body class="yui-skin-sam">
+<div class="layout">
+
+    <div class="signin navbar-fixed-top">
+        <div class="row no-gutter">
+            <div class="col-xs-2 hidden-sm hidden-md hidden-lg">
+                <button type="button" class="left-nav-toggle navbar-toggle collapsed toggle-menu">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="glyphicon glyphicon-menu-hamburger"></span>
+                </button>
+            </div>
+            <div class="logo-container col-xs-8 col-sm-10 col-md-10 col-lg-10">
+                <a class="logo" href="/admin/team/gameday3/">
+                    <img src="/static/images/gameday-stats-logo-white.png" border="0" alt="Gameday Stats">
+                </a>
+            </div>
+            <div class="col-xs-2">
+                <div class="profile btn-group">
+                    <button type="button"
+                            class="btn btn-default btn-sm dropdown-toggle"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="glyphicon glyphicon-user"></span><span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li>
+                            <div class="profile-content">
+                                <div class="welcome">
+                                    <label>Welcome</label> <a href="#">{{ current_user.username }}</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/logout">Sign out</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="left-sidebar-row-offcanvas left-sidebar-row-offcanvas-left">
+        <!-- sidebar -->
+        <div class="left-sidebar-offcanvas" id="sidebar" role="navigation">
+            <div class="left-nav">
+                <div class="navbar">
+                    <ul class="nav">
+                        <li class="{% if request.path.startswith('/admin/team/gameday3') and not request.path.startswith('/admin/user') %}nav-item active{% endif %}">
+                            <a href="/admin/team/gameday3/">Game day</a>
+                        </li>
+                        <li class="{% if request.path.startswith('/admin/user') %}nav-item active{% endif %}">
+                            <a href="/admin/user">Account</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- main area -->
+        <div class="main-area">
+            <div class="wrapper">
+                <div class="nav2">
+                    <div class="help pull-right">
+                        <div class="more-actions"></div>
+                    </div>
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed"
+                                data-toggle="collapse" data-target=".navbar2"
+                                aria-expanded="false" aria-controls="navbar2">
+                            <span class="top-level-name">{% block top_level_name %}{% endblock %}</span>
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="glyphicon glyphicon-triangle-bottom"></span>
+                        </button>
+                    </div>
+                    <div class="navbar2 navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            {% block secondary_nav_links %}{% endblock %}
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="mainbody">
+                    {% block content %}{% endblock %}
+                </div>
+
+                <div class="footer">
+                    <p>&copy; 2026 Gameday Stats</p>
+                </div>
+            </div><!-- /.wrapper -->
+        </div><!-- /.main-area -->
+    </div><!-- /.left-sidebar-row-offcanvas -->
+
+    <div class="helpcenterOverlay" id="overlay">
+        <iframe class="contentWrap" width="1010px" height="550px" frameborder="0" scrolling="auto"></iframe>
+    </div>
+    <a href="#" id="nobroadcast" class="adminoverlay" rel="#overlay"></a>
+    <a href="#" id="no-camps" class="adminoverlay" rel="#overlay"></a>
+    <a href="#" id="no-recordBook" class="adminoverlay" rel="#overlay"></a>
+
+</div><!-- /.layout -->
+</body>
+</html>

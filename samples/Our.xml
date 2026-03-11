@@ -1,0 +1,853 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<bsgame source="PrestoSports" version="7.13.1" generated="03/11/2026">
+  <venue visid="BOONEVI" homeid="EASTUNI" visname="Booneville High School" homename="East Union High School" date="3/4/2026" location="test" stadium="" duration="" delay="" attend="0" leaguegame="N" start="6:30 PM" schedinn="7" weather="">
+    <umpires ></umpires>
+    <notes>
+      <note text="" ></note>
+    </notes>
+    <rules batters="9,9" usedh="Y" ></rules>
+  </venue>
+  <team vh="V" code="mhsaa001" id="BOONEVI" name="Booneville High School" record="">
+    <linescore line="0,0,0,0,0,0,0" runs="0" hits="5" errs="9" lob="0">
+      <lineinn inn="1" score="0" ></lineinn>
+      <lineinn inn="2" score="0" ></lineinn>
+      <lineinn inn="3" score="0" ></lineinn>
+      <lineinn inn="4" score="0" ></lineinn>
+      <lineinn inn="5" score="0" ></lineinn>
+      <lineinn inn="6" score="0" ></lineinn>
+      <lineinn inn="7" score="0" ></lineinn>
+    </linescore>
+    <starters>
+      <starter spot="1" name="Barnes, Ayden" uni="6" pos="2b" />
+      <starter spot="2" name="Field, Easton" uni="7" pos="c" />
+      <starter spot="3" name="Simmons, Jacadien" uni="4" pos="cf" />
+      <starter spot="4" name="Starkey, Rilee" uni="1" pos="1b" />
+      <starter spot="5" name="Gaines, Kayden" uni="9" pos="p" />
+      <starter spot="6" name="Robinson, Chance" uni="21" pos="dh" />
+      <starter spot="7" name="Moore, Paxton" uni="8" pos="3b" />
+      <starter spot="8" name="Geno, Bennett" uni="20" pos="ss" />
+      <starter spot="9" name="Fraiser, Judd" uni="5" pos="lf" />
+      <starter spot="10" name="Burns, Maddox" uni="22" pos="rf" />
+    </starters>
+    <batords>
+      <batord spot="1" name="Barnes, Ayden" uni="6" pos="rf" />
+      <batord spot="2" name="Field, Easton" uni="7" pos="cf" />
+      <batord spot="3" name="Simmons, Jacadien" uni="4" pos="lf" />
+      <batord spot="4" name="Starkey, Rilee" uni="1" pos="ss" />
+      <batord spot="5" name="Gaines, Kayden" uni="9" pos="3b" />
+      <batord spot="6" name="Robinson, Chance" uni="21" pos="2b" />
+      <batord spot="7" name="Moore, Paxton" uni="8" pos="1b" />
+      <batord spot="8" name="Geno, Bennett" uni="20" pos="c" />
+      <batord spot="9" name="Fraiser, Judd" uni="5" pos="p" />
+    </batords>
+    <totals>
+      <hitting ab="14" r="0" h="5" rbi="0" double="0" triple="0" hr="0" bb="1" sb="2" cs="2" hbp="1" sh="0" sf="0" so="3" gdp="1" ibb="0" picked="0" ground="2" fly="2" kl="1" hitdp="1" hittp="1" />
+      <fielding po="12" a="7" e="9" pb="1" ci="1" indp="0" intp="0" csb="0" sba="0" />
+      <hsitsummary adv="0" fly="2" ground="2" lob="0" rcherr="0" rchfc="0" vsleft="0,0" advops="0,0" leadoff="0,0" pinchhit="0,0" w2outs="0,0" wloaded="0,0" wrbiops="0,0" wrunners="0,0" rbi3rd="0,0" />
+      <pitching ip="4.0" ab="0" bb="2" bf="26" bk="0" double="1" er="6" fly="4" ground="5" h="7" hbp="0" hr="1" ibb="1" kl="0" r="8" so="3" triple="1" wp="1" picked="0" sha="0" sfa="0" gdp="0" pitches="31" strikes="0" sho="0" />
+      <psitsummary fly="4" ground="5" picked="0" leadoff="0,0" wrunners="0,0" vsleft="0,0" w2outs="0,0" pitches="31" strikes="0" />
+    </totals>
+    <player name="Ayden Barnes" shortname="Ayden Barnes" revname="Barnes, Ayden" uni="6" gp="1" gs="1" spot="1" code="1" bats="R" throws="R" class="Sophomore" pos="rf" playerId="22cddd74a13a1be32" atpos="rf">
+      <hitting r="0" h="0" ab="2" rbi="0" so="1" gdp="1" ground="1" kl="1" hitdp="1" slg=".000" obp=".000" ops=".000" />
+      <fielding po="2" a="0" e="2" pb="0" ci="0" sba="0" indp="0" intp="0" csb="0" />
+      <hsitsummary ground="1" fly="0" advops="0,0" leadoff="0,0" wrunners="0,0" w2outs="0,0" pinchhit="0,0" wrbiops="0,0" rbi3rd="0,0" wloaded="0,0" lob="0" adv="0" rcherr="0" rchfc="0" vsleft="0,0" />
+      <hitseason bb="0" ab="6" kl="1" hittp="0" obpct=".000" double="0" h="0" ibb="0" rchci="0" hr="0" sb="0" slugpct=".000" cs="0" r="1" gdp="1" sf="0" triple="0" hitdp="0" sh="0" picked="0" hbp="0" rbi="0" so="1" bavg=".000" />
+      <hsituation context="leadoff" ab="2" r="0" h="0" rbi="0" so="1" kl="1" gdp="1" ground="1" fly="0" bb="0" hbp="0" sb="0" cs="0" out="2" dp="1" />
+      <hsituation context="empty" ab="1" r="0" h="0" rbi="0" so="1" kl="1" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="byspot" spot="1" ab="2" r="0" h="0" rbi="0" so="1" kl="1" gdp="1" ground="1" fly="0" bb="0" hbp="0" sb="0" cs="0" out="2" dp="1" />
+      <hsituation context="bypos" pos="rf" ab="2" r="0" h="0" rbi="0" so="1" kl="1" gdp="1" ground="1" fly="0" bb="0" hbp="0" sb="0" cs="0" out="2" dp="1" />
+      <hsituation context="vspitcher" pitcher="Whitfield, G." ab="2" r="0" h="0" rbi="0" so="1" kl="1" gdp="1" ground="1" fly="0" bb="0" hbp="0" sb="0" cs="0" out="2" dp="1" />
+      <hsituation context="runners" ab="1" r="0" h="0" rbi="0" so="0" kl="0" gdp="1" ground="1" fly="0" bb="0" hbp="0" sb="0" cs="0" out="1" dp="1" />
+      <fsituation context="bypos" pos="rf" a="0" e="2" po="2" indp="0" pb="0" csb="0" sba="0" />
+    </player>
+    <player name="Easton Field" shortname="Easton Field" revname="Field, Easton" uni="7" gp="1" gs="1" spot="2" code="2" bats="R" throws="R" class="Junior" pos="cf" playerId="cce6e4d8020137df9" atpos="cf">
+      <hitting r="0" h="1" ab="1" rbi="0" so="0" gdp="0" ground="0" kl="0" hitdp="0" slg="1.000" obp="1.000" ops="2.000" />
+      <fielding po="0" a="0" e="0" pb="0" ci="0" sba="0" indp="0" intp="0" csb="0" />
+      <hsitsummary ground="0" fly="0" advops="0,0" leadoff="0,0" wrunners="0,0" w2outs="0,0" pinchhit="0,0" wrbiops="0,0" rbi3rd="0,0" wloaded="0,0" lob="0" adv="0" rcherr="0" rchfc="0" vsleft="0,0" />
+      <hitseason bb="1" ab="4" kl="1" hittp="0" obpct="0.400" double="0" h="1" ibb="0" rchci="0" hr="0" sb="1" slugpct="0.250" cs="1" r="0" gdp="0" sf="0" triple="0" hitdp="0" sh="0" picked="0" hbp="0" rbi="0" so="2" bavg="0.250" />
+      <hsituation context="empty" ab="1" r="0" h="1" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="1" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="byspot" spot="2" ab="1" r="0" h="1" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="1" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="bypos" pos="cf" ab="1" r="0" h="1" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="1" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="vspitcher" pitcher="Whitfield, G." ab="1" r="0" h="1" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="1" hbp="0" sb="0" cs="0" out="1" dp="0" />
+    </player>
+    <player name="Jacadien Simmons" shortname="Jacadien Simmons" revname="Simmons, Jacadien" uni="4" gp="1" gs="1" spot="3" code="3" bats="R" throws="R" class="Junior" pos="lf" playerId="85f294137980753bd" atpos="lf">
+      <hitting r="0" h="1" ab="1" rbi="0" so="0" gdp="0" ground="0" kl="0" hitdp="0" slg="1.000" obp="1.000" ops="2.000" />
+      <fielding po="0" a="2" e="0" pb="0" ci="0" sba="0" indp="0" intp="0" csb="0" />
+      <hsitsummary ground="0" fly="0" advops="0,0" leadoff="0,0" wrunners="0,0" w2outs="0,0" pinchhit="0,0" wrbiops="0,0" rbi3rd="0,0" wloaded="0,0" lob="0" adv="0" rcherr="0" rchfc="0" vsleft="0,0" />
+      <hitseason bb="0" ab="1" kl="0" hittp="0" obpct="1.000" double="0" h="1" ibb="0" rchci="0" hr="0" sb="0" slugpct="1.000" cs="0" r="0" gdp="0" sf="0" triple="0" hitdp="0" sh="0" picked="0" hbp="1" rbi="0" so="0" bavg="1.000" />
+      <hsituation context="runners" ab="0" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="1" sb="1" cs="1" out="0" dp="0" />
+      <hsituation context="byspot" spot="3" ab="1" r="0" h="1" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="1" sb="1" cs="1" out="1" dp="0" />
+      <hsituation context="bypos" pos="lf" ab="1" r="0" h="1" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="1" sb="1" cs="1" out="1" dp="0" />
+      <hsituation context="vspitcher" pitcher="Whitfield, G." ab="1" r="0" h="1" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="1" sb="1" cs="1" out="1" dp="0" />
+      <hsituation context="scorepos" ab="0" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="1" out="0" dp="0" />
+      <hsituation context="leadoff" ab="1" r="0" h="1" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="empty" ab="1" r="0" h="1" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <fsituation context="bypos" pos="lf" a="2" e="0" po="0" indp="0" pb="0" csb="0" sba="0" />
+    </player>
+    <player name="Rilee Starkey" shortname="Rilee Starkey" revname="Starkey, Rilee" uni="1" gp="1" gs="1" spot="4" code="4" bats="R" throws="R" class="Sophomore" pos="ss" playerId="36516f104363f9699" atpos="ss">
+      <hitting r="0" h="2" ab="2" rbi="0" so="0" gdp="0" ground="0" kl="0" hitdp="0" slg="1.000" obp="1.000" ops="2.000" />
+      <fielding po="4" a="0" e="0" pb="0" ci="0" sba="0" indp="0" intp="0" csb="0" />
+      <hsitsummary ground="0" fly="0" advops="0,0" leadoff="0,0" wrunners="0,0" w2outs="0,0" pinchhit="0,0" wrbiops="0,0" rbi3rd="0,0" wloaded="0,0" lob="0" adv="0" rcherr="0" rchfc="0" vsleft="0,0" />
+      <hitseason bb="0" ab="2" kl="0" hittp="0" obpct="1.000" double="0" h="2" ibb="0" rchci="0" hr="0" sb="1" slugpct="1.000" cs="0" r="0" gdp="0" sf="0" triple="0" hitdp="0" sh="0" picked="0" hbp="0" rbi="0" so="0" bavg="1.000" />
+      <hsituation context="runners" ab="2" r="0" h="2" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="2" dp="0" />
+      <hsituation context="runners2" ab="1" r="0" h="1" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="scorepos" ab="1" r="0" h="1" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="byspot" spot="4" ab="2" r="0" h="2" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="2" dp="0" />
+      <hsituation context="bypos" pos="ss" ab="2" r="0" h="2" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="2" dp="0" />
+      <hsituation context="vspitcher" pitcher="Whitfield, G." ab="2" r="0" h="2" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="2" dp="0" />
+      <hsituation context="leadoff" ab="1" r="0" h="1" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <fsituation context="bypos" pos="ss" a="0" e="0" po="4" indp="0" pb="0" csb="0" sba="0" />
+    </player>
+    <player name="Kayden Gaines" shortname="Kayden Gaines" revname="Gaines, Kayden" uni="9" gp="1" gs="1" spot="5" code="5" bats="R" throws="R" class="Freshman" pos="p/3b" playerId="d3db2a04371ff2423" atpos="3b">
+      <hitting r="0" h="0" ab="2" rbi="0" so="1" gdp="0" ground="1" kl="0" hitdp="0" slg=".000" obp=".000" ops=".000" />
+      <fielding po="0" a="1" e="2" pb="0" ci="0" sba="0" indp="0" intp="0" csb="0" />
+      <hsitsummary ground="1" fly="0" advops="0,0" leadoff="0,0" wrunners="0,0" w2outs="0,0" pinchhit="0,0" wrbiops="0,0" rbi3rd="0,0" wloaded="0,0" lob="0" adv="0" rcherr="0" rchfc="0" vsleft="0,0" />
+      <hitseason bb="0" ab="2" kl="0" hittp="0" obpct=".000" double="0" h="0" ibb="0" rchci="0" hr="0" sb="0" slugpct=".000" cs="0" r="0" gdp="0" sf="0" triple="0" hitdp="0" sh="0" picked="0" hbp="0" rbi="0" so="1" bavg=".000" />
+      <pitching appear="0" ip="1.0" gs="0" ab="0" bb="1" bf="8" er="3" h="2" r="3" so="0" whip="1.00" />
+      <pchseason bb="1" bf="8" bk="0" hr="1" era="7.00" wp="0" bavg=".000" ab="0" kl="0" cg="0" double="1" ip="3.0" h="2" ibb="0" k="0" gs="0" er="3" sha="0" sfa="0" cbo="0" appear="0" r="3" triple="0" hbp="0" cia="0" sho="0" />
+      <psitsummary fly="1" ground="2" picked="0" leadoff="0,0" wrunners="0,0" w2outs="0,0" vsleft="0,0" pitches="15" strikes="0" />
+      <hsituation context="runners" ab="2" r="0" h="0" rbi="0" so="1" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="2" dp="1" />
+      <hsituation context="runners2" ab="2" r="0" h="0" rbi="0" so="1" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="2" dp="1" />
+      <hsituation context="scorepos" ab="2" r="0" h="0" rbi="0" so="1" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="2" dp="1" />
+      <hsituation context="byspot" spot="5" ab="2" r="0" h="0" rbi="0" so="1" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="2" dp="1" />
+      <hsituation context="bypos" pos="3b" ab="2" r="0" h="0" rbi="0" so="1" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="2" dp="1" />
+      <hsituation context="vspitcher" pitcher="Whitfield, G." ab="2" r="0" h="0" rbi="0" so="1" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="2" dp="1" />
+      <hsituation context="leadoff" ab="1" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="1" dp="1" />
+      <fsituation context="bypos" pos="3b" a="1" e="2" po="0" indp="0" pb="0" csb="0" sba="0" />
+      <psituation context="leadoff" bb="1" ab="0" bf="8" ip="3.0" h="2" er="3" so="0" fly="1" ground="2" />
+      <psituation context="empty" bb="1" ab="0" bf="8" ip="3.0" h="2" er="3" so="0" fly="1" ground="2" />
+      <psituation context="runners" bb="1" ab="0" bf="8" ip="3.0" h="2" er="3" so="0" fly="1" ground="2" />
+      <psituation context="runners2" bb="1" ab="0" bf="8" ip="3.0" h="2" er="3" so="0" fly="1" ground="2" />
+      <psituation context="scorepos" bb="1" ab="0" bf="8" ip="3.0" h="2" er="3" so="0" fly="1" ground="2" />
+      <psituation context="scorepos2" bb="1" ab="0" bf="8" ip="3.0" h="2" er="3" so="0" fly="1" ground="2" />
+    </player>
+    <player name="Chance Robinson" shortname="Chance Robinson" revname="Robinson, Chance" uni="21" gp="1" gs="1" spot="6" code="6" bats="L" throws="R" class="Junior" pos="2b" playerId="186e1d452d6e32581" atpos="2b">
+      <hitting r="0" h="0" ab="2" rbi="0" so="0" gdp="0" ground="0" kl="0" hitdp="0" slg=".000" obp=".000" ops=".000" />
+      <fielding po="2" a="2" e="1" pb="0" ci="0" sba="0" indp="0" intp="0" csb="0" />
+      <hsitsummary ground="0" fly="1" advops="0,0" leadoff="0,0" wrunners="0,0" w2outs="0,0" pinchhit="0,0" wrbiops="0,0" rbi3rd="0,0" wloaded="0,0" lob="0" adv="0" rcherr="0" rchfc="0" vsleft="0,0" />
+      <hitseason bb="0" ab="2" kl="0" hittp="0" obpct=".000" double="0" h="0" ibb="0" rchci="0" hr="0" sb="1" slugpct=".000" cs="1" r="0" gdp="0" sf="0" triple="0" hitdp="0" sh="0" picked="0" hbp="0" rbi="0" so="0" bavg=".000" />
+      <hsituation context="leadoff" ab="2" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="1" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="empty" ab="2" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="1" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="byspot" spot="6" ab="2" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="1" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="bypos" pos="2b" ab="2" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="1" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="vspitcher" pitcher="Whitfield, G." ab="2" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="1" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <fsituation context="bypos" pos="2b" a="2" e="1" po="2" indp="0" pb="0" csb="0" sba="0" />
+    </player>
+    <player name="Paxton Moore" shortname="Paxton Moore" revname="Moore, Paxton" uni="8" gp="1" gs="1" spot="7" code="7" bats="R" throws="R" class="Freshman" pos="1b" playerId="2730b1906e4edaa6e" atpos="1b">
+      <hitting r="0" h="0" ab="2" rbi="0" so="1" gdp="0" ground="0" kl="0" hitdp="0" slg=".000" obp=".000" ops=".000" />
+      <fielding po="1" a="0" e="2" pb="0" ci="0" sba="0" indp="0" intp="0" csb="0" />
+      <hsitsummary ground="0" fly="1" advops="0,0" leadoff="0,0" wrunners="0,0" w2outs="0,0" pinchhit="0,0" wrbiops="0,0" rbi3rd="0,0" wloaded="0,0" lob="0" adv="0" rcherr="0" rchfc="0" vsleft="0,0" />
+      <hitseason bb="0" ab="2" kl="0" hittp="0" obpct=".000" double="0" h="0" ibb="0" rchci="0" hr="0" sb="0" slugpct=".000" cs="0" r="0" gdp="0" sf="0" triple="0" hitdp="0" sh="0" picked="0" hbp="0" rbi="0" so="1" bavg=".000" />
+      <hsituation context="empty" ab="1" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="1" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="byspot" spot="7" ab="2" r="0" h="0" rbi="0" so="1" kl="0" gdp="0" ground="0" fly="1" bb="0" hbp="0" sb="1" cs="0" out="2" dp="1" />
+      <hsituation context="bypos" pos="1b" ab="2" r="0" h="0" rbi="0" so="1" kl="0" gdp="0" ground="0" fly="1" bb="0" hbp="0" sb="1" cs="0" out="2" dp="1" />
+      <hsituation context="vspitcher" pitcher="Whitfield, G." ab="2" r="0" h="0" rbi="0" so="1" kl="0" gdp="0" ground="0" fly="1" bb="0" hbp="0" sb="1" cs="0" out="2" dp="1" />
+      <hsituation context="leadoff" ab="1" r="0" h="0" rbi="0" so="1" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="1" cs="0" out="1" dp="1" />
+      <hsituation context="runners" ab="1" r="0" h="0" rbi="0" so="1" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="1" cs="0" out="1" dp="1" />
+      <hsituation context="scorepos" ab="1" r="0" h="0" rbi="0" so="1" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="1" dp="1" />
+      <fsituation context="bypos" pos="1b" a="0" e="2" po="1" indp="0" pb="0" csb="0" sba="0" />
+    </player>
+    <player name="Bennett Geno" shortname="Bennett Geno" revname="Geno, Bennett" uni="20" gp="1" gs="1" spot="8" code="8" bats="R" throws="R" class="Junior" pos="c" playerId="f01863dd660bf8917" atpos="c">
+      <hitting r="0" h="0" ab="1" rbi="0" so="0" gdp="0" ground="0" kl="0" hitdp="0" slg=".000" obp=".000" ops=".000" />
+      <fielding po="2" a="0" e="2" pb="1" ci="1" sba="0" indp="0" intp="0" csb="0" />
+      <hsitsummary ground="0" fly="0" advops="0,0" leadoff="0,0" wrunners="0,0" w2outs="0,0" pinchhit="0,0" wrbiops="0,0" rbi3rd="0,0" wloaded="0,0" lob="0" adv="0" rcherr="0" rchfc="0" vsleft="0,0" />
+      <hitseason bb="0" ab="5" kl="0" hittp="0" obpct="0.200" double="1" h="1" ibb="0" rchci="0" hr="0" sb="0" slugpct="0.400" cs="0" r="1" gdp="0" sf="0" triple="0" hitdp="0" sh="0" picked="0" hbp="0" rbi="0" so="2" bavg="0.200" />
+      <hsituation context="empty" ab="1" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="1" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="byspot" spot="8" ab="1" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="1" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="bypos" pos="c" ab="1" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="1" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="vspitcher" pitcher="Whitfield, G." ab="1" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="1" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="runners" ab="0" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="0" dp="0" />
+      <hsituation context="scorepos" ab="0" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="0" dp="0" />
+      <fsituation context="bypos" pos="c" a="0" e="2" po="2" indp="0" pb="1" csb="0" sba="0" />
+    </player>
+    <player name="Judd Fraiser" shortname="Judd Fraiser" revname="Fraiser, Judd" uni="5" gp="1" gs="1" spot="9" code="9" bats="R" throws="R" class="Junior" pos="p" playerId="60adcd5dfa7ad27c8" atpos="p">
+      <hitting r="0" h="1" ab="1" rbi="0" so="0" gdp="0" ground="0" kl="0" hitdp="0" slg="1.000" obp="1.000" ops="2.000" />
+      <fielding po="0" a="2" e="0" pb="0" ci="0" sba="0" indp="0" intp="0" csb="0" />
+      <hsitsummary ground="0" fly="0" advops="0,0" leadoff="0,0" wrunners="0,0" w2outs="0,0" pinchhit="0,0" wrbiops="0,0" rbi3rd="0,0" wloaded="0,0" lob="0" adv="0" rcherr="0" rchfc="0" vsleft="0,0" />
+      <hitseason bb="0" ab="1" kl="0" hittp="0" obpct="1.000" double="0" h="1" ibb="0" rchci="0" hr="0" sb="0" slugpct="1.000" cs="0" r="0" gdp="0" sf="0" triple="0" hitdp="0" sh="0" picked="0" hbp="0" rbi="0" so="0" bavg="1.000" />
+      <pitching appear="0" ip="3.0" gs="0" ab="0" bb="1" bf="18" er="3" h="5" r="5" so="3" whip="0.67" />
+      <pchseason bb="1" bf="18" bk="0" hr="0" era="2.33" wp="1" bavg=".000" ab="0" kl="0" cg="0" double="0" ip="9.0" h="5" ibb="1" k="3" gs="0" er="3" sha="0" sfa="0" cbo="0" appear="0" r="5" triple="1" hbp="0" cia="0" sho="0" />
+      <psitsummary fly="3" ground="3" picked="0" leadoff="0,0" wrunners="0,0" w2outs="0,0" vsleft="0,0" pitches="16" strikes="0" />
+      <hsituation context="leadoff" ab="1" r="0" h="1" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="empty" ab="1" r="0" h="1" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="byspot" spot="9" ab="1" r="0" h="1" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="bypos" pos="p" ab="1" r="0" h="1" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="vspitcher" pitcher="Whitfield, G." ab="1" r="0" h="1" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <fsituation context="bypos" pos="p" a="2" e="0" po="0" indp="0" pb="0" csb="0" sba="0" />
+      <psituation context="leadoff" bb="1" ab="0" bf="18" ip="9.0" h="5" er="3" so="3" fly="3" ground="3" />
+      <psituation context="empty" bb="1" ab="0" bf="18" ip="9.0" h="5" er="3" so="3" fly="3" ground="3" />
+      <psituation context="runners" bb="1" ab="0" bf="18" ip="9.0" h="5" er="3" so="3" fly="3" ground="3" />
+      <psituation context="runners2" bb="1" ab="0" bf="18" ip="9.0" h="5" er="3" so="3" fly="3" ground="3" />
+      <psituation context="scorepos" bb="1" ab="0" bf="18" ip="9.0" h="5" er="3" so="3" fly="3" ground="3" />
+      <psituation context="scorepos2" bb="1" ab="0" bf="18" ip="9.0" h="5" er="3" so="3" fly="3" ground="3" />
+    </player>
+    <player name="Maddox Burns" shortname="Maddox Burns" revname="Burns, Maddox" uni="22" gp="1" gs="1" spot="10" code="10" bats="R" throws="R" class="Sophomore" pos="dh" playerId="e421792cb55664b57" atpos="dh">
+      <hitting r="0" h="0" ab="0" rbi="0" so="0" gdp="0" ground="0" kl="0" hitdp="0" slg=".000" obp=".000" ops=".000" />
+      <fielding po="1" a="0" e="0" pb="0" ci="0" sba="0" indp="0" intp="0" csb="0" />
+      <hsitsummary ground="0" fly="0" advops="0,0" leadoff="0,0" wrunners="0,0" w2outs="0,0" pinchhit="0,0" wrbiops="0,0" rbi3rd="0,0" wloaded="0,0" lob="0" adv="0" rcherr="0" rchfc="0" vsleft="0,0" />
+      <hitseason ab="0" r="1" h="0" rbi="0" double="0" triple="0" hr="0" bb="0" so="0" ibb="0" hbp="0" kl="0" sb="3" cs="0" sh="0" sf="0" rchci="0" gdp="0" picked="0" hitdp="0" hittp="0" bavg=".000" avg=".000" slugpct="0" obpct="0" />
+      <fsituation context="bypos" pos="dh" a="0" e="0" po="1" indp="0" pb="0" csb="0" sba="0" />
+    </player>
+    <player name="Jack Sandlin" shortname="Jack Sandlin" revname="Sandlin, Jack" uni="2" gp="0" pos="" spot="0" code="" bats="L" throws="R" class="Senior" />
+    <player name="Porter Tapp" shortname="Porter Tapp" revname="Tapp, Porter" uni="3" gp="0" pos="" spot="0" code="" bats="R" throws="R" class="Senior" />
+    <player name="Webb DeVaughn" shortname="Webb DeVaughn" revname="DeVaughn, Webb" uni="11" gp="0" pos="" spot="0" code="" bats="R" throws="R" class="Freshman" />
+    <player name="John Greyson Pharr" shortname="John Greyson Pharr" revname="Pharr, John Greyson" uni="12" gp="0" pos="" spot="0" code="" bats="R" throws="R" class="Junior" />
+    <player name="Riley Clack" shortname="Riley Clack" revname="Clack, Riley" uni="13" gp="0" pos="" spot="0" code="" bats="R" throws="R" class="Sophomore" />
+    <player name="Sam Thompson" shortname="Sam Thompson" revname="Thompson, Sam" uni="14" gp="0" pos="" spot="0" code="" bats="R" throws="R" class="Junior" />
+    <player name="Cade Lott" shortname="Cade Lott" revname="Lott, Cade" uni="15" gp="0" pos="" spot="0" code="" bats="R" throws="R" class="Senior" />
+    <player name="Mikey Wood" shortname="Mikey Wood" revname="Wood, Mikey" uni="16" gp="0" pos="" spot="0" code="" bats="S" throws="R" />
+    <player name="Kylin Leslie" shortname="Kylin Leslie" revname="Leslie, Kylin" uni="17" gp="0" pos="" spot="0" code="" bats="R" throws="R" class="Junior" />
+    <player name="Knox Houston" shortname="Knox Houston" revname="Houston, Knox" uni="18" gp="0" pos="" spot="0" code="" bats="R" throws="R" class="Junior" />
+    <player name="Jacob Matthews" shortname="Jacob Matthews" revname="Matthews, Jacob" uni="23" gp="0" pos="" spot="0" code="" bats="R" throws="R" class="Senior" />
+    <player name="Eli Nelson" shortname="Eli Nelson" revname="Nelson, Eli" uni="24" gp="0" pos="" spot="0" code="" bats="R" throws="R" class="Freshman" />
+    <player name="Hastings McCurley" shortname="Hastings McCurley" revname="McCurley, Hastings" uni="26" gp="0" pos="" spot="0" code="" bats="R" throws="R" class="Freshman" />
+    <player name="Karson Clack" shortname="Karson Clack" revname="Clack, Karson" uni="33" gp="0" pos="" spot="0" code="" bats="R" throws="R" class="Freshman" />
+  </team>
+  <team vh="H" code="mhsaa002" id="EASTUNI" name="East Union High School" record="">
+    <linescore line="3,4,0,1,0,0,0" runs="8" hits="7" errs="2" lob="0">
+      <lineinn inn="1" score="3" ></lineinn>
+      <lineinn inn="2" score="4" ></lineinn>
+      <lineinn inn="3" score="0" ></lineinn>
+      <lineinn inn="4" score="1" ></lineinn>
+      <lineinn inn="5" score="0" ></lineinn>
+      <lineinn inn="6" score="0" ></lineinn>
+      <lineinn inn="7" score="0" ></lineinn>
+    </linescore>
+    <starters>
+      <starter spot="1" name="Whitfield, Grayson" uni="1" pos="p" />
+      <starter spot="2" name="Hudson, Levi" uni="20" pos="c" />
+      <starter spot="3" name="Hood, Brady" uni="30" pos="1b" />
+      <starter spot="4" name="Treadaway, Maddox" uni="4" pos="2b" />
+      <starter spot="5" name="Carroll, Landon" uni="5" pos="3b" />
+      <starter spot="6" name="Hogue, Jackson" uni="6" pos="ss" />
+      <starter spot="7" name="Elder, Luke" uni="7" pos="lf" />
+      <starter spot="8" name="Johnson, Chase" uni="8" pos="cf" />
+      <starter spot="9" name="Kennedy, Evan" uni="9" pos="rf" />
+    </starters>
+    <batords>
+      <batord spot="1" name="Whitfield, Grayson" uni="1" pos="p" />
+      <batord spot="2" name="Hudson, Levi" uni="20" pos="c" />
+      <batord spot="3" name="Hood, Brady" uni="30" pos="1b" />
+      <batord spot="4" name="Treadaway, Maddox" uni="4" pos="2b" />
+      <batord spot="5" name="Dye, Tripp" uni="28" pos="3b" />
+      <batord spot="6" name="Hogue, Jackson" uni="6" pos="ss" />
+      <batord spot="7" name="Elder, Luke" uni="7" pos="lf" />
+      <batord spot="8" name="Johnson, Chase" uni="8" pos="cf" />
+      <batord spot="9" name="Kennedy, Evan" uni="9" pos="rf" />
+    </batords>
+    <totals>
+      <hitting ab="20" r="8" h="7" rbi="6" double="1" triple="1" hr="1" bb="2" sb="0" cs="0" hbp="0" sh="1" sf="2" so="3" gdp="0" ibb="1" picked="0" ground="5" fly="4" kl="0" hitdp="0" hittp="1" />
+      <fielding po="14" a="8" e="2" pb="0" ci="0" indp="0" intp="0" csb="0" sba="2" />
+      <hsitsummary adv="0" fly="4" ground="5" lob="0" rcherr="0" rchfc="0" vsleft="0,0" advops="0,0" leadoff="0,0" pinchhit="0,0" w2outs="0,0" wloaded="0,0" wrbiops="0,0" wrunners="0,0" rbi3rd="0,0" />
+      <pitching ip="6.1" ab="0" bb="1" bf="16" bk="0" double="0" er="0" fly="3" ground="2" h="5" hbp="1" hr="0" ibb="0" kl="1" r="0" so="3" triple="0" wp="0" picked="0" sha="0" sfa="0" gdp="0" pitches="29" strikes="0" sho="0" />
+      <psitsummary fly="3" ground="2" picked="0" leadoff="0,0" wrunners="0,0" vsleft="0,0" w2outs="0,0" pitches="29" strikes="0" />
+    </totals>
+    <player name="Grayson Whitfield" shortname="Grayson Whitfield" revname="Whitfield, Grayson" uni="1" gp="1" gs="1" spot="1" code="1" bats="R" throws="R" pos="p" playerId="607e5c7c32f4df7fb" atpos="p">
+      <hitting r="2" h="1" ab="2" rbi="0" so="1" gdp="0" ground="0" kl="0" hitdp="0" slg="0.500" obp="0.667" ops="1.167" />
+      <fielding po="0" a="0" e="0" pb="0" ci="0" sba="0" indp="0" intp="0" csb="0" />
+      <hsitsummary ground="0" fly="0" advops="0,0" leadoff="0,0" wrunners="0,0" w2outs="0,0" pinchhit="0,0" wrbiops="0,0" rbi3rd="0,0" wloaded="0,0" lob="0" adv="0" rcherr="0" rchfc="0" vsleft="0,0" />
+      <hitseason bb="2" ab="5" kl="0" hittp="0" obpct="0.429" double="0" h="1" ibb="0" rchci="0" hr="0" sb="0" slugpct="0.200" cs="0" r="3" gdp="0" sf="0" triple="0" hitdp="0" sh="0" picked="0" hbp="0" rbi="0" so="2" bavg="0.200" />
+      <pitching appear="0" ip="4.7" gs="0" ab="0" bb="1" bf="16" er="0" h="5" r="0" so="3" whip="0.43" />
+      <pchseason bb="2" bf="23" bk="0" hr="1" era="0.39" wp="0" bavg=".000" ab="0" kl="0" cg="0" double="0" ip="18.0" h="6" ibb="0" k="4" gs="0" er="1" sha="0" sfa="0" cbo="0" appear="0" r="1" triple="0" hbp="2" cia="0" sho="0" />
+      <psitsummary fly="3" ground="2" picked="0" leadoff="0,0" wrunners="0,0" w2outs="0,0" vsleft="0,0" pitches="29" strikes="0" />
+      <hsituation context="leadoff" ab="1" r="0" h="0" rbi="0" so="1" kl="0" gdp="0" ground="0" fly="0" bb="1" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="empty" ab="0" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="1" hbp="0" sb="0" cs="0" out="0" dp="0" />
+      <hsituation context="byspot" spot="1" ab="2" r="0" h="1" rbi="0" so="1" kl="0" gdp="0" ground="0" fly="0" bb="1" hbp="0" sb="0" cs="0" out="2" dp="0" />
+      <hsituation context="bypos" pos="p" ab="2" r="0" h="1" rbi="0" so="1" kl="0" gdp="0" ground="0" fly="0" bb="1" hbp="0" sb="0" cs="0" out="2" dp="0" />
+      <hsituation context="vspitcher" pitcher="Gaines, K." ab="0" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="1" hbp="0" sb="0" cs="0" out="0" dp="0" />
+      <hsituation context="runners" ab="2" r="0" h="1" rbi="0" so="1" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="2" dp="0" />
+      <hsituation context="vspitcher" pitcher="Fraiser, J." ab="2" r="0" h="1" rbi="0" so="1" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="2" dp="0" />
+      <hsituation context="scorepos" ab="1" r="0" h="1" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <psituation context="leadoff" bb="1" ab="0" bf="16" ip="14.0" h="5" er="0" so="3" fly="3" ground="2" />
+      <psituation context="empty" bb="1" ab="0" bf="16" ip="14.0" h="5" er="0" so="3" fly="3" ground="2" />
+      <psituation context="runners" bb="1" ab="0" bf="16" ip="14.0" h="5" er="0" so="3" fly="3" ground="2" />
+      <psituation context="runners2" bb="1" ab="0" bf="16" ip="14.0" h="5" er="0" so="3" fly="3" ground="2" />
+      <psituation context="scorepos" bb="1" ab="0" bf="16" ip="14.0" h="5" er="0" so="3" fly="3" ground="2" />
+      <psituation context="scorepos2" bb="1" ab="0" bf="16" ip="14.0" h="5" er="0" so="3" fly="3" ground="2" />
+    </player>
+    <player name="Levi Hudson" shortname="Levi Hudson" revname="Hudson, Levi" uni="20" gp="1" gs="1" spot="2" code="2" bats="R" throws="R" pos="c" playerId="f4eca85cd9c09198d" atpos="c">
+      <hitting r="2" h="1" ab="3" rbi="0" so="1" gdp="0" ground="1" kl="0" hitdp="0" slg="0.667" obp="0.333" ops="1.000" />
+      <fielding po="3" a="2" e="1" pb="0" ci="0" sba="2" indp="0" intp="0" csb="0" />
+      <hsitsummary ground="1" fly="0" advops="0,0" leadoff="0,0" wrunners="0,0" w2outs="0,0" pinchhit="0,0" wrbiops="0,0" rbi3rd="0,0" wloaded="0,0" lob="0" adv="0" rcherr="0" rchfc="0" vsleft="0,0" />
+      <hitseason bb="0" ab="4" kl="0" hittp="0" obpct="0.500" double="1" h="2" ibb="0" rchci="0" hr="0" sb="0" slugpct="0.750" cs="0" r="2" gdp="0" sf="0" triple="0" hitdp="0" sh="0" picked="0" hbp="0" rbi="1" so="1" bavg="0.500" />
+      <hsituation context="leadoff" ab="2" r="0" h="1" rbi="0" so="1" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="2" dp="0" />
+      <hsituation context="runners" ab="3" r="0" h="1" rbi="0" so="1" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="3" dp="1" />
+      <hsituation context="byspot" spot="2" ab="3" r="0" h="1" rbi="0" so="1" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="3" dp="1" />
+      <hsituation context="bypos" pos="c" ab="3" r="0" h="1" rbi="0" so="1" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="3" dp="1" />
+      <hsituation context="vspitcher" pitcher="Gaines, K." ab="1" r="0" h="1" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="runners2" ab="2" r="0" h="0" rbi="0" so="1" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="2" dp="1" />
+      <hsituation context="scorepos" ab="2" r="0" h="0" rbi="0" so="1" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="2" dp="1" />
+      <hsituation context="vspitcher" pitcher="Fraiser, J." ab="2" r="0" h="0" rbi="0" so="1" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="2" dp="1" />
+      <fsituation context="bypos" pos="c" a="2" e="1" po="3" indp="0" pb="0" csb="0" sba="2" />
+    </player>
+    <player name="Brady Hood" shortname="Brady Hood" revname="Hood, Brady" uni="30" gp="1" gs="1" spot="3" code="3" bats="R" throws="R" pos="1b" playerId="f8d0d5316d4a8f767" atpos="1b">
+      <hitting r="3" h="3" ab="3" rbi="6" so="0" gdp="0" ground="0" kl="0" hitdp="0" slg="2.667" obp="1.000" ops="3.667" />
+      <fielding po="3" a="0" e="1" pb="0" ci="0" sba="0" indp="0" intp="0" csb="0" />
+      <hsitsummary ground="0" fly="0" advops="0,0" leadoff="0,0" wrunners="0,0" w2outs="0,0" pinchhit="0,0" wrbiops="0,0" rbi3rd="0,0" wloaded="0,0" lob="0" adv="0" rcherr="0" rchfc="0" vsleft="0,0" />
+      <hitseason bb="1" ab="6" kl="0" hittp="0" obpct="0.750" double="0" h="4" ibb="0" rchci="0" hr="1" sb="0" slugpct="1.500" cs="0" r="5" gdp="0" sf="0" triple="1" hitdp="0" sh="0" picked="0" hbp="1" rbi="6" so="1" bavg="0.667" />
+      <hsituation context="leadoff" ab="3" r="0" h="3" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="2" dp="0" />
+      <hsituation context="runners" ab="2" r="0" h="2" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="runners2" ab="2" r="0" h="2" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="scorepos" ab="2" r="0" h="2" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="scorepos2" ab="2" r="0" h="2" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="byspot" spot="3" ab="3" r="0" h="3" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="2" dp="0" />
+      <hsituation context="bypos" pos="1b" ab="3" r="0" h="3" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="2" dp="0" />
+      <hsituation context="vspitcher" pitcher="Gaines, K." ab="1" r="0" h="1" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="0" dp="0" />
+      <hsituation context="loaded" ab="1" r="0" h="1" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="vspitcher" pitcher="Fraiser, J." ab="2" r="0" h="2" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="2" dp="0" />
+      <hsituation context="empty" ab="1" r="0" h="1" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <fsituation context="bypos" pos="1b" a="0" e="1" po="3" indp="0" pb="0" csb="0" sba="0" />
+    </player>
+    <player name="Maddox Treadaway" shortname="Maddox Treadaway" revname="Treadaway, Maddox" uni="4" gp="1" gs="1" spot="4" code="4" bats="R" throws="R" pos="2b" playerId="4dcecfc5a0e390fa5" atpos="2b">
+      <hitting r="0" h="0" ab="1" rbi="0" so="0" gdp="0" ground="1" kl="0" hitdp="0" slg=".000" obp="0.333" ops="0.333" />
+      <fielding po="6" a="2" e="0" pb="0" ci="0" sba="0" indp="0" intp="0" csb="0" />
+      <hsitsummary ground="1" fly="1" advops="0,0" leadoff="0,0" wrunners="0,0" w2outs="0,0" pinchhit="0,0" wrbiops="0,0" rbi3rd="0,0" wloaded="0,0" lob="0" adv="0" rcherr="0" rchfc="0" vsleft="0,0" />
+      <hitseason bb="1" ab="5" kl="0" hittp="0" obpct="0.143" double="0" h="0" ibb="1" rchci="0" hr="0" sb="1" slugpct=".000" cs="0" r="2" gdp="0" sf="1" triple="0" hitdp="0" sh="0" picked="0" hbp="0" rbi="1" so="1" bavg=".000" />
+      <hsituation context="leadoff" ab="0" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="1" fly="1" bb="1" hbp="0" sb="0" cs="0" out="2" dp="0" />
+      <hsituation context="empty" ab="0" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="1" fly="0" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="byspot" spot="4" ab="0" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="1" fly="1" bb="1" hbp="0" sb="0" cs="0" out="2" dp="0" />
+      <hsituation context="bypos" pos="2b" ab="0" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="1" fly="1" bb="1" hbp="0" sb="0" cs="0" out="2" dp="0" />
+      <hsituation context="vspitcher" pitcher="Gaines, K." ab="0" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="1" fly="0" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="runners" ab="0" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="1" bb="1" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="scorepos" ab="0" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="1" bb="1" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="vspitcher" pitcher="Fraiser, J." ab="0" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="1" bb="1" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <fsituation context="bypos" pos="2b" a="2" e="0" po="6" indp="0" pb="0" csb="0" sba="0" />
+    </player>
+    <player name="Landon Carroll" shortname="Landon Carroll" revname="Carroll, Landon" uni="5" gp="1" gs="1" spot="5" code="5" bats="R" throws="R" pos="3b" playerId="c116d8d8fe50bead0" atpos="3b">
+      <hitting r="0" h="0" ab="0" rbi="0" so="0" gdp="0" ground="0" kl="0" hitdp="0" slg=".000" obp=".000" ops=".000" />
+      <fielding po="0" a="0" e="0" pb="0" ci="0" sba="0" indp="0" intp="0" csb="0" />
+      <hsitsummary ground="0" fly="0" advops="0,0" leadoff="0,0" wrunners="0,0" w2outs="0,0" pinchhit="0,0" wrbiops="0,0" rbi3rd="0,0" wloaded="0,0" lob="0" adv="0" rcherr="0" rchfc="0" vsleft="0,0" />
+      <hitseason bb="2" ab="2" kl="0" hittp="0" obpct="0.500" double="0" h="0" ibb="0" rchci="0" hr="0" sb="0" slugpct=".000" cs="0" r="1" gdp="0" sf="0" triple="0" hitdp="0" sh="0" picked="0" hbp="0" rbi="2" so="2" bavg=".000" />
+    </player>
+    <player name="Tripp Dye" shortname="Tripp Dye" revname="Dye, Tripp" uni="28" gp="1" gs="0" sub="1" spot="5" code="5" bats="R" throws="R" pos="3b" playerId="6af10770b36993839" atpos="3b">
+      <hitting r="0" h="0" ab="3" rbi="0" so="0" gdp="0" ground="2" kl="0" hitdp="0" slg=".000" obp=".000" ops=".000" />
+      <fielding po="1" a="1" e="0" pb="0" ci="0" sba="0" indp="0" intp="0" csb="0" />
+      <hsitsummary ground="2" fly="0" advops="0,0" leadoff="0,0" wrunners="0,0" w2outs="0,0" pinchhit="0,0" wrbiops="0,0" rbi3rd="0,0" wloaded="0,0" lob="0" adv="0" rcherr="0" rchfc="0" vsleft="0,0" />
+      <hitseason bb="1" ab="6" kl="0" hittp="0" obpct="0.286" double="0" h="1" ibb="0" rchci="0" hr="0" sb="0" slugpct="0.167" cs="0" r="0" gdp="0" sf="0" triple="0" hitdp="0" sh="0" picked="0" hbp="0" rbi="1" so="1" bavg="0.167" />
+      <hsituation context="empty" ab="0" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="1" fly="0" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="byspot" spot="5" ab="2" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="1" fly="0" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="bypos" pos="3b" ab="2" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="1" fly="0" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="vspitcher" pitcher="Gaines, K." ab="0" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="1" fly="0" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="leadoff" ab="1" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="0" dp="0" />
+      <hsituation context="runners" ab="2" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="0" dp="0" />
+      <hsituation context="runners2" ab="1" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="0" dp="0" />
+      <hsituation context="scorepos" ab="2" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="0" dp="0" />
+      <hsituation context="vspitcher" pitcher="Fraiser, J." ab="2" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="0" dp="0" />
+      <fsituation context="bypos" pos="3b" a="1" e="0" po="1" indp="0" pb="0" csb="0" sba="0" />
+    </player>
+    <player name="Jackson Hogue" shortname="Jackson Hogue" revname="Hogue, Jackson" uni="6" gp="1" gs="1" spot="6" code="6" bats="R" throws="R" pos="ss" playerId="f3a85d1c8c3d6b28d" atpos="ss">
+      <hitting r="0" h="0" ab="2" rbi="0" so="0" gdp="0" ground="1" kl="0" hitdp="0" slg=".000" obp=".000" ops=".000" />
+      <fielding po="0" a="2" e="0" pb="0" ci="0" sba="0" indp="0" intp="0" csb="0" />
+      <hsitsummary ground="1" fly="1" advops="0,0" leadoff="0,0" wrunners="0,0" w2outs="0,0" pinchhit="0,0" wrbiops="0,0" rbi3rd="0,0" wloaded="0,0" lob="0" adv="0" rcherr="0" rchfc="0" vsleft="0,0" />
+      <hitseason bb="0" ab="2" kl="0" hittp="0" obpct=".000" double="0" h="0" ibb="0" rchci="0" hr="0" sb="0" slugpct=".000" cs="0" r="0" gdp="0" sf="0" triple="0" hitdp="0" sh="1" picked="0" hbp="0" rbi="0" so="0" bavg=".000" />
+      <hsituation context="empty" ab="1" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="0" dp="0" />
+      <hsituation context="byspot" spot="6" ab="1" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="1" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="bypos" pos="ss" ab="1" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="1" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="vspitcher" pitcher="Gaines, K." ab="1" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="0" dp="0" />
+      <hsituation context="runners" ab="0" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="1" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="runners2" ab="0" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="scorepos" ab="0" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="1" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="vspitcher" pitcher="Fraiser, J." ab="0" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="1" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <fsituation context="bypos" pos="ss" a="2" e="0" po="0" indp="0" pb="0" csb="0" sba="0" />
+    </player>
+    <player name="Heath Wilkinson" shortname="Heath Wilkinson" revname="Wilkinson, Heath" uni="13" gp="1" gs="0" sub="2" spot="7" code="7" bats="R" throws="R" pos="pr" playerId="951a7bc5161247b61" atpos="pr">
+      <hitting r="0" h="0" ab="0" rbi="0" so="0" gdp="0" ground="0" kl="0" hitdp="0" slg=".000" obp=".000" ops=".000" />
+      <fielding po="0" a="0" e="0" pb="0" ci="0" sba="0" indp="0" intp="0" csb="0" />
+      <hsitsummary ground="0" fly="0" advops="0,0" leadoff="0,0" wrunners="0,0" w2outs="0,0" pinchhit="0,0" wrbiops="0,0" rbi3rd="0,0" wloaded="0,0" lob="0" adv="0" rcherr="0" rchfc="0" vsleft="0,0" />
+      <hitseason ab="0" r="0" h="0" rbi="0" double="0" triple="0" hr="0" bb="0" so="0" ibb="0" hbp="0" kl="0" sb="0" cs="0" sh="0" sf="0" rchci="0" gdp="0" picked="0" hitdp="0" hittp="0" bavg=".000" avg=".000" slugpct="0" obpct="0" />
+    </player>
+    <player name="Luke Elder" shortname="Luke Elder" revname="Elder, Luke" uni="7" gp="1" gs="1" spot="7" code="7" bats="R" throws="R" pos="lf" playerId="35b1f43e825ea1832" atpos="lf">
+      <hitting r="0" h="0" ab="1" rbi="0" so="0" gdp="0" ground="0" kl="0" hitdp="0" slg=".000" obp=".000" ops=".000" />
+      <fielding po="0" a="0" e="0" pb="0" ci="0" sba="0" indp="0" intp="0" csb="0" />
+      <hsitsummary ground="0" fly="1" advops="0,0" leadoff="0,0" wrunners="0,0" w2outs="0,0" pinchhit="0,0" wrbiops="0,0" rbi3rd="0,0" wloaded="0,0" lob="0" adv="0" rcherr="0" rchfc="0" vsleft="0,0" />
+      <hitseason bb="0" ab="1" kl="0" hittp="0" obpct=".000" double="0" h="0" ibb="0" rchci="0" hr="0" sb="0" slugpct=".000" cs="0" r="0" gdp="0" sf="1" triple="0" hitdp="0" sh="0" picked="0" hbp="0" rbi="0" so="0" bavg=".000" />
+      <hsituation context="runners" ab="1" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="1" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="byspot" spot="7" ab="1" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="1" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="bypos" pos="lf" ab="1" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="1" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="vspitcher" pitcher="Gaines, K." ab="1" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="0" dp="0" />
+      <hsituation context="runners2" ab="0" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="1" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="scorepos" ab="0" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="1" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="scorepos2" ab="0" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="1" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="vspitcher" pitcher="Fraiser, J." ab="0" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="1" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+    </player>
+    <player name="Chase Johnson" shortname="Chase Johnson" revname="Johnson, Chase" uni="8" gp="1" gs="1" spot="8" code="8" bats="R" throws="R" pos="cf" playerId="07b418335e5a6b334" atpos="cf">
+      <hitting r="0" h="1" ab="3" rbi="0" so="0" gdp="0" ground="0" kl="0" hitdp="0" slg="0.333" obp="0.333" ops="0.667" />
+      <fielding po="0" a="1" e="0" pb="0" ci="0" sba="0" indp="0" intp="0" csb="0" />
+      <hsitsummary ground="0" fly="1" advops="0,0" leadoff="0,0" wrunners="0,0" w2outs="0,0" pinchhit="0,0" wrbiops="0,0" rbi3rd="0,0" wloaded="0,0" lob="0" adv="0" rcherr="0" rchfc="0" vsleft="0,0" />
+      <hitseason bb="0" ab="3" kl="0" hittp="0" obpct="0.333" double="0" h="1" ibb="0" rchci="0" hr="0" sb="0" slugpct="0.333" cs="0" r="0" gdp="0" sf="0" triple="0" hitdp="0" sh="0" picked="0" hbp="0" rbi="0" so="0" bavg="0.333" />
+      <hsituation context="runners" ab="1" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="1" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="runners2" ab="1" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="1" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="scorepos" ab="1" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="1" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="byspot" spot="8" ab="2" r="0" h="1" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="1" bb="0" hbp="0" sb="0" cs="0" out="2" dp="0" />
+      <hsituation context="bypos" pos="cf" ab="2" r="0" h="1" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="1" bb="0" hbp="0" sb="0" cs="0" out="2" dp="0" />
+      <hsituation context="vspitcher" pitcher="Gaines, K." ab="1" r="0" h="0" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="1" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="leadoff" ab="1" r="0" h="1" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="empty" ab="1" r="0" h="1" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="vspitcher" pitcher="Fraiser, J." ab="1" r="0" h="1" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <fsituation context="bypos" pos="cf" a="1" e="0" po="0" indp="0" pb="0" csb="0" sba="0" />
+    </player>
+    <player name="Evan Kennedy" shortname="Evan Kennedy" revname="Kennedy, Evan" uni="9" gp="1" gs="1" spot="9" code="9" bats="R" throws="R" pos="rf" playerId="c83fbdc3abb5e4a80" atpos="rf">
+      <hitting r="1" h="1" ab="2" rbi="0" so="1" gdp="0" ground="0" kl="0" hitdp="0" slg="0.500" obp="0.500" ops="1.000" />
+      <fielding po="1" a="0" e="0" pb="0" ci="0" sba="0" indp="0" intp="0" csb="0" />
+      <hsitsummary ground="0" fly="0" advops="0,0" leadoff="0,0" wrunners="0,0" w2outs="0,0" pinchhit="0,0" wrbiops="0,0" rbi3rd="0,0" wloaded="0,0" lob="0" adv="0" rcherr="0" rchfc="0" vsleft="0,0" />
+      <hitseason bb="0" ab="6" kl="0" hittp="0" obpct="0.429" double="1" h="2" ibb="0" rchci="0" hr="0" sb="1" slugpct="0.500" cs="0" r="1" gdp="0" sf="0" triple="0" hitdp="0" sh="0" picked="0" hbp="1" rbi="1" so="1" bavg="0.333" />
+      <hsituation context="leadoff" ab="2" r="0" h="1" rbi="0" so="1" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="2" dp="0" />
+      <hsituation context="empty" ab="1" r="0" h="0" rbi="0" so="1" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <hsituation context="byspot" spot="9" ab="2" r="0" h="1" rbi="0" so="1" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="2" dp="0" />
+      <hsituation context="bypos" pos="rf" ab="2" r="0" h="1" rbi="0" so="1" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="2" dp="0" />
+      <hsituation context="vspitcher" pitcher="Fraiser, J." ab="2" r="0" h="1" rbi="0" so="1" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="2" dp="0" />
+      <hsituation context="runners" ab="1" r="0" h="1" rbi="0" so="0" kl="0" gdp="0" ground="0" fly="0" bb="0" hbp="0" sb="0" cs="0" out="1" dp="0" />
+      <fsituation context="bypos" pos="rf" a="0" e="0" po="1" indp="0" pb="0" csb="0" sba="0" />
+    </player>
+    <player name="Kade Treadaway" shortname="Kade Treadaway" revname="Treadaway, Kade" uni="10" gp="0" pos="" spot="0" code="" bats="R" throws="R" />
+    <player name="Ethan Lamontagne" shortname="Ethan Lamontagne" revname="Lamontagne, Ethan" uni="11" gp="0" pos="" spot="0" code="" bats="R" throws="R" />
+    <player name="Tristain Hutcheson" shortname="Tristain Hutcheson" revname="Hutcheson, Tristain" uni="14" gp="0" pos="" spot="0" code="" bats="R" throws="R" />
+    <player name="Cayden Keeton" shortname="Cayden Keeton" revname="Keeton, Cayden" uni="16" gp="0" pos="" spot="0" code="" bats="R" throws="R" />
+    <player name="Jon Carter Goodwin" shortname="Jon Carter Goodwin" revname="Goodwin, Jon Carter" uni="17" gp="0" pos="" spot="0" code="" bats="R" throws="R" />
+    <player name="Asher Wages" shortname="Asher Wages" revname="Wages, Asher" uni="18" gp="0" pos="" spot="0" code="" bats="R" throws="R" />
+    <player name="Chase McDonald" shortname="Chase McDonald" revname="McDonald, Chase" uni="25" gp="0" pos="" spot="0" code="" bats="R" throws="R" />
+    <player name="Quinton Mink" shortname="Quinton Mink" revname="Mink, Quinton" uni="26" gp="0" pos="" spot="0" code="" bats="R" throws="R" />
+    <player name="Bo Mask" shortname="Bo Mask" revname="Mask, Bo" uni="29" gp="0" pos="" spot="0" code="" bats="R" throws="R" />
+  </team>
+  <plays format="summary">
+    <inning number="1">
+      <batting vh="V" id="BOONEVI">
+        <play seq="1" outs="0" batter="Ayden Barnes" batprof="R" pchprof="R" pitcher="Grayson Whitfield">
+          <batter name="Ayden Barnes" action="KL" out="1" adv="0" tobase="0" ab="1" so="1" kl="1" />
+          <pitcher name="Grayson Whitfield" bf="1" ip="1" ab="1" so="1" kl="1" />
+          <pitches name="Grayson Whitfield" text="BSFFFFFK" b="1" s="2" />
+          <fielder pos="c" name="Levi Hudson" po="1" />
+          <narrative text="Ayden Barnes struck out looking (1-2 BSFFFFFK)." />
+        </play>
+        <play seq="2" outs="1" batter="Easton Field" batprof="R" pchprof="R" pitcher="Grayson Whitfield">
+          <batter name="Easton Field" action="BB" out="0" adv="1" tobase="1" bb="1" />
+          <pitcher name="Grayson Whitfield" bf="1" bb="1" />
+          <pitches name="Grayson Whitfield" text="BBBB" b="4" s="0" />
+          <narrative text="Easton Field walked (3-0 BBBB)." />
+        </play>
+        <play seq="3" outs="1" batter="Jacadien Simmons" batprof="R" pchprof="R" pitcher="Grayson Whitfield" first="Easton Field">
+          <batter name="Jacadien Simmons" action="HP" out="0" adv="1" tobase="1" hbp="1" />
+          <runner base="1" name="Easton Field" action="+" out="0" adv="1" tobase="2" />
+          <pitcher name="Grayson Whitfield" bf="1" hbp="1" />
+          <pitches name="Grayson Whitfield" text="BBBH" b="4" s="0" />
+          <narrative text="Jacadien Simmons hit by pitch (3-0 BBBH); Easton Field advanced to second." />
+        </play>
+        <play seq="4" outs="1" batter="Rilee Starkey" batprof="R" pchprof="R" pitcher="Grayson Whitfield" first="Jacadien Simmons" second="Easton Field">
+          <batter name="Rilee Starkey" action="1B 8" out="0" adv="1" tobase="1" ab="1" h="1" />
+          <runner base="1" name="Jacadien Simmons" action="84" out="1" adv="0" tobase="1" />
+          <runner base="2" name="Easton Field" action="+" out="0" adv="1" tobase="3" />
+          <pitcher name="Grayson Whitfield" bf="1" ip="1" ab="1" h="1" />
+          <pitches name="Grayson Whitfield" text="BFP" b="1" s="1" />
+          <fielder pos="2b" name="Maddox Treadaway" po="1" />
+          <fielder pos="cf" name="Chase Johnson" po="0" a="1" />
+          <narrative text="Rilee Starkey singled to cf (1-1 BF); Jacadien Simmons out at second cf to 2b; Easton Field advanced to third." />
+        </play>
+        <play seq="5" outs="2" batter="Kayden Gaines" batprof="R" pchprof="R" pitcher="Grayson Whitfield" first="Rilee Starkey" third="Easton Field">
+          <batter name="Kayden Gaines" action="KS" out="1" adv="0" tobase="0" ab="1" so="1" />
+          <pitcher name="Grayson Whitfield" bf="1" ip="1" ab="1" so="1" />
+          <pitches name="Grayson Whitfield" text="SSS" b="0" s="2" />
+          <fielder pos="c" name="Levi Hudson" po="1" />
+          <narrative text="Kayden Gaines struck out swinging (0-2 SSS)." />
+        </play>
+        <innsummary r="0" h="1" e="0" lob="2" />
+      </batting>
+      <batting vh="H" id="EASTUNI">
+        <play seq="6" outs="0" batter="Grayson Whitfield" batprof="R" pchprof="R" pitcher="Kayden Gaines">
+          <batter name="Grayson Whitfield" action="BB" out="0" adv="1" tobase="1" bb="1" />
+          <pitcher name="Kayden Gaines" bf="1" bb="1" />
+          <pitches name="Kayden Gaines" text="BBBB" b="4" s="0" />
+          <narrative text="Grayson Whitfield walked (3-0 BBBB)." />
+        </play>
+        <play seq="7" outs="0" batter="Levi Hudson" batprof="R" pchprof="R" pitcher="Kayden Gaines" first="Grayson Whitfield">
+          <batter name="Levi Hudson" action="2B 8" out="0" adv="2" tobase="2" ab="1" h="1" double="1" />
+          <runner base="1" name="Grayson Whitfield" action="+" out="0" adv="1" tobase="3" />
+          <pitcher name="Kayden Gaines" bf="1" ip="1" ab="1" h="1" double="1" />
+          <pitches name="Kayden Gaines" text="BFFFP" b="1" s="2" />
+          <narrative text="Levi Hudson doubled to cf (1-2 BFFF); Grayson Whitfield advanced to third." />
+        </play>
+        <play seq="8" outs="0" batter="Brady Hood" batprof="R" pchprof="R" pitcher="Kayden Gaines" second="Levi Hudson" third="Grayson Whitfield">
+          <batter name="Brady Hood" action="HR LC RBI3" out="0" adv="4" tobase="4" por="Kayden Gaines" ab="1" h="1" hr="1" scored="1" rbi="3" />
+          <runner base="2" name="Levi Hudson" action="++" out="0" adv="2" tobase="4" scored="1" />
+          <runner base="3" name="Grayson Whitfield" action="+" out="0" adv="1" tobase="4" scored="1" />
+          <pitcher name="Kayden Gaines" bf="1" ip="1" ab="1" h="1" er="3" r="3" hr="1" />
+          <pitches name="Kayden Gaines" text="BP" b="1" s="0" />
+          <narrative text="Brady Hood homered to left center, 3 RBI (1-0 B); Levi Hudson scored; Grayson Whitfield scored." />
+        </play>
+        <play seq="9" outs="0" batter="Maddox Treadaway" batprof="R" pchprof="R" pitcher="Kayden Gaines">
+          <batter name="Maddox Treadaway" action="83" out="1" adv="0" tobase="0" ab="1" gndout="1" />
+          <pitcher name="Kayden Gaines" bf="1" ip="1" ab="1" gndout="1" />
+          <fielder pos="1b" name="Paxton Moore" po="1" />
+          <fielder pos="cf" name="Easton Field" po="0" a="1" />
+          <narrative text="Maddox Treadaway grounded out to cf." />
+        </play>
+        <play seq="10" outs="1" batter="Tripp Dye" batprof="R" pchprof="R" pitcher="Kayden Gaines">
+          <sub vh="H" spot="5" who="Tripp Dye" for="Landon Carroll" pos="ph" />
+          <narrative text="Tripp Dye pinch hit for Landon Carroll." />
+        </play>
+        <play seq="11" outs="1" batter="Tripp Dye" batprof="R" pchprof="R" pitcher="Kayden Gaines">
+          <batter name="Tripp Dye" action="3UA" out="1" adv="0" tobase="0" ab="1" gndout="1" />
+          <pitcher name="Kayden Gaines" bf="1" ip="1" ab="1" gndout="1" />
+          <fielder pos="1b" name="Paxton Moore" po="1" />
+          <narrative text="Tripp Dye grounded out to 1b unassisted." />
+        </play>
+        <play seq="12" outs="2" batter="Jackson Hogue" batprof="R" pchprof="R" pitcher="Kayden Gaines">
+          <batter name="Jackson Hogue" action="E5T" out="0" adv="1" tobase="1" ab="1" rcherr="1" />
+          <pitcher name="Kayden Gaines" bf="1" ab="1" />
+          <pitches name="Kayden Gaines" text="BFFP" b="1" s="2" />
+          <fielder pos="3b" name="Kayden Gaines" e="1" />
+          <narrative text="Jackson Hogue reached first on a throwing error by 3b (1-2 BFF)." />
+        </play>
+        <play seq="13" outs="2" batter="Luke Elder" batprof="R" pchprof="R" pitcher="Kayden Gaines" first="Jackson Hogue">
+          <batter name="Luke Elder" action="E5F" out="0" adv="1" tobase="1" ab="1" rcherr="1" />
+          <runner base="1" name="Jackson Hogue" action="+" out="0" adv="1" tobase="2" />
+          <pitcher name="Kayden Gaines" bf="1" ab="1" />
+          <fielder pos="3b" name="Kayden Gaines" e="1" />
+          <narrative text="Luke Elder reached first on a fielding error by 3b; Jackson Hogue advanced to second." />
+        </play>
+        <play seq="14" outs="2" batter="Luke Elder" batprof="R" pchprof="R" pitcher="Kayden Gaines">
+          <sub vh="H" spot="7" who="Heath Wilkinson" for="Luke Elder" pos="pr" />
+          <narrative text="Heath Wilkinson pinch ran for Luke Elder." />
+        </play>
+        <play seq="15" outs="2" batter="Chase Johnson" batprof="R" pchprof="R" pitcher="Kayden Gaines" first="Heath Wilkinson" second="Jackson Hogue">
+          <batter name="Chase Johnson" action="F9" out="1" adv="0" tobase="0" ab="1" flyout="1" />
+          <pitcher name="Kayden Gaines" bf="1" ip="1" ab="1" flyout="1" />
+          <fielder pos="rf" name="Ayden Barnes" po="1" />
+          <narrative text="Chase Johnson flied out to rf." />
+        </play>
+        <innsummary r="3" h="2" e="2" lob="2" />
+      </batting>
+    </inning>
+    <inning number="2">
+      <batting vh="V" id="BOONEVI">
+        <play seq="16" outs="0" batter="Chance Robinson" batprof="L" pchprof="R" pitcher="Kayden Gaines">
+          <sub vh="H" spot="5" who="Tripp Dye" for="Tripp Dye" pos="3b" />
+          <narrative text="Tripp Dye to 3b." />
+        </play>
+        <play seq="17" outs="0" batter="Chance Robinson" batprof="L" pchprof="R" pitcher="Kayden Gaines">
+          <sub vh="H" spot="7" who="Luke Elder" for="Heath Wilkinson" pos="lf" />
+          <narrative text="Luke Elder to lf for Heath Wilkinson." />
+        </play>
+        <play seq="18" outs="0" batter="Chance Robinson" batprof="L" pchprof="R" pitcher="Grayson Whitfield">
+          <batter name="Chance Robinson" action="P4" out="1" adv="0" tobase="0" ab="1" flyout="1" />
+          <pitcher name="Grayson Whitfield" bf="1" ip="1" ab="1" flyout="1" />
+          <pitches name="Grayson Whitfield" text="BP" b="1" s="0" />
+          <fielder pos="2b" name="Maddox Treadaway" po="1" />
+          <narrative text="Chance Robinson popped up to 2b (1-0 B)." />
+        </play>
+        <play seq="19" outs="1" batter="Paxton Moore" batprof="R" pchprof="R" pitcher="Grayson Whitfield">
+          <sub vh="V" spot="1" who="Ayden Barnes" for="Ayden Barnes" pos="rf" />
+          <narrative text="Ayden Barnes to rf." />
+        </play>
+        <play seq="20" outs="1" batter="Paxton Moore" batprof="R" pchprof="R" pitcher="Grayson Whitfield">
+          <sub vh="V" spot="2" who="Easton Field" for="Easton Field" pos="cf" />
+          <narrative text="Easton Field to cf." />
+        </play>
+        <play seq="21" outs="1" batter="Paxton Moore" batprof="R" pchprof="R" pitcher="Grayson Whitfield">
+          <sub vh="V" spot="3" who="Jacadien Simmons" for="Jacadien Simmons" pos="lf" />
+          <narrative text="Jacadien Simmons to lf." />
+        </play>
+        <play seq="22" outs="1" batter="Paxton Moore" batprof="R" pchprof="R" pitcher="Grayson Whitfield">
+          <sub vh="V" spot="4" who="Rilee Starkey" for="Rilee Starkey" pos="ss" />
+          <narrative text="Rilee Starkey to ss." />
+        </play>
+        <play seq="23" outs="1" batter="Paxton Moore" batprof="R" pchprof="R" pitcher="Grayson Whitfield">
+          <sub vh="V" spot="5" who="Kayden Gaines" for="Kayden Gaines" pos="3b" />
+          <narrative text="Kayden Gaines to 3b." />
+        </play>
+        <play seq="24" outs="1" batter="Paxton Moore" batprof="R" pchprof="R" pitcher="Grayson Whitfield">
+          <sub vh="V" spot="6" who="Chance Robinson" for="Chance Robinson" pos="2b" />
+          <narrative text="Chance Robinson to 2b." />
+        </play>
+        <play seq="25" outs="1" batter="Paxton Moore" batprof="R" pchprof="R" pitcher="Grayson Whitfield">
+          <sub vh="V" spot="8" who="Bennett Geno" for="Bennett Geno" pos="c" />
+          <narrative text="Bennett Geno to c." />
+        </play>
+        <play seq="26" outs="1" batter="Paxton Moore" batprof="R" pchprof="R" pitcher="Grayson Whitfield">
+          <sub vh="V" spot="9" who="Judd Fraiser" for="Judd Fraiser" pos="p" />
+          <narrative text="Judd Fraiser to p." />
+        </play>
+        <play seq="27" outs="1" batter="Paxton Moore" batprof="R" pchprof="R" pitcher="Grayson Whitfield">
+          <sub vh="V" spot="9" who="Maddox Burns" for="Maddox Burns" pos="dh" />
+          <narrative text="Maddox Burns to dh." />
+        </play>
+        <play seq="28" outs="1" batter="Paxton Moore" batprof="R" pchprof="R" pitcher="Grayson Whitfield">
+          <sub vh="V" spot="7" who="Paxton Moore" for="Paxton Moore" pos="1b" />
+          <narrative text="Paxton Moore to 1b." />
+        </play>
+        <play seq="29" outs="1" batter="Paxton Moore" batprof="R" pchprof="R" pitcher="Grayson Whitfield">
+          <batter name="Paxton Moore" action="FF9" out="1" adv="0" tobase="0" ab="1" flyout="1" />
+          <pitcher name="Grayson Whitfield" bf="1" ip="1" ab="1" flyout="1" />
+          <pitches name="Grayson Whitfield" text="FFP" b="0" s="2" />
+          <fielder pos="rf" name="Evan Kennedy" po="1" />
+          <narrative text="Paxton Moore fouled out to rf (0-2 FF)." />
+        </play>
+        <play seq="30" outs="2" batter="Bennett Geno" batprof="R" pchprof="R" pitcher="Grayson Whitfield">
+          <batter name="Bennett Geno" action="PF3" out="1" adv="0" tobase="0" ab="1" flyout="1" />
+          <pitcher name="Grayson Whitfield" bf="1" ip="1" ab="1" flyout="1" />
+          <pitches name="Grayson Whitfield" text="BP" b="1" s="0" />
+          <fielder pos="1b" name="Brady Hood" po="1" />
+          <narrative text="Bennett Geno popped up to 1b (1-0 B)." />
+        </play>
+        <innsummary r="0" h="0" e="0" lob="0" />
+      </batting>
+      <batting vh="H" id="EASTUNI">
+        <play seq="31" outs="0" batter="Evan Kennedy" batprof="R" pchprof="R" pitcher="Judd Fraiser">
+          <batter name="Evan Kennedy" action="K WP" out="1" adv="0" tobase="0" ab="1" so="1" />
+          <pitcher name="Judd Fraiser" bf="1" ip="1" ab="1" so="1" wp="1" />
+          <pitches name="Judd Fraiser" text="BFP" b="1" s="1" />
+          <fielder pos="c" name="Easton Field" po="1" />
+          <narrative text="Evan Kennedy struck out, reached first on a wild pitch (1-1 BF)." />
+        </play>
+        <play seq="32" outs="0" batter="Grayson Whitfield" batprof="R" pchprof="R" pitcher="Judd Fraiser" first="Evan Kennedy">
+          <batter name="Grayson Whitfield" action="K PB" out="1" adv="0" tobase="0" ab="1" so="1" />
+          <runner base="1" name="Evan Kennedy" action="+" out="0" adv="1" tobase="2" />
+          <pitcher name="Judd Fraiser" bf="1" ip="1" ab="1" so="1" />
+          <fielder pos="c" name="Easton Field" po="1" />
+          <narrative text="Grayson Whitfield struck out, advanced to first on a passed ball; Evan Kennedy advanced to second." />
+        </play>
+        <play seq="33" outs="0" batter="Levi Hudson" batprof="R" pchprof="R" pitcher="Judd Fraiser" first="Grayson Whitfield" second="Evan Kennedy">
+          <batter name="Levi Hudson" action="K E2" out="1" adv="0" tobase="0" ab="1" so="1" />
+          <runner base="1" name="Grayson Whitfield" action="+" out="0" adv="1" tobase="2" />
+          <runner base="2" name="Evan Kennedy" action="+" out="0" adv="1" tobase="3" />
+          <pitcher name="Judd Fraiser" bf="1" ip="1" ab="1" so="1" />
+          <fielder pos="c" name="Easton Field" po="1" />
+          <narrative text="Levi Hudson struck out, reached first on an error by c; Grayson Whitfield advanced to second; Evan Kennedy advanced to third." />
+        </play>
+        <play seq="34" outs="0" batter="Brady Hood" batprof="R" pchprof="R" pitcher="Judd Fraiser" first="Levi Hudson" second="Grayson Whitfield" third="Evan Kennedy">
+          <batter name="Brady Hood" action="3B RL RBI3" out="0" adv="3" tobase="3" ab="1" h="1" triple="1" rbi="3" />
+          <runner base="1" name="Levi Hudson" action="+++" out="0" adv="3" tobase="4" scored="1" ue="1" />
+          <runner base="2" name="Grayson Whitfield" action="++" out="0" adv="2" tobase="4" scored="1" />
+          <runner base="3" name="Evan Kennedy" action="+" out="0" adv="1" tobase="4" scored="1" />
+          <pitcher name="Judd Fraiser" bf="1" ip="1" ab="1" h="1" triple="1" er="3" r="3" />
+          <narrative text="Brady Hood tripled down the rf line, 3 RBI; Levi Hudson scored, unearned; Grayson Whitfield scored; Evan Kennedy scored." />
+        </play>
+        <play seq="35" outs="0" batter="Maddox Treadaway" batprof="R" pchprof="R" pitcher="Judd Fraiser" third="Brady Hood">
+          <batter name="Maddox Treadaway" action="IBB" out="0" adv="1" tobase="1" bb="1" ibb="1" />
+          <pitcher name="Judd Fraiser" bf="1" bb="1" />
+          <pitches name="Judd Fraiser" text="BBBB" b="4" s="0" />
+          <narrative text="Maddox Treadaway was intentionally walked (3-0 BBBB)." />
+        </play>
+        <play seq="36" outs="0" batter="Tripp Dye" batprof="R" pchprof="R" pitcher="Judd Fraiser" first="Maddox Treadaway" third="Brady Hood">
+          <batter name="Tripp Dye" action="FC" out="0" adv="1" tobase="1" ab="1" rchfc="1" gndout="1" />
+          <runner base="1" name="Maddox Treadaway" action="46" out="1" adv="0" tobase="1" />
+          <pitcher name="Judd Fraiser" bf="1" ip="1" ab="1" gndout="1" />
+          <fielder pos="2b" name="Chance Robinson" po="0" a="1" />
+          <fielder pos="ss" name="Rilee Starkey" po="1" />
+          <narrative text="Tripp Dye reached on a fielder's choice Maddox Treadaway out at second 2b to ss." />
+        </play>
+        <play seq="37" outs="1" batter="Jackson Hogue" batprof="R" pchprof="R" pitcher="Judd Fraiser" first="Tripp Dye" third="Brady Hood">
+          <batter name="Jackson Hogue" action="14 SAC" out="1" adv="0" tobase="0" gndout="1" sh="1" />
+          <runner base="1" name="Tripp Dye" action="+" out="0" adv="1" tobase="2" />
+          <pitcher name="Judd Fraiser" bf="1" ip="1" gndout="1" sha="1" />
+          <fielder pos="p" name="Judd Fraiser" po="0" a="1" />
+          <fielder pos="2b" name="Chance Robinson" po="1" />
+          <narrative text="Jackson Hogue out at first p to 2b, SAC Tripp Dye advanced to second." />
+        </play>
+        <play seq="38" outs="2" batter="Luke Elder" batprof="R" pchprof="R" pitcher="Judd Fraiser" second="Tripp Dye" third="Brady Hood">
+          <batter name="Luke Elder" action="F9 SF" out="1" adv="0" tobase="0" sf="1" ab="1" flyout="1" />
+          <runner base="3" name="Brady Hood" action="+" out="0" adv="1" tobase="4" scored="1" />
+          <pitcher name="Judd Fraiser" bf="1" ip="1" er="1" r="1" sfa="1" ab="1" flyout="1" />
+          <fielder pos="rf" name="Ayden Barnes" po="1" />
+          <narrative text="Luke Elder flied out to rf, sacrifice fly Brady Hood scored." />
+        </play>
+        <innsummary r="4" h="1" e="0" lob="1" />
+      </batting>
+    </inning>
+    <inning number="3">
+      <batting vh="V" id="BOONEVI">
+        <play seq="39" outs="0" batter="Judd Fraiser" batprof="R" pchprof="R" pitcher="Grayson Whitfield">
+          <batter name="Judd Fraiser" action="1B" out="0" adv="1" tobase="1" ab="1" h="1" />
+          <pitcher name="Grayson Whitfield" bf="1" ip="1" ab="1" h="1" />
+          <narrative text="Judd Fraiser singled." />
+        </play>
+        <play seq="40" outs="0" batter="Ayden Barnes" batprof="R" pchprof="R" pitcher="Grayson Whitfield" first="Judd Fraiser">
+          <batter name="Ayden Barnes" action="643 GDP" out="1" adv="0" tobase="0" ab="1" gndout="1" />
+          <runner base="1" name="Judd Fraiser" action="X" out="1" adv="0" tobase="1" />
+          <pitcher name="Grayson Whitfield" bf="1" ip="2" ab="1" gndout="1" />
+          <fielder pos="1b" name="Brady Hood" po="1" indp="1" />
+          <fielder pos="2b" name="Maddox Treadaway" po="1" a="1" indp="1" />
+          <fielder pos="ss" name="Jackson Hogue" po="0" a="1" indp="1" />
+          <narrative text="Ayden Barnes grounded into double play ss to 2b to 1b; Judd Fraiser out on the play." />
+        </play>
+        <play seq="41" outs="2" batter="Easton Field" batprof="R" pchprof="R" pitcher="Grayson Whitfield">
+          <batter name="Easton Field" action="1B" out="0" adv="1" tobase="1" ab="1" h="1" />
+          <pitcher name="Grayson Whitfield" bf="1" ip="1" ab="1" h="1" />
+          <narrative text="Easton Field singled." />
+        </play>
+        <play seq="42" outs="2" batter="Jacadien Simmons" batprof="R" pchprof="R" pitcher="Grayson Whitfield" first="Easton Field">
+          <runner base="1" name="Easton Field" action="SB" out="0" adv="1" tobase="2" sb="1" />
+          <pitcher name="Grayson Whitfield" sba="1" />
+          <fielder pos="p" name="Grayson Whitfield" sba="1" />
+          <fielder pos="c" name="Levi Hudson" sba="1" />
+          <narrative text="Easton Field stole second" />
+        </play>
+        <play seq="43" outs="2" batter="Jacadien Simmons" batprof="R" pchprof="R" pitcher="Grayson Whitfield" second="Easton Field">
+          <runner base="2" name="Easton Field" action="24 CS" out="1" adv="0" tobase="2" cs="1" />
+          <pitcher name="Grayson Whitfield" bf="1" ip="1" ab="1" csb="1" />
+          <fielder pos="p" name="Grayson Whitfield" csb="1" />
+          <fielder pos="c" name="Levi Hudson" po="0" a="1" csb="1" />
+          <fielder pos="2b" name="Maddox Treadaway" po="1" />
+          <narrative text="Easton Field out at third c to 2b, caught stealing" />
+        </play>
+        <innsummary r="0" h="2" e="0" lob="0" />
+      </batting>
+      <batting vh="H" id="EASTUNI">
+        <play seq="44" outs="0" batter="Chase Johnson" batprof="R" pchprof="R" pitcher="Kayden Gaines">
+          <batter name="Chase Johnson" action="E9 DF" out="0" adv="0" tobase="0" />
+          <pitcher name="Kayden Gaines" />
+          <fielder pos="rf" name="Ayden Barnes" e="1" />
+          <narrative text="Dropped foul ball, E9." />
+        </play>
+        <play seq="45" outs="0" batter="Chase Johnson" batprof="R" pchprof="R" pitcher="Judd Fraiser">
+          <batter name="Chase Johnson" action="1B" out="0" adv="1" tobase="1" ab="1" h="1" />
+          <pitcher name="Judd Fraiser" bf="1" ip="1" ab="1" h="1" />
+          <narrative text="Chase Johnson singled." />
+        </play>
+        <play seq="46" outs="0" batter="Evan Kennedy" batprof="R" pchprof="R" pitcher="Judd Fraiser" first="Chase Johnson">
+          <batter name="Evan Kennedy" action="1B +T" out="0" adv="1" tobase="1" ab="1" h="1" />
+          <runner base="1" name="Chase Johnson" action="+" out="0" adv="1" tobase="2" />
+          <pitcher name="Judd Fraiser" bf="1" ip="1" ab="1" h="1" />
+          <fielder pos="c" name="Bennett Geno" po="1" />
+          <fielder pos="lf" name="Jacadien Simmons" po="0" a="1" />
+          <narrative text="Evan Kennedy singled, advanced to second on the throw Chase Johnson advanced to second, out at second lf to c." />
+        </play>
+        <play seq="47" outs="1" batter="Grayson Whitfield" batprof="R" pchprof="R" pitcher="Judd Fraiser" second="Evan Kennedy">
+          <batter name="Grayson Whitfield" action="1B" out="0" adv="1" tobase="1" ab="1" h="1" />
+          <pitcher name="Judd Fraiser" bf="1" ip="1" ab="1" h="1" />
+          <narrative text="Grayson Whitfield singled." />
+        </play>
+        <play seq="48" outs="1" batter="Levi Hudson" batprof="R" pchprof="R" pitcher="Judd Fraiser" first="Grayson Whitfield" second="Evan Kennedy">
+          <batter name="Levi Hudson" action="543 DP" out="1" adv="0" tobase="0" ab="1" gndout="1" />
+          <runner base="1" name="Grayson Whitfield" action="X" out="1" adv="0" tobase="1" />
+          <pitcher name="Judd Fraiser" bf="1" ip="2" ab="1" gndout="1" />
+          <fielder pos="1b" name="Paxton Moore" po="1" indp="1" />
+          <fielder pos="2b" name="Chance Robinson" po="1" a="1" indp="1" />
+          <fielder pos="3b" name="Kayden Gaines" po="0" a="1" indp="1" />
+          <narrative text="Levi Hudson hit into double play 3b to 2b to 1b; Grayson Whitfield out on the play." />
+        </play>
+        <innsummary r="0" h="3" e="1" lob="1" />
+      </batting>
+    </inning>
+    <inning number="4">
+      <batting vh="V" id="BOONEVI">
+        <play seq="49" outs="0" batter="Jacadien Simmons" batprof="R" pchprof="R" pitcher="Grayson Whitfield">
+          <batter name="Jacadien Simmons" action="1B" out="0" adv="1" tobase="1" ab="1" h="1" />
+          <pitcher name="Grayson Whitfield" bf="1" ip="1" ab="1" h="1" />
+          <narrative text="Jacadien Simmons singled." />
+        </play>
+        <play seq="50" outs="0" batter="Rilee Starkey" batprof="R" pchprof="R" pitcher="Grayson Whitfield" first="Jacadien Simmons">
+          <batter name="Rilee Starkey" action="1B" out="0" adv="1" tobase="1" ab="1" h="1" />
+          <runner base="1" name="Jacadien Simmons" action="+" out="0" adv="1" tobase="2" />
+          <pitcher name="Grayson Whitfield" bf="1" ip="1" ab="1" h="1" />
+          <narrative text="Rilee Starkey singled Jacadien Simmons advanced to second." />
+        </play>
+        <play seq="51" outs="0" batter="Kayden Gaines" batprof="R" pchprof="R" pitcher="Grayson Whitfield" first="Rilee Starkey" second="Jacadien Simmons">
+          <batter name="Kayden Gaines" action="543 TP" out="1" adv="0" tobase="0" ab="1" gndout="1" />
+          <runner base="1" name="Rilee Starkey" action="X" out="1" adv="0" tobase="1" />
+          <runner base="2" name="Jacadien Simmons" action="X" out="1" adv="0" tobase="2" />
+          <pitcher name="Grayson Whitfield" bf="1" ip="3" ab="1" gndout="1" />
+          <fielder pos="1b" name="Brady Hood" po="1" indp="1" />
+          <fielder pos="2b" name="Maddox Treadaway" po="1" a="1" indp="1" />
+          <fielder pos="3b" name="Tripp Dye" po="1" a="1" indp="1" />
+          <narrative text="Kayden Gaines hit into triple play 3b to 2b to 1b; Rilee Starkey out on the play Jacadien Simmons out on the play." />
+        </play>
+        <innsummary r="0" h="2" e="0" lob="0" />
+      </batting>
+      <batting vh="H" id="EASTUNI">
+        <play seq="52" outs="0" batter="Brady Hood" batprof="R" pchprof="R" pitcher="Kayden Gaines">
+          <batter name="Brady Hood" action="E9 DF" out="0" adv="0" tobase="0" />
+          <pitcher name="Kayden Gaines" />
+          <fielder pos="rf" name="Ayden Barnes" e="1" />
+          <narrative text="Dropped foul ball, E9." />
+        </play>
+        <play seq="53" outs="0" batter="Brady Hood" batprof="R" pchprof="R" pitcher="Judd Fraiser">
+          <batter name="Brady Hood" action="1B" out="0" adv="1" tobase="1" ab="1" h="1" />
+          <pitcher name="Judd Fraiser" bf="1" ip="1" ab="1" h="1" />
+          <narrative text="Brady Hood singled." />
+        </play>
+        <play seq="54" outs="0" batter="Maddox Treadaway" batprof="R" pchprof="R" pitcher="Judd Fraiser" first="Brady Hood">
+          <runner base="1" name="Brady Hood" action="E4 A1 NA" out="0" adv="1" tobase="1" />
+          <pitcher name="Judd Fraiser" />
+          <fielder pos="p" name="Judd Fraiser" a="1" />
+          <fielder pos="2b" name="Chance Robinson" e="1" />
+          <narrative text="Brady Hood advanced to second on an error by 2b, assist by p." />
+        </play>
+        <play seq="55" outs="0" batter="Maddox Treadaway" batprof="R" pchprof="R" pitcher="Judd Fraiser" second="Brady Hood">
+          <batter name="Maddox Treadaway" action="F9 SF" out="1" adv="0" tobase="0" sf="1" ab="1" flyout="1" />
+          <runner base="2" name="Brady Hood" action="+" out="0" adv="1" tobase="3" />
+          <pitcher name="Judd Fraiser" bf="1" ip="1" sfa="1" ab="1" flyout="1" />
+          <pitches name="Judd Fraiser" text="BBKKP" b="2" s="2" />
+          <fielder pos="rf" name="Ayden Barnes" po="1" />
+          <narrative text="Maddox Treadaway flied out to rf, sacrifice fly (2-2 BBKK); Brady Hood advanced to third." />
+        </play>
+        <play seq="56" outs="1" batter="Tripp Dye" batprof="R" pchprof="R" pitcher="Judd Fraiser" third="Brady Hood">
+          <batter name="Tripp Dye" action="E5F +" out="0" adv="1" tobase="1" ab="1" rcherr="1" />
+          <runner base="3" name="Brady Hood" action="+" out="0" adv="1" tobase="4" scored="1" />
+          <pitcher name="Judd Fraiser" bf="1" ab="1" er="1" r="1" />
+          <pitches name="Judd Fraiser" text="FFFP" b="0" s="2" />
+          <fielder pos="3b" name="Kayden Gaines" e="1" />
+          <narrative text="Tripp Dye reached first on a fielding error by 3b, advanced to second (0-2 FFF); Brady Hood scored  on an error by 3b, unearned." />
+        </play>
+        <play seq="57" outs="1" batter="Jackson Hogue" batprof="R" pchprof="R" pitcher="Judd Fraiser" second="Tripp Dye">
+          <batter name="Jackson Hogue" action="L6" out="1" adv="0" tobase="0" ab="1" />
+          <pitcher name="Judd Fraiser" bf="1" ip="1" ab="1" />
+          <fielder pos="ss" name="Rilee Starkey" po="1" />
+          <narrative text="Jackson Hogue lined out to ss." />
+        </play>
+        <play seq="58" outs="2" batter="Luke Elder" batprof="R" pchprof="R" pitcher="Judd Fraiser" second="Tripp Dye">
+          <batter name="Luke Elder" action="CI" out="0" adv="1" tobase="1" />
+          <pitcher name="Judd Fraiser" bf="1" cia="1" />
+          <fielder pos="c" name="Bennett Geno" ci="1" e="1" />
+          <narrative text="Luke Elder reached on catcher's interference." />
+        </play>
+        <play seq="59" outs="2" batter="Chase Johnson" batprof="R" pchprof="R" pitcher="Judd Fraiser" first="Luke Elder" second="Tripp Dye">
+          <batter name="Chase Johnson" action="BI" out="1" adv="0" tobase="0" ab="1" />
+          <pitcher name="Judd Fraiser" bf="1" ip="1" ab="1" />
+          <fielder pos="c" name="Bennett Geno" po="1" />
+          <narrative text="Chase Johnson out on batter's interference." />
+        </play>
+        <innsummary r="1" h="1" e="2" lob="2" />
+      </batting>
+    </inning>
+    <inning number="5">
+      <batting vh="V" id="BOONEVI">
+        <play seq="60" outs="0" batter="Chance Robinson" batprof="L" pchprof="R" pitcher="Grayson Whitfield">
+          <batter name="Chance Robinson" action="E3 A6" out="0" adv="1" tobase="1" ab="1" rcherr="1" />
+          <pitcher name="Grayson Whitfield" bf="1" ab="1" />
+          <fielder pos="ss" name="Jackson Hogue" a="1" />
+          <fielder pos="1b" name="Brady Hood" e="1" />
+          <narrative text="Chance Robinson reached first on an error by 1b, assist by ss." />
+        </play>
+        <play seq="61" outs="0" batter="Paxton Moore" batprof="R" pchprof="R" pitcher="Grayson Whitfield" first="Chance Robinson">
+          <runner base="1" name="Chance Robinson" action="SB E2" out="0" adv="2" tobase="3" sb="1" />
+          <pitcher name="Grayson Whitfield" sba="1" />
+          <fielder pos="p" name="Grayson Whitfield" sba="1" />
+          <fielder pos="c" name="Levi Hudson" sba="1" e="1" />
+          <narrative text="Chance Robinson stole second, advanced to third on an error by c" />
+        </play>
+        <play seq="62" outs="0" batter="Paxton Moore" batprof="R" pchprof="R" pitcher="Grayson Whitfield" third="Chance Robinson">
+          <batter name="Paxton Moore" action="K 24 DP" out="1" adv="0" tobase="0" ab="1" so="1" />
+          <runner base="3" name="Chance Robinson" action="X CS" out="1" adv="0" tobase="3" cs="1" />
+          <pitcher name="Grayson Whitfield" bf="1" ip="1" ab="1" csb="1" so="1" />
+          <fielder pos="p" name="Grayson Whitfield" csb="1" />
+          <fielder pos="c" name="Levi Hudson" po="1" indp="1" a="1" csb="1" />
+          <fielder pos="2b" name="Maddox Treadaway" po="1" indp="1" />
+          <narrative text="Paxton Moore struck out Chance Robinson caught stealing c to 2b, double play." />
+        </play>
+        <play seq="63" outs="2" batter="Bennett Geno" batprof="R" pchprof="R" pitcher="Grayson Whitfield">
+          <batter name="Bennett Geno" action="R:7,2" out="0" adv="0" tobase="0" />
+          <pitcher name="Grayson Whitfield" />
+          <narrative text="Paxton Moore placed on second." />
+        </play>
+        <play seq="64" outs="2" batter="Bennett Geno" batprof="R" pchprof="R" pitcher="Grayson Whitfield" second="Paxton Moore">
+          <batter name="Bennett Geno" action="B:3" out="0" adv="0" tobase="0" />
+          <pitcher name="Grayson Whitfield" />
+          <narrative text="Batter set to Jacadien Simmons." />
+        </play>
+        <innsummary r="0" h="0" e="1" lob="1" />
+      </batting>
+    </inning>
+  </plays>
+  <status complete="N" inning="5" endinn="N" vh="V" batting="BOONEVI" outs="2" pitcher="Grayson Whitfield" batter="Maddox Burns" first="" second="" third="" vup="9" hup="9" b="0" s="0" np="0" />
+</bsgame>

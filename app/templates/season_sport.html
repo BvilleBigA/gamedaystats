@@ -1,0 +1,80 @@
+{% extends "team.html" %}
+
+{% block page_title %}Seasons: {{ sport_name }}{% endblock %}
+
+{% block top_level_name %}Game day{% endblock %}
+
+{% block secondary_nav_links %}
+    <li class="{% if request.path == '/admin/team/gameday3/' or request.path == '/admin/team/gameday3' %}active{% endif %}">
+        <a href="/admin/team/gameday3/">Scores</a>
+    </li>
+    <li class="{% if request.path.startswith('/admin/team/checklist') %}active{% endif %}">
+        <a href="/admin/team/checklist/">Upcoming</a>
+    </li>
+    <li class="{% if request.path.startswith('/admin/team/season') %}active{% endif %}">
+        <a href="/admin/team/season/">Seasons</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+
+<table class="layout ">
+<tbody><tr>
+<td>
+
+<h1 style="clear: none">
+<a href="/admin/team/season/">Seasons</a>: {{ sport_name }}
+</h1>
+
+</td>
+<td align="right">
+
+</td>
+</tr>
+</tbody></table>
+
+<table class="layoutView ">
+  <tbody><tr>
+    <td id="view" valign="top">
+
+<p>
+Select a season to manage.
+</p>
+
+{% if seasons %}
+<table border="1" width="600">
+  <tbody><tr>
+    <td><b>Season</b></td>
+    <td><b>Start</b></td>
+    <td><b>End</b></td>
+  </tr>
+
+  {% for s in seasons %}
+  <tr{% if loop.first %} class="active"{% endif %}>
+    <td><a href="/admin/team/season/season.jsp?season_id={{ s.id }}">{{ s.name }}</a></td>
+    <td>{{ s.start_date | pretty_date or '—' }}</td>
+    <td>{{ s.end_date | pretty_date or '—' }}</td>
+  </tr>
+  {% endfor %}
+
+  </tbody>
+</table>
+{% else %}
+<p style="color:#999; font-style:italic;">No seasons found for this sport.</p>
+{% endif %}
+
+    </td>
+
+    <td id="options" valign="top">
+
+        <h3>
+        Options
+        </h3>
+        Current season highlighted in grey.
+
+    </td>
+
+  </tr>
+</tbody></table>
+
+{% endblock %}

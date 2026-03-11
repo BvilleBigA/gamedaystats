@@ -1,0 +1,99 @@
+{% extends "team.html" %}
+
+{% block page_title %}Account — Gameday Stats{% endblock %}
+
+{% block head_extra %}{% endblock %}
+
+{% block top_level_name %}Account{% endblock %}
+
+{% block secondary_nav_links %}
+    <li>
+        <a href="#profile">My profile</a>
+    </li>
+    <li>
+        <a href="#password">Change password</a>
+    </li>
+    {% if current_user.role == 'admin' %}
+    <li>
+        <a href="/admin/user/manage-users">Manage Users</a>
+    </li>
+    <li>
+        <a href="/admin/user/manage-database">Manage Database</a>
+    </li>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<h1>
+Account
+</h1>
+
+<p>
+You can manage your account in this section.
+</p>
+
+<h3>
+Manage your account
+</h3>
+<ul>
+<li><a href="#profile">View my profile</a>
+<br>
+- Edit your email address and name.</li>
+
+    <li><a href="#password">Change my password</a>
+    <br>
+    - We recommend you change your password periodically.</li>
+
+</ul>
+
+{% if success %}<div class="alert-ok">{{ success }}</div>{% endif %}
+{% if error %}<div class="alert-err">{{ error }}</div>{% endif %}
+
+<div id="profile" class="gs-card" style="margin-top:18px;">
+<h2>Profile</h2>
+<form method="post" action="/admin/user">
+            <input type="hidden" name="action" value="update_profile">
+            <div class="sd-form-row">
+                <div class="sd-fg" style="flex:2; min-width:200px;">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email"
+                           value="{{ current_user.username or '' }}">
+                </div>
+                <div class="sd-fg">
+                    <label for="phone">Phone</label>
+                    <input type="tel" class="form-control" id="phone" name="phone"
+                           value="{{ current_user.phone or '' }}">
+                </div>
+                <div class="sd-fg" style="display:flex; align-items:flex-end;">
+                    <button type="submit" class="btn btn-gameday">Save Profile</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- ── Change Password ─────────────────────────────────────────── -->
+    <div id="password" class="gs-card">
+        <h2>Change Password</h2>
+        <form method="post" action="/admin/user">
+            <input type="hidden" name="action" value="change_password">
+            <div class="gs-two-col">
+                <div class="sd-fg">
+                    <label for="current_password">Current Password</label>
+                    <input type="password" class="form-control" id="current_password" name="current_password" required>
+                </div>
+                <div></div>
+                <div class="sd-fg">
+                    <label for="new_password">New Password</label>
+                    <input type="password" class="form-control" id="new_password" name="new_password" required>
+                </div>
+                <div class="sd-fg">
+                    <label for="confirm_password">Confirm New Password</label>
+                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                </div>
+            </div>
+            <div style="margin-top:14px;">
+                <button type="submit" class="btn btn-gameday">Change Password</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,547 @@
+{% extends "team.html" %}
+
+{% block page_title %}Gameday Stats{% endblock %}
+
+{% block head_extra %}
+    <link rel="stylesheet" href="/admin/team/gameday3/css/index.css" type="text/css" />
+    <link rel="stylesheet" href="/admin/team/gameday3/css/updateScorePopups.css" type="text/css" />
+    <style>
+        #progressMsg {
+            font-weight: 100;
+            font-family: Verdana, Helvetica, Arial, sans-serif;
+            font-size: 12px;
+        }
+    </style>
+{% endblock %}
+
+{% block top_level_name %}Game day{% endblock %}
+
+{% block secondary_nav_links %}
+    <li class="{% if request.path == '/admin/team/gameday3/' or request.path == '/admin/team/gameday3' %}active{% endif %}">
+        <a href="/admin/team/gameday3/">Scores</a>
+    </li>
+    <li class="{% if request.path.startswith('/admin/team/checklist') %}active{% endif %}">
+        <a href="/admin/team/checklist/">Upcoming</a>
+    </li>
+    <li class="{% if request.path.startswith('/admin/team/season') %}active{% endif %}">
+        <a href="/admin/team/season/">Seasons</a>
+    </li>
+    <li>
+        <a href="/admin/team/monitoring/viewAlerts.jsp">Alerts</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div>
+    <div class="gameday row">
+        <div class="col-md-9 col-sm-9">
+            <div class="event-actions">
+                <ul class="">
+                    <li class="show-hide-seasons-container"
+                        style="display:none;">
+                        <button type="button"
+                           class="show-hide-seasons-button hide-current-state navbar-toggle glyphicon glyphicon-eye-open"
+                           title="Show hidden seasons">
+                        </button>
+                    </li>
+                    <li class="filters-container-toggle">
+                        <button type="button" class="filters-toggle navbar-toggle collapsed glyphicon glyphicon-filter">
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div class="show-hide-seasons-container hidden-xs"
+                style="display:none;">
+                <button type="button"
+                        class="show-hide-seasons-button hide-current-state btn btn-danger glyphicon glyphicon-eye-open"
+                        title="Show hidden seasons">
+                </button>
+            </div>
+            <div class="text-center">
+                <div class="row dates"></div>
+            </div>
+            <div class="no-events-container text-center" style="display: none;">
+                <p><span class="glyphicon glyphicon-cloud"></span></p>
+                <p>No events for this day.</p>
+            </div>
+            <div class="all-rows list-view"></div>
+            <div class="templates hide">
+                <div class="date-template date-item col-xs-fixed col-sm-fixed">
+                    <a role="button">
+                        <span class="glyphicon glyphicon-warning-sign alert-warning info-icon" title="INFO MISSING" data-toggle="tooltip" style="display: none;"></span>
+                        <div class="thumbnail">
+                            <div class="caption text-center">
+                                <p class="top-legend text-uppercase">&nbsp;</p>
+                                <p class="date"></p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="season-container season-container-template"
+                     style="display: none;">
+                    <div class="title-container">
+                        <div class="title">
+                            <a class="btn-primary btn-hide-season"
+                               role="button"
+                               data-toggle="tooltip"
+                               title="HIDE SEASON"><span class="glyphicon glyphicon-eye-open"></span></a>
+                            <a class="manage-season"
+                               data-toggle="tooltip"
+                               title="MANAGE SEASON"
+                               href="/admin/team/season/season.jsp?season_id=">
+                                <b class="season-name"></b><b class="season-events-number"></b>
+                            </a>
+                            <span class="glyphicon glyphicon-refresh spinning loading-number-events" style="display: none;"></span>
+                            <span class="glyphicon error-icon hide pull-right"></span>
+                            <a class="btn-primary pull-right right-button" style="display: none;"
+                               data-toggle="tooltip"
+                               role="button"
+                               title="MAXIMIZE">
+                                <span class="glyphicon glyphicon-chevron-down"></span>
+                            </a>
+                            <span class="glyphicon glyphicon-refresh spinning loading-season pull-right"
+                                  style="display:none;"></span>
+                        </div>
+                    </div>
+                    <div class="content-container collapsed" style="display: none;">
+                        <div class="table-header text-uppercase clearfix">
+                            <p class="date">Date</p>
+                            <p class="head-2-head-sport-col meet">Team/Event name</p>
+                            <p class="head-2-head-sport-col no-meet">Away</p>
+                            <p class="head-2-head-sport-col no-meet">Home</p>
+                            <p class="individual-sport-col">Teams and result</p>
+                            <p class="status">Status</p>
+                            <p class="action">Action</p>
+                        </div>
+                        <div class="row events"></div>
+                        <div class="legend-groups text-center small">
+                            <div class="legend-group">
+                                <span class="in-progress">Yellow are in progress</span>
+                                <span class="info-missing">Red has info missing</span>
+                            </div>
+                            <div class="legend-group">
+                                <span class="conference">* Conference event</span>
+                                <span class="regional">&#149; Regional event</span>
+                                <span class="division">^ Division event</span>
+                            </div>
+                            <div class="legend-group">
+                                <span class="postponed">! Postponed</span>
+                                <span class="cancelled">$ Cancelled</span>
+                                <span class="overall"># Does not affect overall record</span>
+                                <span class="primetime">+ PrimeTime</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="event col-xxs-fixed col-xs-6 col-sm-6 col-md-4 event-template">
+                    <div class="thumbnail">
+                        <div class="event-container">
+                            <div class="title-container">
+                                <div class="title">
+                                    <a href="/admin/team/schedule/editEvent.jsp?event_id=" class="btn-primary btn-edit-event"
+                                       role="button"
+                                       data-toggle="tooltip"
+                                       title="EDIT EVENT"><span class="glyphicon glyphicon-pencil"></span></a>
+                                    <a href="/admin/team/event/view.jsp?event_id="
+                                       role="button" class="text-view-event"><b></b>
+                                    </a>
+                                    <span class="legends"><span class="conference">*</span><span class="regional">&#149;</span><span class="division">^</span><span class="postponed">!</span><span class="cancelled">$</span><span class="overall">#</span><span class="primetime">+</span></span>
+                                </div>
+                            </div>
+                            <div class="event-info clearfix">
+                                <p class="head-2-head-sport-col">
+                                    <span class="text-uppercase">A: </span>
+                                    <b class="away-team-name"></b>
+                                </p>
+                                <p class="head-2-head-sport-col no-meet">
+                                    <span class="text-uppercase">H: </span>
+                                    <b class="home-team-name"></b>
+                                </p>
+                                <p class="individual-sport-col">
+                                    <span class="text-uppercase">T&amp;R: </span>
+                                    <b class="team-name"></b>
+                                </p>
+                                <p class="status">
+                                    <span class="text-uppercase">Status:</span>
+                                    <b class="status-event"></b>
+                                </p>
+                                <div class="text-center action h2h-sport-buttons">
+                                    <div class="btn-group"
+                                         role="group" aria-label="...">
+                                        <a class="btn btn-default btn-score"
+                                           data-toggle="tooltip"
+                                           title="SCORE"
+                                           role="button">
+                                            <img src="/admin/team/gameday3/images/icon_score_blue.svg" />
+                                        </a>
+                                        <a href="/admin/team/share/index.jsp?season_id=##season_id##&event_id=##event_id##&share_caller=ev&event_type=h2h"
+                                           class="btn btn-default btn-tweet"
+                                           data-toggle="tooltip"
+                                           title="TWEET"
+                                           role="button">
+                                            <img src="/admin/team/gameday3/images/icon_twitter.svg" />
+                                        </a>
+                                        <a href="/action/stats/statsentry/statGame.jsp?season_id=##season_id##&event_id=##event_id##&sport_code=##sport_code##&event_date=##event_date##"
+                                           target="_blank"
+                                           class="btn btn-default btn-stats-game"
+                                           data-toggle="tooltip"
+                                           title="LAUNCH GAMEDAY STATS"
+                                           role="button">
+                                            <img src="/admin/team/gameday3/images/icon_stats.svg" />
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="text-center action individual-sport-buttons">
+                                    <a class="btn btn-default btn-results"
+                                       data-toggle="tooltip"
+                                       title="RESULTS"
+                                       role="button">
+                                        <span class="text-uppercase text-primary"><b>Results</b></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+<div class="score-popup-content-template">
+    <form role="form">
+        <div class="general-container col-sm-12">
+            <div class="row">
+                <div class="form-group">
+                    <h3>
+                        <label class="season-name"></label>
+                        <label>@ <span class="date-info"></span></label>
+                    </h3>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="status">Status</label>
+                    <select name="status" id="status" class="form-control">
+                        <option class="non-removal" value="-2">Not started</option>
+                        <option class="non-removal" value="-1">In progress</option>
+                    </select>
+                    <div class="status-text"
+                         style="display:none;">
+                        <input class="form-control"
+                               name="status-text"
+                               placeholder='e.g. "Halftime", "12:53 2nd" or "BOT 3"'
+                        />
+                    </div>
+                </div>
+                <div class="form-group score-container" style="display: none;">
+                    <label class="team_1 control-label" for="team_1"></label>
+                    <input type="number" class="form-control" id="team_1"
+                           data-required-started-game="required-started-game"
+                           data-required-tiebreak-game="required-tiebreak-game"
+                           data-validate-always
+                           min="0"
+                           name="team_1" placeholder="0">
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group score-container" style="display: none;">
+                    <label class="team_2 control-label" for="team_2"></label>
+                    <input type="number" class="form-control" id="team_2"
+                           data-required-started-game="required-started-game"
+                           data-required-tiebreak-game="required-tiebreak-game"
+                           data-validate-always
+                           min="0"
+                           name="team_2" placeholder="0">
+                    <div class="help-block with-errors"></div>
+                </div>
+            </div>
+        </div>
+        <div class="scorebug-sport-specific col-sm-12" style="display: none;">
+            <div class="scorebug-football-additional row" style="display: none;">
+                <hr class="hidden-sm hidden-md hidden-lg"/>
+                <div class="form-group">
+                    <h3><label>Score Bug</label></h3>
+                </div>
+                <div class="form-group period-container">
+                    <label class="control-label" for="football_period">Quarter</label>
+                    <input type="number" class="form-control" id="football_period"
+                           min="0"
+                           name="period" placeholder="0">
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group down-container">
+                    <label class="control-label" for="football_down">Down</label>
+                    <input type="number" class="form-control" id="football_down"
+                           min="0"
+                           name="football_down" placeholder="0">
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group togo-container">
+                    <label class="control-label" for="football_togo">To-go</label>
+                    <input type="number" class="form-control" id="football_togo"
+                           min="0"
+                           name="football_togo" placeholder="0">
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group tol-team-1-container">
+                    <label class="control-label" for="football_tol_team_1">Timeouts left </label>
+                    <input type="number" class="form-control" id="football_tol_team_1"
+                           min="0"
+                           name="football_tol_team_1" placeholder="0">
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group tol-team-2-container">
+                    <label class="control-label" for="football_tol_team_2">Timeouts left </label>
+                    <input type="number" class="form-control" id="football_tol_team_2"
+                           min="0"
+                           name="football_tol_team_2" placeholder="0">
+                    <div class="help-block with-errors"></div>
+                </div>
+            </div>
+            <div class="scorebug-baseball-additional row" style="display: none;">
+                <hr class="hidden-sm hidden-md hidden-lg"/>
+                <div class="form-group">
+                    <h3><label>Score Bug</label></h3>
+                </div>
+                <div class="form-group period-container">
+                    <label class="control-label" for="baseball_period_name">Inning</label>
+                    <select class="form-control" id="baseball_period_name">
+                        <option value="TOP">Top</option>
+                        <option value="BOT">Bottom</option>
+                        <option value="END">End</option>
+                    </select>
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group period-container">
+                    <label class="control-label" for="baseball_period">Inning #</label>
+                    <input type="number" class="form-control" id="baseball_period"
+                           min="0" max="50"
+                           name="period" placeholder="0">
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group runners-container">
+                    <label class="control-label">Runners</label>
+                    <div class="checkbox mt-0">
+                        <label style="display: block;">
+                            <input type="checkbox" id="first-runner" /> First
+                        </label>
+                        <label style="display: block;">
+                            <input type="checkbox" id="second-runner" /> Second
+                        </label>
+                        <label style="display: block;">
+                            <input type="checkbox" id="third-runner" /> Third
+                        </label>
+                    </div>
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group outs-container">
+                    <label class="control-label" for="baseball_outs">Outs</label>
+                    <input type="number" class="form-control" id="baseball_outs"
+                           min="0" max="2"
+                           name="baseball_outs" placeholder="0">
+                    <div class="help-block with-errors"></div>
+                </div>
+            </div>
+            <div class="scorebug-basketball-additional row" style="display: none;">
+                <hr class="hidden-sm hidden-md hidden-lg"/>
+                <div class="form-group">
+                    <h3><label>Score Bug</label></h3>
+                </div>
+                <div class="form-group period-container">
+                    <label class="control-label" for="basketball_period">Period</label>
+                    <input type="number" class="form-control" id="basketball_period"
+                           min="0"
+                           name="period" placeholder="0">
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group fouls-visitor-container">
+                    <label class="control-label" for="basketball_fouls_team_1">Fouls (<span class="visitor-team"></span>)</label>
+                    <input type="number" class="form-control" id="basketball_fouls_team_1"
+                           min="0"
+                           name="basketball_fouls_team_1" placeholder="0">
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group fouls-home-container">
+                    <label class="control-label" for="basketball_fouls_team_2">Fouls (<span class="home-team"></span>)</label>
+                    <input type="number" class="form-control" id="basketball_fouls_team_2"
+                           min="0"
+                           name="basketball_fouls_team_2" placeholder="0">
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group timeouts-visitor-container">
+                    <label class="control-label" for="basketball_timeouts_team_1">Timeouts used (<span class="visitor-team"></span>)</label>
+                    <input type="number" class="form-control" id="basketball_timeouts_team_1"
+                           min="0" max="50"
+                           name="basketball_timeouts_team_1" placeholder="0">
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group timeouts-home-container">
+                    <label class="control-label" for="basketball_timeouts_team_2">Timeouts used (<span class="home-team"></span>)</label>
+                    <input type="number" class="form-control" id="basketball_timeouts_team_2"
+                           min="0" max="50"
+                           name="basketball_timeouts_team_2" placeholder="0">
+                    <div class="help-block with-errors"></div>
+                </div>
+            </div>
+            <div class="scorebug-volleyball-additional row" style="display: none;">
+                <hr class="hidden-sm hidden-md hidden-lg"/>
+                <div class="form-group">
+                    <h3><label>Score Bug</label></h3>
+                </div>
+                <div class="form-group points-visitor-container">
+                    <label class="control-label" for="volley_team_1">Current points (<span class="visitor-team"></span>)</label>
+                    <input type="number" class="form-control" id="volley_team_1"
+                           min="0"
+                           name="volley_team_1" placeholder="0">
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group points-home-container">
+                    <label class="control-label" for="volley_team_2">Current points (<span class="home-team"></span>)</label>
+                    <input type="number" class="form-control" id="volley_team_2"
+                           min="0"
+                           name="volley_team_2" placeholder="0">
+                    <div class="help-block with-errors"></div>
+                </div>
+            </div>
+            <div class="scorebug-other-additional row" style="display: none;">
+                <hr class="hidden-sm hidden-md hidden-lg"/>
+                <div class="form-group">
+                    <h3><label>Score Bug</label></h3>
+                </div>
+                <div class="form-group period-container">
+                    <label class="control-label" for="other_period">Period</label>
+                    <input type="number" class="form-control" id="other_period"
+                           min="0"
+                           name="period" placeholder="0">
+                    <div class="help-block with-errors"></div>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="checkbox">
+                <label><input class="keep-popup-open" type="checkbox" value="1">Keep popup open for quick updates</label>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="/admin/team/gameday3/js/update-score-popup.controller.js"></script>
+
+<div class="update-result-popup-content-template">
+    <form role="form">
+        <div class="form-group">
+            <h3>
+                <label class="season-name"></label>
+                <label>@ <span class="date-info"></span></label>
+            </h3>
+        </div>
+        <div class="form-group">
+            <label class="team_away control-label" for="team_away"></label>
+            <input type="text" class="form-control" id="team_away"
+                   name="team_away" placeholder="0">
+        </div>
+        <div class="form-group">
+            <label class="team_home control-label" for="team_home"></label>
+            <input type="text" class="form-control" id="team_home"
+                   name="team_home" placeholder="0">
+        </div>
+        <div class="form-group status-container">
+            <div>
+                <label class="option-label">In progress</label>
+                <label class="radio-inline">
+                    <input type="radio" name="options-inprogress" value="yes">Yes
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="options-inprogress" value="no">No
+                </label>
+            </div>
+            <div>
+                <label class="option-label">Postponed</label>
+                <label class="radio-inline">
+                    <input type="radio" name="options-postponed" value="yes">Yes
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="options-postponed" value="no">No
+                </label>
+            </div>
+            <div>
+                <label class="option-label">Cancelled</label>
+                <label class="radio-inline">
+                    <input type="radio" name="options-cancelled" value="yes">Yes
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="options-cancelled" value="no">No
+                </label>
+            </div>
+            <div class="status-text">
+                <label class="control-label">Status</label>
+                <input class="form-control" name="status-text"
+                       placeholder='e.g. "Halftime", "12:53 2nd" or "BOT 3"' />
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="checkbox">
+                <label><input class="keep-popup-open" type="checkbox" value="">Keep popup open for quick updates</label>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="/admin/team/gameday3/js/update-result-popup.controller.js"></script>
+
+            </div><!-- /.templates.hide -->
+        </div><!-- /.col-md-9 -->
+
+        <div class="filters-container sidebar-offcanvas-right col-md-3 col-sm-3">
+            <div class="filters">
+                <div class="right-menu-container">
+                    <div class='input-group input-group-sm datepicker' id='datepicker' data-picker="date">
+                        <input type='text' class="form-control" />
+                        <a class="btn btn-primary btn-today text-uppercase"
+                           role="button"><span>Today</span></a>
+                        <span class="input-group-addon btn btn-primary">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                    <div class="change-view-container novisible-change-view btn-group btn-group-justified">
+                        <a id="list" class="btn btn-primary btn-sm">
+                            <span class="glyphicon glyphicon-th-list"></span> List
+                        </a>
+                        <a id="grid" class="btn btn-default btn-sm">
+                            <span class="glyphicon glyphicon-th"></span> Grid
+                        </a>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Go directly to:</label>
+                    <div class="list-group go-directly-list">
+                        <a href="/admin/team/gameday3/" class="list-group-item active no-erasable">View all seasons
+                            <span class="glyphicon glyphicon-refresh spinning loading-seasons-links"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="/admin/team/gameday3/vendor/validator.js"></script>
+        <script type="text/javascript" src="/admin/team/gameday3/vendor/modal-builder.js"></script>
+        <script type="text/javascript" src="/admin/team/gameday3/vendor/jquery-hash-parameters.js"></script>
+        <script type="text/javascript" src="/admin/team/gameday3/js/utils.js"></script>
+        <script type="text/javascript" src="/admin/team/gameday3/js/controller.js"></script>
+        <script type="text/javascript" src="/admin/team/gameday3/js/tour.js"></script>
+        <script type="text/javascript" src="/admin/team/gameday3/js/index.js"></script>
+    </div><!-- /.gameday.row -->
+    </div>
+</div><!-- /.container-fluid -->
+
+<script type="text/javascript">
+    jQuery(document).ready(function($) {
+        $('.feature .toggle').click(function () {
+            $('.feature.row-offcanvas').toggleClass('active');
+            var span = $(this).find("span");
+            if (span.hasClass("glyphicon-chevron-left")) {
+                span.removeClass("glyphicon-chevron-left")
+                    .addClass("glyphicon-chevron-right");
+            } else {
+                span.removeClass("glyphicon-chevron-right")
+                    .addClass("glyphicon-chevron-left");
+            }
+        });
+    });
+</script>
+{% endblock %}

@@ -1,11 +1,18 @@
 from flask import Flask
+from flask.wrappers import Request
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
 
+class LargeFormRequest(Request):
+    """Allow large form fields (e.g. GWT boxscore blob ~300KB+) for saveboxscore.json."""
+    max_form_memory_size = 50 * 1024 * 1024  # 50MB
+
+
 def create_app(config_class=None):
     app = Flask(__name__)
+    app.request_class = LargeFormRequest
 
     if config_class:
         app.config.from_object(config_class)
@@ -15,21 +22,222 @@ def create_app(config_class=None):
 
     db.init_app(app)
 
-    from app.routes import main_bp, api_bp
+    from app.routes import main_bp
     app.register_blueprint(main_bp)
-    app.register_blueprint(api_bp, url_prefix="/api")
+
+    from app.gwtapi import gwtapi_bp
+    app.register_blueprint(gwtapi_bp, url_prefix='/action/stats')
+
+    from app.xmlapi import xml_bp
+    app.register_blueprint(xml_bp)
+
+    # Map sport_code → default icon filename under /action/cdn/info/images/icons/
+    SPORT_ICON_MAP = {
+        'bsb': 'bsb.png', 'hsvarsitybsb': 'bsb.png', 'hsjvbsb': 'bsb.png',
+        'sb':  'sball.png', 'sballhs': 'sball.png', 'hsvarsitysb': 'sball.png', 'hsjvsb': 'sball.png',
+        'mbkb': 'mbkb.png', 'hsvarsitymbkb': 'mbkb.png', 'hsjvmbkb': 'mbkb.png',
+        'wbkb': 'wbkb.png', 'hsvarsitywbkb': 'wbkb.png', 'hsjvwbkb': 'wbkb.png',
+        'fb':  'fball.png', 'hsvarsityfb': 'fball.png', 'hsjvfb': 'fball.png',
+    }
+
+    @app.template_filter("sport_icon")
+    def sport_icon_filter(sport_code):
+        """Return the URL for the default sport icon given a sport_code string."""
+        fname = SPORT_ICON_MAP.get(sport_code or '', 'bsb.png')
+        return f'/action/cdn/info/images/icons/{fname}'
+
+    @app.template_filter("team_logo")
+    def team_logo_filter(team, sport_code=''):
+        """Return logo URL for team: school logo if available, else sport icon."""
+        if team and team.school and team.school.logo:
+            return f'/action/cdn/schools/{team.school.logo}'
+        fname = SPORT_ICON_MAP.get(sport_code or '', 'bsb.png')
+        return f'/action/cdn/info/images/icons/{fname}'
+
+    @app.template_global("sport_icon_url")
+    def sport_icon_url(sport_code):
+        fname = SPORT_ICON_MAP.get(sport_code or '', 'bsb.png')
+        return f'/action/cdn/info/images/icons/{fname}'
+
+    @app.template_filter("pretty_date")
+    def pretty_date_filter(s):
+        """Format mm/dd/yyyy or yyyy-mm-dd as 'Month Day, Year'."""
+        if not s:
+            return ''
+        from datetime import datetime
+        for fmt in ('%m/%d/%Y', '%Y-%m-%d', '%m-%d-%Y'):
+            try:
+                return datetime.strptime(s.strip(), fmt).strftime('%B %-d, %Y')
+            except ValueError:
+                continue
+        return s  # fallback: return as-is
+
+    @app.template_filter("from_json")
+    def from_json_filter(s):
+        """Parse a JSON string in a template: {{ json_str | from_json }}"""
+        if not s:
+            return {}
+        try:
+            import json as _json
+            return _json.loads(s)
+        except Exception:
+            return {}
+
+    @app.template_filter("numfmt")
+    def numfmt_filter(s):
+        """Strip leading zeros from a uniform number string (e.g. '07' -> '7')."""
+        if not s:
+            return s or ""
+        try:
+            return str(int(s))
+        except (ValueError, TypeError):
+            return s
+
+    @app.template_filter("event_date")
+    def event_date_filter(date_str):
+        """Convert YYYY-MM-DD to MM/DD/YYYY for statGame.jsp URLs."""
+        if not date_str:
+            return ''
+        try:
+            from datetime import datetime
+            return datetime.strptime(date_str, '%Y-%m-%d').strftime('%m/%d/%Y')
+        except (ValueError, AttributeError):
+            return date_str
+
+    import time
+
+    @app.template_global("now_ms")
+    def now_ms():
+        """Current epoch milliseconds for the ?t= cache-buster parameter."""
+        return int(time.time() * 1000)
 
     with app.app_context():
         from app import models  # noqa: F401
         db.create_all()
+        _migrate_db()
         _seed_demo_data()
+
+    @app.cli.command("make-admin")
+    def make_admin_cmd():
+        """Make user 'Anderson Long' an admin."""
+        from app.models import User
+        for u in User.query.all():
+            dn = (u.display_name or "").lower()
+            un = (u.username or "").lower()
+            combined = set(dn.split()) | set(un.split())
+            if "anderson" in combined and "long" in combined:
+                u.role = "admin"
+                db.session.commit()
+                print(f"Updated {u.display_name or u.username} (id={u.id}) to admin.")
+                return
+        print("User 'Anderson Long' not found.")
 
     return app
 
 
+def _migrate_db():
+    """Add any missing columns to existing tables without losing data."""
+    new_columns = [
+        ("game", "visitor_record", "VARCHAR(20) DEFAULT ''"),
+        ("game", "visitor_conf", "VARCHAR(20) DEFAULT ''"),
+        ("game", "home_record", "VARCHAR(20) DEFAULT ''"),
+        ("game", "home_conf", "VARCHAR(20) DEFAULT ''"),
+        ("game", "entry_mode", "VARCHAR(40) DEFAULT 'box_game_totals'"),
+        ("play", "action_type", "VARCHAR(80)"),
+        ("play", "rbi", "INTEGER DEFAULT 0"),
+        ("play", "outs_on_play", "INTEGER DEFAULT 0"),
+        ("play", "runs_scored", "INTEGER DEFAULT 0"),
+        ("play", "runners_after", "VARCHAR(3) DEFAULT '000'"),
+        ("play", "sub_who",  "VARCHAR(200) DEFAULT ''"),
+        ("play", "sub_for",  "VARCHAR(200) DEFAULT ''"),
+        ("play", "sub_pos",  "VARCHAR(20)  DEFAULT ''"),
+        ("play", "sub_spot", "INTEGER DEFAULT 0"),
+        ("play", "sub_vh",   "VARCHAR(1)   DEFAULT ''"),
+        ("play", "runner_first",  "VARCHAR(200) DEFAULT ''"),
+        ("play", "runner_second", "VARCHAR(200) DEFAULT ''"),
+        ("play", "runner_third",  "VARCHAR(200) DEFAULT ''"),
+        ("play", "balls",    "INTEGER"),
+        ("play", "strikes",  "INTEGER"),
+        ("game", "gwt_bs_blob", "TEXT DEFAULT ''"),
+        ("season", "sport_id", "INTEGER DEFAULT 1"),
+        ("season", "sport_code", "VARCHAR(50) DEFAULT ''"),
+        ("users", "email", "VARCHAR(200) DEFAULT ''"),
+        ("users", "phone", "VARCHAR(30) DEFAULT ''"),
+        ("season", "start_date", "VARCHAR(20) DEFAULT ''"),
+        ("season", "end_date", "VARCHAR(20) DEFAULT ''"),
+        ("team", "school_id", "INTEGER REFERENCES school(id)"),
+        ("game", "has_lineup", "BOOLEAN DEFAULT 0"),
+        ("school", "logo", "VARCHAR(200) DEFAULT ''"),
+        ("fielding_stats", "indp", "INTEGER DEFAULT 0"),
+        ("fielding_stats", "intp", "INTEGER DEFAULT 0"),
+        ("fielding_stats", "csb", "INTEGER DEFAULT 0"),
+        ("game_version", "id", None),  # sentinel — table created by create_all
+    ]
+    with db.engine.connect() as conn:
+        for table, column, col_def in new_columns:
+            try:
+                conn.execute(db.text(f"ALTER TABLE {table} ADD COLUMN {column} {col_def}"))
+                conn.commit()
+            except Exception:
+                pass  # Column already exists
+
+        # Clear false-finalized games: games marked complete but with no inning scores
+        # (artifact of old reload bug where statsPerPeriod phantom innings were saved)
+        try:
+            conn.execute(db.text(
+                "UPDATE game SET is_complete=0 WHERE is_complete=1 "
+                "AND id NOT IN (SELECT DISTINCT game_id FROM inning_score)"
+            ))
+            conn.commit()
+        except Exception:
+            pass
+
+        # Backfill sport_id from rules for any rows that still have the default
+        try:
+            conn.execute(db.text(
+                "UPDATE season SET sport_id=11 WHERE sport_id=1 AND rules LIKE '%_sb'"
+            ))
+            conn.commit()
+        except Exception:
+            pass
+
+        # Backfill sport_code from sport_id for existing rows missing it
+        _sport_id_to_default_code = {
+            0: 'fb', 1: 'bsb', 2: 'mbkb', 3: 'msoc', 4: 'vb',
+            5: 'ih', 6: 'mlax', 7: 'ten', 9: 'fh', 10: 'wlax',
+            11: 'sb', 12: 'wp',
+        }
+        for sport_int, default_code in _sport_id_to_default_code.items():
+            try:
+                conn.execute(db.text(
+                    f"UPDATE season SET sport_code=:code WHERE sport_id=:sid AND (sport_code='' OR sport_code IS NULL)"
+                ), {'code': default_code, 'sid': sport_int})
+                conn.commit()
+            except Exception:
+                pass
+
+
 def _seed_demo_data():
     """Create a Demo Season with sample teams, rosters, and games if it doesn't exist."""
-    from app.models import Season, Team, Player, Game, InningScore, BattingStats, PitchingStats
+    import hashlib
+    from app.models import Season, Team, Player, Game, InningScore, BattingStats, PitchingStats, User
+
+    # Seed admin user
+    if not User.query.filter_by(username='admin@admin.com').first():
+        # Migrate legacy 'admin' username to email format if it exists
+        legacy = User.query.filter_by(username='admin').first()
+        if legacy:
+            legacy.username = 'admin@admin.com'
+            db.session.commit()
+        else:
+            admin = User(
+                username='admin@admin.com',
+                password_sha256=hashlib.sha256(b'admin').hexdigest(),
+                display_name='Administrator',
+                role='admin',
+            )
+            db.session.add(admin)
+            db.session.commit()
 
     if Season.query.filter_by(name="Demo Season").first():
         return
@@ -75,7 +283,7 @@ def _seed_demo_data():
                 name=f"{first_names[ti][pi]} {last_names[ti][pi]}",
                 first_name=first_names[ti][pi],
                 last_name=last_names[ti][pi],
-                uniform_number=str(pi + 1).zfill(2),
+                uniform_number=str(pi + 1),
                 position=positions[pi],
                 bats="Right" if pi % 3 == 0 else ("Left" if pi % 3 == 1 else "Switch"),
                 throws="Right" if pi % 2 == 0 else "Left",

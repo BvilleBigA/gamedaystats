@@ -1,0 +1,32 @@
+/* Presto styles come from parent manage_users_spa.html */
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+/* Dropdown menus: no scrollbar */
+.dropdown-menu {
+  max-height: none;
+  overflow: hidden;
+}
+
+/* Add User modal: consistent textbox sizing */
+.add-user-input {
+  width: 100%;
+  max-width: 280px;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(0, 0, 0, 0.23);
+  border-radius: 4px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+/* Add User modal: no horizontal scrollbar */
+.add-user-dialog .MuiDialog-scrollPaper,
+.add-user-dialog .add-user-modal {
+  overflow-x: hidden;
+}
+.add-user-modal > div {
+  overflow-x: hidden;
+}

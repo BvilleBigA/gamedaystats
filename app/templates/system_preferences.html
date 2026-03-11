@@ -42,97 +42,78 @@
         </div>
     </div>
 
-    <!-- Delete Season forms (hidden) -->
-    {% for season in seasons %}
-    <form id="delete-season-{{ season.id }}" method="post" action="{{ url_for('main.configure_season_delete', season_id=season.id) }}" style="display: none;"></form>
-    {% endfor %}
 </div>
 
 <!-- ── New Season Modal ────────────────────────────────────────────────── -->
 <div id="add-season-modal" class="modal-overlay" style="display: none;">
     <div class="modal-box">
         <h2>New Season</h2>
-        <form method="post" action="{{ url_for('main.configure_season_create') }}">
-            <div class="form-group">
-                <label for="season-name">Season Title:</label>
-                <input type="text" id="season-name" name="name" required placeholder="e.g. Spring 2025 Softball">
-            </div>
-            <div class="form-group">
-                <label for="season-play-entry">Default Play Entry Mode:</label>
-                <select id="season-play-entry" name="play_entry_mode" required>
-                    <option value="" disabled selected></option>
-                    <option value="box_game_totals">Box Score: Game Totals</option>
-                    <option value="box_inning_by_inning">Box Score: Inning by Inning</option>
-                    <option value="pbp_simple">Play-by-Play: Simple Mode</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="season-rules">Rules:</label>
-                <select id="season-rules" name="rules" required>
-                    <option value="" disabled selected></option>
-                    <option value="rules_hs_ba">High School Baseball</option>
-                    <option value="rules_hs_sb">High School Softball</option>
-                    <option value="rules_ncaa_ba">NCAA Baseball</option>
-                    <option value="rules_ncaa_sb">NCAA Softball</option>
-                    <option value="rules_mlb">Major League Baseball</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="season-gender">Default Gender:</label>
-                <select id="season-gender" name="gender" required>
-                    <option value="" disabled selected></option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                </select>
-            </div>
-            <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem;">
-                <button type="submit" class="btn">OK</button>
-                <button type="button" class="btn" style="background: var(--text-light);" onclick="hideModals()">Cancel</button>
-            </div>
-        </form>
+        <div id="add-season-error" style="display:none; background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5; border-radius:4px; padding:0.4rem 0.75rem; margin-bottom:0.75rem; font-size:0.85rem;"></div>
+        <div class="form-group">
+            <label for="season-name">Season Title:</label>
+            <input type="text" id="season-name" name="name" required placeholder="e.g. Spring 2025 Softball">
+        </div>
+        <div class="form-group">
+            <label for="season-gender">Default Gender:</label>
+            <select id="season-gender" name="gender">
+                <option value="male">Male</option>
+                <option value="female" selected>Female</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="season-start-date">Start Date:</label>
+            <input type="date" id="season-start-date" name="start_date">
+        </div>
+        <div class="form-group">
+            <label for="season-end-date">End Date:</label>
+            <input type="date" id="season-end-date" name="end_date">
+        </div>
+        <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem;">
+            <button type="button" class="btn" onclick="submitAddSeason()">OK</button>
+            <button type="button" class="btn" style="background: var(--text-light);" onclick="hideModals()">Cancel</button>
+        </div>
     </div>
 </div>
 
 <!-- ── Edit Season Modal ───────────────────────────────────────────────── -->
 {% for season in seasons %}
-<div id="edit-season-modal-{{ season.id }}" class="modal-overlay edit-season-modal" style="display: none;">
+<div id="edit-season-modal-{{ season.id }}" class="modal-overlay edit-season-modal" style="display: none;" data-season-id="{{ season.id }}">
     <div class="modal-box">
         <h2>Edit Season</h2>
-        <form method="post" action="{{ url_for('main.configure_season_edit', season_id=season.id) }}">
-            <div class="form-group">
-                <label>Season Title:</label>
-                <input type="text" name="name" value="{{ season.name }}" required>
-            </div>
-            <div class="form-group">
-                <label>Default Play Entry Mode:</label>
-                <select name="play_entry_mode">
-                    <option value="box_game_totals" {{ 'selected' if season.play_entry_mode == 'box_game_totals' }}>Box Score: Game Totals</option>
-                    <option value="box_inning_by_inning" {{ 'selected' if season.play_entry_mode == 'box_inning_by_inning' }}>Box Score: Inning by Inning</option>
-                    <option value="pbp_simple" {{ 'selected' if season.play_entry_mode == 'pbp_simple' }}>Play-by-Play: Simple Mode</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Rules:</label>
-                <select name="rules">
-                    <option value="rules_hs_ba" {{ 'selected' if season.rules == 'rules_hs_ba' }}>High School Baseball</option>
-                    <option value="rules_hs_sb" {{ 'selected' if season.rules == 'rules_hs_sb' }}>High School Softball</option>
-                    <option value="rules_ncaa_ba" {{ 'selected' if season.rules == 'rules_ncaa_ba' }}>NCAA Baseball</option>
-                    <option value="rules_ncaa_sb" {{ 'selected' if season.rules == 'rules_ncaa_sb' }}>NCAA Softball</option>
-                    <option value="rules_mlb" {{ 'selected' if season.rules == 'rules_mlb' }}>Major League Baseball</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Default Gender:</label>
-                <select name="gender">
-                    <option value="male" {{ 'selected' if season.gender == 'male' }}>Male</option>
-                    <option value="female" {{ 'selected' if season.gender == 'female' }}>Female</option>
-                </select>
-            </div>
-            <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem;">
-                <button type="submit" class="btn accent">Save</button>
-                <button type="button" class="btn" style="background: var(--text-light);" onclick="hideModals()">Cancel</button>
-            </div>
-        </form>
+        <div class="season-edit-error" style="display:none; background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5; border-radius:4px; padding:0.4rem 0.75rem; margin-bottom:0.75rem; font-size:0.85rem;"></div>
+        <div class="form-group">
+            <label>Season Title:</label>
+            <input type="text" class="edit-season-name" value="{{ season.name }}" required>
+        </div>
+        <div class="form-group">
+            <label>Rules:</label>
+            <select class="edit-season-rules">
+                <option value="rules_hs_ba" {{ 'selected' if season.rules == 'rules_hs_ba' }}>High School Baseball</option>
+                <option value="rules_hs_sb" {{ 'selected' if season.rules == 'rules_hs_sb' }}>High School Softball</option>
+                <option value="rules_ncaa_ba" {{ 'selected' if season.rules == 'rules_ncaa_ba' }}>NCAA Baseball</option>
+                <option value="rules_ncaa_sb" {{ 'selected' if season.rules == 'rules_ncaa_sb' }}>NCAA Softball</option>
+                <option value="rules_mlb" {{ 'selected' if season.rules == 'rules_mlb' }}>Major League Baseball</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Default Gender:</label>
+            <select class="edit-season-gender">
+                <option value="male" {{ 'selected' if season.gender == 'male' }}>Male</option>
+                <option value="female" {{ 'selected' if season.gender == 'female' }}>Female</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Start Date:</label>
+            <input type="date" class="edit-season-start-date" value="{{ season.start_date or '' }}">
+        </div>
+        <div class="form-group">
+            <label>End Date:</label>
+            <input type="date" class="edit-season-end-date" value="{{ season.end_date or '' }}">
+        </div>
+        <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem;">
+            <button type="button" class="btn accent" onclick="submitEditSeason({{ season.id }})">Save</button>
+            <button type="button" class="btn" style="background: var(--text-light);" onclick="hideModals()">Cancel</button>
+        </div>
     </div>
 </div>
 {% endfor %}
@@ -223,6 +204,8 @@ function hideModals() {
 function showAddSeason() {
     hideModals();
     document.getElementById('add-season-modal').style.display = '';
+    document.getElementById('add-season-error').style.display = 'none';
+    document.getElementById('season-name').value = '';
     document.getElementById('season-name').focus();
 }
 
@@ -231,16 +214,89 @@ function showEditSeason() {
     hideModals();
     var modal = document.getElementById('edit-season-modal-' + selectedSeasonId);
     if (modal) {
+        modal.querySelector('.season-edit-error').style.display = 'none';
         modal.style.display = '';
     }
 }
 
+function submitAddSeason() {
+    var name = document.getElementById('season-name').value.trim();
+    var errEl = document.getElementById('add-season-error');
+    if (!name) {
+        errEl.textContent = 'Season name is required.';
+        errEl.style.display = '';
+        return;
+    }
+    var formData = new FormData();
+    formData.append('name', name);
+    formData.append('gender', document.getElementById('season-gender').value);
+    formData.append('start_date', document.getElementById('season-start-date').value);
+    formData.append('end_date', document.getElementById('season-end-date').value);
+
+    fetch('/configure/season', { method: 'POST', body: formData })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            if (!data.ok) {
+                errEl.textContent = data.error || 'Save failed.';
+                errEl.style.display = '';
+                return;
+            }
+            window.location.reload();
+        })
+        .catch(function() {
+            errEl.textContent = 'Network error — changes not saved.';
+            errEl.style.display = '';
+        });
+}
+
+function submitEditSeason(seasonId) {
+    var modal = document.getElementById('edit-season-modal-' + seasonId);
+    var errEl = modal.querySelector('.season-edit-error');
+    var name = modal.querySelector('.edit-season-name').value.trim();
+    if (!name) {
+        errEl.textContent = 'Season name is required.';
+        errEl.style.display = '';
+        return;
+    }
+    var formData = new FormData();
+    formData.append('name', name);
+    formData.append('rules', modal.querySelector('.edit-season-rules').value);
+    formData.append('gender', modal.querySelector('.edit-season-gender').value);
+    formData.append('start_date', modal.querySelector('.edit-season-start-date').value);
+    formData.append('end_date', modal.querySelector('.edit-season-end-date').value);
+
+    fetch('/configure/season/' + seasonId + '/edit', { method: 'POST', body: formData })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            if (!data.ok) {
+                errEl.textContent = data.error || 'Save failed.';
+                errEl.style.display = '';
+                return;
+            }
+            window.location.reload();
+        })
+        .catch(function() {
+            errEl.textContent = 'Network error — changes not saved.';
+            errEl.style.display = '';
+        });
+}
+
 function deleteSeason() {
     if (!selectedSeasonId) return;
-    if (confirm('Delete this season and all its teams?')) {
-        var form = document.getElementById('delete-season-' + selectedSeasonId);
-        if (form) form.submit();
-    }
+    if (!confirm('Delete this season and all its teams?')) return;
+    var formData = new FormData();
+    fetch('/configure/season/' + selectedSeasonId + '/delete', { method: 'POST', body: formData })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            if (!data.ok) {
+                alert('Delete failed: ' + (data.error || 'Unknown error'));
+                return;
+            }
+            window.location.reload();
+        })
+        .catch(function() {
+            alert('Network error — season not deleted.');
+        });
 }
 
 // Close modal on overlay click

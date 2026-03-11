@@ -1,0 +1,166 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    padding-top: 50px;
+}
+
+.layout {
+    height: 100%;
+}
+
+
+.left-sidebar-offcanvas {
+    padding-top:0;
+    padding-right:0;
+    background-color: var(--main-bg-color-dark-gray);
+    z-index: 1011;
+}
+
+@media (max-width: 767px) {
+    /* Styles for responsive header */
+    .signin .logo {
+        margin: 11px auto;
+        width: 100%;
+    }
+
+    .left-nav a{
+        line-height: 32px;
+    }
+
+    .left-nav li{
+        display: block !important;
+        float: none !important;
+    }
+
+    .nav2 .navbar-default {
+        background: transparent;
+        margin-left: 10px;
+    }
+
+    .nav2 .navbar2 li {
+        margin: 0;
+        -webkit-border-radius:0;
+        -moz-border-radius:0;
+        border-radius:0;
+    }
+
+    .nav2 .navbar2 a, .nav2 .navbar2 a:hover, .nav2 .navbar2 a:active, .nav2 .navbar2 a:focus {
+        width:100%;
+        line-height: 32px;
+    }
+    .nav2 .navbar2 a:hover, .nav2 .navbar2 a:active {
+        background-color: #811116;
+    }
+
+    .nav2 .navbar-toggle {
+        float: none;
+    }
+
+    .nav2 .help {
+        font-size: 15px;
+        margin-right: 10px;
+    }
+
+    .nav2 .help a {
+        margin: 10px 0;
+    }
+
+    .navbar-default .navbar-toggle .icon-bar { background-color: #FFF; }
+
+    .nav2 .navbar-nav {
+        margin: 0px -15px;
+    }
+
+    /* left sidebar styles */
+    .left-sidebar-row-offcanvas-right {
+        right: 0;
+    }
+
+    .left-sidebar-row-offcanvas-left {
+        left: 0;
+    }
+
+    .left-sidebar-row-offcanvas {
+        position: relative;
+        -webkit-transition: all .25s ease-out;
+        -o-transition: all .25s ease-out;
+        transition: all .25s ease-out;
+    }
+
+    .left-sidebar-row-offcanvas {
+        min-height: 100%;
+    }
+
+    .left-sidebar-row-offcanvas-left
+    .left-sidebar-offcanvas {
+        left: -41.6%;
+    }
+
+    .left-sidebar-row-offcanvas-left.active {
+        left: 41.6%;
+    }
+
+    .left-sidebar-offcanvas {
+        position: absolute;
+        top: 0;
+        width: 41.6%;
+        height: 100%;
+        min-height: 100%;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .signin .logo {
+        float: left;
+    }
+}
+
+/*fix for nav2*/
+@media screen and (max-width: 768px)
+{
+    .navbar-collapse.collapsing
+    {
+        position: absolute !important;
+        z-index: 1010;
+        top: 50px;
+    }
+    .navbar-collapse.collapse.in {
+        display: block;
+        position: absolute;
+        z-index: 1010;
+        top: 50px;
+    }
+    .navbar-collapse
+    {
+        max-height: none !important;
+        min-width: 160px;
+    }
+}
+
+.row.no-gutter {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.row.no-gutter [class*='col-']:not(:first-child),
+.row.no-gutter [class*='col-']:not(:last-child) {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.mw-100{
+    max-width: 100%;
+}
+
+.mh-100{
+    max-height: 100%;
+}
+
+.image-preview-img-td{
+    width:300px;
+    height: 150px;
+    box-sizing: content-box;
+    vertical-align: top;
+}

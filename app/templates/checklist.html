@@ -1,0 +1,134 @@
+{% extends "team.html" %}
+
+{% block page_title %}Check list — {{ week_label }}{% endblock %}
+
+{% block head_extra %}
+<style>
+    .week-nav-bar { margin-bottom: 6px; }
+    .week-nav-bar a {
+        display: inline-block; padding: 4px 12px; margin-right: 4px;
+        background: #fff; border: 1px solid #ccc; border-radius: 4px;
+        font-size: 12px; color: #555; text-decoration: none;
+    }
+    .week-nav-bar a:hover { background: #f0f0f0; border-color: #aaa; }
+    .checklist-game-row td { font-size: 13px; }
+    .status-final  { color: #155a15; font-weight: bold; }
+    .status-prog   { color: #b85c00; font-weight: bold; }
+    .status-sched  { color: #3949ab; }
+    .btn-open-sm {
+        display: inline-block; padding: 2px 8px; background: #d94f00;
+        color: #fff; border-radius: 4px; text-decoration: none;
+        font-size: 11px; font-weight: bold;
+    }
+    .btn-open-sm:hover { background: #b84200; color: #fff; }
+</style>
+{% endblock %}
+
+{% block top_level_name %}Game day{% endblock %}
+
+{% block secondary_nav_links %}
+    <li class="{% if request.path == '/admin/team/gameday3/' or request.path == '/admin/team/gameday3' %}active{% endif %}">
+        <a href="/admin/team/gameday3/">Scores</a>
+    </li>
+    <li class="{% if request.path.startswith('/admin/team/checklist') %}active{% endif %}">
+        <a href="/admin/team/checklist/">Upcoming</a>
+    </li>
+    <li class="{% if request.path.startswith('/admin/team/season') %}active{% endif %}">
+        <a href="/admin/team/season/">Seasons</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+
+<table class="layout">
+<tbody><tr>
+<td>
+<h1 style="clear: none">Check list &mdash; {{ week_label }}</h1>
+</td>
+<td align="right">
+<div class="week-nav-bar">
+    <a href="/admin/team/checklist/?week={{ prev_week }}">&laquo; Prev week</a>
+    <a href="/admin/team/checklist/">Today</a>
+    <a href="/admin/team/checklist/?week={{ next_week }}">Next week &raquo;</a>
+</div>
+</td>
+</tr></tbody></table>
+
+<table class="layoutView">
+  <tbody><tr>
+    <td id="view" valign="top">
+
+<h1>Live stats</h1>
+
+{% if not season_rows %}
+<p style="color:#999; font-style:italic;">No seasons configured.</p>
+{% else %}
+
+{% for row in season_rows %}
+{% set season = row.season %}
+{% set games  = row.games %}
+<form>
+<table class="seasonlist">
+  <tbody>
+  <tr class="seasonlabel">
+    <td colspan="7">
+      <a href="/admin/team/season/season.jsp?season_id={{ season.id }}"><h3 style="float: left">{{ season.name }}</h3></a>
+      &nbsp;
+      <a href="/admin/team/season/season.jsp?season_id={{ season.id }}">[manage season]</a>
+    </td>
+  </tr>
+
+  {% if games %}
+  <tr style="background:#f8f8f8;">
+    <td style="font-size:11px; font-weight:bold; padding:5px 8px; text-transform:uppercase; color:#777;">Date</td>
+    <td style="font-size:11px; font-weight:bold; padding:5px 8px; text-transform:uppercase; color:#777;">Time</td>
+    <td style="font-size:11px; font-weight:bold; padding:5px 8px; text-transform:uppercase; color:#777;">Visitor</td>
+    <td style="font-size:11px; font-weight:bold; padding:5px 8px; text-transform:uppercase; color:#777;">Home</td>
+    <td style="font-size:11px; font-weight:bold; padding:5px 8px; text-transform:uppercase; color:#777;">Score</td>
+    <td style="font-size:11px; font-weight:bold; padding:5px 8px; text-transform:uppercase; color:#777;">Status</td>
+    <td style="font-size:11px; font-weight:bold; padding:5px 8px; text-transform:uppercase; color:#777;">Action</td>
+  </tr>
+  {% for g in games %}
+  <tr class="checklist-game-row">
+    <td>{{ g.date or '—' }}</td>
+    <td>{{ g.start_time or '—' }}</td>
+    <td>{{ g.visitor_team.name if g.visitor_team else '—' }}</td>
+    <td>{{ g.home_team.name if g.home_team else '—' }}</td>
+    <td colspan="2">
+      {% set lbl = g.status_label %}
+      {% if g.is_complete %}
+        <span class="status-final">{{ lbl }}</span>
+      {% elif lbl %}
+        <span class="status-prog">{{ lbl }}</span>
+      {% else %}
+        <span class="status-sched">Scheduled</span>
+      {% endif %}
+    </td>
+    <td>
+      {% set s_sport = g.visitor_team.season.sport_id if g.visitor_team and g.visitor_team.season else 1 %}
+      <a class="btn-open-sm"
+         href="/action/stats/statsentry/statGame.jsp?t={{ now_ms() }}&season_id={{ season.id }}&event_id={{ g.id }}&sport_code={{ s_sport }}&event_date={{ g.date | event_date }}"
+         target="_blank">Open</a>
+    </td>
+  </tr>
+  {% endfor %}
+  {% else %}
+  <tr>
+    <td colspan="7" style="padding:8px 10px; color:#aaa; font-style:italic; font-size:13px;">
+      No games scheduled this week.
+    </td>
+  </tr>
+  {% endif %}
+
+  </tbody>
+</table>
+</form>
+
+{% endfor %}
+{% endif %}
+
+    </td>
+  </tr></tbody>
+</table>
+
+{% endblock %}

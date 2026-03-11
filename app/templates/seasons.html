@@ -1,0 +1,82 @@
+{% extends "team.html" %}
+
+{% block page_title %}Seasons{% endblock %}
+
+{% block top_level_name %}Game day{% endblock %}
+
+{% block secondary_nav_links %}
+    <li class="{% if request.path == '/admin/team/gameday3/' or request.path == '/admin/team/gameday3' %}active{% endif %}">
+        <a href="/admin/team/gameday3/">Scores</a>
+    </li>
+    <li class="{% if request.path.startswith('/admin/team/checklist') %}active{% endif %}">
+        <a href="/admin/team/checklist/">Upcoming</a>
+    </li>
+    <li class="{% if request.path.startswith('/admin/team/season') %}active{% endif %}">
+        <a href="/admin/team/season/">Seasons</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+
+<table class="layout">
+<tbody><tr>
+<td>
+<h1 style="clear: none">Seasons</h1>
+</td>
+<td align="right"></td>
+</tr></tbody></table>
+
+<table class="layoutView">
+  <tbody><tr>
+    <td id="view" valign="top">
+
+<table width="700" border="0">
+  <tbody><tr>
+    <td valign="top">
+      <h3>Pick a current season</h3>
+      <table width="300">
+        <tbody>
+        {% if seasons %}
+          {% for s in seasons %}
+          <tr>
+            <td>
+              <img src="{{ s.sport_code | sport_icon }}" alt="" style="width:20px;height:20px;object-fit:contain;vertical-align:middle;margin-right:6px;opacity:0.7;">
+              <a href="/admin/team/season/season.jsp?season_id={{ s.id }}">{{ s.name }}</a>
+            </td>
+          </tr>
+          {% endfor %}
+        {% else %}
+          <tr><td><em style="color:#999;">No seasons found.</em></td></tr>
+        {% endif %}
+        </tbody>
+      </table>
+    </td>
+
+    <td valign="top">
+      <h3>Navigate to a season by sport</h3>
+      <table width="300">
+        <tbody>
+        {% if sports %}
+          {% for scode, sname in sports %}
+          <tr>
+            <td>
+              <a href="/admin/team/season/sport.jsp?sport_id={{ scode }}">
+                {{ sname }}
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        {% else %}
+          <tr><td><em style="color:#999;">No seasons configured yet.</em></td></tr>
+        {% endif %}
+        </tbody>
+      </table>
+    </td>
+  </tr></tbody>
+</table>
+
+    </td>
+  </tr></tbody>
+</table>
+
+{% endblock %}

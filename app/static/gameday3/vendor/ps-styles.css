@@ -1,0 +1,634 @@
+/* This file is for general purposes, and general site looking. */
+/* Styles that affect the overall look of the admin system should be here */
+/* Other particular styles like helpcenter links, season management look, */
+/* and gwt apps will rest on the css.css file or in their own particular files */
+
+/* Limbs will be chopped off in case this comment is ignored */
+
+/* First we start with general styles */
+
+@import url("/admin/team/gameday3/skins/ps-variables.css");
+
+body {
+    margin: 0px;
+    padding: 0px;
+    font: normal normal normal 13px/16px 'Open Sans', sans-serif;
+    color: #484848;
+    background-color: var(--main-bg-color-light-gray);
+}
+
+a, a:link, a:visited {
+    color: var(--main-bg-color-blue);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.small {
+    font-size: 10px;
+    text-decoration: none;
+}
+
+.red {
+    font-size: 10px;
+    color: var(--main-bg-color-red);
+    text-decoration: none;
+    font-weight: 100;
+}
+
+input, textarea, select {
+    font-size: 12px;
+    font-family: sans-serif;
+}
+
+input[disabled], label.disabled {
+    color: #999999;
+}
+
+button, html input[type=button], input[type=reset], input[type=submit] {
+    background-color: var(--main-bg-color-light-gray);
+}
+
+table:not(.table) {
+    border-collapse: collapse;
+    border-color: var(--main-bg-color-gray);
+}
+
+table.layoutView, .layout, table#view, table#browse {
+    border: none !important;
+}
+
+table#browse {
+    width: 100%;
+}
+
+table:not(.table) tr,
+table:not(.dialogTable) tr {
+    text-decoration: none;
+    border-color: var(--main-bg-color-gray);
+    font-size: 13px;
+}
+
+table:not(.table) tr.black {
+    border-bottom: 1px solid #ccc;
+}
+
+table:not(.table) tr.lightGray {
+    background-color: var(--main-bg-color-light-gray);
+}
+
+table:not(.table) th {
+    background-color:var(--main-bg-color-gray);
+    color: #333;
+    font-weight: normal;
+    border-color: var(--main-bg-color-gray);
+}
+
+table th a, table th a:link {
+    font-weight: normal;
+    color: #333;
+}
+
+table.borderless tr td, table.borderless tr th {
+    border: none;
+}
+
+h1 {
+    font-size: 22px;
+    color: var(--main-bg-color-blue);
+    font-weight: 700;
+}
+
+h1 a, h1 a:link {
+    font-size: 22px;
+    color: var(--main-bg-color-blue) !important;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 15px;
+    color: #FF9900;
+    font-weight: 700;
+}
+
+h3 {
+    font-size: 12px;
+    color: var(--main-bg-color-red);
+    font-weight: 700;
+}
+
+h3 a {
+    font-size: 12px;
+    color: var(--main-bg-color-red);
+    font-weight: 700;
+}
+
+h3, h4, h5 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-weight: 700;
+}
+
+/* Then we move to the layout specific styles */
+h3.larger {
+    font-size: 1.35em;
+}
+
+.signin {
+    text-align: right;
+    background-color: var(--main-bg-color-blue);
+    width: 100%;
+}
+
+.signin .logo-container {
+    text-align: center;
+}
+
+.signin .logo {
+    margin: 11px 0 0 14px;
+    display: block;
+}
+
+.signin .logo img {
+    max-height: 28px;
+}
+
+.signin .profile {
+    margin: 10px;
+    /*Display important to override prototype.js behavior in some sections*/
+    display: inline-block !important;
+}
+
+.signin .profile-content {
+    min-width: 300px;
+    padding: 10px 20px 0px;
+}
+
+.left-nav .navbar {
+    border: none;
+    margin-bottom: 0px;
+    min-height: 36px;
+}
+.left-nav .navbar li {
+    background-color: var(--main-bg-color-dark-gray);
+    display: inline-block;
+    float: left;
+}
+
+.left-nav .navbar a {
+    padding: 10px;
+    color: white;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.left-nav .navbar-default { border: 0; box-shadow: none; }
+
+.left-nav .navbar li.nav-item, .left-nav .navbar li:hover, .left-nav .navbar li:active, .left-nav .navbar li:focus  {
+    background-color: var(--main-bg-color-red);
+}
+
+.left-nav .navbar a:hover, .left-nav .navbar a:active, .left-nav .navbar a:focus  {
+    background-color: transparent;
+}
+
+.left-nav .navbar li.nav-item a {
+    z-index: 10;
+    color: #fff;
+    display: inline-block;
+}
+
+.left-nav .navonline {
+    float: right;
+    margin-top: 14px;
+}
+
+.left-nav-toggle  {
+    float: left;
+    font-size: 22px;
+    margin: 4px;
+    color: #aaa;
+}
+
+.nav2 {
+    background-color: var(--main-bg-color-gray);
+    /*color: #fff;*/
+    z-index: 2;
+}
+
+.nav2 .navbar-default { border: 0; box-shadow: none; }
+
+.nav2 a:not(.navbar-toggle), .nav2 .navbar2 a {
+    padding: 8px;
+    text-decoration: none;
+    /* semi bold */
+    font-weight: 600; 
+    background-color: var(--main-bg-color-gray);
+    display: inline-block;
+}
+
+.nav2 a.navbar-toggle { color: #FFF; }
+
+.nav2 .navbar2 li.nav2on a, .nav2 .navbar2 a:hover {
+    z-index: 10;
+    color: #fff;
+    display: inline-block;
+}
+
+.nav2 a:hover, .nav2 .navbar2 a:hover, .nav2 .navbar2 a:active, .nav2 .navbar2 a:focus {
+    background-color: var(--main-bg-color-dark-gray);
+}
+
+.nav2 span.hostname {
+    color: #fff;
+}
+
+.nav2 .navbar-header button {
+    font-weight: 700;
+}
+
+.nav2 .navbar-header span {
+    margin-left: 4px;
+}
+
+.nav2 .help {
+    line-height: 20px;
+}
+
+.nav2 .more-actions {
+    display: inline-block;
+}
+
+.nav2 .top-level-name {
+    font-size: 15px;
+}
+
+#mainbody {
+    padding: 10px 18px 18px 18px;
+}
+
+#mainbody .layout, #mainbody .layoutView {
+    width: 100%;
+}
+
+#mainbody .layoutView table:not(.table) th,
+#mainbody .layoutView table:not(.table) td {
+    padding: 4px 4px 4px 8px;
+}
+
+#mainbody .layoutView table:not(.table) th[align='center'],
+#mainbody .layoutView table:not(.table) td[align='center'] {
+    text-align: center;
+}
+
+span.pagerLink {
+    font-weight: bold;
+}
+
+span.pagerLink a:link {
+    font-weight: 400;
+}
+
+.layout {
+    margin: 0 auto;
+}
+
+.footer {
+    font-size: 10px;
+    text-align: center;
+}
+
+/* ######################
+    Bootstrap new styles
+   ###################### */
+
+.tab-pane-content {
+    padding: 10px 0;
+}
+
+.row-no-padding [class*="col-"] {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.pull-bottom {
+    display: inline-block;
+    vertical-align: bottom;
+    float: none;
+}
+
+.tooltip .tooltip-inner {
+    padding:7px;
+    font-size:0.9em;
+}
+
+.modal-dialog.modal-xs {
+    width: 200px;
+    margin: 30px auto;
+}
+
+.glyphicon.spinning {
+    animation: spin 1s infinite linear;
+    -webkit-animation: spin2 1s infinite linear;
+}
+
+.dropdown .caret.pull-right {
+    margin-top:8px;
+}
+
+.novisible {
+    visibility: hidden;
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg); }
+    to { transform: scale(1) rotate(360deg); }
+}
+
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); }
+}
+
+@media (max-width: 767px) {
+    .novisible-xs {
+        visibility:hidden !important;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .novisible-sm {
+        visibility:hidden !important;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    .novisible-md {
+        visibility:hidden !important;
+    }
+}
+
+@media (min-width: 1200px) {
+    .novisible-lg {
+        visibility:hidden !important;
+    }
+}
+
+/* ######################
+    Off Canvas Bootstrap
+   ###################### */
+
+.sidebar-offcanvas {
+    margin-top:15px;
+    background:#FFF;
+}
+
+.layout.container-fluid .sidebar-offcanvas {
+    margin-top:40px;
+}
+
+@media screen and (max-width: 767px) {
+    html, body {
+        overflow-x: hidden; /* Prevent scroll on narrow devices */
+    }
+    .row-offcanvas {
+        position: relative;
+        -webkit-transition: all .25s ease-out;
+        -o-transition: all .25s ease-out;
+        transition: all .25s ease-out;
+    }
+    .btn-offcanvas-container {
+        position: absolute;
+        right: 0;
+        z-index:1000;
+    }
+
+    .btn-offcanvas {
+        padding: 5px 8px;
+    }
+
+    .row-offcanvas-right {
+        right: 0;
+    }
+
+    .row-offcanvas-left {
+        left: 0;
+    }
+
+    .row-offcanvas-right
+    .sidebar-offcanvas {
+        right: -60%; /* 6 columns */
+    }
+
+    .row-offcanvas-left
+    .sidebar-offcanvas {
+        left: -60%; /* 6 columns */
+    }
+
+    .row-offcanvas-right.active {
+        right: 60%; /* 6 columns */
+    }
+
+    .row-offcanvas-left.active {
+        left: 60%; /* 6 columns */
+    }
+
+    .sidebar-offcanvas {
+        position: absolute;
+        top: 0;
+        width: 60%; /* 6 columns */
+    }
+}
+
+/* ######################
+        End Off Canvas
+   ###################### */
+
+/* ###############################################
+    Bootstrap retro compatibility with old styles
+   ############################################### */
+
+a.btn-primary {
+    color: #FFF;
+}
+
+.layout .nav1 .navbar {
+    min-height: inherit;
+    margin-bottom: inherit;
+    border: inherit;
+}
+
+.layout h1, .layout h2, .layout h3 {
+    margin-top: 0;
+    line-height: normal;
+}
+
+.layout h1 {
+    margin-bottom: 0.67em;
+}
+
+.layout h2, .layout h3  {
+    margin-bottom: inherit;
+}
+
+.layout h4 {
+    font-size: 0.93em;
+}
+
+.layout h5 {
+    font-size: 0.83em;
+}
+
+.layout #dcsns-filter a {
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+.layout #options p {
+    margin-top: 10px;
+}
+
+.layout .gwt-RadioButton label,
+.layout .gwt-CheckBox label{
+    font-weight:normal;
+    padding-left: 5px;
+}
+
+.gwt-HTML.label{
+    color:#000;
+}
+
+.stats-wrapper th:not(.align-left) {
+    text-align: center;
+}
+.stats-wrapper th, .stats-wrapper td {
+    padding:2px !important;
+}
+
+table:not(.table) > tr > th {
+    text-align: center;
+}
+
+table.dialogTable td {
+    padding: 15px;
+}
+
+input[type=file][name*=userfile],
+input[type=file][name*=file_],
+input[type=file][name=statcrew_file],
+input[type=file][name=boxscore_file],
+input[type=file][name=csv_file],
+input[type=file][name=roster_file],
+input[type=file][name=roster_file_ext],
+input[type=file][name=thumbnail_file],
+input[type=file][name=upfile],
+input[type=file][name=cert],
+input[type=file][name=nomination_html],
+input[type=file][name=ballot_html]
+{
+    display: inline-block;
+}
+
+.jwplayer *, .jwplayer *:before, .jwplayer *:after {
+    -webkit-box-sizing: content-box!important;
+    -moz-box-sizing: content-box!important;
+    box-sizing: content-box!important;
+}
+.jwplayer .jwrailgroup.Progress {
+    background: transparent;
+}
+.jwplayer .jwdisplay .jwdisplayIcon .jwicon {
+    padding:18px;
+}
+.jwplayer button {
+    padding: 0;
+}
+
+.gwt-CheckBox {
+    display:block;
+}
+
+.btn.btn-primary {
+    color:#FFF;
+}
+
+/* Style copy rules page */
+.copy-rules .list-group .list-group-item .rule {
+    width: 500px;
+    float: left;
+ }
+/* Style copy rules page */
+
+/* **** Styles to wrap old datepicker with new Bootstrap datetimepicker **** */
+
+.datepicker-non-bootstrap,
+.timepicker-non-bootstrap {
+    display: inline-block;
+    position: relative;
+}
+.bootstrap-datetimepicker-widget .table-condensed th {
+    background-color: transparent;
+    border: transparent;
+}
+
+.bootstrap-datetimepicker-widget .table-condensed td {
+    border: transparent;
+}
+
+.bootstrap-datetimepicker-widget table td.holiday {
+    background-color: #FFA500;
+    position: relative;
+}
+
+.bootstrap-datetimepicker-widget table td.holiday:hover {
+    background-color: #FFC066;
+}
+
+.bootstrap-datetimepicker-widget table td.holiday:before {
+    content: '';
+    display: inline-block;
+    border: solid transparent;
+    border-width: 0 0 7px 7px;
+    border-bottom-color: #FF0000;
+    border-top-color: rgba(0,0,0,0.2);
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+}
+
+/* **** End to wrap old datepicker **** */
+
+/** Begins style to releases pages **/
+.release-form-input {
+    width: 610px;
+}
+
+/** End style to releases pages **/
+
+/* ************************** */
+/*  Override bootstrap styles */
+/* ************************** */
+.btn-primary, .list-group-item.active {
+    background-image: none;
+    background-color: var(--main-bg-color-blue) !important;
+    border-color: var(--main-bg-color-blue) !important;
+}
+
+.btn-primary:hover, .list-group-item.active:hover {
+    background-image: none;
+    background-color: var(--main-bg-color-dark-gray) !important;
+    border-color: var(--main-bg-color-dark-gray) !important;
+}
+
+.btn-danger {
+    background-image: none;
+    background-color: var(--main-bg-color-red) !important;
+    border-color: var(--main-bg-color-red) !important;
+}
+
+.progress-bar {
+    background-color: var(--main-bg-color-blue) !important;
+}

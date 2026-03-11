@@ -122,87 +122,66 @@
 <div id="add-season-modal" class="modal-overlay" style="display: none;">
     <div class="modal-box">
         <h2>New Season</h2>
-        <form method="post" action="{{ url_for('main.configure_season_create') }}">
-            <div class="form-group">
-                <label for="season-name">Season Title:</label>
-                <input type="text" id="season-name" name="name" required placeholder="e.g. Spring 2025 Softball">
-            </div>
-            <div class="form-group">
-                <label for="season-play-entry">Default Play Entry Mode:</label>
-                <select id="season-play-entry" name="play_entry_mode" required>
-                    <option value="" disabled selected></option>
-                    <option value="box_game_totals">Box Score: Game Totals</option>
-                    <option value="box_inning_by_inning">Box Score: Inning by Inning</option>
-                    <option value="pbp_simple">Play-by-Play: Simple Mode</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="season-rules">Rules:</label>
-                <select id="season-rules" name="rules" required>
-                    <option value="" disabled selected></option>
-                    <option value="rules_hs_ba">High School Baseball</option>
-                    <option value="rules_hs_sb">High School Softball</option>
-                    <option value="rules_ncaa_ba">NCAA Baseball</option>
-                    <option value="rules_ncaa_sb">NCAA Softball</option>
-                    <option value="rules_mlb">Major League Baseball</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="season-gender">Default Gender:</label>
-                <select id="season-gender" name="gender" required>
-                    <option value="" disabled selected></option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                </select>
-            </div>
-            <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem;">
-                <button type="submit" class="btn">OK</button>
-                <button type="button" class="btn" style="background: var(--text-light);" onclick="hideSubModals()">Cancel</button>
-            </div>
-        </form>
+        <div id="add-season-error" style="display:none; background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5; border-radius:4px; padding:0.4rem 0.75rem; margin-bottom:0.75rem; font-size:0.85rem;"></div>
+        <div class="form-group">
+            <label for="season-name">Season Title:</label>
+            <input type="text" id="season-name" placeholder="e.g. Spring 2025 Softball">
+        </div>
+        <div class="form-group">
+            <label for="season-rules">Rules:</label>
+            <select id="season-rules">
+                <option value="rules_hs_ba">High School Baseball</option>
+                <option value="rules_hs_sb" selected>High School Softball</option>
+                <option value="rules_ncaa_ba">NCAA Baseball</option>
+                <option value="rules_ncaa_sb">NCAA Softball</option>
+                <option value="rules_mlb">Major League Baseball</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="season-gender">Default Gender:</label>
+            <select id="season-gender">
+                <option value="male">Male</option>
+                <option value="female" selected>Female</option>
+            </select>
+        </div>
+        <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem;">
+            <button type="button" class="btn" onclick="submitAddSeason()">OK</button>
+            <button type="button" class="btn" style="background: var(--text-light);" onclick="hideSubModals()">Cancel</button>
+        </div>
     </div>
 </div>
 
 <!-- Edit Season Modals -->
 {% for season in seasons %}
-<div id="edit-season-modal-{{ season.id }}" class="modal-overlay edit-season-modal" style="display: none;">
+<div id="edit-season-modal-{{ season.id }}" class="modal-overlay edit-season-modal" style="display: none;" data-season-id="{{ season.id }}">
     <div class="modal-box">
         <h2>Edit Season</h2>
-        <form method="post" action="{{ url_for('main.configure_season_edit', season_id=season.id) }}">
-            <div class="form-group">
-                <label>Season Title:</label>
-                <input type="text" name="name" value="{{ season.name }}" required>
-            </div>
-            <div class="form-group">
-                <label>Default Play Entry Mode:</label>
-                <select name="play_entry_mode">
-                    <option value="box_game_totals" {{ 'selected' if season.play_entry_mode == 'box_game_totals' }}>Box Score: Game Totals</option>
-                    <option value="box_inning_by_inning" {{ 'selected' if season.play_entry_mode == 'box_inning_by_inning' }}>Box Score: Inning by Inning</option>
-                    <option value="pbp_simple" {{ 'selected' if season.play_entry_mode == 'pbp_simple' }}>Play-by-Play: Simple Mode</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Rules:</label>
-                <select name="rules">
-                    <option value="rules_hs_ba" {{ 'selected' if season.rules == 'rules_hs_ba' }}>High School Baseball</option>
-                    <option value="rules_hs_sb" {{ 'selected' if season.rules == 'rules_hs_sb' }}>High School Softball</option>
-                    <option value="rules_ncaa_ba" {{ 'selected' if season.rules == 'rules_ncaa_ba' }}>NCAA Baseball</option>
-                    <option value="rules_ncaa_sb" {{ 'selected' if season.rules == 'rules_ncaa_sb' }}>NCAA Softball</option>
-                    <option value="rules_mlb" {{ 'selected' if season.rules == 'rules_mlb' }}>Major League Baseball</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Default Gender:</label>
-                <select name="gender">
-                    <option value="male" {{ 'selected' if season.gender == 'male' }}>Male</option>
-                    <option value="female" {{ 'selected' if season.gender == 'female' }}>Female</option>
-                </select>
-            </div>
-            <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem;">
-                <button type="submit" class="btn accent">Save</button>
-                <button type="button" class="btn" style="background: var(--text-light);" onclick="hideSubModals()">Cancel</button>
-            </div>
-        </form>
+        <div class="season-edit-error" style="display:none; background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5; border-radius:4px; padding:0.4rem 0.75rem; margin-bottom:0.75rem; font-size:0.85rem;"></div>
+        <div class="form-group">
+            <label>Season Title:</label>
+            <input type="text" class="edit-season-name" value="{{ season.name }}">
+        </div>
+        <div class="form-group">
+            <label>Rules:</label>
+            <select class="edit-season-rules">
+                <option value="rules_hs_ba" {{ 'selected' if season.rules == 'rules_hs_ba' }}>High School Baseball</option>
+                <option value="rules_hs_sb" {{ 'selected' if season.rules == 'rules_hs_sb' }}>High School Softball</option>
+                <option value="rules_ncaa_ba" {{ 'selected' if season.rules == 'rules_ncaa_ba' }}>NCAA Baseball</option>
+                <option value="rules_ncaa_sb" {{ 'selected' if season.rules == 'rules_ncaa_sb' }}>NCAA Softball</option>
+                <option value="rules_mlb" {{ 'selected' if season.rules == 'rules_mlb' }}>Major League Baseball</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Default Gender:</label>
+            <select class="edit-season-gender">
+                <option value="male" {{ 'selected' if season.gender == 'male' }}>Male</option>
+                <option value="female" {{ 'selected' if season.gender == 'female' }}>Female</option>
+            </select>
+        </div>
+        <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem;">
+            <button type="button" class="btn accent" onclick="submitEditSeason({{ season.id }})">Save</button>
+            <button type="button" class="btn" style="background: var(--text-light);" onclick="hideSubModals()">Cancel</button>
+        </div>
     </div>
 </div>
 {% endfor %}
@@ -211,6 +190,7 @@
 <div id="team-configure-modal" class="modal-overlay" style="display: none;">
     <div class="modal-box" style="width: 850px;">
         <h2>Team Configuration</h2>
+        <div id="team-cfg-error" style="display:none; background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5; border-radius:4px; padding:0.4rem 0.75rem; margin-bottom:0.5rem; font-size:0.85rem;"></div>
         <div style="display: flex; gap: 1.25rem; height: 400px;">
             <!-- Left Column: Season dropdown + team list -->
             <div style="width: 50%; border-right: 1px solid var(--border); padding-right: 1.25rem; display: flex; flex-direction: column;">
@@ -259,6 +239,7 @@
 <div id="roster-configure-modal" class="modal-overlay" style="display: none;">
     <div class="modal-box" style="width: 850px;">
         <h2>Roster Configuration</h2>
+        <div id="roster-cfg-error" style="display:none; background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5; border-radius:4px; padding:0.4rem 0.75rem; margin-bottom:0.5rem; font-size:0.85rem;"></div>
         <div style="display: flex; gap: 1.25rem; height: 400px;">
             <!-- Left Column: Player list -->
             <div style="width: 50%; border-right: 1px solid var(--border); padding-right: 1.25rem; display: flex; flex-direction: column;">
@@ -389,6 +370,7 @@
 <div id="game-configure-modal" class="modal-overlay" style="display: none;">
     <div class="modal-box" style="width: 950px; max-width: 95vw; max-height: 90vh; overflow-y: auto;">
         <h2>Game Configuration</h2>
+        <div id="game-cfg-error" style="display:none; background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5; border-radius:4px; padding:0.4rem 0.75rem; margin-bottom:0.5rem; font-size:0.85rem;"></div>
         <div style="border: 1px solid var(--border); border-radius: 6px; padding: 1rem; margin-bottom: 1rem;">
             <h3 style="margin-bottom: 0.75rem; font-size: 0.95rem; border-bottom: 1px solid var(--border); padding-bottom: 0.4rem;">Game Information</h3>
             <div style="display: flex; gap: 1.25rem;">
@@ -423,7 +405,7 @@
                     <div style="display: flex; gap: 0.75rem; margin-bottom: 0.5rem;">
                         <div style="min-width: 110px;">
                             <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 0.25rem; white-space: nowrap;">Start Time:</label>
-                            <input type="time" id="gcf-start-time" style="width: 100%; height: 30px; padding: 0 0.35rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.85rem; box-sizing: border-box;">
+                            <input type="text" id="gcf-start-time" style="width: 100%; height: 30px; padding: 0 0.35rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.85rem; box-sizing: border-box;">
                         </div>
                         <div style="min-width: 110px;">
                             <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 0.25rem; white-space: nowrap;">Total Time (H:MM):</label>
@@ -446,14 +428,6 @@
                 </div>
                 <!-- Right side -->
                 <div style="flex: 1;">
-                    <div style="margin-bottom: 0.5rem;">
-                        <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 0.25rem;">Entry Mode:</label>
-                        <select id="gcf-entry-mode" style="width: 100%; padding: 0.35rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.85rem;">
-                            <option value="box_game_totals">Box Score: Game Totals</option>
-                            <option value="box_inning_by_inning">Box Score: Inning by Inning</option>
-                            <option value="pbp_simple">Play-by-Play: Simple Mode</option>
-                        </select>
-                    </div>
                     <div style="margin-bottom: 0.5rem;">
                         <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 0.25rem;">Date:</label>
                         <input type="date" id="gcf-date" style="width: 100%; padding: 0.35rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.85rem;">
@@ -725,7 +699,7 @@ function loadRoster(teamId) {
             html += '<tbody>';
             players.forEach(function(p) {
                 html += '<tr>';
-                html += '<td>' + (p.uniform_number || '') + '</td>';
+                html += '<td>' + (parseInt(p.uniform_number) || p.uniform_number || '') + '</td>';
                 html += '<td><a href="/player/' + p.id + '" class="player-link">' + p.name + '</a></td>';
                 html += '</tr>';
             });
@@ -832,21 +806,94 @@ function selectSeason(el, id) {
 
 function showAddSeason() {
     document.getElementById('add-season-modal').style.display = '';
+    document.getElementById('add-season-error').style.display = 'none';
+    document.getElementById('season-name').value = '';
     document.getElementById('season-name').focus();
+}
+
+function submitAddSeason() {
+    var name = document.getElementById('season-name').value.trim();
+    var errEl = document.getElementById('add-season-error');
+    if (!name) {
+        errEl.textContent = 'Season name is required.';
+        errEl.style.display = '';
+        return;
+    }
+    var formData = new FormData();
+    formData.append('name', name);
+    formData.append('rules', document.getElementById('season-rules').value);
+    formData.append('gender', document.getElementById('season-gender').value);
+    fetch('/configure/season', { method: 'POST', body: formData })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            if (!data.ok) {
+                errEl.textContent = data.error || 'Save failed.';
+                errEl.style.display = '';
+                return;
+            }
+            window.location.reload();
+        })
+        .catch(function() {
+            errEl.textContent = 'Network error — changes not saved.';
+            errEl.style.display = '';
+        });
+}
+
+function submitEditSeason(seasonId) {
+    var modal = document.getElementById('edit-season-modal-' + seasonId);
+    var errEl = modal.querySelector('.season-edit-error');
+    var name = modal.querySelector('.edit-season-name').value.trim();
+    if (!name) {
+        errEl.textContent = 'Season name is required.';
+        errEl.style.display = '';
+        return;
+    }
+    var formData = new FormData();
+    formData.append('name', name);
+    formData.append('rules', modal.querySelector('.edit-season-rules').value);
+    formData.append('gender', modal.querySelector('.edit-season-gender').value);
+    fetch('/configure/season/' + seasonId + '/edit', { method: 'POST', body: formData })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            if (!data.ok) {
+                errEl.textContent = data.error || 'Save failed.';
+                errEl.style.display = '';
+                return;
+            }
+            window.location.reload();
+        })
+        .catch(function() {
+            errEl.textContent = 'Network error — changes not saved.';
+            errEl.style.display = '';
+        });
 }
 
 function showEditSeason() {
     if (!selectedPrefSeasonId) return;
     var modal = document.getElementById('edit-season-modal-' + selectedPrefSeasonId);
-    if (modal) modal.style.display = '';
+    if (modal) {
+        var errEl = modal.querySelector('.season-edit-error');
+        if (errEl) errEl.style.display = 'none';
+        modal.style.display = '';
+    }
 }
 
 function deleteSeason() {
     if (!selectedPrefSeasonId) return;
-    if (confirm('Delete this season and all its teams?')) {
-        var form = document.getElementById('delete-season-' + selectedPrefSeasonId);
-        if (form) form.submit();
-    }
+    if (!confirm('Delete this season and all its teams?')) return;
+    var formData = new FormData();
+    fetch('/configure/season/' + selectedPrefSeasonId + '/delete', { method: 'POST', body: formData })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            if (!data.ok) {
+                alert('Delete failed: ' + (data.error || 'Unknown error'));
+                return;
+            }
+            window.location.reload();
+        })
+        .catch(function() {
+            alert('Network error — season not deleted.');
+        });
 }
 
 function hideSubModals() {
@@ -865,6 +912,7 @@ var teamCfgSeasonId = null;
 
 function showTeamConfigure() {
     document.getElementById('team-configure-modal').style.display = '';
+    teamCfgClearError();
     var seasonSelect = document.getElementById('team-cfg-season');
     if (currentSeasonId) {
         seasonSelect.value = currentSeasonId;
@@ -972,9 +1020,21 @@ function teamCfgGetFormData() {
     return formData;
 }
 
+function teamCfgShowError(msg) {
+    var el = document.getElementById('team-cfg-error');
+    el.textContent = msg;
+    el.style.display = '';
+}
+function teamCfgClearError() {
+    var el = document.getElementById('team-cfg-error');
+    el.textContent = '';
+    el.style.display = 'none';
+}
+
 function teamCfgSave() {
     var name = document.getElementById('tcf-name').value.trim();
-    if (!name) return;
+    if (!name) { teamCfgShowError('Team name is required.'); return; }
+    teamCfgClearError();
 
     var formData = teamCfgGetFormData();
     var url;
@@ -987,22 +1047,28 @@ function teamCfgSave() {
     }
 
     fetch(url, { method: 'POST', body: formData })
-        .then(function() {
-            // Reload team list from API
-            teamCfgIsNew = false;
-            return fetch('/api/seasons/' + teamCfgSeasonId + '/teams');
-        })
         .then(function(r) { return r.json(); })
-        .then(function(teams) {
-            teamCfgTeams = teams;
-            // Select the team we just saved (match by name)
-            var saved = teams.find(function(t) { return t.name === name; });
-            if (saved) {
-                teamCfgSelectedId = saved.id;
-                teamCfgSelect(saved.id);
-            } else {
-                renderTeamCfgList();
+        .then(function(data) {
+            if (!data.ok) {
+                teamCfgShowError(data.error || 'Save failed. Please try again.');
+                return;
             }
+            teamCfgIsNew = false;
+            fetch('/api/seasons/' + teamCfgSeasonId + '/teams')
+                .then(function(r) { return r.json(); })
+                .then(function(teams) {
+                    teamCfgTeams = teams;
+                    var saved = teams.find(function(t) { return t.name === name; });
+                    if (saved) {
+                        teamCfgSelectedId = saved.id;
+                        teamCfgSelect(saved.id);
+                    } else {
+                        renderTeamCfgList();
+                    }
+                });
+        })
+        .catch(function() {
+            teamCfgShowError('Network error — changes not saved.');
         });
 }
 
@@ -1043,6 +1109,7 @@ var rosterCfgTeamId = null;
 
 function showRosterConfigure() {
     document.getElementById('roster-configure-modal').style.display = '';
+    rosterCfgClearError();
     rosterCfgSortMode = 'jersey';
     document.getElementById('btn-sort-jersey').style.background = 'var(--primary)';
     document.getElementById('btn-sort-jersey').style.color = 'white';
@@ -1149,7 +1216,7 @@ function renderRosterCfgList() {
         var sel = p.id === rosterCfgSelectedId;
         var bg = sel ? 'background: var(--primary); color: white;' : '';
         html += '<tr class="roster-cfg-row" onclick="rosterCfgSelect(' + (typeof p.id === 'string' ? "'" + p.id + "'" : p.id) + ')" style="cursor: pointer; ' + bg + '">';
-        html += '<td style="padding: 0.35rem 0.6rem; width: 60px; border-bottom: 1px solid var(--border);' + (sel ? ' color: white;' : '') + '">' + (p.uniform_number || '') + '</td>';
+        html += '<td style="padding: 0.35rem 0.6rem; width: 60px; border-bottom: 1px solid var(--border);' + (sel ? ' color: white;' : '') + '">' + (parseInt(p.uniform_number) || p.uniform_number || '') + '</td>';
         html += '<td style="padding: 0.35rem 0.6rem; border-bottom: 1px solid var(--border); text-align: left;' + (sel ? ' color: white;' : '') + '">' + p.name + '</td>';
         html += '</tr>';
     });
@@ -1207,10 +1274,22 @@ function rosterCfgNew() {
     document.getElementById('rcf-first-name').select();
 }
 
+function rosterCfgShowError(msg) {
+    var el = document.getElementById('roster-cfg-error');
+    el.textContent = msg;
+    el.style.display = '';
+}
+function rosterCfgClearError() {
+    var el = document.getElementById('roster-cfg-error');
+    el.textContent = '';
+    el.style.display = 'none';
+}
+
 function rosterCfgSave() {
     var firstName = document.getElementById('rcf-first-name').value.trim();
     var lastName = document.getElementById('rcf-last-name').value.trim();
-    if (!firstName && !lastName) return;
+    if (!firstName && !lastName) { rosterCfgShowError('Player first or last name is required.'); return; }
+    rosterCfgClearError();
     var name = (firstName + ' ' + lastName).trim();
     var formData = new FormData();
     formData.append('name', name);
@@ -1236,9 +1315,17 @@ function rosterCfgSave() {
     }
 
     fetch(url, { method: 'POST', body: formData })
-        .then(function() {
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            if (!data.ok) {
+                rosterCfgShowError(data.error || 'Save failed. Please try again.');
+                return;
+            }
             rosterCfgIsNew = false;
             rosterCfgLoadPlayers();
+        })
+        .catch(function() {
+            rosterCfgShowError('Network error — changes not saved.');
         });
 }
 
@@ -1323,6 +1410,7 @@ function formatHMM(el) {
 
 function showGameConfigure() {
     document.getElementById('game-configure-modal').style.display = '';
+    gameCfgClearError();
     gameCfgEditId = null;
     var seasonSelect = document.getElementById('gcf-season');
     if (currentSeasonId) seasonSelect.value = currentSeasonId;
@@ -1388,6 +1476,24 @@ function onGameCfgGameChange(gameId) {
         document.getElementById('gcf-visitor-conf').value = '';
         document.getElementById('gcf-home-record').value = '';
         document.getElementById('gcf-home-conf').value = '';
+        document.getElementById('gcf-stadium').value = '';
+        document.getElementById('gcf-city').value = '';
+        document.getElementById('gcf-state').value = '';
+        document.getElementById('gcf-weather').value = '';
+        document.getElementById('gcf-attendance').value = '';
+        document.getElementById('gcf-doubleheader').value = '0';
+        document.getElementById('gcf-scorer').value = '';
+        document.getElementById('gcf-ump-hp').value = '';
+        document.getElementById('gcf-ump-1b').value = '';
+        document.getElementById('gcf-ump-2b').value = '';
+        document.getElementById('gcf-ump-3b').value = '';
+        document.getElementById('gcf-notes').value = '';
+        document.getElementById('gcf-chk-conference').checked = true;
+        document.getElementById('gcf-chk-neutral').checked = false;
+        document.getElementById('gcf-chk-exhibition').checked = false;
+        document.getElementById('gcf-chk-region').checked = false;
+        document.getElementById('gcf-chk-conf-division').checked = false;
+        document.getElementById('gcf-chk-night').checked = false;
         return;
     }
     gameCfgEditId = gameId;
@@ -1401,20 +1507,31 @@ function onGameCfgGameChange(gameId) {
             document.getElementById('gcf-delayed').value = '';
             document.getElementById('gcf-date').value = g.date || '';
             document.getElementById('gcf-innings').value = g.scheduled_innings || 7;
-            document.getElementById('gcf-visitor-record').value = '';
-            document.getElementById('gcf-visitor-conf').value = '';
-            document.getElementById('gcf-home-record').value = '';
-            document.getElementById('gcf-home-conf').value = '';
+            document.getElementById('gcf-visitor-record').value = g.visitor_record || '';
+            document.getElementById('gcf-visitor-conf').value = g.visitor_conf || '';
+            document.getElementById('gcf-home-record').value = g.home_record || '';
+            document.getElementById('gcf-home-conf').value = g.home_conf || '';
             document.getElementById('gcf-stadium').value = g.stadium || '';
             document.getElementById('gcf-weather').value = g.weather || '';
             document.getElementById('gcf-attendance').value = g.attendance || '';
             document.getElementById('gcf-doubleheader').value = g.doubleheader || '0';
-            // Populate city/state from home team
+            document.getElementById('gcf-delayed').value = g.delayed_time || '';
+            document.getElementById('gcf-scorer').value = g.scorer || '';
+            document.getElementById('gcf-ump-hp').value = g.ump_hp || '';
+            document.getElementById('gcf-ump-1b').value = g.ump_1b || '';
+            document.getElementById('gcf-ump-2b').value = g.ump_2b || '';
+            document.getElementById('gcf-ump-3b').value = g.ump_3b || '';
+            document.getElementById('gcf-notes').value = g.notes || '';
+            document.getElementById('gcf-chk-conference').checked = g.is_league_game !== false;
+            document.getElementById('gcf-chk-neutral').checked = !!g.is_neutral;
+            document.getElementById('gcf-chk-exhibition').checked = !!g.is_exhibition;
+            document.getElementById('gcf-chk-region').checked = !!g.is_region;
+            document.getElementById('gcf-chk-conf-division').checked = !!g.is_conf_division;
+            document.getElementById('gcf-chk-night').checked = !!g.is_night;
+            // Populate city/state: prefer game data, fall back to home team
             var homeTeam = gameCfgTeams.find(function(t) { return t.id == g.home_team_id; });
-            if (homeTeam) {
-                document.getElementById('gcf-city').value = homeTeam.city || '';
-                document.getElementById('gcf-state').value = homeTeam.state || '';
-            }
+            document.getElementById('gcf-city').value = g.location || (homeTeam ? homeTeam.city : '') || '';
+            document.getElementById('gcf-state').value = g.state || (homeTeam ? homeTeam.state : '') || '';
         });
 }
 
@@ -1448,15 +1565,28 @@ function gameCfgNewTournament() {
     }
 }
 
+function gameCfgShowError(msg) {
+    var el = document.getElementById('game-cfg-error');
+    el.textContent = msg;
+    el.style.display = '';
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+function gameCfgClearError() {
+    var el = document.getElementById('game-cfg-error');
+    el.textContent = '';
+    el.style.display = 'none';
+}
+
 function gameCfgSave() {
     var seasonId = document.getElementById('gcf-season').value;
     var visitorId = document.getElementById('gcf-visitor').value;
     var homeId = document.getElementById('gcf-home').value;
     var date = document.getElementById('gcf-date').value;
 
-    if (!visitorId || !homeId) { alert('Select both teams.'); return; }
-    if (visitorId === homeId) { alert('Visitor and Home teams must be different.'); return; }
-    if (!date) { alert('Select a date.'); return; }
+    if (!visitorId || !homeId) { gameCfgShowError('Select both teams.'); return; }
+    if (visitorId === homeId) { gameCfgShowError('Visitor and Home teams must be different.'); return; }
+    if (!date) { gameCfgShowError('Select a date.'); return; }
+    gameCfgClearError();
 
     var formData = new FormData();
     formData.append('season_id', seasonId);
@@ -1467,20 +1597,48 @@ function gameCfgSave() {
     formData.append('duration', document.getElementById('gcf-duration').value);
     formData.append('scheduled_innings', document.getElementById('gcf-innings').value);
     formData.append('doubleheader', document.getElementById('gcf-doubleheader').value);
-    formData.append('entry_mode', document.getElementById('gcf-entry-mode').value);
+    formData.append('stadium', document.getElementById('gcf-stadium').value);
+    formData.append('location', document.getElementById('gcf-city').value);
+    formData.append('state', document.getElementById('gcf-state').value);
+    formData.append('weather', document.getElementById('gcf-weather').value);
+    formData.append('attendance', document.getElementById('gcf-attendance').value || '0');
+    formData.append('delayed_time', document.getElementById('gcf-delayed').value);
+    formData.append('visitor_record', document.getElementById('gcf-visitor-record').value);
+    formData.append('visitor_conf', document.getElementById('gcf-visitor-conf').value);
+    formData.append('home_record', document.getElementById('gcf-home-record').value);
+    formData.append('home_conf', document.getElementById('gcf-home-conf').value);
+    formData.append('scorer', document.getElementById('gcf-scorer').value);
+    formData.append('ump_hp', document.getElementById('gcf-ump-hp').value);
+    formData.append('ump_1b', document.getElementById('gcf-ump-1b').value);
+    formData.append('ump_2b', document.getElementById('gcf-ump-2b').value);
+    formData.append('ump_3b', document.getElementById('gcf-ump-3b').value);
+    formData.append('notes', document.getElementById('gcf-notes').value);
+    if (document.getElementById('gcf-chk-conference').checked) formData.append('is_league_game', '1');
+    if (document.getElementById('gcf-chk-neutral').checked) formData.append('is_neutral', '1');
+    if (document.getElementById('gcf-chk-exhibition').checked) formData.append('is_exhibition', '1');
+    if (document.getElementById('gcf-chk-region').checked) formData.append('is_region', '1');
+    if (document.getElementById('gcf-chk-conf-division').checked) formData.append('is_conf_division', '1');
+    if (document.getElementById('gcf-chk-night').checked) formData.append('is_night', '1');
 
     var url = gameCfgEditId ? '/configure/game/' + gameCfgEditId + '/edit' : '/configure/game';
 
     fetch(url, { method: 'POST', body: formData })
-        .then(function() {
-            // Reload game list in dropdown
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            if (!data.ok) {
+                gameCfgShowError(data.error || 'Save failed. Please try again.');
+                return;
+            }
             onGameCfgSeasonChange(seasonId);
             if (currentSeasonId) loadSchedule(currentSeasonId);
             if (!gameCfgEditId) {
-                // Clear form for next new game
                 document.getElementById('gcf-game').value = '';
                 gameCfgEditId = null;
             }
+            hideGameModal();
+        })
+        .catch(function() {
+            gameCfgShowError('Network error — changes not saved.');
         });
 }
 
@@ -1498,5 +1656,6 @@ document.addEventListener('click', function(e) {
         if (currentTeamId) loadRoster(currentTeamId);
     }
 });
+
 </script>
 {% endblock %}

@@ -1,0 +1,495 @@
+/* ******************************** */
+/*  Tweaks grid-system for gameday  */
+/* ******************************** */
+
+@media (min-width: 580px) {
+    .gameday .col-sm-fixed {
+        float: left;
+        min-width: 112px;
+        padding: 0 7px;
+    }
+}
+@media (max-width: 580px) {
+    .gameday .col-xs-fixed {
+        float: left;
+        padding: 0 7px;
+        min-width: 102px;
+    }
+    .col-xxs-fixed {
+        width: 100%;
+    }
+    .hidden-xxs {
+        display:none!important;
+    }
+}
+@media (max-width: 950px) {
+    .novisible-change-view {
+        display:none!important;
+    }
+}
+
+
+@media screen and (min-width: 768px){
+    .gameday .filters-container {
+        position: relative !important;
+        top: 0 !important;
+        float: right;
+        right: 0 !important;
+        padding-right: 15px !important;
+    }
+
+    .gameday .show-hide-seasons-container {
+        position: absolute;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .gameday .filters-container {
+        border-bottom: solid 1px #ddd;
+        background-color: #ddd !important;
+    }
+}
+
+/* *********************** */
+/*  Filter styles          */
+/* *********************** */
+.gameday .filters .datepicker,
+.gameday .filters .change-view-container {
+    margin-bottom:5px;
+}
+
+.gameday .filters .list-group .list-group-item {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border: 1px solid var(--main-bg-color-gray);
+}
+
+.gameday .filters .list-group .list-group-item:hover {
+    background-color: var(--main-bg-color-light-gray);
+}
+
+.gameday .filters .datepicker a.btn-today {
+    display:table-cell;
+    width: 1%;
+    white-space: nowrap;
+    vertical-align: middle;
+    height: 30px;
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 0;
+}
+
+.event-actions {
+    display: inline-block;
+
+}
+.event-actions ul{
+    margin: 0;
+    padding: 0;
+}
+.event-actions ul>li {
+    display: inline-block;
+}
+
+.event-actions ul>li>button {
+    margin-right: 0;
+}
+
+/* ********************** */
+/*    Right sidebar       */
+/* ********************** */
+.gameday .sidebar-offcanvas-right {
+    -webkit-transition: right .3s ease-in;
+    -most-transition: right .3s ease-in;
+    transition: right .3s ease-in;
+    z-index:1000;
+    right: -15%;
+    position: absolute;
+    top: 52px;
+    padding: 0px;
+}
+
+.gameday .sidebar-offcanvas-right.active {
+    right: 0%;
+}
+
+@media screen and (max-width: 767px) {
+    .gameday .sidebar-offcanvas-right {
+        right: -100%;
+        width: 100%;
+    }
+
+    .gameday .filters {
+        margin:15px;
+    }
+}
+
+
+/* ********************** */
+/*  Date selector styles  */
+/* ********************** */
+
+.gameday .dates {
+    display:inline-block;
+}
+
+.gameday .dates a:hover {
+    text-decoration: none;
+}
+
+.gameday .dates a:hover .caption {
+    background-color: #cdcdcd;
+}
+
+.gameday .dates a:active .caption {
+    background-color: #b3b3b3;
+}
+
+.gameday .dates a:hover .selected .caption {
+    background-color: #77021d;
+}
+.gameday .dates a:active .selected .caption {
+    background-color: #3a000d;
+}
+
+.gameday .dates .caption p {
+    line-height: 0.8em;
+}
+
+.gameday .dates .date {
+    font-weight: bold;
+    font-size:1.8em;
+    color: var(--main-bg-color-blue);
+}
+.gameday .dates .top-legend,
+.gameday .dates .number-events {
+    font-size:1em;
+    color: var(--main-bg-color-red);
+}
+.gameday .dates .caption {
+    background-color: #FFF;
+    margin:1px;
+}
+.gameday .dates .selected .caption {
+    background-color: var(--main-bg-color-red);
+}
+.gameday .dates .selected .caption p,
+.gameday .dates .selected .caption span {
+    color: #FFF;
+}
+
+.gameday .dates .info-icon {
+    position: absolute;
+    margin-top: 2px;
+    margin-left: -59px;
+    border: 1px solid #fbf0da;
+    padding: 7px;
+    border-radius: 50%;
+}
+
+/* *************** */
+/*  Season styles  */
+/* *************** */
+
+.gameday .season-container {
+    border: 1px solid var(--main-bg-color-gray);
+    padding:8px;
+    margin-bottom:8px;
+    background-color: white;
+}
+
+.gameday .season-container .title-container  {
+    background-color: var(--main-bg-color-gray);
+}
+
+.gameday .season-container.hidden-season .title-container  {
+    background-color: var(--main-bg-color-dark-gray);
+}
+
+.gameday .season-container .content-container {
+    margin-top:8px;
+    font-size:.95em;
+}
+
+.gameday .season-container .title-container .error-icon { margin-right: 3px; }
+
+.gameday .season-container .title-container .loading-season {
+    margin-right: 12px;
+}
+
+.gameday .season-container .title-container .title {
+    padding: 5px 5px 5px 0;
+}
+.gameday .season-container .title-container .title .season-name,
+.gameday .season-container .title-container .title .season-events-number {
+    color:var(--main-bg-color-red);
+    margin-left:5px;
+    max-width: 70%;
+    overflow: hidden;
+    display: inline-table;
+}
+
+.gameday .season-container a.right-button {
+    padding:5px 8px;
+    margin: -5px;
+}
+
+.gameday .season-container .title-container .title a.btn-hide-season {
+    margin-left: 1px;
+}
+
+
+.gameday .season-container .title-container .title .text-primary,
+.gameday .events .event-container .title-container .title .text-primary {
+    margin-left:5px;
+}
+
+.gameday .season-container a,
+.gameday .events .event-container a {
+    padding:4px 8px;
+    white-space: nowrap;
+}
+
+.gameday .no-events-container .glyphicon {
+    font-size:1.5em;
+}
+
+/* *************** */
+/*  Events styles  */
+/* *************** */
+
+.gameday .events .event-container .title-container .title {
+    padding: 2px 5px 1px 0;
+}
+
+
+.gameday .events .event-container a.text-view-event {
+    padding:4px 0;
+    white-space:normal;
+}
+
+.gameday .events .event-container .title-container  {
+    background-color: #eee;
+}
+
+.gameday .events .event-container .event-info {
+    padding: 10px;
+}
+
+.gameday .events .event-container .event-info .h2h-sport-buttons .btn {
+    font-size: 0.76em;
+}
+
+.gameday .events .event-container .event-info .individual-sport-buttons .btn {
+    font-size: 0.86em;
+}
+
+.gameday .events .event-container .event-info .h2h-sport-buttons img {
+    width:17px;
+}
+
+.gameday .event .thumbnail {
+    line-height: 1.8em;
+}
+
+.gameday .event.in-progress .thumbnail {
+    background-color: #fcf7e4;
+}
+.gameday .event.info-missing .thumbnail {
+    background-color: #fef6f7;
+}
+
+.gameday .event .event-container .legends span {
+    display: none;
+}
+.gameday .content-container .legend-groups span {
+    margin-right: 2px;
+    display: none;
+}
+.gameday .event .event-container .legends span.visible,
+.gameday .content-container .legend-groups span.visible {
+    display:inline-block;
+}
+
+.gameday .legend-groups .separator:after{
+    content: ' |';
+}
+
+.gameday .events .event-container .h2h-sport-buttons a,
+.gameday .events .event-container .individual-sport-buttons a {
+    padding: 2px 6px;
+}
+
+/* ********************** */
+/*  Default table styles  */
+/* ********************** */
+
+.gameday .season-container.h2h-no-meet .head-2-head-sport-col.meet,
+.gameday .season-container.h2h-no-meet .individual-sport-col,
+.gameday .season-container.h2h-no-meet .individual-sport-buttons {
+    display: none;
+}
+.gameday .season-container.h2h-meet .head-2-head-sport-col.no-meet,
+.gameday .season-container.h2h-meet .individual-sport-col,
+.gameday .season-container.h2h-meet .individual-sport-buttons {
+    display: none;
+}
+.gameday .season-container.individual-sport .head-2-head-sport-col,
+.gameday .season-container.individual-sport .h2h-sport-buttons {
+    display: none;
+}
+
+/* ****************** */
+/*  Grid view styles  */
+/* ****************** */
+
+.gameday .all-rows.grid-view .table-header {
+    display: none;
+}
+
+.gameday .all-rows.grid-view .event-container .event-info .status {
+    margin-top: 20px;
+}
+
+.gameday .grid-view .season-container.individual-sport .individual-sport-col {
+    min-height: 45px;
+}
+
+/* ****************** */
+/*  List view styles  */
+/* ****************** */
+
+.gameday .all-rows.list-view .table-header {
+    display: block;
+    border-bottom: 2px solid #ddd;
+    margin: 4px;
+}
+
+.gameday .all-rows.list-view .event-container .title-container .title,
+.gameday .all-rows.list-view .event-container .event-info,
+.gameday .all-rows.list-view .events .event-container .title-container a {
+    padding: 2px 0;
+    margin: 0 !important;
+}
+
+.gameday .all-rows.list-view .table-header p {
+    padding: 5px 0 8px 0;
+}
+
+.gameday .all-rows.list-view .event-container .title b,
+.gameday .all-rows.list-view .event-container p b {
+    font-weight: normal;
+}
+
+.gameday .all-rows.list-view .event-container .event-info p span {
+    display: none;
+}
+
+.gameday .all-rows.list-view .event-container .event-info .text-center {
+    text-align: left;
+}
+
+.gameday .all-rows.list-view .thumbnail {
+    border: 0;
+    box-shadow: none;
+    margin: 0;
+    padding: 0 4px;
+}
+
+.gameday .all-rows.list-view .events .event {
+    width: 100% !important;
+    margin-bottom: 6px;
+}
+
+.gameday .all-rows.list-view .events .event-container .title-container {
+    background: transparent;
+}
+
+.gameday .all-rows.list-view .event-container .title .btn-primary {
+    display: none;
+}
+
+/* *************************************** */
+/*  List view widths for different sports  */
+/* *************************************** */
+
+.gameday .all-rows.list-view .event-container .title-container,
+.gameday .all-rows.list-view .table-header p,
+.gameday .all-rows.list-view .event-container .event-info p {
+    float: left;
+    text-align: left;
+    margin: 0;
+}
+
+.gameday .all-rows.list-view .season-container.h2h-meet .table-header p,
+.gameday .all-rows.list-view .season-container.h2h-meet .event-container .event-info p,
+.gameday .all-rows.list-view .season-container.individual-sport .table-header p,
+.gameday .all-rows.list-view .season-container.individual-sport .event-container .event-info p{
+    width: 41%;
+}
+
+.gameday .all-rows.list-view .season-container.h2h-no-meet .table-header p,
+.gameday .all-rows.list-view .season-container.h2h-no-meet .event-container .event-info p {
+    width: 20%;
+}
+.gameday .all-rows.list-view .season-container .table-header p.status,
+.gameday .all-rows.list-view .season-container .event-container .event-info p.status {
+    width:15%;
+}
+.gameday .all-rows.list-view .season-container .table-header p.action,
+.gameday .all-rows.list-view .season-container .event-container .event-info p.action {
+    width: 13%;
+}
+.gameday .all-rows.list-view .season-container .event-container .title-container,
+.gameday .all-rows.list-view .season-container .table-header p.date {
+    width: 190px;
+}
+
+/* *************** */
+/*  Popups styles  */
+/* *************** */
+
+.score-popup-content-template h3,
+.update-result-popup-content-template h3 {
+    text-align: left !important;
+}
+
+.score-popup-content-template .status-text,
+.update-result-popup-content-template .status-text {
+    margin-top: 5px;
+}
+
+.update-result-popup-content-template input[type='radio'] {
+    margin-top: 1px;
+}
+
+.update-result-popup-content-template .option-label {
+    margin-right: 10px;
+    width: 75px;
+}
+
+/* ******************* */
+/*  Tour popover fixes */
+/* ******************* */
+.popover[class*=tour-] {
+    z-index: 900;
+}
+
+/* ********************** */
+/*  Override modal styles */
+/* ********************** */
+@media only screen and (max-width : 767px) {
+	.modal-backdrop.gameday.fade, .modal.gameday.fade {
+	    top: 103px;
+	    right: 0px;
+	}
+}
+
+@media only screen and (min-width : 768px) {
+	.modal-backdrop.gameday.fade, .modal.gameday.fade {
+	    top: 122px;
+	    right: 0px;
+	}
+}

@@ -1,0 +1,1513 @@
+.statentry {
+    width: 100%;
+    height: 800px;
+    border: 2px;
+    border-left: 2px;
+}
+
+.statentry .statentryPanel {
+    width: 750px;
+}
+
+.statentry .playentryPanel {
+    width: 350px;
+}
+
+.statentry .playListPanel {
+    width: 350px;
+}
+
+.statentry .sportStatentryPanel {
+    width: 600px;
+    height: 350px;
+}
+
+.statentry .eventInfoPanel {
+    width: 300px;
+}
+
+.gwt-TabBar {
+
+}
+
+.gwt-TabBar .gwt-TabBarFirst {
+    width: 5px; /* first tab distance from the left */
+}
+
+.gwt-TabBar .gwt-TabBarRest {
+
+}
+
+.gwt-TabBar .gwt-TabBarItem {
+    margin-left: 6px;
+    padding: 1px 1px 1px 1px;
+    color: black;
+    font-weight: bold;
+    text-align: center;
+    background: #555555;
+}
+
+.gwt-TabBar .gwt-TabBarItem-selected {
+    background: #111111;
+}
+
+.gwt-TabBar .gwt-TabBarItem-disabled {
+    color: #555555;
+}
+
+.gwt-TabPanel {
+
+}
+
+.gwt-TabPanelBottom {
+    border: solid 1px #BBB;
+    overflow: auto;
+    width: 250px;
+}
+
+.gwt-TabPanelBottomAlt {
+    padding: 10px;
+    height: 90px;
+    border: solid 1px #BBB;
+    overflow: auto;
+    width: 250px;
+}
+
+.gwt-TabPanelBottomLarge {
+    padding: 10px;
+    height: 420px;
+    border: solid 1px #BBB;
+    overflow: hidden;
+    width: 680px;
+    background-color: #000000;
+}
+
+.gwt-DecoratedTabBar {
+
+}
+
+.gwt-DecoratedTabBar .gwt-TabBarFirst {
+    width: 5px; /* first tab distance from the left */
+}
+
+.gwt-DecoratedTabBar .gwt-TabBarRest {
+
+}
+
+.gwt-DecoratedTabBar .gwt-TabBarItem {
+    border-collapse: collapse;
+    margin-left: 6px;
+}
+
+.gwt-DecoratedTabBar .tabTopCenter {
+
+}
+
+.gwt-DecoratedTabBar .tabTopLeft, .gwt-DecoratedTabBar .tabTopRight {
+    padding: 0px;
+    zoom: 1;
+}
+
+.gwt-DecoratedTabBar .tabTopLeftInner, .gwt-DecoratedTabBar .tabTopRightInner {
+    width: 6px;
+    height: 6px;
+}
+
+.gwt-DecoratedTabBar .tabTopLeft {
+
+}
+
+.gwt-DecoratedTabBar .tabTopRight {
+
+}
+
+* html .gwt-DecoratedTabBar .tabTopLeftInner, * html .gwt-DecoratedTabBar .tabTopRightInner {
+    width: 0px;
+    height: 0px;
+    overflow: hidden;
+}
+
+.gwt-DecoratedTabBar .tabMiddleLeft, .gwt-DecoratedTabBar .tabMiddleRight {
+}
+
+.gwt-DecoratedTabBar .tabMiddleLeftInner, .gwt-DecoratedTabBar .tabMiddleRightInner {
+
+}
+
+.gwt-DecoratedTabBar .tabMiddleCenter {
+    border-left-width: 1px;
+    border-left-style: solid;
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-right-width: 1px;
+    border-right-style: solid;
+    padding: 0px 4px 2px 4px;
+    color: gray;
+    font-weight: bold;
+    text-align: center;
+    background: #555555;
+    cursor: pointer;
+    cursor: hand;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopCenter {
+
+}
+
+.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopLeft {
+
+}
+
+.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopRight {
+
+}
+
+.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleLeft, .gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleRight {
+
+}
+
+.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleCenter {
+
+    border-left-width: 1px;
+    border-left-style: solid;
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-right-width: 1px;
+    border-right-style: solid;
+    background: #555555;
+    color: #ffffff;
+}
+
+.gwt-DecoratedTabBar .gwt-TabBarItem-disabled .tabMiddleCenter {
+
+    color: #444444;
+}
+
+.play-table {
+    vertical-align: top;
+}
+
+.cell {
+    vertical-align: top;
+    height: 20px;
+    max-height: 20px;
+    padding-bottom: 20px;
+}
+
+.allWidth {
+    width: 95%;
+}
+
+.titleRow {
+    background-color: #000044;
+    font-weight: bold;
+    color: white;
+    width: 70px;
+}
+
+.centerCell {
+    text-align: center;
+}
+
+.teamStat {
+    border: solid 1px #BBB;
+    height: 130px;
+}
+
+.leadersCell {
+    vertical-align: top;
+    font-size: 8pt;
+}
+
+.gwt-StackPanel {
+    border-bottom: 1px solid #bbbbbb;
+}
+
+.gwt-StackPanel .gwt-StackPanelItem {
+    list-style-type: none;
+    padding: 0;
+    width: 230px;
+}
+
+.gwt-StackPanel .gwt-StackPanelContent {
+    margin-top: 0px;
+}
+
+.gwt-StackPanel .gwt-StackPanelContent a {
+    color: #ffffff;
+    padding: 0.5em 0.9em;
+    text-shadow: 0px -1px 0px #222222;
+    font-weight: normal;
+    line-height: 25px;
+
+    -webkit-box-shadow: #999999 0px -1px 0px;
+    -moz-box-shadow: #999999 0px 1px 0px;
+    box-shadow: #999999 0px 1px 0px;
+
+    background-color: #555555;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#555555), to(#333333));
+    background-image: -moz-linear-gradient(#555555, #333333);
+    background-image: linear-gradient(#555555, #333333);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#555555', endColorstr='#333333', GradientType=0);
+}
+
+.gwt-StackPanel .gwt-StackPanelContent a:hover {
+    color: #ffffff;
+
+    background-color: #333333;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#111111), to(#333333));
+    background-image: -moz-linear-gradient(#111111, #333333);
+    background-image: linear-gradient(#111111, #333333);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#111111', endColorstr='#333333', GradientType=0);
+}
+
+.gwt-StackPanel .gwt-StackPanelContent a {
+    border-top-left-radius: 4px;
+    -moz-border-radius-topleft: 4px;
+    border-top-right-radius: 4px;
+    -moz-border-radius-topright: 4px;
+}
+
+.gwt-StackPanel .gwt-StackPanelContent a {
+    border-bottom-right-radius: 4px;
+    -moz-border-radius-bottomright: 4px;
+    border-bottom-left-radius: 4px;
+    -moz-border-radius-bottomleft: 4px;
+}
+
+.gwt-StackPanel .gwt-StackPanelContent a span {
+    font-size: 9px;
+    text-transform: uppercase;
+    padding-right: 8px;
+    margin-right: 8px;
+    border-right: dotted 1px #888888;
+    vertical-align: middle;
+    color: #999999;
+}
+
+.gwt-StackPanel .gwt-StackPanelContent {
+    height: 299px;
+    width: 210px;
+    padding: 10px 10px 15px;
+    text-shadow: 0px -1px 0px #000000;
+    overflow: auto;
+
+    background-color: #111111;
+    background-image: -moz-linear-gradient(top, #111111 0%, #333333 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #111111), color-stop(100%, #333333));
+    background-image: -webkit-linear-gradient(top, #111111 0%, #333333 100%);
+    background-image: -o-linear-gradient(top, #111111 0%, #333333 100%);
+    background-image: -ms-linear-gradient(top, #111111 0%, #333333 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#111111', endColorstr='#333333', GradientType=0);
+    background-image: linear-gradient(top, #111111 0%, #333333 100%);
+}
+
+/*-- RECENT PLAYS --*/
+ul#recent_plays li {
+    font-size: small;
+    padding-bottom: 15px;
+    margin-bottom: 10px;
+    border-bottom: dotted 1px #999999;
+    color: #ffffff;
+    line-height: normal;
+}
+
+ul#recent_plays li span {
+    font-weight: bold;
+    font-size: large;
+    margin-right: 3px;
+    color: #f90;
+}
+
+ul#recent_plays li:last-child {
+    border-bottom: none;
+}
+
+ul#recent_plays li a.time {
+    color: #ffffff;
+    padding: 0px 6px;
+    font-size: small;
+    font-weight: bold;
+    background: transparent;
+    display: inline-block;
+    text-align: center;
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 2px;
+
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+
+    -webkit-box-shadow: #000000 0px 0px 3px;
+    -moz-box-shadow: #000000 0px 0px 3px;
+    box-shadow: #000000 0px 0px 3px;
+
+    background-color: #450101;
+    background-image: -moz-linear-gradient(top, #7d0000 0%, #450101 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #7d0000), color-stop(100%, #450101));
+    background-image: -webkit-linear-gradient(top, #7d0000 0%, #450101 100%);
+    background-image: -o-linear-gradient(top, #7d0000 0%, #450101 100%);
+    background-image: -ms-linear-gradient(top, #7d0000 0%, #450101 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7d0000', endColorstr='#450101', GradientType=0);
+    background-image: linear-gradient(top, #7d0000 0%, #450101 100%);
+}
+
+ul#recent_plays a.txt_link {
+    line-height: normal;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 9px;
+    font-weight: bold;
+    margin-top: 8px;
+    color: #dddddd;
+
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+
+    -webkit-box-shadow: #000000 0px 0px 3px;
+    -moz-box-shadow: #000000 0px 0px 3px;
+    box-shadow: #000000 0px 0px 3px;
+}
+
+ul#recent_plays a.txt_link:hover {
+    color: orange;
+    background: #222222;
+}
+
+ul#recent_plays li a.time:hover {
+    background: #222;
+}
+
+.gwt-DecoratedStackPanel {
+    float: left;
+    margin: 0 15px 0 0;
+}
+
+.gwt-DecoratedStackPanel .gwt-StackPanelContent {
+    float: left;
+    margin: 0 15px 0 0;
+}
+
+.gwt-DecoratedStackPanel .gwt-StackPanelItem {
+    cursor: hand;
+}
+
+.gwt-DecoratedStackPanel .stackItemTopLeft, .gwt-DecoratedStackPanel .stackItemTopRight {
+    height: 6px;
+    width: 6px;
+    zoom: 1;
+}
+
+.gwt-DecoratedStackPanel .stackItemTopLeft {
+    border-left: 1px solid #bbbbbb;
+    background: #d3def6 url(corner.png) no-repeat 0px -49px;
+    -background: #d3def6 url(corner_ie6.png) no-repeat 0px -49px;
+}
+
+.gwt-DecoratedStackPanel .stackItemTopRight {
+    border-right: 1px solid #bbbbbb;
+    background: #d3def6 url(corner.png) no-repeat -6px -49px;
+    -background: #d3def6 url(corner_ie6.png) no-repeat -6px -49px;
+}
+
+.gwt-DecoratedStackPanel .stackItemTopLeftInner, .gwt-DecoratedStackPanel .stackItemTopRightInner {
+    width: 1px;
+    height: 1px;
+}
+
+* html .gwt-DecoratedStackPanel .stackItemTopLeftInner, * html .gwt-DecoratedStackPanel .stackItemTopRightInner {
+    width: 6px;
+    height: 6px;
+    overflow: auto;
+}
+
+.gwt-DecoratedStackPanel .stackItemTopCenter {
+    background: url(hborder2.png) 0px -21px repeat-x;
+}
+
+.gwt-DecoratedStackPanel .stackItemMiddleLeft {
+    background-color: #555;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#555), to(#333));
+    background-image: -moz-linear-gradient(#555, #333);
+    background-image: linear-gradient(#555, #333);
+}
+
+.gwt-DecoratedStackPanel .stackItemMiddleLeftInner, .gwt-DecoratedStackPanel .stackItemMiddleRightInner {
+    width: 1px;
+    height: 1px;
+}
+
+.gwt-DecoratedStackPanel .stackItemMiddleRight {
+    background-color: #555;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#555), to(#333));
+    background-image: -moz-linear-gradient(#555, #333);
+    background-image: linear-gradient(#555, #333);
+}
+
+.gwt-DecoratedStackPanel .stackItemMiddleCenter {
+    background-color: #555;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#555), to(#333));
+    background-image: -moz-linear-gradient(#555, #333);
+    background-image: linear-gradient(#555, #333);
+}
+
+.gwt-DecoratedStackPanel .gwt-StackPanelItem-first .stackItemTopRight, .gwt-DecoratedStackPanel .gwt-StackPanelItem-first .stackItemTopLeft {
+    border: 0px;
+    background-color: white;
+}
+
+.gwt-DecoratedStackPanel .gwt-StackPanelItem-below-selected .stackItemTopLeft, .gwt-DecoratedStackPanel .gwt-StackPanelItem-below-selected .stackItemTopRight {
+    background-color: white;
+}
+
+.selPlayCell {
+    padding-bottom: 10px;
+}
+
+.gwt-DateBox input {
+    width: 8em;
+}
+
+.dateBoxFormatError {
+    background: #ffcccc;
+}
+
+.dateBoxPopup {
+}
+
+.gwt-DatePicker {
+    border: 1px solid #A2BBDD;
+
+}
+
+.gwt-DatePicker td,
+.datePickerMonthSelector td:focus {
+    outline: none
+}
+
+.datePickerDays {
+    width: 100%;
+    background: white;
+}
+
+.datePickerDay,
+.datePickerWeekdayLabel,
+.datePickerWeekendLabel {
+    font-size: 75%;
+    text-align: center;
+    padding: 4px;
+    outline: none;
+}
+
+.datePickerWeekdayLabel,
+.datePickerWeekendLabel {
+    background: #C3D9FF;
+    padding: 0px 4px 2px;
+
+}
+
+.datePickerDay {
+    padding: 4px;
+    cursor: hand;
+}
+
+.datePickerDayIsToday {
+    border: 1px solid black;
+    padding: 3px;
+}
+
+.datePickerDayIsWeekend {
+    background: #EEEEEE;
+}
+
+.datePickerDayIsFiller {
+    color: #888888;
+}
+
+.datePickerDayIsValue {
+    background: #aaccee;
+}
+
+.datePickerDayIsDisabled {
+    color: #AAAAAA;
+    font-style: italic;
+}
+
+.datePickerDayIsHighlighted {
+    background: #F0E68C;
+}
+
+.datePickerDayIsValueAndHighlighted {
+    background: #bbddd9;
+}
+
+.datePickerMonthSelector {
+    background: #C3D9FF;
+    width: 100%;
+}
+
+td.datePickerMonth {
+    text-align: center;
+    vertical-align: center;
+    white-space: nowrap;
+    font-size: 70%;
+    font-weight: bold;
+    color: blue;
+}
+
+.datePickerPreviousButton,
+.datePickerNextButton {
+    font-size: 120%;
+    line-height: 1em;
+    color: blue;
+    cursor: hand;
+    padding: 0px 4px;
+}
+
+#report {
+    height: 450px;
+    width: 730px;
+}
+
+#report_container {
+    overflow: auto;
+    height: 450px;
+    width: 730px;
+}
+
+/* Suggest box */
+
+.gwt-SuggestBox {
+    padding: 2px;
+}
+
+.gwt-SuggestBoxPopup {
+    margin-left: 3px;
+}
+
+.gwt-SuggestBoxPopup .item {
+    padding: 2px 6px;
+    color: #424242;
+    cursor: hand;
+}
+
+.gwt-SuggestBoxPopup .item-selected {
+    background: #b7d6f6;
+}
+
+.gwt-SuggestBoxPopup .suggestPopupContent {
+    background: white;
+}
+
+.gwt-SuggestBoxPopup .suggestPopupTopCenter {
+    background: url(hborder.png) repeat-x;
+}
+
+.gwt-SuggestBoxPopup .suggestPopupBottomCenter {
+    background: url(hborder.png) repeat-x 0px -4px;
+    -background: url(hborder_ie6.png) repeat-x 0px -4px;
+}
+
+.gwt-SuggestBoxPopup .suggestPopupMiddleLeft {
+    background: url(vborder.png) repeat-y;
+}
+
+.gwt-SuggestBoxPopup .suggestPopupMiddleRight {
+    background: url(vborder.png) repeat-y -4px 0px;
+    -background: url(vborder_ie6.png) repeat-y -4px 0px;
+}
+
+.gwt-SuggestBoxPopup .suggestPopupTopLeftInner {
+    width: 5px;
+    height: 5px;
+    zoom: 1;
+}
+
+.gwt-SuggestBoxPopup .suggestPopupTopRightInner {
+    width: 8px;
+    height: 5px;
+    zoom: 1;
+}
+
+.gwt-SuggestBoxPopup .suggestPopupBottomLeftInner {
+    width: 5px;
+    height: 8px;
+    zoom: 1;
+}
+
+.gwt-SuggestBoxPopup .suggestPopupBottomRightInner {
+    width: 8px;
+    height: 8px;
+    zoom: 1;
+}
+
+.gwt-SuggestBoxPopup .suggestPopupTopLeft {
+    background: url(corner.png) no-repeat 0px -23px;
+    -background: url(corner_ie6.png) no-repeat 0px -23px;
+}
+
+.gwt-SuggestBoxPopup .suggestPopupTopRight {
+    background: url(corner.png) no-repeat -5px -23px;
+    -background: url(corner_ie6.png) no-repeat -5px -23px;
+}
+
+.gwt-SuggestBoxPopup .suggestPopupBottomLeft {
+    background: url(corner.png) no-repeat 0px -28px;
+    -background: url(corner_ie6.png) no-repeat 0px -28px;
+}
+
+.gwt-SuggestBoxPopup .suggestPopupBottomRight {
+    background: url(corner.png) no-repeat -5px -28px;
+    -background: url(corner_ie6.png) no-repeat -5px -28px;
+}
+
+* html .gwt-SuggestBoxPopup .suggestPopupTopLeftInner {
+    width: 5px;
+    height: 5px;
+    overflow: hidden;
+}
+
+* html .gwt-SuggestBoxPopup .suggestPopupTopRightInner {
+    width: 8px;
+    height: 5px;
+    overflow: hidden;
+}
+
+* html .gwt-SuggestBoxPopup .suggestPopupBottomLeftInner {
+    width: 5px;
+    height: 8px;
+    overflow: hidden;
+}
+
+* html .gwt-SuggestBoxPopup .suggestPopupBottomRightInner {
+    width: 8px;
+    height: 8px;
+    overflow: hidden;
+}
+
+.stickyNotificationBar {
+    height: 40px;
+    width: 1024px;
+    margin-left: -15px;
+    margin-top: -15px;
+    margin-bottom: 15px;
+    background-color: #f79232;
+}
+
+.stickyNotificationBar div {
+    padding-left: 15px;
+    padding-top: 11px;
+}
+
+.stickyNotificationBar div span {
+    color: white;
+}
+
+.stickyNotificationBar div span a, .stickyNotificationBar div span a:hover, .stickyNotificationBar div span a:focus, .stickyNotificationBar div span a:active {
+    text-decoration: underline;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+}
+
+/*--ADDED 6/4 Desi Aragon ====================*/
+#statentrydiv div #selection_area #events, #statentrydiv div #selection_area #rosters {
+    width: 434px;
+}
+
+#statentrydiv div #selection_area #events h1,
+#statentrydiv div #selection_area #rosters h1,
+#statentrydiv div #selection_area #profiles h1 {
+    margin-bottom: 7px;
+    font-size: 25px;
+    border-bottom: none;
+}
+
+#main #statentrydiv div #selection_area #events ul .allWidth tbody tr td div table tbody tr td .selectEventTable tbody tr td h1,
+#main #statentrydiv div #selection_area #rosters ul .allWidth tbody tr td div table tbody tr td table tbody tr td h1,
+#main #statentrydiv div #selection_area #profiles ul .allWidth tbody tr td div table tbody tr td table tbody tr td h1 {
+    font-size: 18px;
+    border-bottom: dotted 1px #333;
+    display: block;
+}
+
+#main #statentrydiv div #selection_area #events ul .allWidth tbody tr td div table tbody tr td .selectEventTable tbody tr td h1,
+#main #statentrydiv div #selection_area #rosters ul .allWidth tbody tr td div table tbody tr td table tbody tr td h1,
+#main #statentrydiv div #selection_area #profiles ul .allWidth tbody tr td div table tbody tr td table tbody tr td h1:first-child {
+    margin-right: 30px;
+}
+
+#statentrydiv {
+    height: 738px;
+}
+
+#statentrydiv div #selection_area {
+    height: 708px;
+    width: 964px;
+}
+
+#statentrydiv div #selection_area #profiles {
+    width: auto;
+}
+
+#statentrydiv div #selection_area #profiles ul {
+    width: 400px;
+    height: 400px;
+}
+
+.cellPadding {
+    padding-bottom: 10px;
+}
+
+div#keystrokes {
+    position: absolute;
+    top: 660px;
+    height: 30px;
+}
+
+div#keystrokes.basketballBox {
+    height: 15px !important;
+    margin-top: 15px;
+}
+
+#statentrydiv div #selection_area #powered_by #account {
+    float: right;
+    color: #ffffff;
+}
+
+#statentrydiv div #selection_area #powered_by #account a {
+    font-size: 1em;
+    text-shadow: 0px 1px 0px #cccccc;
+    display: inline-block;
+    float: right;
+}
+
+#statentrydiv div #selection_area #powered_by #account a.first {
+    border-right: solid 1px #222222;
+    padding-right: 10px;
+    margin-right: 10px;
+}
+
+#statentrydiv div #selection_area #powered_by #account a:hover {
+    color: #666666;
+}
+
+/*--ADDED 6/17 Desi Aragon ====================*/
+.cellPadding, .selPlayCell {
+    padding: 10px 0px;
+}
+
+#play_entry_area #keystrokes {
+    bottom: 110px;
+    width: 690px;
+}
+
+#play_entry_area #keystrokes {
+    padding: 5px 5px 5px;
+    height: 30px;
+    background: #fefcde;
+
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+
+    -webkit-box-shadow: #666666 0px 1px 2px;
+    -moz-box-shadow: #666666 0px 1px 2px;
+    box-shadow: #666666 0px 1px 2px;
+}
+
+#play_entry_area #keystrokes span {
+    float: left;
+    margin-right: 30px;
+    color: #444;
+    margin-bottom: 10px;
+}
+
+#play_entry_area #keystrokes span strong {
+    margin-right: 5px;
+}
+
+#play_entry_area .wrapup_buttons .back_add_plays {
+    float: right;
+}
+
+/*--ADDED 6/20 Desi Aragon ====================*/
+.gwt-DialogBox {
+    width: 400px;
+    height: 400px;
+}
+
+.gwt-DialogBox .Caption {
+
+}
+
+.gwt-DialogBox .dialogContent {
+}
+
+.gwt-DialogBox .dialogMiddleCenter {
+    padding: 15px;
+    margin: 0 auto;
+    border: solid 10px #bbbbbb;
+
+    -webkit-box-shadow: #ffffff 0px 1px 0px;
+    -moz-box-shadow: #ffffff 0px 1px 0px;
+    box-shadow: #ffffff 0px 1px 0px;
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+
+    background-color: #ffffff;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#ffffff), to(#cccccc));
+    background-image: -moz-linear-gradient(#ffffff, #cccccc);
+    background-image: linear-gradient(#ffffff, #cccccc);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#cccccc', GradientType=0);
+}
+
+.gwt-DialogBox .dialogBottomCenter {
+}
+
+.gwt-DialogBox .dialogMiddleLeft {
+    background-color: #ffffff;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#ffffff), to(#cccccc));
+    background-image: -moz-linear-gradient(#ffffff, #cccccc);
+    background-image: linear-gradient(#ffffff, #cccccc);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#cccccc', GradientType=0);
+}
+
+.gwt-DialogBox .dialogMiddleRight {
+    background-color: #ffffff;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#ffffff), to(#cccccc));
+    background-image: -moz-linear-gradient(#ffffff, #cccccc);
+    background-image: linear-gradient(#ffffff, #cccccc);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#cccccc', GradientType=0);
+
+}
+
+/**/
+
+.gwt-DialogBox-close {
+    width: 400px;
+    height: 400px;
+}
+
+.gwt-DialogBox-close .Caption {
+
+}
+
+.gwt-DialogBox-close .dialogMiddleCenter {
+    padding: 15px;
+    margin: 0 auto;
+    border: solid 2px #bbbbbb;
+
+    -webkit-box-shadow: #ffffff 0px 1px 0px;
+    -moz-box-shadow: #ffffff 0px 1px 0px;
+    box-shadow: #ffffff 0px 1px 0px;
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+
+    background-color: #ffffff;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#ffffff), to(#cccccc));
+    background-image: -moz-linear-gradient(#ffffff, #cccccc);
+    background-image: linear-gradient(#ffffff, #cccccc);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#cccccc', GradientType=0);
+}
+
+.gwt-DialogBox-close .dialogBottomCenter {
+}
+
+.gwt-DialogBox-close .dialogMiddleLeft {
+
+}
+
+.gwt-DialogBox-close .dialogMiddleRight {
+}
+
+/**/
+.gwt-DialogBox .dialogTop {
+
+}
+
+.gwt-DialogBox .dialogTopLeftInner {
+
+}
+
+.gwt-DialogBox .dialogTopRightInner {
+
+}
+
+.gwt-DialogBox .dialogBottomLeftInner {
+
+}
+
+.gwt-DialogBox .dialogBottomRightInner {
+
+}
+
+.gwt-DialogBox .dialogTopLeft {
+}
+
+.gwt-DialogBox .dialogTopRight {
+}
+
+.gwt-DialogBox .dialogBottomLeft {
+
+}
+
+.gwt-DialogBox .dialogBottomRight {
+
+}
+
+* html .gwt-DialogBox .dialogTopLeftInner {
+}
+
+* html .gwt-DialogBox-close .dialogTopLeftInner {
+}
+
+* html .gwt-DialogBox-close .dialogTopRightInner {
+}
+
+* html .gwt-DialogBox .dialogTopRightInner {
+}
+
+* html .gwt-DialogBox .dialogBottomLeftInner {
+
+}
+
+* html .gwt-DialogBox .dialogBottomRightInner {
+
+}
+
+/* Popup */
+
+.gwt-DecoratedPopupPanel {
+    width: 400px;
+    height: 225px;
+}
+
+.gwt-DialogBox .Caption {
+}
+
+.gwt-DialogBox-close .Caption {
+    padding: 5px;
+    margin: 0 auto;
+    border: solid 2px #bbbbbb;
+    height: 30px;
+    -webkit-box-shadow: #ffffff 0px 1px 0px;
+    -moz-box-shadow: #ffffff 0px 1px 0px;
+    box-shadow: #ffffff 0px 1px 0px;
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+
+    background-color: #ffffff;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#ffffff), to(#cccccc));
+    background-image: -moz-linear-gradient(#ffffff, #cccccc);
+    background-image: linear-gradient(#ffffff, #cccccc);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#cccccc', GradientType=0);
+}
+
+.gwt-DialogBox .popupContent {
+}
+
+.gwt-DecoratedPopupPanel .popupMiddleCenter {
+    padding: 15px;
+    margin: 0 auto;
+    border: solid 10px #bbbbbb;
+
+    -webkit-box-shadow: #ffffff 0px 1px 0px;
+    -moz-box-shadow: #ffffff 0px 1px 0px;
+    box-shadow: #ffffff 0px 1px 0px;
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+
+    background-color: #ffffff;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#ffffff), to(#cccccc));
+    background-image: -moz-linear-gradient(#ffffff, #cccccc);
+    background-image: linear-gradient(#ffffff, #cccccc);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#cccccc', GradientType=0);
+}
+
+.gwt-DialogBox .popupBottomCenter {
+}
+
+.gwt-DecoratedPopupPanel .popupMiddleLeft {
+    background-color: #ffffff;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#ffffff), to(#cccccc));
+    background-image: -moz-linear-gradient(#ffffff, #cccccc);
+    background-image: linear-gradient(#ffffff, #cccccc);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#cccccc', GradientType=0);
+}
+
+.gwt-DecoratedPopupPanel .popupMiddleRight {
+    background-color: #ffffff;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#ffffff), to(#cccccc));
+    background-image: -moz-linear-gradient(#ffffff, #cccccc);
+    background-image: linear-gradient(#ffffff, #cccccc);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#cccccc', GradientType=0);
+}
+
+.gwt-DecoratedPopupPanel .popupMiddleCenter {
+
+}
+
+.gwt-DecoratedPopupPanel .popupMiddleCenterInner {
+}
+
+.gwt-DecoratedPopupPanel .popupContent {
+}
+
+.gwt-DecoratedPopupPanel .popupTopCenter {
+}
+
+.gwt-DecoratedPopupPanel .popupBottomCenter {
+}
+
+.gwt-DecoratedPopupPanel .popupTopLeftInner {
+}
+
+.gwt-DecoratedPopupPanel .popupTopRightInner {
+}
+
+.gwt-DecoratedPopupPanel .popupBottomLeftInner {
+}
+
+.gwt-DecoratedPopupPanel .popupBottomRightInner {
+
+}
+
+.gwt-DecoratedPopupPanel .popupTopLeft {
+}
+
+.gwt-DecoratedPopupPanel .popupTopRight {
+}
+
+.gwt-DecoratedPopupPanel .popupBottomLeft {
+}
+
+.gwt-DecoratedPopupPanel .popupBottomRight {
+}
+
+* html .gwt-DecoratedPopupPanel .popupTopLeftInner {
+}
+
+* html .gwt-DecoratedPopupPanel .popupTopRightInner {
+}
+
+* html .gwt-DecoratedPopupPanel .popupBottomLeftInner {
+}
+
+* html .gwt-DecoratedPopupPanel .popupBottomRightInner {
+}
+
+.gwt-PopupPanelGlass {
+    background-color: #000;
+    opacity: 0.3;
+    filter: alpha(opacity=30);
+}
+
+/***/
+span.txt_normal {
+    padding: 1px 2px;
+    text-decoration: none;
+    font-size: small;
+    color: #ffffff;
+    cursor: hand;
+}
+
+span.txt_normal.noleftpadding {
+    padding: 1px 2px 1px 0px;
+}
+
+span.txt_normal.norightpadding {
+    padding: 1px 0px 1px 2px;
+}
+
+span.txt_play {
+    padding: 1px 2px;
+    font-size: small;
+    color: #ffffff;
+    cursor: hand;
+    text-decoration: underline;
+}
+
+span.txt_play.nopadding {
+    padding: 0px 0px;
+}
+
+span.txt_play:hover {
+    color: orange;
+    background: #222222;
+}
+
+div#setupTable {
+    height: 500px;
+    overflow: auto;
+}
+
+div#setupTable tr td span {
+    vertical-align: middle;
+    font-size: small;
+    text-transform: capitalize;
+    margin-bottom: 5px;
+    font-weight: normal;
+    color: #666666;
+}
+
+div#setupTable tr td span.title {
+    vertical-align: middle;
+    font-size: small;
+    text-transform: capitalize;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    display: flex;
+    font-weight: bold;
+    color: #000000;
+    text-align: center;
+}
+
+div#start_up {
+    height: 350px;
+}
+
+span.txt_event {
+    color: #006600;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+span.txt_event:hover {
+    color: #666;
+}
+
+#header .link {
+    float: right;
+    color: #333333;
+    font-weight: bold;
+    display: inline-block;
+    font-size: 1em;
+    margin-right: 10px;
+    padding-right: 10px;
+    text-shadow: 0 1px 0 #CCCCCC;
+    text-decoration: underline;
+}
+
+#header .link:hover {
+    color: #666;
+}
+
+.buttons ul {
+    width: 100%
+}
+
+.buttons ul li {
+    float: left;
+    width: 170px;
+}
+
+.buttons_ ul li {
+    float: left;
+    width: 70px;
+}
+
+.buttons ul li p {
+    width: 90%;
+    padding: 5px 5px 5px 5px;
+}
+
+.buttons ul li p a {
+    width: 90%;
+    height: 40px;
+}
+
+.buttons ul li p a.basketballPlayButton {
+    width: 90%;
+    height: 30px;
+}
+
+.buttons.gameCtrl ul li p a {
+    width: 85%;
+    height: 40px;
+}
+
+.buttons.gameCtrl ul li {
+    float: left;
+    width: 200px;
+}
+
+.buttons.gameCtrl ul li a {
+    margin: 5px;
+    height: 40px;
+}
+
+.blink {
+    text-decoration: blink;
+}
+
+div#currentPlayers {
+    height: 100px;
+    overflow: auto;
+}
+
+.basketballButton {
+    margin: 0px;
+    padding-left: 50px;
+    padding-right: 20px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: white;
+    background-repeat: no-repeat;
+    min-width: 158px;
+    height: 30px;
+    color: white;
+    font-family: arial black;
+    font-size: 12px;
+    font-weight: bolder;
+    text-transform: uppercase;
+}
+
+.pitcherActions {
+    width: 25em;
+    padding: 15px;
+    text-align: center;
+    background-color: #111111;
+    background-image: -moz-linear-gradient(top, #111111 0%, #333333 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #111111), color-stop(100%, #333333));
+    background-image: -webkit-linear-gradient(top, #111111 0%, #333333 100%);
+}
+
+.pitcherActions .pitcherName, .pitcherActions .batterName, .pitcherActions .pitcherStats, .pitcherActions .batterOrder {
+    font-family: Arial;
+    width: 50%;
+}
+
+.pitcherActions .pitcherName, .pitcherActions .pitcherStats {
+    text-align: left;
+}
+
+.pitcherActions .batterName, .pitcherActions .batterOrder {
+    text-align: right;
+}
+
+.pitcherActions .pitcherName, .pitcherActions .batterName {
+    font-size: 13.5pt;
+    font-weight: bold;
+    color: white;
+}
+
+.pitcherActions .pitcherName {
+    width: 150px;
+    background-color: transparent;
+}
+
+.pitcherActions .pitcherStats, .pitcherActions .batterOrder {
+    font-size: 10.5pt;
+    color: #cecece;
+}
+
+.pitcherActions .playStats, .pitcherActions .playActions {
+    -webkit-border-radius: 5px 5px 0px 0px;
+    -moz-border-radius: 5px 5px 0px 0px;
+    border-radius: 5px 5px 0px 0px;
+    border: 1px solid #ebebeb;
+    margin: 0 auto;
+}
+
+.pitcherActions .playStats {
+    background-color: #b1b1b1;
+    padding: 10px 0px;
+    margin-top: 20px;
+    width: 215px;
+}
+
+.pitcherActions .playActions {
+    background-color: #d1d1d1;
+    -webkit-border-radius: 0px 0px 5px 5px;
+    -moz-border-radius: 0px 0px 5px 5px;
+    border-radius: 0px 0px 5px 5px;
+    margin-bottom: 20px;
+    padding: 10px;
+    width: 195px;
+}
+
+.pitcherActions .playActions .label {
+    font-size: 8.25pt;
+    font-weight: 700;
+    text-align: left;
+    color: #727272;
+    height: 15px;
+    min-width: 50px;
+    vertical-align: middle;
+}
+
+.pitcherActions .playActions .labelActions {
+    font-size: 8.25pt;
+    font-weight: 700;
+    color: #FFFFFF;
+    padding: 0px 5px;
+    text-align: left;
+    line-height: 15px;
+}
+
+.pitcherActions .playStats .statNumber {
+    font-size: 16.5pt;
+    font-weight: 800;
+}
+
+.pitcherActions .playStats .statLabel {
+    font-size: 8.25pt;
+    font-weight: bold;
+    color: #727272;
+    width: 215px;
+}
+
+.pitcherActions .playActions {
+    background-color: #474747;
+}
+
+.pitcherActions .playButtons {
+    width: 215px;
+    margin: 0 auto;
+}
+
+.pitcherActions .playButtons li {
+    margin-bottom: 10px;
+}
+
+.pitcherActions .playButtons .hotKey {
+    vertical-align: middle;
+    line-height: 30px;
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: 10.5pt;
+    text-align: center;
+    background-color: #ffffff;
+    float: left;
+    width: 38px;
+    -webkit-border-radius: 10px 0px 0px 10px;
+    -moz-border-radius: 10px 0px 0px 10px;
+    border-radius: 5px 0px 0px 5px;
+    cursor: pointer;
+}
+
+.pitcherActions .playButtons .button {
+    padding-left: 44px;
+    vertical-align: middle;
+    line-height: 30px;
+    text-transform: uppercase;
+    font-weight: 800;
+    font-size: 10.5pt;
+    background-color: #b1b1b1;
+    color: #555555;
+    text-align: left;
+    -webkit-border-radius: 0px 10px 10px 0px;
+    -moz-border-radius: 0px 10px 10px 0px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.pitcherActions .playButtons .backButton {
+    margin-top: 15px;
+    color: #b1b1b1;
+    font-size: 12pt;
+    margin-bottom: 0px !important;
+    cursor: pointer;
+    margin: 0px auto;
+    width: 50px;
+}
+
+/*-- GWT styles ====================*/
+
+/**
+ * The file contains styles for GWT widgets in the standard theme.
+ *
+ * In order to maintain cross-browser compatibility, the following syntax is
+ * used to create IE6 specific style rules:
+ *    .gwt-Widget {
+ *      property: rule applies to all browsers
+ *      -property: rule applies only to IE6 (overrides previous rule)
+ *    }
+ *    * html .gwt-Widget {
+ *      property: rule applies to all versions of IE
+ *    }
+ */
+
+.gwt-PasswordTextBox {
+    padding: 2px;
+}
+
+.gwt-PasswordTextBox-readonly {
+    color: #888;
+}
+
+.gwt-PopupPanel {
+    border: 3px solid #C3D9FF;
+    padding: 3px;
+    background: white;
+}
+
+#team_roster {
+    width: 700px;
+    height: 400px;
+}
+
+table tr.title {
+    background-color: #308601;
+    color: white;
+    font-size: medium;
+    font-weight: bold;
+    height: 30px;
+}
+
+table tr.odd {
+    background-color: #111111;
+    color: #ffffff;
+    font-size: small;
+}
+
+table tr.even {
+    background-color: #333333;
+    color: #ffffff;
+    font-size: small;
+}
+
+.statsPartnerAccountStatusNotification {
+}
+
+.statsPartnerAccountStatusNotification .title {
+    margin-bottom: 10px;
+    font-size: large;
+}
+
+.statsPartnerAccountStatusNotification .content {
+    margin: 10px 0;
+    width: 100%;
+}
+
+.statsPartnerAccountStatusNotification .teamPanel {
+    background-color: white;
+    padding: 10px;
+    border: 1px solid;
+}
+
+.statsPartnerAccountStatusNotification .teamPanel .partnerAccountStatusWidget {
+    margin-bottom: 10px;
+}
+
+.statsPartnerAccountStatusNotification .teamPanel .teamLabel {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+

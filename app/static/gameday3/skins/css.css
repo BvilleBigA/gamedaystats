@@ -1,0 +1,1688 @@
+#overDiv {
+    background-color: white !important;
+    border: solid 1px var(--main-bg-color-gray);
+    padding: 4px;
+}
+
+#overDiv td {
+    border: none;
+    background-color: white;
+}
+
+table.dataentry {
+  background-color: white;
+  border: 1px solid var(--main-bg-color-dark-gray);
+}
+
+table.dataentry td, table.dataentry th {
+  padding: 5px;
+  border: 1px solid var(--main-bg-color-gray);
+}
+
+table.mceLayout td, table.mceLayout th {
+  padding: 0 !important;
+  border: 0;
+}
+
+tr.disabled {
+    color: #999999;
+}
+
+tr.highlight {
+    background: var(--main-bg-color-gray);
+}
+
+tr.highlight a {
+    text-decoration: none;
+    font-weight: bold;
+}
+
+tr.active {
+  background: var(--main-bg-color-gray);
+}
+
+#view {
+    width: 100%;
+}
+
+#view table{
+  background: var(--main-bg-color-white);
+}
+
+#options {
+    padding-left: 10px;
+    width: 150px;
+}
+
+#options a {
+  white-space: nowrap;
+}
+
+.errorbox {
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  background-color: yellow;
+}
+
+.errorlabel {
+  background-color: yellow;
+}
+
+.eventInProgress {
+  background-color: orange;
+}
+
+.eventConflict {
+  background-color: yellow;
+}
+
+hr {
+  clear: both;
+}
+
+div.usagereports {
+  float: right;
+  text-align: right;
+  padding: 3px;
+}
+
+div.usagereportsWarning {
+  float: left;
+   background-color: yellow;
+  padding: 3px;
+}
+
+/* Teams interface */
+table.seasonlist {
+  border-collapse: collapse;
+  border: 1px solid var(--main-bg-color-gray);
+  width: 100%;
+  background: var(--main-bg-color-white);
+}
+
+tr.seasonlabel {
+  background: var(--main-bg-color-gray); 
+  text-align: right;
+  height: 23px;
+}
+
+tr.seasonlabel h3 {
+  padding: 3px;
+}
+
+tr.seasonlabel a {
+  padding: 3px;
+}
+
+tr.seasonentry {
+  background: var(--main-bg-color-gray); 
+  height: 23px;
+}
+
+tr.seasonrow {
+  height: 23px;
+}
+
+tr.seasonrow td {
+  border-width: 1px 0px 0px 0px;
+  border-color: #AAAAAA;
+  border-style: solid;
+}
+
+tr.seasonheader {
+  font-weight: bold;
+}
+
+tr.seasonheader td {
+  padding: 3px;
+}
+
+tr.seasonheader td table {
+  background: transparent !important;
+}
+
+td.seasonstatlabel {
+  font-size: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+
+td.seasonstat {
+  font-size: 10px;
+  text-align: center;
+}
+
+tr.eventInProgress a:hover {
+  color: #ffffff;
+}
+
+div#topbrowser a {
+    padding: 3px;
+}
+
+#caption span {
+    color: white;
+}
+
+#options a:link {
+    width: 98%;
+    display: inline-block;
+}
+
+.popupContent {
+    background-color: white;
+}
+
+
+/**
+ * The reference theme can be used to determine when this style sheet has
+ * loaded.  Create a hidden div element with absolute position, assign the style
+ * name below, and attach it to the DOM.  Use a timer to detect when the
+ * element's height and width are set to 5px.
+ */
+.gwt-Reference-chrome {
+  height: 5px;
+  width: 5px;
+  zoom: 1;
+}
+
+.gwt-Button {
+  margin: 0;
+  padding: 3px 5px;
+  text-decoration: none;
+  font-size: small;
+  cursor: pointer;
+  cursor: hand;
+  background: url("/info/chrome/hborder.png") repeat-x 0px -27px;
+  border: 1px outset #ccc;
+}
+.gwt-Button:active {
+  border: 1px inset #ccc;
+}
+.gwt-Button:hover {
+  border-color: #9cf #69e #69e #7af;
+}
+.gwt-Button[disabled] {
+  cursor: default;
+  color: #888;
+}
+.gwt-Button[disabled]:hover {
+  border: 1px outset #ccc;
+}
+
+.gwt-CheckBox {
+}
+.gwt-CheckBox-disabled {
+  color: #888;
+}
+
+.gwt-DecoratorPanel {
+}
+.gwt-DecoratorPanel .topCenter,
+.gwt-DecoratorPanel .bottomCenter {
+  background: url(/info/chrome/hborder.png) repeat-x;
+}
+.gwt-DecoratorPanel .middleLeft,
+.gwt-DecoratorPanel .middleRight {
+  background: url(/info/chrome/vborder.png) repeat-y;
+}
+.gwt-DecoratorPanel .topLeftInner,
+.gwt-DecoratorPanel .topRightInner,
+.gwt-DecoratorPanel .bottomLeftInner,
+.gwt-DecoratorPanel .bottomRightInner {
+  width: 5px;
+  height: 5px;
+  zoom: 1;
+}
+.gwt-DecoratorPanel .topLeft {
+  background: url(/info/chrome/corner.png) no-repeat 0px 0px;
+  -background: url(/info/chrome/corner_ie6.png) no-repeat 0px 0px;
+}
+.gwt-DecoratorPanel .topRight {
+  background: url(/info/chrome/corner.png) no-repeat -5px 0px;
+  -background: url(/info/chrome/corner_ie6.png) no-repeat -5px 0px;
+}
+.gwt-DecoratorPanel .bottomLeft {
+  background: url(/info/chrome/corner.png) no-repeat 0px -5px;
+  -background: url(/info/chrome/corner_ie6.png) no-repeat 0px -5px;
+}
+.gwt-DecoratorPanel .bottomRight {
+  background: url(/info/chrome/corner.png) no-repeat -5px -5px;
+  -background: url(/info/chrome/corner_ie6.png) no-repeat -5px -5px;
+}
+* html .gwt-DecoratorPanel .topLeftInner,
+* html .gwt-DecoratorPanel .topRightInner,
+* html .gwt-DecoratorPanel .bottomLeftInner,
+* html .gwt-DecoratorPanel .bottomRightInner {
+  width: 5px;
+  height: 5px;
+  overflow: hidden;
+}
+
+.gwt-DialogBox > table > tbody > tr > td {
+    margin: 0;
+    padding: 0;
+    border: none
+}
+
+.gwt-DialogBox .Caption {
+  background: #ebebeb url(/info/chrome/hborder.png) repeat-x 0px -2003px;
+  padding: 4px 4px 4px 8px;
+  cursor: default;
+  border-bottom: 1px solid #bbbbbb;
+  border-top: 5px solid #e3e3e3;
+}
+.gwt-DialogBox .dialogContent {
+}
+.gwt-DialogBox .dialogMiddleCenter {
+  padding: 3px;
+  background: white;
+}
+.gwt-DialogBox .dialogBottomCenter {
+  background: url(/info/chrome/hborder.png) repeat-x 0px -4px;
+  -background: url(/info/chrome/hborder_ie6.png) repeat-x 0px -4px;
+}
+.gwt-DialogBox .dialogMiddleLeft {
+  background: url(/info/chrome/vborder.png) repeat-y;
+}
+.gwt-DialogBox .dialogMiddleRight {
+  background: url(/info/chrome/vborder.png) repeat-y -4px 0px;
+  -background: url(/info/chrome/vborder_ie6.png) repeat-y -4px 0px;
+}
+.gwt-DialogBox .dialogTopLeftInner {
+  width: 5px;
+  zoom: 1;
+}
+.gwt-DialogBox .dialogTopRightInner {
+  width: 8px;
+  zoom: 1;
+}
+.gwt-DialogBox .dialogBottomLeftInner {
+  width: 5px;
+  height: 8px;
+  zoom: 1;
+}
+.gwt-DialogBox .dialogBottomRightInner {
+  width: 5px;
+  height: 8px;
+  zoom: 1;
+}
+.gwt-DialogBox .dialogTopLeft {
+  background: url(/info/chrome/corner.png) no-repeat -13px 0px;
+  -background: url(/info/chrome/corner_ie6.png) no-repeat -13px 0px;
+}
+.gwt-DialogBox .dialogTopRight {
+  background: url(/info/chrome/corner.png) no-repeat -18px 0px;
+  -background: url(/info/chrome/corner_ie6.png) no-repeat -18px 0px;
+}
+.gwt-DialogBox .dialogBottomLeft {
+  background: url(/info/chrome/corner.png) no-repeat 0px -15px;
+  -background: url(/info/chrome/corner_ie6.png) no-repeat 0px -15px;
+}
+.gwt-DialogBox .dialogBottomRight {
+  background: url(/info/chrome/corner.png) no-repeat -5px -15px;
+  -background: url(/info/chrome/corner_ie6.png) no-repeat -5px -15px;
+}
+* html .gwt-DialogBox .dialogTopLeftInner {
+  width: 5px;
+  overflow: hidden;
+}
+* html .gwt-DialogBox .dialogTopRightInner {
+  width: 8px;
+  overflow: hidden;
+}
+* html .gwt-DialogBox .dialogBottomLeftInner {
+  width: 5px;
+  height: 8px;
+  overflow: hidden;
+}
+* html .gwt-DialogBox .dialogBottomRightInner {
+  width: 8px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.gwt-DisclosurePanel {
+}
+.gwt-DisclosurePanel-open {
+}
+.gwt-DisclosurePanel-closed {
+}
+.gwt-DisclosurePanel .header,
+.gwt-DisclosurePanel .header a,
+.gwt-DisclosurePanel .header td {
+  text-decoration: none;  /* Remove underline from header */
+  color: black; 
+  cursor: pointer;
+  cursor: hand;
+}
+.gwt-DisclosurePanel .content {
+  border-left: 3px solid #e3e3e3;
+  padding: 4px 0px 4px 8px;
+  margin-left: 6px;
+}
+
+.gwt-FileUpload {
+}
+
+.gwt-Frame {
+  border-top: 2px solid #666;
+  border-left: 2px solid #666;
+  border-right: 2px solid #bbb;
+  border-bottom: 2px solid #bbb;
+}
+
+.gwt-HorizontalSplitPanel {
+}
+.gwt-HorizontalSplitPanel .hsplitter {
+  cursor: move;
+  border: 0px; 
+  background: #91c0ef url(/info/chrome/vborder.png) repeat-y;
+  line-height: 0px;
+}
+.gwt-VerticalSplitPanel {
+}
+.gwt-VerticalSplitPanel .vsplitter {
+  cursor: move;
+  border: 0px; 
+  background: #91c0ef url(/info/chrome/hborder.png) repeat-x;
+  line-height: 0px;
+}
+
+.gwt-HTML {
+}
+
+.gwt-Hyperlink {
+}
+
+.gwt-Image {
+}
+
+.gwt-Label {
+}
+
+.gwt-ListBox {
+}
+
+.gwt-MenuBar {
+  cursor: default;
+}
+.gwt-MenuBar .gwt-MenuItem {
+  cursor: default;
+}
+.gwt-MenuBar .gwt-MenuItem-selected {
+  background: #cdcdcd;
+}
+.gwt-MenuBar .gwt-MenuItem-disabled {
+  color: #cdcdcd;
+}
+.gwt-MenuBar-horizontal {
+  background: #ebebeb url(/info/chrome/hborder.png) repeat-x 0px -2003px;
+  border: 1px solid #BBBBBB;
+}
+.gwt-MenuBar-horizontal .gwt-MenuItem {
+  padding: 0px 10px;
+  vertical-align: bottom;
+  color: #666666;
+  font-weight: bold;
+}
+.gwt-MenuBar-horizontal .gwt-MenuItemSeparator {
+  width: 1px;
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+  border-left: 1px solid #888888;
+  background: white;
+}
+.gwt-MenuBar-horizontal .gwt-MenuItemSeparator .menuSeparatorInner {
+  width: 1px;
+  height: 1px;
+  background: white; 
+}
+.gwt-MenuBar-vertical {
+  margin-top: 0px;
+  margin-left: 0px;
+  background: white;
+}
+.gwt-MenuBar-vertical table {
+  border-collapse: collapse;
+}
+.gwt-MenuBar-vertical .gwt-MenuItem {
+  padding: 4px 14px 4px 1px;
+}
+.gwt-MenuBar-vertical .gwt-MenuItemSeparator {
+  padding: 2px 0px;
+}
+.gwt-MenuBar-vertical .gwt-MenuItemSeparator .menuSeparatorInner {
+  height: 1px;
+  padding: 0px;
+  border: 0px;
+  border-top: 1px solid #777777;
+  background: #ddddee;
+  overflow: hidden;
+}
+.gwt-MenuBar-vertical .subMenuIcon {
+  padding-right: 4px;
+}
+.gwt-MenuBar-vertical .subMenuIcon-selected {
+  background: #cdcdcd;
+}
+.gwt-MenuBarPopup {
+  margin: 0px 0px 0px 3px;
+}
+.gwt-MenuBarPopup .menuPopupTopCenter {
+  background: url(/info/chrome/hborder.png) 0px -12px repeat-x;
+}
+.gwt-MenuBarPopup .menuPopupBottomCenter {
+  background: url(/info/chrome/hborder.png) 0px -13px repeat-x;
+  -background: url(/info/chrome/hborder_ie6.png) 0px -13px repeat-x;
+}
+.gwt-MenuBarPopup .menuPopupMiddleLeft {
+  background: url(/info/chrome/vborder.png) -12px 0px repeat-y;
+  -background: url(/info/chrome/vborder_ie6.png) -12px 0px repeat-y;
+}
+.gwt-MenuBarPopup .menuPopupMiddleRight {
+  background: url(/info/chrome/vborder.png) -13px 0px repeat-y;
+  -background: url(/info/chrome/vborder_ie6.png) -13px 0px repeat-y;
+}
+.gwt-MenuBarPopup .menuPopupTopLeftInner {
+  width: 5px;
+  height: 5px;
+  zoom: 1;
+}
+.gwt-MenuBarPopup .menuPopupTopRightInner {
+  width: 8px;
+  height: 5px;
+  zoom: 1;
+}
+.gwt-MenuBarPopup .menuPopupBottomLeftInner {
+  width: 5px;
+  height: 8px;
+  zoom: 1;
+}
+.gwt-MenuBarPopup .menuPopupBottomRightInner {
+  width: 8px;
+  height: 8px;
+  zoom: 1;
+}
+.gwt-MenuBarPopup .menuPopupTopLeft {
+  background: url(/info/chrome/corner.png) no-repeat 0px -36px;
+  -background: url(/info/chrome/corner_ie6.png) no-repeat 0px -36px;
+}
+.gwt-MenuBarPopup .menuPopupTopRight {
+  background: url(/info/chrome/corner.png) no-repeat -5px -36px;
+  -background: url(/info/chrome/corner_ie6.png) no-repeat -5px -36px;
+}
+.gwt-MenuBarPopup .menuPopupBottomLeft {
+  background: url(/info/chrome/corner.png) no-repeat 0px -41px;
+  -background: url(/info/chrome/corner_ie6.png) no-repeat 0px -41px;
+}
+.gwt-MenuBarPopup .menuPopupBottomRight {
+  background: url(/info/chrome/corner.png) no-repeat -5px -41px;
+  -background: url(/info/chrome/corner_ie6.png) no-repeat -5px -41px;
+}
+* html .gwt-MenuBarPopup .menuPopupTopLeftInner {
+  width: 5px;
+  height: 5px;
+  overflow: hidden;
+}
+* html .gwt-MenuBarPopup .menuPopupTopRightInner {
+  width: 8px;
+  height: 5px;
+  overflow: hidden;
+}
+* html .gwt-MenuBarPopup .menuPopupBottomLeftInner {
+  width: 5px;
+  height: 8px;
+  overflow: hidden;
+}
+* html .gwt-MenuBarPopup .menuPopupBottomRightInner {
+  width: 8px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.gwt-PasswordTextBox {
+  padding: 2px;
+}
+.gwt-PasswordTextBox-readonly {
+  color: #888;
+}
+
+.gwt-PopupPanel {
+  border: 3px solid #e3e3e3;
+  padding: 3px;
+  background: white;
+}
+
+.gwt-DecoratedPopupPanel .popupContent {
+}
+.gwt-DecoratedPopupPanel .popupMiddleCenter {
+  padding: 3px;
+  background: #e3e3e3;
+}
+.gwt-DecoratedPopupPanel .popupTopCenter {
+  background: url(/info/chrome/hborder.png) repeat-x;
+}
+.gwt-DecoratedPopupPanel .popupBottomCenter {
+  background: url(/info/chrome/hborder.png) repeat-x 0px -4px;
+  -background: url(/info/chrome/hborder_ie6.png) repeat-x 0px -4px;
+}
+.gwt-DecoratedPopupPanel .popupMiddleLeft {
+  background: url(/info/chrome/vborder.png) repeat-y;
+}
+.gwt-DecoratedPopupPanel .popupMiddleRight {
+  background: url(/info/chrome/vborder.png) repeat-y -4px 0px;
+  -background: url(/info/chrome/vborder_ie6.png) repeat-y -4px 0px;
+}
+.gwt-DecoratedPopupPanel .popupTopLeftInner {
+  width: 5px;
+  height: 5px;
+  zoom: 1;
+}
+.gwt-DecoratedPopupPanel .popupTopRightInner {
+  width: 8px;
+  height: 5px;
+  zoom: 1;
+}
+.gwt-DecoratedPopupPanel .popupBottomLeftInner {
+  width: 5px;
+  height: 8px;
+  zoom: 1;
+}
+.gwt-DecoratedPopupPanel .popupBottomRightInner {
+  width: 8px;
+  height: 8px;
+  zoom: 1;
+}
+.gwt-DecoratedPopupPanel .popupTopLeft {
+  background: url(/info/chrome/corner.png) no-repeat 0px -10px;
+  -background: url(/info/chrome/corner_ie6.png) no-repeat 0px -10px;
+}
+.gwt-DecoratedPopupPanel .popupTopRight {
+  background: url(/info/chrome/corner.png) no-repeat -5px -10px;
+  -background: url(/info/chrome/corner_ie6.png) no-repeat -5px -10px;
+}
+.gwt-DecoratedPopupPanel .popupBottomLeft {
+  background: url(/info/chrome/corner.png) no-repeat 0px -15px;
+  -background: url(/info/chrome/corner_ie6.png) no-repeat 0px -15px;
+}
+.gwt-DecoratedPopupPanel .popupBottomRight {
+  background: url(/info/chrome/corner.png) no-repeat -5px -15px;
+  -background: url(/info/chrome/corner_ie6.png) no-repeat -5px -15px;
+}
+* html .gwt-DecoratedPopupPanel .popupTopLeftInner {
+  width: 5px;
+  height: 5px;
+  overflow: hidden;
+}
+* html .gwt-DecoratedPopupPanel .popupTopRightInner {
+  width: 8px;
+  height: 5px;
+  overflow: hidden;
+}
+* html .gwt-DecoratedPopupPanel .popupBottomLeftInner {
+  width: 5px;
+  height: 8px;
+  overflow: hidden;
+}
+* html .gwt-DecoratedPopupPanel .popupBottomRightInner {
+  width: 8px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.gwt-PopupPanelGlass {
+  background-color: #000;
+  opacity: 0.3;
+  filter: alpha(opacity=30);
+}
+
+.gwt-PushButton-up,
+.gwt-PushButton-up-hovering,
+.gwt-PushButton-up-disabled,
+.gwt-PushButton-down,
+.gwt-PushButton-down-hovering,
+.gwt-PushButton-down-disabled {
+  margin: 0;
+  text-decoration: none;
+  background: url("/info/chrome/hborder.png") repeat-x 0px -27px;
+}
+.gwt-PushButton-up,
+.gwt-PushButton-up-hovering,
+.gwt-PushButton-up-disabled {
+  padding: 3px 5px 3px 5px;
+}
+.gwt-PushButton-up {
+  border: 1px outset #ccc;
+  cursor: pointer;
+  cursor: hand;
+}
+.gwt-PushButton-up-hovering {
+  border: 1px outset;
+  border-color: #9cf #69e #69e #7af;
+  cursor: pointer;
+  cursor: hand;
+}
+.gwt-PushButton-up-disabled {
+  border: 1px outset #ccc;
+  cursor: default;
+  opacity: .5;
+  filter: alpha(opacity=40);
+  zoom: 1;
+}
+.gwt-PushButton-down,
+.gwt-PushButton-down-hovering,
+.gwt-PushButton-down-disabled {
+  padding: 4px 4px 2px 6px;
+}
+.gwt-PushButton-down {
+  border: 1px inset #666;
+  cursor: pointer;
+  cursor: hand;
+}
+.gwt-PushButton-down-hovering {
+  border: 1px inset;
+  border-color: #9cf #69e #69e #7af;
+  cursor: pointer;
+  cursor: hand;
+}
+.gwt-PushButton-down-disabled {
+  border: 1px outset #ccc;
+  cursor: default;
+  opacity: 0.5;
+  filter: alpha(opacity=40);
+  zoom: 1;
+}
+
+.gwt-RadioButton {
+}
+.gwt-RadioButton-disabled {
+  color: #888;
+}
+
+.gwt-RichTextArea {
+}
+.hasRichTextToolbar {
+  border: 0px;
+}
+.gwt-RichTextToolbar {
+  background: #ebebeb url(/info/chrome/hborder.png) repeat-x 0px -2003px;
+  border-bottom: 1px solid #BBBBBB;
+  padding: 3px;
+  margin: 0px;
+}
+.gwt-RichTextToolbar .gwt-PushButton-up {
+  padding: 0px 1px 0px 0px;
+  margin-right: 4px;
+  margin-bottom: 4px;
+  border-width: 1px; 
+}
+.gwt-RichTextToolbar .gwt-PushButton-up-hovering {
+  margin-right: 4px;
+  margin-bottom: 4px;
+  padding: 0px 1px 0px 0px;
+  border-width: 1px; 
+}
+.gwt-RichTextToolbar .gwt-PushButton-down {
+  margin-right: 4px;
+  margin-bottom: 4px;
+  padding: 0px 0px 0px 1px;
+  border-width: 1px; 
+}
+.gwt-RichTextToolbar .gwt-PushButton-down-hovering {
+  margin-right: 4px;
+  margin-bottom: 4px;
+  padding: 0px 0px 0px 1px;
+  border-width: 1px; 
+}
+.gwt-RichTextToolbar .gwt-ToggleButton-up {
+  margin-right: 4px;
+  margin-bottom: 4px;
+  padding: 0px 1px 0px 0px;
+  border-width: 1px;
+}
+.gwt-RichTextToolbar .gwt-ToggleButton-up-hovering {
+  margin-right: 4px;
+  margin-bottom: 4px;
+  padding: 0px 1px 0px 0px;
+  border-width: 1px;
+}
+.gwt-RichTextToolbar .gwt-ToggleButton-down {
+  margin-right: 4px;
+  margin-bottom: 4px;
+  padding: 0px 0px 0px 1px;
+  border-width: 1px;
+}
+.gwt-RichTextToolbar .gwt-ToggleButton-down-hovering {
+  margin-right: 4px;
+  margin-bottom: 4px;
+  padding: 0px 0px 0px 1px;
+  border-width: 1px;
+}
+
+.gwt-StackPanel {
+  border-bottom: 1px solid #bbbbbb;
+}
+.gwt-StackPanel .gwt-StackPanelItem {
+  cursor: pointer;
+  cursor: hand;
+  font-weight: bold;
+  font-size: 1.3em;
+  padding: 3px;
+  border: 1px solid #bbbbbb;
+  border-bottom: 0px;
+  background: #d3def6 url(/info/chrome/hborder.png) repeat-x 0px -989px;
+}
+.gwt-StackPanel .gwt-StackPanelContent {
+  border: 1px solid #bbbbbb;
+  border-bottom: 0px;
+  background: white;
+  padding: 2px 2px 10px 5px;
+}
+
+.gwt-DecoratedStackPanel {
+  border-bottom: 1px solid #bbbbbb;
+}
+.gwt-DecoratedStackPanel .gwt-StackPanelContent {
+  border: 1px solid #bbbbbb;
+  border-bottom: 0px;
+  background: white;
+  padding: 2px 2px 10px 5px;
+}
+.gwt-DecoratedStackPanel .gwt-StackPanelItem {
+  cursor: pointer;
+  cursor: hand;
+}
+.gwt-DecoratedStackPanel .stackItemTopLeft,
+.gwt-DecoratedStackPanel .stackItemTopRight {
+  height: 6px;
+  width: 6px;
+  zoom: 1;
+}
+.gwt-DecoratedStackPanel .stackItemTopLeft {
+  border-left: 1px solid #bbbbbb;
+  background: #e4e4e4 url(/info/chrome/corner.png) no-repeat 0px -49px;
+  -background: #e4e4e4 url(/info/chrome/corner_ie6.png) no-repeat 0px -49px;
+}
+.gwt-DecoratedStackPanel .stackItemTopRight {
+  border-right: 1px solid #bbbbbb;
+  background: #e4e4e4 url(/info/chrome/corner.png) no-repeat -6px -49px;
+  -background: #e4e4e4 url(/info/chrome/corner_ie6.png) no-repeat -6px -49px;
+}
+.gwt-DecoratedStackPanel .stackItemTopLeftInner,
+.gwt-DecoratedStackPanel .stackItemTopRightInner {
+  width: 1px;
+  height: 1px;
+}
+* html .gwt-DecoratedStackPanel .stackItemTopLeftInner,
+* html .gwt-DecoratedStackPanel .stackItemTopRightInner {
+  width: 6px;
+  height: 6px;
+  overflow: hidden;
+}
+.gwt-DecoratedStackPanel .stackItemTopCenter {
+  background: url(/info/chrome/hborder.png) 0px -21px repeat-x;
+}
+.gwt-DecoratedStackPanel .stackItemMiddleLeft {
+  background: #d3def6 url(/info/chrome/hborder.png) repeat-x 0px -989px;
+  border-left: 1px solid #bbbbbb;
+}
+.gwt-DecoratedStackPanel .stackItemMiddleLeftInner,
+.gwt-DecoratedStackPanel .stackItemMiddleRightInner {
+  width: 1px;
+  height: 1px;
+}
+.gwt-DecoratedStackPanel .stackItemMiddleRight {
+  background: #d3def6 url(/info/chrome/hborder.png) repeat-x 0px -989px;
+  border-right: 1px solid #bbbbbb;
+}
+.gwt-DecoratedStackPanel .stackItemMiddleCenter {
+  font-weight: bold;
+  font-size: 1.3em;
+  background: #d3def6 url(/info/chrome/hborder.png) repeat-x 0px -989px;
+}
+.gwt-DecoratedStackPanel .gwt-StackPanelItem-first .stackItemTopRight,
+.gwt-DecoratedStackPanel .gwt-StackPanelItem-first .stackItemTopLeft {
+  border: 0px;
+  background-color: white;
+}
+.gwt-DecoratedStackPanel .gwt-StackPanelItem-below-selected .stackItemTopLeft,
+.gwt-DecoratedStackPanel .gwt-StackPanelItem-below-selected .stackItemTopRight {
+  background-color: white;
+}
+
+.gwt-SuggestBox {
+  padding: 2px;
+}
+.gwt-SuggestBoxPopup {
+  margin-left: 3px;
+}
+.gwt-SuggestBoxPopup .item {
+  padding: 2px 6px;
+  color: #424242;
+  cursor: default;
+}
+.gwt-SuggestBoxPopup .item-selected {
+  background: #cdcdcd;
+}
+.gwt-SuggestBoxPopup .suggestPopupContent {
+  background: white;
+}
+.gwt-SuggestBoxPopup .suggestPopupTopCenter {
+  background: url(/info/chrome/hborder.png) repeat-x;
+}
+.gwt-SuggestBoxPopup .suggestPopupBottomCenter {
+  background: url(/info/chrome/hborder.png) repeat-x 0px -4px;
+  -background: url(/info/chrome/hborder_ie6.png) repeat-x 0px -4px;
+}
+.gwt-SuggestBoxPopup .suggestPopupMiddleLeft {
+  background: url(/info/chrome/vborder.png) repeat-y;
+}
+.gwt-SuggestBoxPopup .suggestPopupMiddleRight {
+  background: url(/info/chrome/vborder.png) repeat-y -4px 0px;
+  -background: url(/info/chrome/vborder_ie6.png) repeat-y -4px 0px;
+}
+.gwt-SuggestBoxPopup .suggestPopupTopLeftInner {
+  width: 5px;
+  height: 5px;
+  zoom: 1;  
+}
+.gwt-SuggestBoxPopup .suggestPopupTopRightInner {
+  width: 8px;
+  height: 5px;
+  zoom: 1;
+}
+.gwt-SuggestBoxPopup .suggestPopupBottomLeftInner {
+  width: 5px;
+  height: 8px;
+  zoom: 1;
+}
+.gwt-SuggestBoxPopup .suggestPopupBottomRightInner {
+  width: 8px;
+  height: 8px;
+  zoom: 1;
+}
+.gwt-SuggestBoxPopup .suggestPopupTopLeft {
+  background: url(/info/chrome/corner.png) no-repeat 0px -23px;
+  -background: url(/info/chrome/corner_ie6.png) no-repeat 0px -23px;
+}
+.gwt-SuggestBoxPopup .suggestPopupTopRight {
+  background: url(/info/chrome/corner.png) no-repeat -5px -23px;
+  -background: url(/info/chrome/corner_ie6.png) no-repeat -5px -23px;
+}
+.gwt-SuggestBoxPopup .suggestPopupBottomLeft {
+  background: url(/info/chrome/corner.png) no-repeat 0px -28px;
+  -background: url(/info/chrome/corner_ie6.png) no-repeat 0px -28px;
+}
+.gwt-SuggestBoxPopup .suggestPopupBottomRight {
+  background: url(/info/chrome/corner.png) no-repeat -5px -28px;
+  -background: url(/info/chrome/corner_ie6.png) no-repeat -5px -28px;
+}
+* html .gwt-SuggestBoxPopup .suggestPopupTopLeftInner {
+  width: 5px;
+  height: 5px;
+  overflow: hidden;
+}
+* html .gwt-SuggestBoxPopup .suggestPopupTopRightInner {
+  width: 8px;
+  height: 5px;
+  overflow: hidden;
+}
+* html .gwt-SuggestBoxPopup .suggestPopupBottomLeftInner {
+  width: 5px;
+  height: 8px;
+  overflow: hidden;
+}
+* html .gwt-SuggestBoxPopup .suggestPopupBottomRightInner {
+  width: 8px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.gwt-TabBar {
+}
+.gwt-TabBar .gwt-TabBarFirst {
+  width: 5px;  /* first tab distance from the left */
+}
+.gwt-TabBar .gwt-TabBarRest {
+}
+.gwt-TabBar .gwt-TabBarItem {
+  margin-left: 6px;
+  padding: 3px 6px 3px 6px;
+  cursor: pointer;
+  cursor: hand;
+  color: black;
+  font-weight: bold;
+  text-align: center;
+  background: #e3e3e3;
+}
+.gwt-TabBar .gwt-TabBarItem-selected {
+  cursor: default;
+  background: #bcbcbc;
+} 
+.gwt-TabBar .gwt-TabBarItem-disabled {
+  cursor: default;
+  color: #999999;
+}
+.gwt-TabPanel {
+}
+.gwt-TabPanelBottom {
+  border-color: #bcbcbc;
+  border-style: solid;
+  border-width: 3px 2px 2px;
+  overflow: hidden;
+  padding: 6px;
+}
+
+.gwt-DecoratedTabBar {
+}
+.gwt-DecoratedTabBar .gwt-TabBarFirst {
+  width: 5px;  /* first tab distance from the left */
+}
+.gwt-DecoratedTabBar .gwt-TabBarRest {
+}
+.gwt-DecoratedTabBar .gwt-TabBarItem {
+  border-collapse: collapse;
+  margin-left: 6px;
+}
+.gwt-DecoratedTabBar .tabTopCenter {
+  padding: 0px;
+  background: #e3e3e3;
+}
+.gwt-DecoratedTabBar .tabTopLeft,
+.gwt-DecoratedTabBar .tabTopRight {
+  padding: 0px;
+  zoom: 1;
+}
+.gwt-DecoratedTabBar .tabTopLeftInner,
+.gwt-DecoratedTabBar .tabTopRightInner {
+  width: 6px;
+  height: 6px;
+}
+.gwt-DecoratedTabBar .tabTopLeft {
+  background: url(/info/chrome/corner.png) no-repeat 0px -55px;
+  -background: url(/info/chrome/corner_ie6.png) no-repeat 0px -55px;
+}
+.gwt-DecoratedTabBar .tabTopRight {
+  background: url(/info/chrome/corner.png) no-repeat -6px -55px;
+  -background: url(/info/chrome/corner_ie6.png) no-repeat -6px -55px;
+}
+* html .gwt-DecoratedTabBar .tabTopLeftInner,
+* html .gwt-DecoratedTabBar .tabTopRightInner {
+  width: 6px;
+  height: 6px;
+  overflow: hidden;
+}
+.gwt-DecoratedTabBar .tabMiddleLeft,
+.gwt-DecoratedTabBar .tabMiddleRight {
+  width: 6px;
+  padding: 0px;
+  background: #e3e3e3 url(/info/chrome/hborder.png) repeat-x 0px -1463px;
+}
+.gwt-DecoratedTabBar .tabMiddleLeftInner,
+.gwt-DecoratedTabBar .tabMiddleRightInner {
+  width: 1px;
+  height: 1px;
+}
+.gwt-DecoratedTabBar .tabMiddleCenter {
+  padding: 0px 4px 2px 4px;
+  cursor: pointer;
+  cursor: hand;
+  color: black;
+  font-weight: bold;
+  text-align: center;
+  background: #e3e3e3 url(/info/chrome/hborder.png) repeat-x 0px -1463px;
+}
+.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopCenter {
+  background: #747474;
+}
+.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopLeft {
+  background-position: 0px -61px;
+}
+.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopRight {
+  background-position: -6px -61px;
+}
+.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleLeft,
+.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleRight {
+  background: #bcbcbc url(/info/chrome/hborder.png) repeat-x 0px -2511px;
+}
+.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleCenter {
+  cursor: default;
+  background: #bcbcbc url(/info/chrome/hborder.png) repeat-x 0px -2511px;
+  color: white;
+}
+.gwt-DecoratedTabBar .gwt-TabBarItem-disabled .tabMiddleCenter {
+  cursor: default;
+  color: #999999;
+}
+
+.gwt-TextArea {
+  padding: 2px;
+}
+.gwt-TextArea-readonly {
+  color: #888;
+}
+
+.gwt-TextBox {
+  padding: 2px;
+}
+.gwt-TextBox-readonly {
+  color: #888;
+}
+
+.gwt-ToggleButton-up,
+.gwt-ToggleButton-up-hovering,
+.gwt-ToggleButton-up-disabled,
+.gwt-ToggleButton-down,
+.gwt-ToggleButton-down-hovering,
+.gwt-ToggleButton-down-disabled {
+  margin: 0;
+  text-decoration: none;
+  background: url("/info/chrome/hborder.png") repeat-x 0px -27px;
+}
+.gwt-ToggleButton-up,
+.gwt-ToggleButton-up-hovering,
+.gwt-ToggleButton-up-disabled {
+  padding: 3px 5px 3px 5px;
+}
+.gwt-ToggleButton-up {
+  border: 1px outset #ccc;
+  cursor: pointer;
+  cursor: hand;
+}
+.gwt-ToggleButton-up-hovering {
+  border: 1px outset;
+  border-color: #9cf #69e #69e #7af;
+  cursor: pointer;
+  cursor: hand;
+}
+.gwt-ToggleButton-up-disabled {
+  border: 1px outset #ccc;
+  cursor: default;
+  opacity: .5;
+  zoom: 1;
+  filter: alpha(opacity=40);
+}
+.gwt-ToggleButton-down,
+.gwt-ToggleButton-down-hovering,
+.gwt-ToggleButton-down-disabled {
+  padding: 4px 4px 2px 6px;
+}
+.gwt-ToggleButton-down {
+  background-position: 0 -513px;
+  border: 1px inset #ccc;
+  cursor: pointer;
+  cursor: hand;
+}
+.gwt-ToggleButton-down-hovering {
+  background-position: 0 -513px;
+  border: 1px inset;
+  border-color: #9cf #69e #69e #7af;
+  cursor: pointer;
+  cursor: hand;
+}
+.gwt-ToggleButton-down-disabled {
+  background-position: 0 -513px;
+  border: 1px inset #ccc;
+  cursor: default;
+  opacity: .5;
+  zoom: 1;
+  filter: alpha(opacity=40);
+}
+
+.gwt-Tree .gwt-TreeItem {
+  padding: 1px 0px;
+  margin: 0px;
+  white-space: nowrap;
+  cursor: hand;
+  cursor: pointer;
+}
+.gwt-Tree .gwt-TreeItem-selected {
+  background: #93c2f1 url(/info/chrome/hborder.png) repeat-x 0px -1463px;
+}
+.gwt-TreeItem .gwt-RadioButton input,
+.gwt-TreeItem .gwt-CheckBox input {
+  margin-left: 0px;
+}
+* html .gwt-TreeItem .gwt-RadioButton input,
+* html .gwt-TreeItem .gwt-CheckBox input {
+  margin-left: -4px;
+}
+
+.gwt-DateBox input {
+  width: 8em;
+}
+.dateBoxFormatError {
+  background: #eed6d6;
+}
+.dateBoxPopup {
+}
+
+.gwt-DatePicker {
+  border: 1px solid #888;
+  cursor: default;
+}
+.gwt-DatePicker td,
+.datePickerMonthSelector td:focus {
+  outline: none
+}
+.datePickerDays {
+  width: 100%;
+  background: white;
+}
+.datePickerDay,
+.datePickerWeekdayLabel,
+.datePickerWeekendLabel {
+  font-size: 75%;
+  text-align: center;
+  padding: 4px;
+  outline: none;
+}
+.datePickerWeekdayLabel,
+.datePickerWeekendLabel {
+  background: #c1c1c1;
+  padding: 0px 4px 2px;
+  cursor: default;
+}
+.datePickerDay {
+  padding: 4px;
+  cursor: hand;
+  cursor: pointer;
+}
+.datePickerDayIsToday {
+  border: 1px solid black;
+  padding: 3px;
+}
+.datePickerDayIsWeekend {
+  background: #EEEEEE;
+}
+.datePickerDayIsFiller {
+  color: #888888;
+}
+.datePickerDayIsValue {
+  background: #abf;
+}
+.datePickerDayIsDisabled {
+  color: #AAAAAA;
+  font-style: italic;
+}
+.datePickerDayIsHighlighted {
+  background: #dde;
+}
+.datePickerDayIsValueAndHighlighted {
+  background: #ccf;
+}
+.datePickerMonthSelector {
+  background: #c1c1c1;
+  width: 100%;
+}
+td.datePickerMonth {
+  text-align: center;
+  vertical-align: center;
+  white-space: nowrap;
+  font-size: 70%;
+  font-weight: bold;
+}
+.datePickerPreviousButton,
+.datePickerNextButton {
+  font-size: 120%;
+  line-height: 1em;
+  cursor: hand;
+  cursor: pointer;
+  padding: 0px 4px;
+}
+
+.gwt-StackLayoutPanel {
+  border-bottom: 1px solid #bbbbbb;
+}
+.gwt-StackLayoutPanel .gwt-StackLayoutPanelHeader {
+  cursor: pointer;
+  cursor: hand;
+  border: 1px solid #bbbbbb;
+  border-bottom: 0px;
+  background: #d3def6 url(/info/chrome/hborder.png) repeat-x 0px -989px;
+
+  font-weight: bold;
+  font-size: 1.3em;
+  padding: 3px;
+  text-align: center;
+}
+.gwt-StackLayoutPanel .gwt-StackLayoutPanelHeader-hovering {
+  background: #d3def6 url(/info/chrome/hborder.png) repeat-x 0px -1464px;
+}
+.gwt-StackLayoutPanel .gwt-StackLayoutPanelContent {
+  border: 1px solid #bbbbbb;
+  border-bottom: 0px;
+  background: white;
+  padding: 2px 2px 10px 5px;
+}
+
+.gwt-TabLayoutPanel {
+}
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelTabs {
+}
+.gwt-TabLayoutPanelContentContainer {
+  border-color: #bcbcbc;
+  border-style: solid;
+  border-width: 2px 1px 1px;
+}
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelContent {
+  border-color: #bcbcbc;
+  border-style: solid;
+  border-width: 1px;
+  overflow: hidden;
+  padding: 6px;
+}
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab {
+  margin-left: 6px;
+  padding: 3px 6px 3px 6px;
+  cursor: pointer;
+  cursor: hand;
+  color: black;
+  font-weight: bold;
+  text-align: center;
+  background: #e3e3e3;
+}
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected {
+  cursor: default;
+  background: #bcbcbc;
+}
+
+.gwt-SplitLayoutPanel-HDragger {
+  background: white url(/info/chrome/splitPanelThumb.png) center center no-repeat;
+  cursor: col-resize;
+}
+
+.gwt-SplitLayoutPanel-VDragger {
+  background: white url(/info/chrome/splitPanelThumb.png) center center no-repeat;
+  cursor: row-resize;
+}
+
+/** Import file dialog **/
+.alert-warning input[class$="Box"] {
+  background-color: #fcf8e3;
+}
+.alert-success input[class$="Box"] {
+  background-color: #dff0d8;
+}
+
+.alert-info input[class$="Box"] {
+  background-color: #d9edf7;;
+}
+
+.alert-danger input[class$="Box"] {
+  background-color: #f2dede;
+}
+
+.bio-listing {
+  width: 100%;
+}
+
+.bio-listing td {
+  padding: 2px 5px;
+}
+
+.highlight-message {
+    font-style: italic;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+/* ------------------ */
+.ps-overlay {
+  background-color: black;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 20000;
+  top: 0;
+  left: 0;
+  
+  /* Theoretically for IE 8 & 9 (more valid) */
+  /* ...but not required as filter works too */
+  /* should come BEFORE filter */
+  -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=95)";
+  
+  /* This works in IE 8 & 9 too */
+  /* ... but also 5, 6, 7 */
+  filter: alpha(opacity=95);
+  
+  /* Older than Firefox 0.9 */
+  -moz-opacity:0.95;
+  
+  /* Safari 1.x (pre WebKit!) */
+  -khtml-opacity: 0.95;
+  
+  /* Modern!
+  /* Firefox 0.9+, Safari 2?, Chrome any?
+  /* Opera 9+, IE 9+ */
+  opacity: 0.95;
+}
+.ps-overlay-title {
+  text-align: center;
+  padding: 18px;
+}
+.ps-overlay-popup {
+  background-color: white;
+  padding: 0 18px 18px 18px;
+}
+
+.ps-overlay-popup table td {
+    padding: 2px 4px 2px 8px;
+}
+
+.ps-loading-overlay{
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  position: relative;
+  min-height: 400px;
+  z-index: 90;
+  top: 0;
+  left: 0;
+  
+  /* Theoretically for IE 8 & 9 (more valid) */
+  /* ...but not required as filter works too */
+  /* should come BEFORE filter */
+  -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+  
+  /* This works in IE 8 & 9 too */
+  /* ... but also 5, 6, 7 */
+  filter: alpha(opacity=80);
+  
+  /* Older than Firefox 0.9 */
+  -moz-opacity:0.8;
+  
+  /* Safari 1.x (pre WebKit!) */
+  -khtml-opacity: 0.8;
+  
+  /* Modern!
+  /* Firefox 0.9+, Safari 2?, Chrome any?
+  /* Opera 9+, IE 9+ */
+  opacity: 0.8;
+}
+
+.ps-loading-overlay .gwt-DecoratorPanel {
+  margin: 0 auto;
+}
+
+.ps-loading-overlay .gwt-DecoratorPanel td, .ps-loading-overlay .gwt-DecoratorPanel th {
+  padding: 0px !important;
+}
+
+.ps-loading-popup {
+  background-color: white;
+  padding: 18px 9px 18px 9px;
+}
+.ps-loading-panel {
+  position: absolute !important;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+}
+
+#helpcenter .button {
+ color: white;
+ text-decoration: none;
+ font-weight: bold;
+ margin: 0px;
+ padding: 0px;
+ border: 0px;
+ background: none;
+ font-size: 12px;
+ font-family: Verdana, Helvetica, Arial, sans-serif;
+}
+ 
+#helpcenter .button:hover {
+ color: orange;
+ cursor: hand;
+}
+ 
+/* the overlayed element */
+.helpcenterOverlay {
+ display: none;
+ z-index: 10000;
+ border: 12px solid #071b35;
+ border-radius: 15px;
+ background-color: white;
+ -webkit-background-clip: padding-box; /* for Safari */
+ background-clip: padding-box;
+ -moz-box-shadow: 0 0 90px 5px #000;
+ -webkit-box-shadow: 0 0 90px #000;
+ box-shadow: 0 0 90px #000;
+ position: relative;
+ margin: 0 auto;
+}
+ 
+.helpcenterOverlay .contentWrap {
+ width: 1010px;
+ height: 550px;
+}
+ 
+/* close button positioned on upper right corner */
+.helpcenterOverlay .close {
+ background-image: url(/info/images/close.png);
+ position: absolute;
+ right: -21px;
+ top: -21px;
+ cursor: pointer;
+ height: 25px;
+ width: 25px;
+}
+
+.nobroadcastingOverlay .contentWrap, 
+.no-camps-overlay .contentWrap {
+	width: 800px;
+	height: 400px;
+	overflow: hidden;
+	margin: 10px;
+}
+
+.nobroadcastingOverlay .flex-container, 
+.no-camps-overlay .flex-container {
+	display: inline-flex;
+	width: 100%;
+	overflow-x: hidden;
+	flex-direction: row;
+	padding: 0;
+	margin: 0;
+}
+.nobroadcastingOverlay .flex-item h1,
+.nobroadcastingOverlay .flex-item h2,
+.nobroadcastingOverlay .flex-item h3, 
+.no-camps-overlay .flex-item h1,
+.no-camps-overlay .flex-item h2,
+.no-camps-overlay .flex-item h3 {
+	color: var(--main-bg-color-red);
+	line-height: 1.5;
+	margin-top: 0;
+	text-align: center;
+}
+.nobroadcastingOverlay .flex-container .flex-item, 
+.no-camps-overlay .flex-container .flex-item {
+	float: left;
+}
+
+.nobroadcastingOverlay .flex-container .flex-item1,
+.no-camps-overlay .flex-container .flex-item1 {
+	margin-right: 20px;
+	width: 40%;
+}
+
+.nobroadcastingOverlay .flex-item.screenshot img {
+	border: inset 5px #000;
+	width: 400px;
+}
+.no-camps-overlay .flex-item.screenshot img {
+	width: 460px;
+}
+
+#inlineForm #message {
+    width: 420px;
+    padding: 4px;
+    margin-bottom: 18px;
+    color: #D44040;
+    background-color: #DBD958;
+    font-size: 11px;
+    font-weight: bold;
+    border: 1px dashed #c1c1c1;
+}
+
+.playerStats {
+    border: none;
+    width: 100%;
+}
+
+.playerStats table {
+    width: 100%;
+    border: none !important;
+    font-size: 10px;
+    line-height: 18px;
+    vertical-align: top;
+    opacity: 0.9;
+}
+
+.playerStats table td, .playerStats table th {
+    border: none;
+    border-left: 1px dotted var(--main-bg-color-gray)
+}
+
+.playerStats table td:first-child {
+    border: none;
+}
+
+.playerStats table th, .playerStats table tr:first-child td {
+    font-weight: bold;
+    color: black;
+    text-transform: uppercase;
+}
+
+.playerStatsControls {
+    background-color: #f5f5f5;
+    width: 100%;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 8px;
+}
+
+.playerStatsControls span {
+    display: inline-block;
+    padding: 8px;
+}
+
+.playerStatsControls span:hover {
+    background-color: #c5c5c5;
+    display: inline-block;
+}
+
+.playerStatsControls a:link, .playerStatsControls a {
+    display: block;
+    font-weight: normal;
+    color: #484848;
+}
+
+.playerStatsControls a:hover {
+    text-decoration: none;
+}
+
+table.playerBio {
+    width: 100%;
+    background: #f5f5f5;
+}
+
+table.playerBio td {
+    vertical-align: top;
+}
+
+table.playerBio td.image {
+    text-align: center;
+    width: 180px;
+}
+
+table.playerBio td img {
+    width: 100%
+}
+
+table.playerBio td.playerBioData {
+    width: 50%;
+}
+
+table.playerBio td.playerBioData table {
+    width: 100%;
+    vertical-align: top;
+    table-layout: fixed;
+}
+
+table.playerBio td .playerStats {
+    background-color: var(--main-bg-color-gray);
+}
+
+/* BIO PHOTO GALLERY */
+.bio-photos {
+    position: relative;
+}
+
+.tag-list {
+  overflow: hidden;
+  width: 100%;
+  margin: 0;
+  list-style-type: none;
+}
+
+.tag-list li {
+  overflow: hidden;
+  margin: 3px;
+  padding: 1px 3px;
+  background-color: #d9d9d9;
+  color: #4a4a4a;
+  cursor: default;
+  border: 1px solid #ccd5e4;
+  font-size: 11px;
+  float: left;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 95%;
+}
+
+.tag-list li a {
+  color: #4a4a4a;
+}
+
+
+.stamp {
+  padding: 3px 10px;
+  background-color: #999;
+  color: white;
+}
+
+
+/* END OF BIO PHOTO GALLERY */
+
+.no-results {
+    margin-top: 20px;
+    display: block;
+}
+
+.mce-fullscreen {
+	z-index: 1050 !important
+}
+
+/*CONATCT-US PAGE */
+
+@media only screen and (min-width: 992px) {
+  .vcenter { display: flex; align-items: center }
+  .r-element{ margin-top: 0rem !important }
+  .vcenter { text-align: left !important }
+}
+.r-element{ margin-top: 4rem }
+.l-element h1 { font-size: 5rem; line-height: 1.1; text-transform: capitalize; color:var(--main-bg-color-red) }
+.l-element p { font-size: 1.7rem; line-height: 1.3 }
+.l-element a { font-weight: bold }
+.vcenter { text-align: center }
+.r-element img { box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important; border-radius: 15px }

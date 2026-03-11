@@ -1,0 +1,81 @@
+/**
+ * Created by villo on 5/3/17.
+ */
+
+/**
+ * Remove this line when we can remove mainbody styles (because it's adding 18px to left and right).
+ */
+#mainbody > .container-fluid {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.bootstrap-ajax-panel {
+    margin-bottom:15px;
+}
+
+.input-group.time .input-group-addon {
+    cursor:pointer;
+}
+
+.input-group-addon.glyphicon {
+    top: 0;
+}
+
+.form-group .input-group.date {
+    width: 35%;
+}
+
+.form-group.form-controls-inline .form-control[data-picker='date'] {
+    margin-right: 5px;
+    display: inline-block;
+}
+
+.form-group.form-controls-inline .form-control {
+    vertical-align: middle;
+}
+
+.form-group.form-controls-inline.date-group label, .form-group.date-group .help-block {
+    display: block;
+}
+
+.form-group.form-controls-inline.date-group .time-container {
+    width: 35%;
+    margin-right: 5px;
+    display: inline-block;
+}
+
+.form-group.form-controls-inline.date-group .form-control.timeZone {
+    width: 63%;
+    float:right;
+}
+
+.modal-backdrop-loading {
+    z-index: 1100;
+}
+
+.fade-loading {
+    z-index: 1150;
+}
+
+.modal-dialog-loading {
+    z-index: 1200;
+}
+
+.btn-xs-svg img {
+    width:17px;
+}
+
+.mt-0 {
+    margin-top: 0;
+}
+
+/* Adding active classes to tag 'a' instead of 'li' to support bootstrap layouts using AjaxTabPanel */
+.nav-pills > li > a.active, .nav-pills > li > a.active:focus, .nav-pills > li > a.active:hover {
+    color: #fff;
+    background-color: #337ab7;
+}
+
+.borderless td, .borderless th {
+    border: none;
+}

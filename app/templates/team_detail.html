@@ -45,7 +45,7 @@
                 <tbody>
                     {% for row in batting %}
                     <tr>
-                        <td>{{ row.player.uniform_number }}</td>
+                        <td>{{ row.player.uniform_number | numfmt }}</td>
                         <td style="text-align: left;"><a href="{{ url_for('main.player_detail', player_id=row.player.id) }}" class="player-link">{{ row.player.name }}</a></td>
                         <td>{{ row.stats.gp }}</td>
                         <td>{{ row.stats.ab }}</td>
@@ -106,7 +106,7 @@
                 <tbody>
                     {% for row in pitching %}
                     <tr>
-                        <td>{{ row.player.uniform_number }}</td>
+                        <td>{{ row.player.uniform_number | numfmt }}</td>
                         <td style="text-align: left;"><a href="{{ url_for('main.player_detail', player_id=row.player.id) }}" class="player-link">{{ row.player.name }}</a></td>
                         <td>{{ row.stats.gp }}</td>
                         <td>{{ row.stats.gs }}</td>

@@ -1,0 +1,141 @@
+input, textarea, select {
+    box-sizing: border-box;
+    height: 22px;
+}
+
+.autocomplete {
+	z-index: 1;
+}
+
+.external-link .row {
+	margin-bottom: 5px;
+}
+
+.external-link .col-md-1, .external-link .col-xs-1 {
+	width: 90px;
+}
+
+.external-link .input-group-unstyled .input-group-addon {
+    border-radius: 4px;
+    border: 0px;
+    background-color: transparent;
+    color: #337ab7;
+    font-size: 16px;
+    vertical-align: top;
+	padding-top: 4px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+	float: right;
+}
+
+.event-view a {
+    cursor: pointer;
+}
+
+.event-view .learnMoreContainer {
+    margin:10px;
+    background:#f0f0f0;
+    display: none;
+}
+
+.event-view .learnMoreContainer .block {
+    padding: 1px 10px;
+}
+
+.event-view .errorsLearnMoreContainer {
+    background:#E2E204;
+}
+
+.event-view .link-list .row {
+    margin-top: 10px;
+}
+
+.event-view .link-list .unpublished, .link-list .unpublished a {
+    color: #999999;
+}
+
+.event-view .link-list .label {
+    font-size: 12px;
+    font-weight: normal;
+    padding-left: 11px;
+    padding-right: 11px;
+}
+
+.event-view .link-list .no-padding {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.event-view .link-list .actions {
+    float: right;
+}
+
+.event-view .event-info {
+    padding-left: 8px;
+}
+
+.event-view .logo-container {
+    position: relative;
+    height: 60px;
+    min-width: 80px;
+    display: inline-block;
+    line-height: 60px;
+    margin: 4px 0;
+    text-align: center;
+}
+
+.event-view .logo-container .loading {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.event-view .logo-container .loading img{
+    vertical-align: middle;
+    display: none;
+}
+
+.event-view .team-logo {    
+    height: 100%;
+}
+
+@media only screen and (max-width: 576px) {
+    .event-view .link-list .no-padding-xs {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .event-view .link-list .no-wrap-xs {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .event-view .link-list .row {
+        margin-top: 20px;
+    }
+
+    .event-view .link-list .actions {
+        margin-top: 5px;
+        float: left;
+    }
+}
+
+a.stat-button {
+    text-decoration: none;
+    color: white;
+    link: white;
+    margin: 3px 3px 1px 0px;
+    padding: 1px 6px;
+    background-color: var(--main-bg-color-blue) !important;
+    text-transform: none;
+    border-radius: 5px;
+    height: 24px;
+    line-height: 22px;
+    display: inline-block;
+}

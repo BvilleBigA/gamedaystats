@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>
+  {% if data.visitor_name and data.home_name %}
+    {{ data.visitor_name }} vs. {{ data.home_name }} — Boxscore
+  {% else %}
+    Boxscore
+  {% endif %}
+</title>
+<link rel="stylesheet" href="/static/gameday3/css/base.css">
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: Helvetica, Arial, sans-serif; font-size: 12px; color: #222; margin: 20px; background: #fff; }
+  h1.game-title { font-size: 16px; text-align: center; margin: 0 0 4px; }
+  p.game-sub    { text-align: center; color: #666; font-size: 11px; margin: 0 0 14px; }
+
+  /* Score header */
+  .score-header { display: flex; align-items: center; justify-content: center; gap: 30px; margin-bottom: 14px; }
+  .score-header .team-block { text-align: center; }
+  .score-header .team-block .team-name  { font-weight: 700; font-size: 14px; }
+  .score-header .team-block .team-score { font-size: 36px; font-weight: 700; line-height: 1; }
+  .score-header .team-block .team-record { font-size: 10px; color: #888; }
+  .score-header .status-pill { font-size: 11px; color: #555; border: 1px solid #ccc; padding: 3px 8px; border-radius: 3px; }
+
+  /* Linescore */
+  table.linescore { width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 11px; }
+  table.linescore th, table.linescore td { border: 1px solid #ccc; padding: 4px 6px; text-align: center; }
+  table.linescore th.text, table.linescore td.text { text-align: left; }
+  table.linescore thead th { background: #444; color: #fff; font-weight: 600; }
+  table.linescore .total { font-weight: 700; background: #f5f5f5; }
+  table.linescore .winner td, table.linescore .winner th { font-weight: 700; }
+  table.linescore .loser  td, table.linescore .loser th  { color: #777; }
+
+  /* Stats tables */
+  .two-col { display: flex; gap: 20px; margin-bottom: 16px; }
+  .two-col .col { flex: 1; min-width: 0; }
+  table.stats { width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 6px; }
+  table.stats caption { text-align: left; font-size: 12px; font-weight: 700; margin-bottom: 4px; color: #333; }
+  table.stats th, table.stats td { border-top: 1px solid #ddd; padding: 3px 5px; text-align: center; }
+  table.stats th.text, table.stats td.text { text-align: left; }
+  table.stats thead th { background: #555; color: #fff; font-weight: 600; border: none; }
+  table.stats .totals { font-weight: 700; background: #f0f0f0; }
+  table.stats .player-name { font-weight: 600; }
+  table.stats .pos { color: #888; font-size: 10px; margin-left: 3px; }
+
+  /* Summary boxes */
+  .summary { font-size: 11px; margin-bottom: 10px; color: #444; line-height: 1.6; }
+  .summary strong { color: #222; }
+
+  /* Scoring summary */
+  table.scoring { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 14px; }
+  table.scoring th, table.scoring td { border: 1px solid #ccc; padding: 4px 6px; }
+  table.scoring thead th { background: #444; color: #fff; }
+
+  /* Section label */
+  h2.section { font-size: 13px; border-bottom: 2px solid #333; margin: 16px 0 8px; padding-bottom: 4px; }
+  h3.team-section { font-size: 12px; margin: 12px 0 4px; color: #333; text-transform: uppercase; letter-spacing: .5px; }
+
+  /* Print trigger bar */
+  .print-bar { text-align: center; margin-bottom: 16px; }
+  .print-bar button { padding: 6px 18px; background: #333; color: #fff; border: none; cursor: pointer; font-size: 12px; border-radius: 3px; }
+
+  @media print {
+    .print-bar { display: none; }
+    body { margin: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="print-bar">
+  <button onclick="window.print()">Print / Save as PDF</button>
+</div>
+
+<h1 class="game-title">
+  {% if data.visitor_name and data.home_name %}
+    {{ data.visitor_name }} at {{ data.home_name }}
+  {% endif %}
+</h1>
+<p class="game-sub">
+  {{ data.date }}{% if data.start_time %} &bull; {{ data.start_time }}{% endif %}
+  {% if season %} &bull; {{ season.name }}{% endif %}
+</p>
+
+{# Score header #}
+{% set _sport = season.sport_code if season else '' %}
+{% set _vis_icon = game.visitor_team | team_logo(_sport) if game and game.visitor_team else (season.sport_code | sport_icon if season else '/action/cdn/info/images/icons/bsb.png') %}
+{% set _home_icon = game.home_team | team_logo(_sport) if game and game.home_team else (season.sport_code | sport_icon if season else '/action/cdn/info/images/icons/bsb.png') %}
+<div class="score-header">
+  <div class="team-block">
+    <img src="{{ _vis_icon }}" alt="{{ data.visitor_name }}" style="width:48px;height:48px;object-fit:contain;display:block;margin:0 auto 4px;">
+    <div class="team-name">{{ data.visitor_name }}</div>
+    <div class="team-score {% if data.visitor_runs < data.home_runs %}loser{% endif %}">{{ data.visitor_runs }}</div>
+  </div>
+  <div class="status-pill">{{ data.status_label or 'Scheduled' }}</div>
+  <div class="team-block">
+    <img src="{{ _home_icon }}" alt="{{ data.home_name }}" style="width:48px;height:48px;object-fit:contain;display:block;margin:0 auto 4px;">
+    <div class="team-name">{{ data.home_name }}</div>
+    <div class="team-score {% if data.home_runs < data.visitor_runs %}loser{% endif %}">{{ data.home_runs }}</div>
+  </div>
+</div>
+
+{# Linescore #}
+{% if data.innings %}
+<table class="linescore">
+  <thead>
+    <tr>
+      <th class="text"></th>
+      {% for inn in data.innings %}<th>{{ inn.num }}</th>{% endfor %}
+      <th class="total">R</th>
+      <th class="total">H</th>
+      <th class="total">E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="{% if data.visitor_runs > data.home_runs %}winner{% else %}loser{% endif %}">
+      <td class="text">{{ data.visitor_name }}</td>
+      {% for inn in data.innings %}<td>{{ inn.v }}</td>{% endfor %}
+      <td class="total">{{ data.visitor_runs }}</td>
+      <td class="total">{{ data.visitor_hits }}</td>
+      <td class="total">{{ data.visitor_errors }}</td>
+    </tr>
+    <tr class="{% if data.home_runs > data.visitor_runs %}winner{% else %}loser{% endif %}">
+      <td class="text">{{ data.home_name }}</td>
+      {% for inn in data.innings %}<td>{{ inn.h }}</td>{% endfor %}
+      <td class="total">{{ data.home_runs }}</td>
+      <td class="total">{{ data.home_hits }}</td>
+      <td class="total">{{ data.home_errors }}</td>
+    </tr>
+  </tbody>
+</table>
+{% endif %}
+
+{# Batting stats — side by side #}
+{% macro bat_table(team_name, rows, totals) %}
+<table class="stats">
+  <caption>{{ team_name }} — Batting</caption>
+  <thead>
+    <tr>
+      <th class="text">Hitters</th>
+      <th>AB</th><th>R</th><th>H</th><th>RBI</th><th>BB</th><th>SO</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in rows %}
+    <tr>
+      <td class="text"><span class="player-name">{{ p.name }}</span><span class="pos">{{ p.pos }}</span></td>
+      <td>{{ p.ab }}</td><td>{{ p.r }}</td><td>{{ p.h }}</td><td>{{ p.rbi }}</td><td>{{ p.bb }}</td><td>{{ p.so }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="7" style="color:#aaa;text-align:center">No data</td></tr>
+    {% endfor %}
+  </tbody>
+  {% if rows %}
+  <tbody>
+    <tr class="totals">
+      <td class="text">Totals</td>
+      <td>{{ totals.get('ab',0) }}</td><td>{{ totals.get('r',0) }}</td><td>{{ totals.get('h',0) }}</td>
+      <td>{{ totals.get('rbi',0) }}</td><td>{{ totals.get('bb',0) }}</td><td>{{ totals.get('so',0) }}</td>
+    </tr>
+  </tbody>
+  {% endif %}
+</table>
+{% endmacro %}
+
+{% macro pit_table(team_name, rows, totals) %}
+{% if rows %}
+<table class="stats">
+  <caption>{{ team_name }} — Pitching</caption>
+  <thead>
+    <tr>
+      <th class="text">Pitchers</th>
+      <th>IP</th><th>H</th><th>R</th><th>ER</th><th>BB</th><th>SO</th><th>HR</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in rows %}
+    <tr>
+      <td class="text">
+        <span class="player-name">{{ p.name }}</span>
+        {% if p.dec %}<span class="pos">({{ p.dec }})</span>{% endif %}
+      </td>
+      <td>{{ p.ip }}</td><td>{{ p.h }}</td><td>{{ p.r }}</td><td>{{ p.er }}</td>
+      <td>{{ p.bb }}</td><td>{{ p.so }}</td><td>{{ p.hr }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+  <tbody>
+    <tr class="totals">
+      <td class="text">Totals</td>
+      <td>{{ totals.get('ip','0.0') }}</td><td>{{ totals.get('h',0) }}</td><td>{{ totals.get('r',0) }}</td>
+      <td>{{ totals.get('er',0) }}</td><td>{{ totals.get('bb',0) }}</td><td>{{ totals.get('so',0) }}</td><td>{{ totals.get('hr',0) }}</td>
+    </tr>
+  </tbody>
+</table>
+{% endif %}
+{% endmacro %}
+
+{% macro bat_summary(bsum) %}
+{% set keys = ['2B','3B','HR','RBI','SB','HBP','SH','SF'] %}
+{% set any = namespace(v=false) %}
+{% for k in keys %}{% if bsum.get(k) %}{% set any.v = true %}{% endif %}{% endfor %}
+{% if any.v %}
+<div class="summary">
+  <strong>Batting: </strong>
+  {% for k in keys %}{% if bsum.get(k) %}<strong>{{ k }}</strong> {{ bsum[k]|join(', ') }}; {% endif %}{% endfor %}
+</div>
+{% endif %}
+{% endmacro %}
+
+{% macro pit_summary(psum) %}
+{% if psum %}
+<div class="summary">
+  <strong>Pitching: </strong>
+  {% for line in psum %}<strong>{{ line.label }}</strong> {{ line.value }}; {% endfor %}
+</div>
+{% endif %}
+{% endmacro %}
+
+<h2 class="section">Box Score</h2>
+
+<div class="two-col">
+  <div class="col">
+    {{ bat_table(data.visitor_name, data.visitor_batting, data.visitor_bat_totals) }}
+    {{ bat_summary(data.visitor_bat_summary) }}
+    {{ pit_table(data.visitor_name, data.visitor_pitching, data.visitor_pit_totals) }}
+    {{ pit_summary(data.visitor_pit_summary) }}
+  </div>
+  <div class="col">
+    {{ bat_table(data.home_name, data.home_batting, data.home_bat_totals) }}
+    {{ bat_summary(data.home_bat_summary) }}
+    {{ pit_table(data.home_name, data.home_pitching, data.home_pit_totals) }}
+    {{ pit_summary(data.home_pit_summary) }}
+  </div>
+</div>
+
+{# Scoring summary #}
+{% if data.scoring %}
+<h2 class="section">Scoring Summary</h2>
+<table class="scoring">
+  <thead>
+    <tr>
+      <th style="width:100px">Inning</th>
+      <th>Play</th>
+      <th style="width:80px">V - H</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for sp in data.scoring %}
+    <tr>
+      <td>
+        {% if sp.half == 'top' %}▲{% else %}▼{% endif %}
+        {{ sp.inning }}{{ 'st' if sp.inning==1 else ('nd' if sp.inning==2 else ('rd' if sp.inning==3 else 'th')) }}
+      </td>
+      <td>{{ sp.desc or sp.batter }}</td>
+      <td>{{ sp.v_score }}-{{ sp.h_score }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+
+</body>
+</html>

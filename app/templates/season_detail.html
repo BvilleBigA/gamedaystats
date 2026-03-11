@@ -1,79 +1,581 @@
-{% extends "base.html" %}
-{% block title %}{{ season.name }}{% endblock %}
+{% extends "team.html" %}
+
+{% block page_title %}{{ season.name }} — Seasons{% endblock %}
+
+{% block head_extra %}{% endblock %}
+
+{% block top_level_name %}Game day{% endblock %}
+
+{% block secondary_nav_links %}
+    <li class="{% if request.path == '/admin/team/gameday3/' or request.path == '/admin/team/gameday3' %}active{% endif %}">
+        <a href="/admin/team/gameday3/">Scores</a>
+    </li>
+    <li class="{% if request.path.startswith('/admin/team/checklist') %}active{% endif %}">
+        <a href="/admin/team/checklist/">Upcoming</a>
+    </li>
+    <li class="{% if request.path.startswith('/admin/team/season') %}active{% endif %}">
+        <a href="/admin/team/season/">Seasons</a>
+    </li>
+{% endblock %}
+
 {% block content %}
-<h1>{{ season.name }} <span style="font-size: 0.9rem; color: var(--text-light);">{{ season.rules | capitalize }}</span></h1>
 
-<!-- Teams -->
-<div class="card">
-    <h2>Teams</h2>
-    {% if teams %}
-    <div class="table-responsive">
-        <table>
-            <thead>
-                <tr>
-                    <th style="width: 50%">Team</th>
-                    <th>Code</th>
-                    <th>Players</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for team in teams %}
-                <tr>
-                    <td><a href="{{ url_for('main.team_detail', team_id=team.id) }}" class="team-link">{{ team.name }}</a></td>
-                    <td>{{ team.code }}</td>
-                    <td>{{ team.players | length }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    {% else %}
-    <p style="color: var(--text-light);">No teams yet. Go to <a href="{{ url_for('main.configure') }}" class="player-link">Configure</a> to add teams.</p>
-    {% endif %}
+<table class="layout ">
+<tbody><tr>
+<td>
+
+<h1 style="clear: none">
+<a href="/admin/team/season/">Seasons</a>:
+<a href="/admin/team/season/sport.jsp?sport_id={{ season.sport_code }}">{{ sport_name }}</a>:
+{{ season.name }}
+
+<div style="float: right; width: auto; text-align: right; border: 0px solid black; padding: 5px 5px 0;">
+    <a href="/admin/team/season/setup.jsp?season_id={{ season.id }}">
+        <span style="color: black; font-size: 12px; font-weight: 100;">[setup season]</span>
+    </a>
+</div>
+</h1>
+
+</td>
+<td align="right">
+
+    <div id="progressMsg" style="display: none;"> Loading...</div>
+    <div id="errorMsg" style="display:none;border:1px solid #e00;background-color:#fee;color:#900"></div>
+
+</td>
+</tr>
+</tbody></table>
+
+<table class="layoutView ">
+  <tbody><tr>
+    <td id="view" valign="top">
+
+{% if success %}<div class="alert-ok">{{ success }}</div>{% endif %}
+{% if error %}  <div class="alert-err">{{ error }}</div>{% endif %}
+
+{% if tasks_left > 0 %}
+<h3>This season has not been set up yet. Click <a href="/admin/team/season/setup.jsp?season_id={{ season.id }}">[setup this season]</a> to get started.</h3>
+<h3><a href="/admin/team/season/setup.jsp?season_id={{ season.id }}">[setup this season]</a></h3>
+<br>
+{% endif %}
+
+<div id="tabPanel" class="null">
+<ul>
+  <li><a id="btn-overview"  href="javascript://nop/" onclick="showTab('overview');  return false;">Overview</a></li>
+  <li><a id="btn-schedule"  href="javascript://nop/" onclick="showTab('schedule');  return false;">Schedule ({{ games | length }})</a></li>
+  {% if show_teams_tab %}<li><a id="btn-teams" href="javascript://nop/" onclick="showTab('teams'); return false;">Teams ({{ teams | length }})</a></li>{% endif %}
+  <li><a id="btn-roster"    href="javascript://nop/" onclick="showTab('roster');    return false;">Roster ({{ total_players }})</a></li>
+  <li><a id="btn-settings"  href="javascript://nop/" onclick="showTab('settings');  return false;">Settings</a></li>
+</ul>
+</div>
+<div id="tabContent" class="null">
+
+
+<!-- ── Overview ─────────────────────────────────────────────────────── -->
+<div id="tab-overview">
+
+<table class="layout">
+  <tbody><tr>
+    <td valign="top">
+
+    <table border="0" width="100%" cellpadding="0" cellspacing="0">
+    <tbody><tr><td valign="top" width="50%">
+
+    <h3>
+    {{ season.name }}
+    </h3>
+
+    </td></tr></tbody></table>
+
+{% if teams | length > 0 %}
+
+<table class="seasonlist">
+  <tbody><tr class="seasonlabel">
+  <td colspan="4"><h3 style="float: left">Events in the past week</h3>
+  </td></tr>
+
+  <tr class="seasonrow">
+    <td><b>Date</b></td>
+    <td colspan="2"><b>Matchup</b></td>
+    <td><b>Status</b></td>
+  </tr>
+
+  {% if recent_games %}
+    {% for g in recent_games %}
+    <tr>
+      <td>{{ g.date or '—' }}</td>
+      <td>{{ g.visitor_team.name if g.visitor_team else '—' }}</td>
+      <td>vs {{ g.home_team.name if g.home_team else '—' }}</td>
+      <td>{{ g.status_label or '—' }}</td>
+    </tr>
+    {% endfor %}
+  {% else %}
+  <tr>
+    <td colspan="4">No events<br></td>
+  </tr>
+  {% endif %}
+
+</tbody></table>
+
+{% endif %}
+
+<p>
+
+<a href="javascript://nop/" onclick="showTab('schedule'); return false;">
+{{ games | length }}</a>
+events
+
+{% set completed_games = games | selectattr('is_complete') | list %}
+  <br>
+  <a href="javascript://nop/" onclick="showTab('schedule'); return false;">
+  {{ completed_games | length }}</a>
+  box scores
+
+  <br>
+{% if teams | length == 0 %}
+  Teams not setup<br>
+{% else %}
+  <a href="javascript://nop/" onclick="showTab('teams'); return false;">
+  {{ teams | length }}</a>
+  team{{ 's' if teams | length != 1 }}
+{% endif %}
+
+</p>
+
+{% if tasks_left > 0 %}
+<p>
+There are {{ tasks_left }} tasks left in <a href="/admin/team/season/setup.jsp?season_id={{ season.id }}">[setup season]</a>
+</p>
+{% endif %}
+
+    </td>
+    <td width="0">&nbsp; &nbsp; &nbsp;</td>
+    <td valign="top" width="50%">
+
+    </td>
+  </tr></tbody></table>
+
 </div>
 
-<!-- Recent Games -->
-<div class="card">
-    <h2>Recent Games</h2>
-    {% if games %}
-    <div class="table-responsive">
-        <table>
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th style="text-align: left;">Visitor</th>
-                    <th></th>
-                    <th style="text-align: left;">Home</th>
-                    <th>Score</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for game in games %}
-                <tr>
-                    <td style="text-align: left;">{{ game.date }}</td>
-                    <td style="text-align: left;">
-                        <a href="{{ url_for('main.team_detail', team_id=game.visitor_team.id) }}" class="team-link">{{ game.visitor_team.name }}</a>
-                    </td>
-                    <td style="text-align: center;">@</td>
-                    <td style="text-align: left;">
-                        <a href="{{ url_for('main.team_detail', team_id=game.home_team.id) }}" class="team-link">{{ game.home_team.name }}</a>
-                    </td>
-                    <td>
-                        {% if game.is_complete %}
-                            {{ game.visitor_runs }} - {{ game.home_runs }}
-                        {% else %}
-                            --
-                        {% endif %}
-                    </td>
-                    <td><a href="{{ url_for('main.game_detail', game_id=game.id) }}" class="player-link">Box Score</a></td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    {% else %}
-    <p style="color: var(--text-light);">No games yet.</p>
-    {% endif %}
+
+<!-- ── Schedule ──────────────────────────────────────────────────────── -->
+<div id="tab-schedule" style="display:none;">
+
+<table class="layout">
+  <tbody><tr>
+  <td valign="top">
+
+<table width="100%">
+  <tbody><tr>
+
+  <td align="left" class="small">
+  List
+  </td>
+
+  <td align="right" class="small">
+    Show:
+    All({{ games | length }})
+  </td></tr>
+</tbody></table>
+
+<table class="seasonlist">
+  <tbody><tr class="seasonlabel">
+    <td colspan="5">
+<h3 style="float: left">{{ season.name }}</h3>
+
+<a href="/admin/team/schedule/editEvent.jsp?season_id={{ season.id }}">[add event]</a>
+
+    </td>
+  </tr>
+
+  <tr class="seasonrow">
+    <td><b>Date</b></td>
+    <td colspan="2"><b>Opponent</b></td>
+    <td><b>Status</b></td>
+    <td>&nbsp;</td>
+  </tr>
+
+  {% if games %}
+  {% for g in games %}
+  <tr class="seasonrow">
+    <td nowrap="">
+      <a href="/admin/team/event/view.jsp?event_id={{ g.id }}">{{ g.date or '—' }}{% if g.start_time %} {{ g.start_time }}{% endif %}</a>
+    </td>
+
+    <td colspan="2">
+      {% if g.visitor_team and g.home_team %}{{ g.visitor_team.name }} vs. {{ g.home_team.name }}{% endif %}
+    </td>
+
+    <td nowrap="">{{ g.status_label or '—' }}</td>
+
+    <td nowrap="">
+      <input class="small" type="button" value="Edit" onclick="window.location='/admin/team/schedule/editEvent.jsp?event_id={{ g.id }}'">
+      {% if g.has_boxscore %}
+        <input class="small" type="button" value="Remove" disabled style="opacity:0.45; cursor:not-allowed;">
+      {% else %}
+        <form method="post" action="/admin/team/season/season.jsp?season_id={{ season.id }}&tab=schedule" style="display:inline;">
+          <input type="hidden" name="action" value="delete_game">
+          <input type="hidden" name="game_id" value="{{ g.id }}">
+          <input class="small" type="submit" value="Remove" onclick="return confirm('Delete this game?')">
+        </form>
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+  {% else %}
+  <tr>
+    <td colspan="5">No events scheduled.<br></td>
+  </tr>
+  {% endif %}
+
+</tbody></table>
+
+  </td>
+
+  <td id="options" valign="top">
+
+      <h3>
+      Options
+      </h3>
+      You can click on a date to open stats entry for that event.
+
+  </td>
+
+  </tr></tbody>
+</table>
+
+
 </div>
+
+
+<!-- ── Teams ─────────────────────────────────────────────────────────── -->
+<div id="tab-teams" style="display:none;">
+
+{% if current_user.role == 'admin' %}
+<h3>Add Team</h3>
+<form method="post" action="/admin/team/season/season.jsp?season_id={{ season.id }}&tab=teams">
+<input type="hidden" name="action" value="add_team">
+<div class="sd-form-row">
+    <div class="sd-fg" style="flex:2; min-width:160px;">
+        <label>Team Name *</label>
+        <input type="text" class="form-control" name="name" placeholder="e.g. Lady Eagles" required>
+    </div>
+    <div class="sd-fg">
+        <label>Code *</label>
+        <input type="text" class="form-control" name="code" placeholder="EAGLE">
+    </div>
+    <div class="sd-fg">
+        <label>Abbrev.</label>
+        <input type="text" class="form-control" name="abbreviation" placeholder="EGL" maxlength="6">
+    </div>
+    <div class="sd-fg">
+        <label>City</label>
+        <input type="text" class="form-control" name="city">
+    </div>
+    <div class="sd-fg" style="max-width:70px;">
+        <label>State</label>
+        <input type="text" class="form-control" name="state" maxlength="4">
+    </div>
+    <div class="sd-fg">
+        <label>Coach</label>
+        <input type="text" class="form-control" name="coach">
+    </div>
+    <div class="sd-fg" style="display:flex; align-items:flex-end;">
+        <button type="submit" class="btn btn-gameday">Add Team</button>
+    </div>
+</div>
+</form>
+{% endif %}
+
+<br>
+{% if teams %}
+<table class="seasonlist">
+<thead>
+<tr class="seasonlabel">
+    <td style="padding:6px 10px;"><b>Name</b></td>
+    <td style="padding:6px 10px;"><b>Code</b></td>
+    <td style="padding:6px 10px;"><b>Abbrev.</b></td>
+    <td style="padding:6px 10px;"><b>City</b></td>
+    <td style="padding:6px 10px;"><b>State</b></td>
+    <td style="padding:6px 10px;"><b>Coach</b></td>
+    <td style="padding:6px 10px;"><b>Players</b></td>
+    <td style="padding:6px 10px;"></td>
+</tr>
+</thead>
+<tbody>
+{% for t in teams %}
+<tr>
+    <td style="padding:7px 10px;"><strong>{{ t.name }}</strong></td>
+    <td style="padding:7px 10px;">{{ t.code }}</td>
+    <td style="padding:7px 10px;">{{ t.abbreviation }}</td>
+    <td style="padding:7px 10px;">{{ t.city or '—' }}</td>
+    <td style="padding:7px 10px;">{{ t.state or '—' }}</td>
+    <td style="padding:7px 10px;">{{ t.coach or '—' }}</td>
+    <td style="padding:7px 10px;">{{ t.players | length }}</td>
+    <td style="padding:7px 10px;">
+        {% if current_user.role == 'admin' %}
+        <form method="post" action="/admin/team/season/season.jsp?season_id={{ season.id }}&tab=teams" style="display:inline;">
+            <input type="hidden" name="action" value="delete_team">
+            <input type="hidden" name="team_id" value="{{ t.id }}">
+            <button type="submit" class="btn btn-del"
+                    onclick="return confirm('Delete team \'{{ t.name }}\'?')">Delete</button>
+        </form>
+        {% endif %}
+    </td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% else %}
+<p style="color:#999; font-style:italic; font-size:13px;">No teams in this season yet.</p>
+{% endif %}
+
+</div>
+
+
+<!-- ── Roster ────────────────────────────────────────────────────────── -->
+<div id="tab-roster" style="display:none;">
+
+{% if visible_teams %}
+
+  <!-- Multi-team list view (only shown when user has multiple teams) -->
+  {% if visible_teams | length > 1 %}
+  <div id="roster-team-list">
+  <table class="seasonlist">
+  <tbody><tr class="seasonlabel">
+    <td align="left"><b>Team</b></td>
+    <td align="center"><b>Players</b></td>
+    <td align="center"><b>Last updated</b></td>
+    <td colspan="2" align="center"><b>Download</b></td>
+  </tr>
+  {% for t in visible_teams %}
+  <tr>
+    <td>
+      <a href="javascript:void(0)" onclick="showTeamRoster({{ t.id }}); return false;">{{ t.name }}</a>
+    </td>
+    <td align="center">{{ t.players | length }}</td>
+    <td align="center">—</td>
+    <td align="center" colspan="2">—</td>
+  </tr>
+  {% endfor %}
+  </tbody></table>
+  </div>
+  {% endif %}
+
+  <!-- Per-team detail views (one div per team, hidden by default) -->
+  {% for t in visible_teams %}
+  <div id="roster-team-{{ t.id }}" style="display:none;">
+
+  <table class="seasonlist" style="padding:0px;">
+  <tbody>
+  <tr class="seasonlabel">
+    <td align="left">
+      <h3>{{ t.name }} team roster</h3>
+    </td>
+    <td align="right">
+      {% if visible_teams | length > 1 %}
+      <a href="javascript:void(0)" onclick="showRosterList(); return false;">[change team]</a>
+      {% endif %}
+    </td>
+  </tr>
+  <tr>
+    <td align="right" colspan="13">
+      <div style="width:100%;">
+        <button type="button" class="small" onclick="window.location='/admin/team/roster/addPlayer.jsp?season_id={{ season.id }}&amp;team_id={{ t.id }}'">Add one player</button>
+        <button type="button" class="small" disabled>Import players</button>
+        <button type="button" class="small" disabled>Export players</button>
+      </div>
+    </td>
+  </tr>
+  {% set sorted_players = t.players | sort(attribute='uniform_number') %}
+  {% if sorted_players %}
+  <tr class="seasonrow">
+    <td align="left">Number</td>
+    <td align="left">Name</td>
+    <td align="left">Player Status</td>
+    <td align="left">Seasons</td>
+    <td align="left"></td>
+    <td align="left">Position</td>
+    <td align="left">Height</td>
+    <td align="left">Weight</td>
+    <td align="left">Year</td>
+    <td align="left">Bats</td>
+    <td align="left">Throws</td>
+    <td align="left">&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  {% for p in sorted_players %}
+  <tr class="seasonrow">
+    <td>{{ p.uniform_number or '' }}</td>
+    <td>{{ p.last_name }}{% if p.first_name %}, {{ p.first_name }}{% endif %}</td>
+    <td>Active</td>
+    <td>1</td>
+    <td><button type="button" class="small" disabled>Edit career</button></td>
+    <td>{{ p.position or '' }}</td>
+    <td></td>
+    <td></td>
+    <td>{{ p.player_class or '' }}</td>
+    <td>{{ p.bats or '' }}</td>
+    <td>{{ p.throws or '' }}</td>
+    <td></td>
+    <td>
+      <div>
+        <button type="button" class="small" onclick="window.location='/admin/team/roster/addPlayer.jsp?season_id={{ season.id }}&amp;team_id={{ t.id }}&amp;player_id={{ p.id }}'">Edit</button>
+        {% set has_stats = p.batting_stats or p.pitching_stats or p.fielding_stats %}
+        <form method="post" action="/admin/team/season/season.jsp?season_id={{ season.id }}&tab=roster&team_id={{ t.id }}" style="display:inline;">
+          <input type="hidden" name="action" value="delete_player">
+          <input type="hidden" name="player_id" value="{{ p.id }}">
+          <button type="submit" class="small"
+                  {% if has_stats %}disabled title="Player has recorded stats"{% else %}onclick="return confirm('Remove {{ p.first_name }} {{ p.last_name }}?')"{% endif %}>Remove</button>
+        </form>
+      </div>
+    </td>
+  </tr>
+  {% endfor %}
+  {% else %}
+  <tr>
+    <td colspan="11">
+      <table cellspacing="0" cellpadding="0">
+      <tbody>
+        <tr>
+          <td align="left" style="vertical-align:top;">
+            <div>Let's get started with adding players to your roster! We offer several different ways to build your roster:</div>
+          </td>
+        </tr>
+        <tr>
+          <td align="left" style="vertical-align:top;">
+            <ol>
+              <li>Import CSV files</li>
+              <li>Add players individually</li>
+            </ol>
+          </td>
+        </tr>
+        <tr>
+          <td align="left" style="vertical-align:top;">
+            <div>Get started now by clicking the "Add one player" button above.</div>
+          </td>
+        </tr>
+      </tbody>
+      </table>
+    </td>
+  </tr>
+  {% endif %}
+  </tbody></table>
+
+  </div><!-- end roster-team-{{ t.id }} -->
+  {% endfor %}
+
+{% else %}
+<p style="color:#999; font-style:italic; font-size:13px;">No teams available.</p>
+{% endif %}
+
+</div>
+
+
+<!-- ── Settings ───────────────────────────────────────────────────────── -->
+<div id="tab-settings" style="display:none;">
+
+<h3>Season Settings</h3>
+<form method="post" action="/admin/team/season/season.jsp?season_id={{ season.id }}&tab=settings">
+<input type="hidden" name="action" value="update_season">
+<div class="sd-form-row">
+    <div class="sd-fg" style="flex:3; min-width:200px;">
+        <label>Season Name</label>
+        <input type="text" class="form-control" name="name" value="{{ season.name }}" required>
+    </div>
+    <div class="sd-fg">
+        <label>Sport</label>
+        <select class="form-control" name="sport_code">
+            {% for group_name, codes in sport_groups %}
+            <optgroup label="{{ group_name }}">
+                {% for code in codes %}
+                <option value="{{ code }}" {% if code == season.sport_code %}selected{% endif %}>
+                    {{ sport_codes[code][1] }}
+                </option>
+                {% endfor %}
+            </optgroup>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="sd-fg">
+        <label>Gender</label>
+        <select class="form-control" name="gender">
+            <option value="male"   {% if season.gender == 'male'   %}selected{% endif %}>Male</option>
+            <option value="female" {% if season.gender == 'female' %}selected{% endif %}>Female</option>
+            <option value="coed"   {% if season.gender == 'coed'   %}selected{% endif %}>Coed</option>
+        </select>
+    </div>
+    <div class="sd-fg">
+        <label>Rules</label>
+        <select class="form-control" name="rules">
+            <option value="rules_hs_ba"   {% if season.rules == 'rules_hs_ba'   %}selected{% endif %}>HS Baseball</option>
+            <option value="rules_hs_sb"   {% if season.rules == 'rules_hs_sb'   %}selected{% endif %}>HS Softball</option>
+            <option value="rules_ncaa_ba" {% if season.rules == 'rules_ncaa_ba' %}selected{% endif %}>NCAA Baseball</option>
+            <option value="rules_ncaa_sb" {% if season.rules == 'rules_ncaa_sb' %}selected{% endif %}>NCAA Softball</option>
+            <option value="rules_mlb"     {% if season.rules == 'rules_mlb'     %}selected{% endif %}>MLB</option>
+        </select>
+    </div>
+    <div class="sd-fg">
+        <label>Start Date</label>
+        <input type="date" class="form-control" name="start_date" value="{{ season.start_date or '' }}">
+    </div>
+    <div class="sd-fg">
+        <label>End Date</label>
+        <input type="date" class="form-control" name="end_date" value="{{ season.end_date or '' }}">
+    </div>
+    <div class="sd-fg" style="display:flex; align-items:flex-end;">
+        <button type="submit" class="btn btn-gameday">Save Settings</button>
+    </div>
+</div>
+</form>
+
+</div>
+
+
+</div><!-- end #tabContent -->
+
+    </td>
+
+  </tr></tbody></table>
+
+<script type="text/javascript">
+function showTab(name) {
+    document.querySelectorAll('#tabContent > div').forEach(function(p) { p.style.display = 'none'; });
+    document.querySelectorAll('#tabPanel ul li a').forEach(function(t) { t.classList.remove('ajaxCurrentTab'); });
+    document.getElementById('tab-' + name).style.display = '';
+    document.getElementById('btn-' + name).classList.add('ajaxCurrentTab');
+}
+function showTeamRoster(teamId) {
+    var list = document.getElementById('roster-team-list');
+    if (list) list.style.display = 'none';
+    document.querySelectorAll('[id^="roster-team-"]').forEach(function(el) { el.style.display = 'none'; });
+    var el = document.getElementById('roster-team-' + teamId);
+    if (el) el.style.display = '';
+}
+function showRosterList() {
+    document.querySelectorAll('[id^="roster-team-"]').forEach(function(el) { el.style.display = 'none'; });
+    var list = document.getElementById('roster-team-list');
+    if (list) list.style.display = '';
+}
+(function() {
+    var params = new URLSearchParams(window.location.search);
+    var tab = params.get('tab') || 'overview';
+    showTab(tab);
+    if (tab === 'roster') {
+        var teamId = params.get('team_id');
+        if (teamId) {
+            showTeamRoster(parseInt(teamId));
+        } else {
+            var teamList = document.getElementById('roster-team-list');
+            if (!teamList) {
+                // Single-team mode: auto-show the only team div
+                var teamDivs = document.querySelectorAll('[id^="roster-team-"]');
+                if (teamDivs.length === 1) { teamDivs[0].style.display = ''; }
+            }
+            // Multi-team mode: team list is already visible by default
+        }
+    }
+})();
+</script>
+
 {% endblock %}

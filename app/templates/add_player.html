@@ -1,0 +1,140 @@
+{% extends "team.html" %}
+
+{% block page_title %}{% if is_edit %}Edit {{ player.first_name }} {{ player.last_name }}{% else %}Add player to {{ team.name }}'s {{ season.name }} roster{% endif %}{% endblock %}
+
+{% block head_extra %}
+<style>
+    .alert-ok  { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 3px; padding: 9px 14px; margin-bottom: 14px; font-size: 13px; }
+    .alert-err { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 3px; padding: 9px 14px; margin-bottom: 14px; font-size: 13px; }
+</style>
+{% endblock %}
+
+{% block top_level_name %}Game day{% endblock %}
+
+{% block secondary_nav_links %}
+    <li class="{% if request.path == '/admin/team/gameday3/' or request.path == '/admin/team/gameday3' %}active{% endif %}">
+        <a href="/admin/team/gameday3/">Scores</a>
+    </li>
+    <li class="{% if request.path.startswith('/admin/team/checklist') %}active{% endif %}">
+        <a href="/admin/team/checklist/">Upcoming</a>
+    </li>
+    <li class="{% if request.path.startswith('/admin/team/season') %}active{% endif %}">
+        <a href="/admin/team/season/">Seasons</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+
+<table class="layout event-view">
+<tbody><tr>
+<td>
+
+<h1 style="clear: none">
+<a href="/admin/team/season/">Seasons</a>:
+<a href="/admin/team/season/sport.jsp?sport_id={{ season.sport_code }}">{{ sport_name }}</a>:
+<a href="/admin/team/season/season.jsp?season_id={{ season.id }}">{{ season.name }}</a>:
+<a href="/admin/team/season/season.jsp?season_id={{ season.id }}&tab=roster&team_id={{ team.id }}">Roster</a>:
+{% if is_edit %}Edit Player{% else %}Add Player{% endif %}
+</h1>
+
+</td>
+<td align="right">
+    <div id="progressMsg" style="display:none;"> Loading...</div>
+    <div id="errorMsg" style="display:none;border:1px solid #e00;background-color:#fee;color:#900"></div>
+</td>
+</tr>
+</tbody></table>
+
+<table class="layoutView event-view">
+  <tbody><tr>
+    <td id="view" valign="top">
+
+{% if success %}<div class="alert-ok">{{ success }}</div>{% endif %}
+{% if error %}  <div class="alert-err">{{ error }}</div>{% endif %}
+
+<form name="textform" action="/admin/team/roster/addPlayer.jsp?season_id={{ season.id }}&team_id={{ team.id }}{% if is_edit %}&player_id={{ player.id }}{% endif %}" method="post">
+<input type="hidden" name="season_id" value="{{ season.id }}">
+<input type="hidden" name="team_id" value="{{ team.id }}">
+{% if is_edit %}<input type="hidden" name="player_id" value="{{ player.id }}">{% endif %}
+
+<table class="dataentry player-editor" width="100%">
+<tbody>
+
+<tr>
+  <td><b>Number</b></td>
+  <td><input type="text" name="attr_number" value="{{ form.attr_number or '' }}" size="2" maxlength="4"></td>
+</tr>
+
+<tr>
+  <td><b>First Name *</b></td>
+  <td><input type="text" name="attr_first_name" value="{{ form.attr_first_name or '' }}" size="30" id="attr_first_name"></td>
+</tr>
+
+<tr>
+  <td><b>Last Name *</b></td>
+  <td><input type="text" name="attr_last_name" value="{{ form.attr_last_name or '' }}" size="30" id="attr_last_name"></td>
+</tr>
+
+<tr>
+  <td><b>Year</b></td>
+  <td><input type="text" name="attr_year" value="{{ form.attr_year or '' }}" size="30"></td>
+</tr>
+
+<tr>
+  <td><b>Position</b></td>
+  <td><input type="text" name="attr_position" value="{{ form.attr_position or '' }}" size="30" id="attr_position"></td>
+</tr>
+
+<tr>
+  <td><b>Bats</b></td>
+  <td>
+    <select name="bats">
+      <option value="">—</option>
+      <option value="S" {% if form.bats == 'S' %}selected{% endif %}>Switch</option>
+      <option value="L" {% if form.bats == 'L' %}selected{% endif %}>Left</option>
+      <option value="R" {% if form.bats == 'R' %}selected{% endif %}>Right</option>
+    </select>
+  </td>
+</tr>
+
+<tr>
+  <td><b>Throws</b></td>
+  <td>
+    <select name="throws">
+      <option value="">—</option>
+      <option value="L" {% if form.throws == 'L' %}selected{% endif %}>Left</option>
+      <option value="R" {% if form.throws == 'R' %}selected{% endif %}>Right</option>
+    </select>
+  </td>
+</tr>
+
+<tr>
+  <td><b>Stat Category</b></td>
+  <td>
+    <select name="stat_category">
+      <option value="h" {% if form.stat_category != 'p' %}selected{% endif %}>Hitting</option>
+      <option value="p" {% if form.stat_category == 'p' %}selected{% endif %}>Pitching</option>
+    </select>
+    <br><span class="small">Use this box to change the type of individual stats to highlight for this player.</span>
+  </td>
+</tr>
+
+<tr>
+  <td colspan="4">
+    <input type="submit" name="submit_action" value="Save Changes" class="small">
+    {% if not is_edit %}
+    <input type="submit" name="submit_action" value="Save and add another" class="small">
+    {% endif %}
+    <input type="submit" name="submit_action" value="Cancel" class="small">
+  </td>
+</tr>
+
+</tbody>
+</table>
+</form>
+
+    </td>
+  </tr></tbody>
+</table>
+
+{% endblock %}

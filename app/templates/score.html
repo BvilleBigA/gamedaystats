@@ -1,0 +1,201 @@
+{% extends "team.html" %}
+
+{% block page_title %}Live Scoring — Stats Entry{% endblock %}
+
+{% block head_extra %}
+<style>
+    .page-scorer { max-width: 900px; margin: 28px auto; padding: 0 16px; }
+
+    /* Season tabs */
+    .tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+    .tab-btn {
+        padding: 7px 16px;
+        border: 2px solid #ddd;
+        border-radius: 20px;
+        background: #fff;
+        font-size: 13px;
+        cursor: pointer;
+        color: #555;
+        transition: all .15s;
+    }
+    .tab-btn:hover { border-color: #d94f00; color: #d94f00; }
+    .tab-btn.active { border-color: #d94f00; background: #d94f00; color: #fff; font-weight: bold; }
+
+    /* Game cards */
+    .season-section { display: none; }
+    .season-section.visible { display: block; }
+    .section-label {
+        font-size: 12px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: .06em;
+        color: #999;
+        margin-bottom: 10px;
+        margin-top: 20px;
+    }
+    .section-label:first-child { margin-top: 0; }
+
+    .card {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 1px 4px rgba(0,0,0,.09);
+        padding: 16px 20px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+    .card-teams {
+        flex: 1;
+        min-width: 0;
+    }
+    .matchup {
+        font-size: 15px;
+        font-weight: bold;
+        color: #222;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .meta {
+        font-size: 12px;
+        color: #888;
+        margin-top: 3px;
+    }
+    .score-block {
+        font-size: 20px;
+        font-weight: bold;
+        color: #333;
+        text-align: center;
+        min-width: 64px;
+    }
+    .score-block .dash { color: #bbb; }
+    .badge-final      { background: #d4f5d4; color: #155a15; }
+    .badge-scheduled  { background: #e8eaf6; color: #3949ab; }
+    .btn-score {
+        display: inline-block;
+        padding: 9px 20px;
+        background: #d94f00;
+        color: #fff;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: bold;
+        white-space: nowrap;
+        transition: background .15s;
+    }
+    .btn-score:hover { background: #b84200; color: #fff; }
+    .page-scorer .empty { color: #aaa; font-style: italic; padding: 20px 0; }
+</style>
+{% endblock %}
+
+{% block top_level_name %}Scorer View{% endblock %}
+
+{% block secondary_nav_links %}
+    <li><a href="/score">Live Scoring</a></li>
+{% endblock %}
+
+{% block content %}
+<div class="page-scorer">
+
+    {% if not seasons %}
+    <p class="empty">No seasons configured yet.</p>
+    {% else %}
+
+    <!-- Season tab buttons -->
+    <div class="tabs">
+        {% for season in seasons %}
+        <button class="tab-btn {% if loop.first %}active{% endif %}"
+                onclick="showSeason({{ season.id }}, this)">
+            {{ season.name }}
+        </button>
+        {% endfor %}
+    </div>
+
+    <!-- One section per season -->
+    {% for season in seasons %}
+    <div class="season-section {% if loop.first %}visible{% endif %}" id="season-{{ season.id }}">
+
+        {% set ns_sched = namespace(items=[]) %}
+        {% set ns_final = namespace(items=[]) %}
+        {% for g in games %}
+            {% if g.visitor_team and g.visitor_team.season_id == season.id %}
+                {% if g.is_complete %}
+                    {% set ns_final.items = ns_final.items + [g] %}
+                {% else %}
+                    {% set ns_sched.items = ns_sched.items + [g] %}
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+
+        {% if not ns_sched.items and not ns_final.items %}
+        <p class="empty">No games in this season.</p>
+        {% endif %}
+
+        {% if ns_sched.items %}
+        <div class="section-label">Scheduled</div>
+        {% for g in ns_sched.items %}
+        <div class="card">
+            <div class="card-teams">
+                <div class="matchup">
+                    {{ g.visitor_team.name if g.visitor_team else '—' }}
+                    <span style="color:#bbb"> at </span>
+                    {{ g.home_team.name if g.home_team else '—' }}
+                </div>
+                <div class="meta">
+                    {{ g.date or '—' }}
+                    {% if g.start_time %}&nbsp;·&nbsp;{{ g.start_time }}{% endif %}
+                    {% if g.location %}&nbsp;·&nbsp;{{ g.location }}{% endif %}
+                </div>
+            </div>
+            <span class="badge badge-scheduled">Scheduled</span>
+            <a class="btn-score"
+               href="/action/stats/statsentry/statGame.jsp?t={{ now_ms() }}&season_id={{ season.id }}&event_id={{ g.id }}&sport_code={{ season.sport_id }}&event_date={{ g.date | event_date }}">
+                Score
+            </a>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        {% if ns_final.items %}
+        <div class="section-label">Final</div>
+        {% for g in ns_final.items %}
+        <div class="card">
+            <div class="card-teams">
+                <div class="matchup">
+                    {{ g.visitor_team.name if g.visitor_team else '—' }}
+                    <span style="color:#bbb"> at </span>
+                    {{ g.home_team.name if g.home_team else '—' }}
+                </div>
+                <div class="meta">
+                    {{ g.date or '—' }}
+                    {% if g.location %}&nbsp;·&nbsp;{{ g.location }}{% endif %}
+                </div>
+            </div>
+            <div class="score-block">
+                {{ g.visitor_runs }}<span class="dash">–</span>{{ g.home_runs }}
+            </div>
+            <span class="badge badge-final">Final</span>
+            <a class="btn-score"
+               href="/action/stats/statsentry/statGame.jsp?t={{ now_ms() }}&season_id={{ season.id }}&event_id={{ g.id }}&sport_code={{ season.sport_id }}&event_date={{ g.date | event_date }}">
+                Open
+            </a>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+    </div>
+    {% endfor %}
+
+    {% endif %}
+</div>
+
+<script>
+function showSeason(id, btn) {
+    document.querySelectorAll('.season-section').forEach(el => el.classList.remove('visible'));
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById('season-' + id).classList.add('visible');
+    btn.classList.add('active');
+}
+</script>
+{% endblock %}

@@ -1,0 +1,440 @@
+{% extends "team.html" %}
+
+{% block page_title %}{{ game.date }} — {{ game.visitor_team.name if game.visitor_team else '?' }} vs. {{ game.home_team.name if game.home_team else '?' }}{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="/static/gameday3/css/view.css" type="text/css">
+<style>
+#progressMsg {
+  font-weight: 100;
+  font-family: Verdana, Helvetica, Arial, sans-serif;
+  font-size: 12px;
+}
+.event-info .event-date  { font-weight: bold; }
+.event-info .event-teams { font-size: 15px; margin: 6px 0; }
+.event-info .score       { font-size: 17px; font-weight: bold; display: block; margin: 4px 0; }
+.event-info .event-venue { color: #666; font-size: 13px; }
+</style>
+{% endblock %}
+
+{% block top_level_name %}Game day{% endblock %}
+
+{% block secondary_nav_links %}
+    <li class="{% if request.path == '/admin/team/gameday3/' or request.path == '/admin/team/gameday3' %}active{% endif %}">
+        <a href="/admin/team/gameday3/">Scores</a>
+    </li>
+    <li class="{% if request.path.startswith('/admin/team/checklist') %}active{% endif %}">
+        <a href="/admin/team/checklist/">Upcoming</a>
+    </li>
+    <li class="{% if request.path.startswith('/admin/team/season') %}active{% endif %}">
+        <a href="/admin/team/season/">Seasons</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+
+<table class="layout event-view">
+<tbody><tr>
+<td>
+
+<h1 style="clear: none">
+<a href="/admin/team/season/">Seasons</a>:
+{% if season %}
+<a href="/admin/team/season/sport.jsp?sport_id={{ season.sport_code }}">{{ sport_name }}</a>:
+<a href="/admin/team/season/season.jsp?season_id={{ season.id }}">{{ season.name }}</a>
+{% endif %}
+</h1>
+
+</td>
+<td align="right">
+
+    <div id="progressMsg" style="display:none;"> Loading...</div>
+    <div id="errorMsg" style="display:none;border:1px solid #e00;background-color:#fee;color:#900"></div>
+
+</td>
+</tr>
+</tbody></table>
+
+<table class="layoutView event-view">
+  <tbody><tr>
+    <td id="view" valign="top">
+
+{% if success %}<div class="alert-ok">{{ success }}</div>{% endif %}
+{% if error %}  <div class="alert-err">{{ error }}</div>{% endif %}
+
+<table class="seasonlist">
+<tbody><tr class="seasonlabel"><td>
+<h3 style="float: left">Event Information</h3>
+{% if season %}<a href="/admin/team/season/season.jsp?season_id={{ season.id }}">[manage season]</a>{% endif %}
+</td>
+</tr>
+<tr id="inProgressRow"{% if game.status_label and not game.is_complete %} class="eventInProgress"{% endif %}>
+  <td style="padding: 4px;">
+  <div style="float: right">
+    {% if season %}
+    <input type="button" class="small" value="Score" onclick="openScoreModal()">
+    {% endif %}
+    <input type="button" class="small" value="Edit" onclick="document.location='/admin/team/schedule/editEvent.jsp?event_id={{ game.id }}'">
+    {% if season %}
+    <form method="post" action="/admin/team/season/season.jsp?season_id={{ season.id }}&tab=schedule" style="display:inline;">
+      <input type="hidden" name="action" value="delete_game">
+      <input type="hidden" name="game_id" value="{{ game.id }}">
+      <input type="button" class="small" value="Remove" onclick="if(confirm('Delete this game?')){this.form.submit();}">
+    </form>
+    {% endif %}
+    <br>
+    <div>
+    {% if season %}
+        <a class="stat-button" href="/action/stats/statsentry/statGame.jsp?t={{ now_ms() }}&amp;season_id={{ season.id }}&amp;event_id={{ game.id }}&amp;sport_code={{ season.sport_id }}&amp;event_date={{ game.date | event_date }}" target="_blank"{% if has_boxscore %} onclick="return confirm('Stats have been entered for this event. If you click OK and save, you will overwrite the existing stats.');"{% endif %}>Launch Gameday Stats</a>
+    {% endif %}
+    </div>
+
+  </div>
+  <div class="event-info">
+      <span class="event-date">
+
+{{ game.date or '—' }}
+
+{% if game.start_time %}{{ game.start_time }}{% endif %}
+      </span>
+  <br>
+  <div class="event-teams">
+
+              <div class="logo-container">
+                  <img src="{{ game.visitor_team | team_logo(season.sport_code if season else '') if game and game.visitor_team else (season.sport_code | sport_icon if season else '/action/cdn/info/images/icons/bsb.png') }}" alt="{{ game.visitor_team.name if game.visitor_team else '' }}" style="width:32px;height:32px;object-fit:contain;vertical-align:middle;">
+              </div>
+              <span>{{ game.visitor_team.name if game.visitor_team else '—' }} vs. {{ game.home_team.name if game.home_team else '—' }}</span>
+              <div class="logo-container">
+                  <img src="{{ game.home_team | team_logo(season.sport_code if season else '') if game and game.home_team else (season.sport_code | sport_icon if season else '/action/cdn/info/images/icons/bsb.png') }}" alt="{{ game.home_team.name if game.home_team else '' }}" style="width:32px;height:32px;object-fit:contain;vertical-align:middle;">
+              </div>
+
+  </div>
+  <div class="event-venue">
+  {{ game.location or '' }}
+  </div>
+  <span class="score">{{ game.status_label or '' }}</span>
+
+  <br>
+
+{% if game.is_exhibition %}Exhibition{% else %}Regular Season{% endif %}{% if game.is_league_game %} &mdash; Conference{% endif %}
+
+  </div>
+<table border="0px" style="border-spacing: 0px; background-color: transparent;">
+<tbody><tr><td>Previous event:</td>
+<td><div id="prevEvent">{% if prev_game %}<a href="/admin/team/event/view.jsp?event_id={{ prev_game.id }}">{{ prev_game.date }}{% if prev_game.start_time %} {{ prev_game.start_time }}{% endif %}</a> {{ prev_game.visitor_team.name if prev_game.visitor_team }} vs. {{ prev_game.home_team.name if prev_game.home_team }}{% else %}None{% endif %}</div></td>
+</tr>
+</tbody></table>
+<table border="0px" style="border-spacing: 0px; background-color: transparent;">
+<tbody><tr><td>Next event:</td>
+<td><div id="nextEvent">{% if next_game %}<a href="/admin/team/event/view.jsp?event_id={{ next_game.id }}">{{ next_game.date }}{% if next_game.start_time %} {{ next_game.start_time }}{% endif %}</a> {{ next_game.visitor_team.name if next_game.visitor_team }} vs. {{ next_game.home_team.name if next_game.home_team }}{% else %}None{% endif %}</div></td>
+</tr>
+
+</tbody></table>
+
+  </td>
+</tr>
+
+
+
+
+<!-- Take the default category, for the major part of the sports the default are all the gamelog stats -->
+
+
+
+<tr class="seasonlabel">
+<td><h3 style="float: left">Statistics</h3>
+
+<a class="seasonlabel" href="/admin/team/event/viewStatHistory.jsp?event_id={{ game.id }}" target="_blank" style="margin-left:10px;">[box score]</a>
+<a href="/game/{{ game.id }}/boxscore.xml" target="_blank" style="margin-left:4px;">[xml]</a>
+<a href="/game/{{ game.id }}/boxscore.pdf" target="_blank" style="margin-left:4px;">[pdf]</a>
+<a href="/game/{{ game.id }}/statboxscore.json" style="margin-left:4px;">[json]</a>
+
+</td>
+</tr>
+<tr>
+<td>
+
+<table width="100%">
+  <tbody><tr>
+    <td>&nbsp;</td>
+
+      <td class="seasonstatlabel">ab</td>
+
+      <td class="seasonstatlabel">r</td>
+
+      <td class="seasonstatlabel">h</td>
+
+      <td class="seasonstatlabel">2b</td>
+
+      <td class="seasonstatlabel">3b</td>
+
+      <td class="seasonstatlabel">hr</td>
+
+      <td class="seasonstatlabel">rbi</td>
+
+      <td class="seasonstatlabel">bb</td>
+
+      <td class="seasonstatlabel">k</td>
+
+      <td class="seasonstatlabel">sb</td>
+
+      <td class="seasonstatlabel">cs</td>
+
+  </tr>
+  <tr>
+    <td>{{ game.visitor_team.name if game.visitor_team else '—' }}</td>
+
+  <td class="seasonstat">
+  {{ visitor_stats.ab if has_boxscore else '-' }}
+  </td>
+
+  <td class="seasonstat">
+  {{ visitor_stats.r if has_boxscore else '-' }}
+  </td>
+
+  <td class="seasonstat">
+  {{ visitor_stats.h if has_boxscore else '-' }}
+  </td>
+
+  <td class="seasonstat">
+  {{ visitor_stats.doubles if has_boxscore else '-' }}
+  </td>
+
+  <td class="seasonstat">
+  {{ visitor_stats.triples if has_boxscore else '-' }}
+  </td>
+
+  <td class="seasonstat">
+  {{ visitor_stats.hr if has_boxscore else '-' }}
+  </td>
+
+  <td class="seasonstat">
+  {{ visitor_stats.rbi if has_boxscore else '-' }}
+  </td>
+
+  <td class="seasonstat">
+  {{ visitor_stats.bb if has_boxscore else '-' }}
+  </td>
+
+  <td class="seasonstat">
+  {{ visitor_stats.so if has_boxscore else '-' }}
+  </td>
+
+  <td class="seasonstat">
+  {{ visitor_stats.sb if has_boxscore else '-' }}
+  </td>
+
+  <td class="seasonstat">
+  {{ visitor_stats.cs if has_boxscore else '-' }}
+  </td>
+
+  </tr>
+
+  <tr>
+    <td>{{ game.home_team.name if game.home_team else '—' }}</td>
+
+  <td class="seasonstat">
+  {{ home_stats.ab if has_boxscore else '-' }}
+  </td>
+
+  <td class="seasonstat">
+  {{ home_stats.r if has_boxscore else '-' }}
+  </td>
+
+  <td class="seasonstat">
+  {{ home_stats.h if has_boxscore else '-' }}
+  </td>
+
+  <td class="seasonstat">
+  {{ home_stats.doubles if has_boxscore else '-' }}
+  </td>
+
+  <td class="seasonstat">
+  {{ home_stats.triples if has_boxscore else '-' }}
+  </td>
+
+  <td class="seasonstat">
+  {{ home_stats.hr if has_boxscore else '-' }}
+  </td>
+
+  <td class="seasonstat">
+  {{ home_stats.rbi if has_boxscore else '-' }}
+  </td>
+
+  <td class="seasonstat">
+  {{ home_stats.bb if has_boxscore else '-' }}
+  </td>
+
+  <td class="seasonstat">
+  {{ home_stats.so if has_boxscore else '-' }}
+  </td>
+
+  <td class="seasonstat">
+  {{ home_stats.sb if has_boxscore else '-' }}
+  </td>
+
+  <td class="seasonstat">
+  {{ home_stats.cs if has_boxscore else '-' }}
+  </td>
+
+  </tr>
+	<tr><td colspan="12">
+
+  		<input class="small" type="button" value="Upload box score" onclick="{% if season %}window.open('/action/stats/statsentry/statGame.jsp?t={{ now_ms() }}&amp;season_id={{ season.id }}&amp;event_id={{ game.id }}&amp;sport_code={{ season.sport_id }}&amp;event_date={{ game.date | event_date }}', '_blank'){% endif %}">
+
+	<input type="hidden" name="event_id" value="{{ game.id }}">
+	<input class="small" type="button" value="Edit players" onclick="" {% if not has_boxscore %}disabled=""{% endif %}>
+    <form method="post" action="/admin/team/event/view.jsp?event_id={{ game.id }}" style="display:inline;">
+      <input type="hidden" name="action" value="remove_boxscore">
+      <input class="small" type="button" value="Remove box score" onclick="if(confirm('Remove box score and reset stats?')){this.form.submit();}" {% if not has_boxscore %}disabled=""{% endif %}>
+    </form>
+
+  <br><br>
+
+      </td>
+	</tr>
+
+
+
+</tbody></table>
+
+
+
+
+</td></tr>
+</tbody></table>
+
+
+    </td>
+
+  </tr></tbody></table>
+
+<!-- ── Update Score Modal ─────────────────────────────────────────────── -->
+<div class="modal fade" id="scoreModal" tabindex="-1" role="dialog" aria-labelledby="scoreModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="scoreModalLabel">Update Score</h4>
+      </div>
+
+      <div class="modal-body">
+        <div class="score-popup-content-template">
+          <form id="scoreForm" role="form" novalidate="true">
+
+            <div class="general-container col-sm-12">
+              <div class="row">
+
+                <div class="form-group">
+                  <h3>
+                    <label class="season-name">{{ season.name if season else '' }}</label>
+                    <label>@ <span class="date-info">{{ game.date or '' }}{% if game.start_time %} {{ game.start_time }}{% endif %}</span></label>
+                  </h3>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label" for="score_status">Status</label>
+                  <select name="status" id="score_status" class="form-control">
+                    <option class="non-removal" value="-2" {% if current_status_code == -2 %}selected{% endif %}>Not started</option>
+                    <option class="non-removal" value="-1" {% if current_status_code == -1 %}selected{% endif %}>In progress</option>
+                    {% for opt in status_options %}
+                    <option value="{{ loop.index0 }}" {% if current_status_code == loop.index0 %}selected{% endif %}>{{ opt }}</option>
+                    {% endfor %}
+                  </select>
+                  <div class="status-text" style="display:none;">
+                    <input class="form-control" name="status-text" id="score_status_text"
+                           value="{{ game.state or '' }}"
+                           placeholder='e.g. "BOT 3", "TOP 7"'>
+                  </div>
+                </div>
+
+                <div class="form-group score-container">
+                  <label class="team_1 control-label" for="score_team_1">{{ game.visitor_team.name if game.visitor_team else 'Visitor' }}</label>
+                  <input type="number" class="form-control" id="score_team_1" min="0" name="team_1"
+                         placeholder="0" value="{{ game.visitor_runs if game.visitor_runs is not none else '' }}">
+                  <div class="help-block with-errors"></div>
+                </div>
+
+                <div class="form-group score-container">
+                  <label class="team_2 control-label" for="score_team_2">{{ game.home_team.name if game.home_team else 'Home' }}</label>
+                  <input type="number" class="form-control" id="score_team_2" min="0" name="team_2"
+                         placeholder="0" value="{{ game.home_runs if game.home_runs is not none else '' }}">
+                  <div class="help-block with-errors"></div>
+                </div>
+
+              </div>
+            </div><!-- .general-container -->
+
+            <hr>
+            <div class="form-group">
+              <div class="checkbox">
+                <label><input class="keep-popup-open" type="checkbox" value="1"> Keep popup open for quick updates</label>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div><!-- .modal-body -->
+
+      <div class="modal-footer">
+        <button class="btn btn-default btn-cancel" type="button" data-dismiss="modal">Cancel</button>
+        <button class="btn btn-primary btn-update" type="button" onclick="submitScore()">Update</button>
+      </div>
+
+    </div><!-- .modal-content -->
+  </div><!-- .modal-dialog -->
+</div><!-- #scoreModal -->
+
+<script>
+function openScoreModal() {
+    $('#scoreModal').modal('show');
+}
+
+document.getElementById('score_status').addEventListener('change', function() {
+    var st = document.querySelector('#scoreModal .status-text');
+    st.style.display = (this.value === '-1') ? '' : 'none';
+});
+(function() {
+    var sel = document.getElementById('score_status');
+    if (sel && sel.value === '-1') {
+        document.querySelector('#scoreModal .status-text').style.display = '';
+    }
+})();
+
+function submitScore() {
+    var statusCode = parseInt(document.getElementById('score_status').value, 10);
+    var statusText = document.getElementById('score_status_text').value;
+    var awayScore  = document.getElementById('score_team_1').value;
+    var homeScore  = document.getElementById('score_team_2').value;
+
+    var evt = {
+        id:         {{ game.id }},
+        statusCode: statusCode,
+        status:     (statusCode === -1 && statusText) ? statusText : '',
+        awayResult: awayScore,
+        homeResult: homeScore
+    };
+
+    fetch('/admin/team/gameday/setScore.jsp', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: 'gamedayEvent=' + encodeURIComponent(JSON.stringify(evt))
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+        if (data.ok) {
+            var keepOpen = document.querySelector('#scoreModal .keep-popup-open').checked;
+            if (!keepOpen) {
+                $('#scoreModal').modal('hide');
+                location.reload();
+            }
+        } else {
+            alert('Error: ' + (data.error || 'unknown'));
+        }
+    })
+    .catch(function() { alert('Network error'); });
+}
+</script>
+
+{% endblock %}

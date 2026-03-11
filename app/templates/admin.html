@@ -1,0 +1,174 @@
+{% extends "team.html" %}
+
+{% block page_title %}Admin Dashboard — Stats Entry{% endblock %}
+
+{% block head_extra %}
+<style>
+    .page-admin { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
+    .page-admin h2 { font-size: 16px; margin-bottom: 12px; color: #444; border-bottom: 1px solid #ddd; padding-bottom: 6px; }
+    .page-admin section { background: #fff; border-radius: 6px; padding: 20px; margin-bottom: 24px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+    .page-admin table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .page-admin th { text-align: left; padding: 8px 10px; background: #f0f0f0; border-bottom: 2px solid #ddd; font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: #666; }
+    .page-admin td { padding: 8px 10px; border-bottom: 1px solid #eee; vertical-align: middle; }
+    .page-admin tr:last-child td { border-bottom: none; }
+    .page-admin tr:hover td { background: #fafafa; }
+    .badge-admin { background: #ffd6b0; color: #8b3a00; }
+    .badge-scorer { background: #d6e8ff; color: #0047ab; }
+    .badge-active { background: #d4f5d4; color: #155a15; }
+    .badge-inactive { background: #f5d4d4; color: #5a1515; }
+    .page-admin .btn-open {
+        display: inline-block;
+        padding: 4px 10px;
+        background: #d94f00;
+        color: #fff;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: bold;
+    }
+    .page-admin .btn-open:hover { background: #b84200; }
+    .page-admin .empty { color: #999; font-style: italic; font-size: 13px; }
+</style>
+{% endblock %}
+
+{% block top_level_name %}Admin{% endblock %}
+
+{% block secondary_nav_links %}
+    <li><a href="/admin">Dashboard</a></li>
+{% endblock %}
+
+{% block content %}
+<div class="page-admin">
+
+    <section>
+        <h2>Seasons &amp; Games</h2>
+        {% if seasons %}
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Season</th>
+                    <th>Games</th>
+                    <th>Open in Stats Entry</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for season in seasons %}
+            <tr>
+                <td>{{ season.id }}</td>
+                <td><strong>{{ season.name }}</strong></td>
+                <td>
+                    {% set count = namespace(n=0) %}
+                    {% for g in games %}
+                        {% if g.visitor_team and g.visitor_team.season_id == season.id %}
+                            {% set count.n = count.n + 1 %}
+                        {% endif %}
+                    {% endfor %}
+                    {{ count.n }}
+                </td>
+                <td>
+                    {% set first_game = namespace(g=none) %}
+                    {% for g in games %}
+                        {% if first_game.g is none and g.visitor_team and g.visitor_team.season_id == season.id %}
+                            {% set first_game.g = g %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if first_game.g %}
+                    <a class="btn-open" href="/action/stats/statsentry/statGame.jsp?t={{ now_ms() }}&season_id={{ season.id }}&event_id={{ first_game.g.id }}&sport_code={{ season.sport_id }}&event_date={{ first_game.g.date | event_date }}">Open</a>
+                    {% else %}
+                    <span class="empty">No games</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="empty">No seasons found.</p>
+        {% endif %}
+    </section>
+
+    <section>
+        <h2>Games</h2>
+        {% if games %}
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Date</th>
+                    <th>Visitor</th>
+                    <th>Home</th>
+                    <th>Score</th>
+                    <th>Status</th>
+                    <th>Open</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for g in games %}
+            <tr>
+                <td>{{ g.id }}</td>
+                <td>{{ g.date or '—' }}</td>
+                <td>{{ g.visitor_team.name if g.visitor_team else '—' }}</td>
+                <td>{{ g.home_team.name if g.home_team else '—' }}</td>
+                <td>{{ g.visitor_runs }}–{{ g.home_runs }}</td>
+                <td>
+                    {% if g.is_complete %}
+                    <span class="badge badge-active">Final</span>
+                    {% else %}
+                    <span class="badge badge-inactive">Scheduled</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% set sid = g.visitor_team.season_id if g.visitor_team else '' %}
+                    {% set s_sport = g.visitor_team.season.sport_id if g.visitor_team and g.visitor_team.season else 1 %}
+                    <a class="btn-open" href="/action/stats/statsentry/statGame.jsp?t={{ now_ms() }}&season_id={{ sid }}&event_id={{ g.id }}&sport_code={{ s_sport }}&event_date={{ g.date | event_date }}">Open</a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="empty">No games found.</p>
+        {% endif %}
+    </section>
+
+    <section>
+        <h2>Users</h2>
+        {% if users %}
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Username</th>
+                    <th>Display Name</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for u in users %}
+            <tr>
+                <td>{{ u.id }}</td>
+                <td><strong>{{ u.username }}</strong></td>
+                <td>{{ u.display_name or '—' }}</td>
+                <td><span class="badge badge-{{ u.role }}">{{ u.role }}</span></td>
+                <td>
+                    {% if u.is_active %}
+                    <span class="badge badge-active">Active</span>
+                    {% else %}
+                    <span class="badge badge-inactive">Inactive</span>
+                    {% endif %}
+                </td>
+                <td>{{ u.created_at.strftime('%Y-%m-%d') if u.created_at else '—' }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="empty">No users found.</p>
+        {% endif %}
+    </section>
+
+</div>
+{% endblock %}

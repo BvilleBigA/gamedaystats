@@ -1,0 +1,683 @@
+{% extends "team.html" %}
+
+{% block title %}Boxscore — {{ data.visitor_name }} at {{ data.home_name }}{% endblock %}
+
+{% block head_extra %}
+<style>
+/* ── Boxscore page ────────────────────────────────────────────────────── */
+.game-boxscore { max-width: 1100px; margin: 0 auto; font-family: 'Open Sans', sans-serif; }
+
+/* Header */
+.game-boxscore .head { background: #1a1a2e; color: #fff; padding: 14px 20px 0; border-radius: 4px 4px 0 0; }
+.game-boxscore .head h1 { font-size: 16px; margin: 0 0 10px; font-weight: 400; color: #ccc; }
+.game-boxscore .teams { display: flex; align-items: center; gap: 20px; padding-bottom: 10px; }
+.game-boxscore .team { display: flex; align-items: center; gap: 10px; }
+.game-boxscore .team.loser .team-score  { color: #aaa; }
+.game-boxscore .team.winner .team-score { color: #fff; font-weight: 700; }
+.game-boxscore .team-name  { font-size: 20px; font-weight: 600; color: #fff; }
+.game-boxscore .team-score { font-size: 42px; line-height: 1; padding: 0 6px; }
+.game-boxscore .team-record { font-size: 12px; color: #aaa; }
+.game-boxscore .vs { font-size: 18px; color: #666; }
+
+/* Status badge */
+.game-boxscore .status-badge {
+    display: inline-block; padding: 2px 10px; border-radius: 10px;
+    font-size: 12px; font-weight: 600; margin-left: 12px; vertical-align: middle;
+}
+.status-badge.final   { background: #2e7d32; color: #fff; }
+.status-badge.inprog  { background: #e65100; color: #fff; }
+.status-badge.sched   { background: #1565c0; color: #fff; }
+
+/* Linescore */
+.linescore-wrap { background: #fff; padding: 0 20px 12px; border-bottom: 1px solid #ddd; }
+.linescore-wrap table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.linescore-wrap th, .linescore-wrap td { text-align: center; padding: 6px 8px; }
+.linescore-wrap th.text { text-align: left; min-width: 120px; }
+.linescore-wrap .col-head { background: #f5f5f5; font-weight: 600; color: #555; }
+.linescore-wrap .col-head.total { background: #eee; }
+.linescore-wrap tr.winner td, .linescore-wrap tr.winner th { font-weight: 600; }
+.linescore-wrap .score.total { font-weight: 700; background: #f0f0f0; }
+.linescore-wrap .state-info { text-align: left; font-size: 12px; color: #666; font-weight: 400; }
+
+/* Tab nav */
+.bs-tab-nav { background: #f5f5f5; border-bottom: 2px solid #1a1a2e; }
+.bs-tab-nav ul { list-style: none; margin: 0; padding: 0 16px; display: flex; }
+.bs-tab-nav li a {
+    display: block; padding: 10px 18px; font-size: 13px; font-weight: 600;
+    color: #555; text-decoration: none; border-bottom: 3px solid transparent; margin-bottom: -2px;
+}
+.bs-tab-nav li.active a { color: #1a1a2e; border-bottom-color: #1a1a2e; }
+.bs-tab-nav li a:hover { color: #1a1a2e; }
+
+/* Team tabs inside boxscore panel */
+.team-tabs { display: flex; gap: 0; border-bottom: 1px solid #ddd; background: #fff; padding: 0 20px; }
+.team-tab-btn {
+    padding: 8px 18px; border: none; background: none; cursor: pointer;
+    font-size: 14px; font-weight: 600; color: #666; border-bottom: 3px solid transparent; margin-bottom: -1px;
+}
+.team-tab-btn.active { color: #1a1a2e; border-bottom-color: #1a1a2e; }
+
+/* Stats tables */
+.stats-panel { background: #fff; padding: 0 20px 20px; }
+.stats-side   { display: none; }
+.stats-side.active { display: block; }
+
+.lineup-table { overflow-x: auto; margin-bottom: 18px; }
+.lineup-table table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.lineup-table caption h2 { font-size: 15px; margin: 14px 0 4px; font-weight: 700; }
+.lineup-table th, .lineup-table td { padding: 5px 10px; border-bottom: 1px solid #eee; text-align: center; }
+.lineup-table th.text { text-align: left; min-width: 160px; }
+.lineup-table .col-head { background: #f9f9f9; font-size: 11px; font-weight: 700; color: #555; }
+.lineup-table .row-head { text-align: left; }
+.lineup-table .player-name { font-weight: 600; }
+.lineup-table .player-pos  { color: #888; font-size: 11px; margin-left: 4px; }
+.lineup-table tr.totals { font-weight: 700; background: #f5f5f5; }
+.lineup-table tbody:nth-child(even) tr { background: #fafafa; }
+
+/* Batting/pitching side-by-side */
+.two-col { display: flex; gap: 24px; }
+.two-col > div { flex: 1; min-width: 0; }
+
+/* Stats summary notes */
+.stats-summary { font-size: 12px; color: #444; margin-top: 6px; padding: 8px 0; border-top: 1px solid #eee; }
+.stats-summary .caption { font-weight: 700; margin-bottom: 4px; text-transform: uppercase; font-size: 11px; color: #888; }
+.stats-summary > div { margin-bottom: 2px; }
+
+/* Scoring summary */
+.scoring-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.scoring-table th, .scoring-table td { padding: 6px 10px; border-bottom: 1px solid #eee; }
+.scoring-table th { background: #f5f5f5; font-weight: 600; font-size: 11px; text-transform: uppercase; color: #666; }
+.scoring-table .inning-cell { white-space: nowrap; font-weight: 600; color: #555; }
+.scoring-table .score-cell  { font-weight: 700; text-align: right; white-space: nowrap; }
+
+/* Live indicator */
+.live-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+    background: #e53935; margin-right: 5px; animation: blink 1s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+/* Version history selector */
+.version-bar { padding: 12px 20px; background: #f9f9f9; border-top: 1px solid #eee; font-size: 13px; }
+.version-bar label { font-weight: 600; margin-right: 8px; }
+
+/* Responsive */
+@media (max-width: 680px) {
+    .two-col { flex-direction: column; }
+    .game-boxscore .team-score { font-size: 28px; }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="game-boxscore bsb" id="boxscoreRoot">
+
+  {# ── Header ─────────────────────────────────────────────────────────── #}
+  <div class="head">
+    <h1>
+      <span class="date">{{ data.date }}</span>
+      {{ data.visitor_name }} at {{ data.home_name }}
+      {% if data.status_label %}
+        {% if data.is_complete %}
+          <span class="status-badge final">{{ data.status_label }}</span>
+        {% else %}
+          <span class="status-badge inprog"><span class="live-dot"></span>{{ data.status_label }}</span>
+        {% endif %}
+      {% else %}
+        <span class="status-badge sched">Scheduled</span>
+      {% endif %}
+    </h1>
+    <div class="teams">
+      <div class="team visitor {% if data.visitor_runs < data.home_runs %}loser{% elif data.visitor_runs > data.home_runs %}winner{% endif %}">
+        <div>
+          <div class="team-name">{{ data.visitor_name }}</div>
+          <div class="team-record">{{ game.visitor_record or '' }}</div>
+        </div>
+        <div class="team-score" id="bs-vis-score">{{ data.visitor_runs }}</div>
+      </div>
+      <div class="vs">@</div>
+      <div class="team home {% if data.home_runs < data.visitor_runs %}loser{% elif data.home_runs > data.visitor_runs %}winner{% endif %}">
+        <div class="team-score" id="bs-home-score">{{ data.home_runs }}</div>
+        <div>
+          <div class="team-name">{{ data.home_name }}</div>
+          <div class="team-record">{{ game.home_record or '' }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# ── Linescore ───────────────────────────────────────────────────────── #}
+  <div class="linescore-wrap">
+    <table id="linescoreTable">
+      <thead>
+        <tr>
+          <th scope="col" class="col-head text state-info">
+            {% if data.status_label %}{{ data.status_label }}{% else %}Scheduled{% endif %}
+          </th>
+          {% for inn in data.innings %}
+          <th scope="col" class="col-head score">{{ inn.num }}</th>
+          {% endfor %}
+          <th scope="col" class="col-head score total">R</th>
+          <th scope="col" class="col-head score total">H</th>
+          <th scope="col" class="col-head score total">E</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="{% if data.visitor_runs > data.home_runs %}winner{% elif data.visitor_runs < data.home_runs %}loser{% endif %}">
+          <th scope="row" class="text">{{ data.visitor_name }}</th>
+          {% for inn in data.innings %}
+          <td class="score">{{ inn.v }}</td>
+          {% endfor %}
+          <td class="score total">{{ data.visitor_runs }}</td>
+          <td class="score total">{{ data.visitor_hits }}</td>
+          <td class="score total">{{ data.visitor_errors }}</td>
+        </tr>
+        <tr class="{% if data.home_runs > data.visitor_runs %}winner{% elif data.home_runs < data.visitor_runs %}loser{% endif %}">
+          <th scope="row" class="text">{{ data.home_name }}</th>
+          {% for inn in data.innings %}
+          <td class="score">{{ inn.h }}</td>
+          {% endfor %}
+          <td class="score total">{{ data.home_runs }}</td>
+          <td class="score total">{{ data.home_hits }}</td>
+          <td class="score total">{{ data.home_errors }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  {# ── Tab nav ─────────────────────────────────────────────────────────── #}
+  <div class="bs-tab-nav">
+    <ul>
+      <li class="active" id="tab-boxscore-li"><a href="#" onclick="bsTab('boxscore');return false;">Box Score</a></li>
+      {% if data.scoring %}
+      <li id="tab-scoring-li"><a href="#" onclick="bsTab('scoring');return false;">Scoring Summary</a></li>
+      {% endif %}
+    </ul>
+  </div>
+
+  {# ── Box Score Panel ─────────────────────────────────────────────────── #}
+  <div id="panel-boxscore" class="stats-panel">
+
+    {# Team selector tabs #}
+    <div class="team-tabs">
+      <button class="team-tab-btn active" id="btn-vis" onclick="teamTab('vis')">{{ data.visitor_name }}</button>
+      <button class="team-tab-btn" id="btn-home" onclick="teamTab('home')">{{ data.home_name }}</button>
+    </div>
+
+    {# Visitor batting #}
+    <div class="stats-side active" id="side-vis">
+      <div class="lineup-table" id="vis-bat-table">
+        <table class="striped">
+          <caption class="caption"><h2><span class="team-name">{{ data.visitor_name }}</span> <small>Batters</small></h2></caption>
+          <thead>
+            <tr>
+              <th scope="col" class="text pinned-col col-head">Hitters</th>
+              <th scope="col" class="col-head">AB</th>
+              <th scope="col" class="col-head">R</th>
+              <th scope="col" class="col-head">H</th>
+              <th scope="col" class="col-head">RBI</th>
+              <th scope="col" class="col-head">BB</th>
+              <th scope="col" class="col-head">SO</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for p in data.visitor_batting %}
+            <tr>
+              <th scope="row" class="row-head text">
+                <span class="player-name">{{ p.name }}</span>
+                <span class="player-pos">{{ p.pos }}</span>
+              </th>
+              <td>{{ p.ab }}</td><td>{{ p.r }}</td><td>{{ p.h }}</td>
+              <td>{{ p.rbi }}</td><td>{{ p.bb }}</td><td>{{ p.so }}</td>
+            </tr>
+            {% endfor %}
+            {% if not data.visitor_batting %}
+            <tr><td colspan="7" style="text-align:center;color:#aaa;padding:12px;">No batting stats yet</td></tr>
+            {% endif %}
+          </tbody>
+          {% if data.visitor_batting %}
+          <tbody>
+            <tr class="totals">
+              <th scope="row" class="row-head text">Totals</th>
+              <td>{{ data.visitor_bat_totals.ab }}</td>
+              <td>{{ data.visitor_bat_totals.r  }}</td>
+              <td>{{ data.visitor_bat_totals.h  }}</td>
+              <td>{{ data.visitor_bat_totals.rbi }}</td>
+              <td>{{ data.visitor_bat_totals.bb }}</td>
+              <td>{{ data.visitor_bat_totals.so }}</td>
+            </tr>
+          </tbody>
+          {% endif %}
+        </table>
+      </div>
+
+      {# Visitor batting summary #}
+      {% set bsum = data.visitor_bat_summary %}
+      {% set bsum_lines = [] %}
+      {% for key in ['2B','3B','HR','RBI','SB','HBP','SH','SF'] %}
+        {% if bsum[key] %}{% set _ = bsum_lines.append((key, bsum[key])) %}{% endif %}
+      {% endfor %}
+      {% if bsum_lines %}
+      <div class="stats-summary">
+        <div class="caption">Batting</div>
+        {% for key, vals in bsum_lines %}
+        <div><strong>{{ key }}:</strong> {{ vals | join(', ') }}</div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {# Visitor pitching #}
+      {% if data.visitor_pitching %}
+      <div class="lineup-table" id="vis-pit-table" style="margin-top:16px;">
+        <table class="striped">
+          <caption class="caption"><h2><span class="team-name">{{ data.visitor_name }}</span> <small>Pitchers</small></h2></caption>
+          <thead>
+            <tr>
+              <th scope="col" class="text pinned-col col-head">Pitchers</th>
+              <th scope="col" class="col-head">IP</th>
+              <th scope="col" class="col-head">H</th>
+              <th scope="col" class="col-head">R</th>
+              <th scope="col" class="col-head">ER</th>
+              <th scope="col" class="col-head">BB</th>
+              <th scope="col" class="col-head">SO</th>
+              <th scope="col" class="col-head">HR</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for p in data.visitor_pitching %}
+            <tr>
+              <th scope="row" class="row-head text">
+                <span class="player-name">{{ p.name }}</span>
+                {% if p.dec %}<span class="player-pos">({{ p.dec }})</span>{% endif %}
+              </th>
+              <td>{{ p.ip }}</td><td>{{ p.h }}</td><td>{{ p.r }}</td><td>{{ p.er }}</td>
+              <td>{{ p.bb }}</td><td>{{ p.so }}</td><td>{{ p.hr }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+          <tbody>
+            <tr class="totals">
+              <th scope="row" class="row-head text">Totals</th>
+              <td>{{ data.visitor_pit_totals.ip }}</td>
+              <td>{{ data.visitor_pit_totals.h }}</td>
+              <td>{{ data.visitor_pit_totals.r }}</td>
+              <td>{{ data.visitor_pit_totals.er }}</td>
+              <td>{{ data.visitor_pit_totals.bb }}</td>
+              <td>{{ data.visitor_pit_totals.so }}</td>
+              <td>{{ data.visitor_pit_totals.hr }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      {% set psum = data.visitor_pit_summary %}
+      {% if psum %}
+      <div class="stats-summary">
+        <div class="caption">Pitching</div>
+        {% for line in psum %}
+        <div><strong>{{ line.label }}:</strong> {{ line.value }}</div>
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% endif %}
+    </div>
+
+    {# Home batting #}
+    <div class="stats-side" id="side-home">
+      <div class="lineup-table" id="home-bat-table">
+        <table class="striped">
+          <caption class="caption"><h2><span class="team-name">{{ data.home_name }}</span> <small>Batters</small></h2></caption>
+          <thead>
+            <tr>
+              <th scope="col" class="text pinned-col col-head">Hitters</th>
+              <th scope="col" class="col-head">AB</th>
+              <th scope="col" class="col-head">R</th>
+              <th scope="col" class="col-head">H</th>
+              <th scope="col" class="col-head">RBI</th>
+              <th scope="col" class="col-head">BB</th>
+              <th scope="col" class="col-head">SO</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for p in data.home_batting %}
+            <tr>
+              <th scope="row" class="row-head text">
+                <span class="player-name">{{ p.name }}</span>
+                <span class="player-pos">{{ p.pos }}</span>
+              </th>
+              <td>{{ p.ab }}</td><td>{{ p.r }}</td><td>{{ p.h }}</td>
+              <td>{{ p.rbi }}</td><td>{{ p.bb }}</td><td>{{ p.so }}</td>
+            </tr>
+            {% endfor %}
+            {% if not data.home_batting %}
+            <tr><td colspan="7" style="text-align:center;color:#aaa;padding:12px;">No batting stats yet</td></tr>
+            {% endif %}
+          </tbody>
+          {% if data.home_batting %}
+          <tbody>
+            <tr class="totals">
+              <th scope="row" class="row-head text">Totals</th>
+              <td>{{ data.home_bat_totals.ab }}</td>
+              <td>{{ data.home_bat_totals.r  }}</td>
+              <td>{{ data.home_bat_totals.h  }}</td>
+              <td>{{ data.home_bat_totals.rbi }}</td>
+              <td>{{ data.home_bat_totals.bb }}</td>
+              <td>{{ data.home_bat_totals.so }}</td>
+            </tr>
+          </tbody>
+          {% endif %}
+        </table>
+      </div>
+
+      {% set bsum = data.home_bat_summary %}
+      {% set bsum_lines = [] %}
+      {% for key in ['2B','3B','HR','RBI','SB','HBP','SH','SF'] %}
+        {% if bsum[key] %}{% set _ = bsum_lines.append((key, bsum[key])) %}{% endif %}
+      {% endfor %}
+      {% if bsum_lines %}
+      <div class="stats-summary">
+        <div class="caption">Batting</div>
+        {% for key, vals in bsum_lines %}
+        <div><strong>{{ key }}:</strong> {{ vals | join(', ') }}</div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {% if data.home_pitching %}
+      <div class="lineup-table" id="home-pit-table" style="margin-top:16px;">
+        <table class="striped">
+          <caption class="caption"><h2><span class="team-name">{{ data.home_name }}</span> <small>Pitchers</small></h2></caption>
+          <thead>
+            <tr>
+              <th scope="col" class="text pinned-col col-head">Pitchers</th>
+              <th scope="col" class="col-head">IP</th>
+              <th scope="col" class="col-head">H</th>
+              <th scope="col" class="col-head">R</th>
+              <th scope="col" class="col-head">ER</th>
+              <th scope="col" class="col-head">BB</th>
+              <th scope="col" class="col-head">SO</th>
+              <th scope="col" class="col-head">HR</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for p in data.home_pitching %}
+            <tr>
+              <th scope="row" class="row-head text">
+                <span class="player-name">{{ p.name }}</span>
+                {% if p.dec %}<span class="player-pos">({{ p.dec }})</span>{% endif %}
+              </th>
+              <td>{{ p.ip }}</td><td>{{ p.h }}</td><td>{{ p.r }}</td><td>{{ p.er }}</td>
+              <td>{{ p.bb }}</td><td>{{ p.so }}</td><td>{{ p.hr }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+          <tbody>
+            <tr class="totals">
+              <th scope="row" class="row-head text">Totals</th>
+              <td>{{ data.home_pit_totals.ip }}</td>
+              <td>{{ data.home_pit_totals.h }}</td>
+              <td>{{ data.home_pit_totals.r }}</td>
+              <td>{{ data.home_pit_totals.er }}</td>
+              <td>{{ data.home_pit_totals.bb }}</td>
+              <td>{{ data.home_pit_totals.so }}</td>
+              <td>{{ data.home_pit_totals.hr }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      {% set psum = data.home_pit_summary %}
+      {% if psum %}
+      <div class="stats-summary">
+        <div class="caption">Pitching</div>
+        {% for line in psum %}
+        <div><strong>{{ line.label }}:</strong> {{ line.value }}</div>
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% endif %}
+    </div>
+
+  </div>{# end panel-boxscore #}
+
+  {# ── Scoring Summary Panel ───────────────────────────────────────────── #}
+  {% if data.scoring %}
+  <div id="panel-scoring" class="stats-panel" style="display:none;">
+    <div style="padding-top:14px;">
+      <table class="scoring-table">
+        <caption style="font-weight:700;font-size:15px;text-align:left;padding:0 0 8px;">Scoring Summary</caption>
+        <thead>
+          <tr>
+            <th class="text" scope="col">Inning</th>
+            <th class="text" scope="col">Play</th>
+            <th scope="col" style="text-align:right;">Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for sp in data.scoring %}
+          <tr>
+            <td class="inning-cell">
+              {% if sp.half == 'top' %}▲{% else %}▼{% endif %}
+              {{ sp.inning }}{{ 'st' if sp.inning == 1 else ('nd' if sp.inning == 2 else ('rd' if sp.inning == 3 else 'th')) }}
+            </td>
+            <td>{{ sp.desc or sp.batter }}</td>
+            <td class="score-cell">{{ sp.v_score }}–{{ sp.h_score }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% endif %}
+
+  {# Back link #}
+  <div style="padding:12px 20px;background:#f9f9f9;border-top:1px solid #eee;font-size:13px;">
+    {% if season %}
+    <a href="/admin/team/season/event.jsp?event_id={{ game.id }}">&larr; Back to game detail</a>
+    {% endif %}
+    &nbsp;|&nbsp;
+    <a href="/game/{{ game.id }}/boxscore.xml" target="_blank">XML</a>
+    &nbsp;|&nbsp;
+    <span style="color:#888;">Auto-refreshing every 10s</span>
+    &nbsp;<span id="refresh-indicator" style="color:#aaa;font-size:11px;"></span>
+  </div>
+
+</div>{# end game-boxscore #}
+
+<script>
+// ── Tab switching ─────────────────────────────────────────────────────────
+function bsTab(name) {
+    ['boxscore','scoring'].forEach(function(t) {
+        var p = document.getElementById('panel-' + t);
+        var li = document.getElementById('tab-' + t + '-li');
+        if (!p) return;
+        p.style.display   = (t === name) ? '' : 'none';
+        if (li) li.className = (t === name) ? 'active' : '';
+    });
+}
+
+function teamTab(side) {
+    ['vis','home'].forEach(function(s) {
+        var el  = document.getElementById('side-' + s);
+        var btn = document.getElementById('btn-' + s);
+        if (!el || !btn) return;
+        el.className  = 'stats-side' + (s === side ? ' active' : '');
+        btn.className = 'team-tab-btn'  + (s === side ? ' active' : '');
+    });
+}
+
+// ── Live polling ──────────────────────────────────────────────────────────
+var GAME_ID   = {{ game.id }};
+var POLL_MS   = 10000;
+var pollTimer = null;
+
+function refreshBoxscore() {
+    fetch('/game/' + GAME_ID + '/statboxscore.json')
+        .then(function(r) { return r.json(); })
+        .then(function(d) { applyData(d); })
+        .catch(function() {});
+    document.getElementById('refresh-indicator').textContent =
+        'Last updated ' + new Date().toLocaleTimeString();
+}
+
+function applyData(d) {
+    // Scores
+    setText('bs-vis-score', d.visitor_runs);
+    setText('bs-home-score', d.home_runs);
+
+    // Linescore rebuild
+    rebuildLinescore(d);
+
+    // Batting tables
+    rebuildBatting('vis', d.visitor_batting, d.visitor_bat_totals);
+    rebuildBatting('home', d.home_batting, d.home_bat_totals);
+
+    // Pitching tables
+    rebuildPitching('vis', d.visitor_pitching, d.visitor_pit_totals);
+    rebuildPitching('home', d.home_pitching, d.home_pit_totals);
+
+    // Stop polling if final
+    if (d.is_complete && pollTimer) {
+        clearInterval(pollTimer);
+        pollTimer = null;
+        document.getElementById('refresh-indicator').textContent = 'Final';
+    }
+}
+
+function setText(id, val) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = val;
+}
+
+function rebuildLinescore(d) {
+    var tbl = document.getElementById('linescoreTable');
+    if (!tbl) return;
+    var thead = tbl.querySelector('thead tr');
+    var rows  = tbl.querySelectorAll('tbody tr');
+
+    // Re-render header innings
+    // Remove old inning ths (keep first and last 3)
+    var ths = thead.querySelectorAll('th');
+    // Rebuild entirely
+    thead.innerHTML = '';
+    var th0 = document.createElement('th');
+    th0.className = 'col-head text state-info';
+    th0.textContent = d.status_label || 'Scheduled';
+    thead.appendChild(th0);
+    d.innings.forEach(function(inn) {
+        var th = document.createElement('th');
+        th.className = 'col-head score';
+        th.textContent = inn.num;
+        thead.appendChild(th);
+    });
+    ['R','H','E'].forEach(function(lbl) {
+        var th = document.createElement('th');
+        th.className = 'col-head score total';
+        th.textContent = lbl;
+        thead.appendChild(th);
+    });
+
+    // Rebuild body rows
+    var tbody = tbl.querySelector('tbody');
+    tbody.innerHTML = '';
+
+    function makeRow(name, scores, runs, hits, errs, isWinner) {
+        var tr = document.createElement('tr');
+        tr.className = runs > (isWinner ? 0 : 999) ? 'winner' : (runs < (isWinner ? 999 : 0) ? 'loser' : '');
+        tr.className = isWinner ? 'winner' : 'loser';
+        var th = document.createElement('th');
+        th.className = 'text'; th.textContent = name; tr.appendChild(th);
+        scores.forEach(function(s) {
+            var td = document.createElement('td');
+            td.className = 'score'; td.textContent = s; tr.appendChild(td);
+        });
+        [runs, hits, errs].forEach(function(v) {
+            var td = document.createElement('td');
+            td.className = 'score total'; td.textContent = v; tr.appendChild(td);
+        });
+        return tr;
+    }
+    var visWin = d.visitor_runs > d.home_runs;
+    tbody.appendChild(makeRow(d.visitor_name, d.innings.map(function(i){return i.v;}),
+        d.visitor_runs, d.visitor_hits, d.visitor_errors, visWin));
+    tbody.appendChild(makeRow(d.home_name, d.innings.map(function(i){return i.h;}),
+        d.home_runs, d.home_hits, d.home_errors, !visWin));
+}
+
+function rebuildBatting(side, players, totals) {
+    var container = document.getElementById(side + '-bat-table');
+    if (!container) return;
+    var tbody = container.querySelector('tbody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    if (!players || players.length === 0) {
+        var tr = document.createElement('tr');
+        var td = document.createElement('td');
+        td.colSpan = 7; td.style.textAlign = 'center'; td.style.color = '#aaa'; td.style.padding = '12px';
+        td.textContent = 'No batting stats yet';
+        tr.appendChild(td); tbody.appendChild(tr);
+        return;
+    }
+    players.forEach(function(p) {
+        var tr = document.createElement('tr');
+        tr.innerHTML = '<th scope="row" class="row-head text"><span class="player-name">' + esc(p.name) +
+            '</span><span class="player-pos">' + esc(p.pos) + '</span></th>' +
+            '<td>' + p.ab + '</td><td>' + p.r + '</td><td>' + p.h + '</td>' +
+            '<td>' + p.rbi + '</td><td>' + p.bb + '</td><td>' + p.so + '</td>';
+        tbody.appendChild(tr);
+    });
+
+    // Update totals row
+    var tfoot = container.querySelectorAll('tbody')[1];
+    if (tfoot && totals) {
+        var cells = tfoot.querySelectorAll('td');
+        if (cells.length >= 6) {
+            cells[0].textContent = totals.ab;
+            cells[1].textContent = totals.r;
+            cells[2].textContent = totals.h;
+            cells[3].textContent = totals.rbi;
+            cells[4].textContent = totals.bb;
+            cells[5].textContent = totals.so;
+        }
+    }
+}
+
+function rebuildPitching(side, pitchers, totals) {
+    var container = document.getElementById(side + '-pit-table');
+    if (!container) return;
+    var tbody = container.querySelector('tbody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    if (!pitchers || pitchers.length === 0) return;
+    pitchers.forEach(function(p) {
+        var dec = p.dec ? ' <span class="player-pos">(' + esc(p.dec) + ')</span>' : '';
+        var tr = document.createElement('tr');
+        tr.innerHTML = '<th scope="row" class="row-head text"><span class="player-name">' + esc(p.name) +
+            '</span>' + dec + '</th>' +
+            '<td>' + p.ip + '</td><td>' + p.h + '</td><td>' + p.r + '</td><td>' + p.er + '</td>' +
+            '<td>' + p.bb + '</td><td>' + p.so + '</td><td>' + p.hr + '</td>';
+        tbody.appendChild(tr);
+    });
+    if (totals) {
+        var tfoot = container.querySelectorAll('tbody')[1];
+        if (tfoot) {
+            var cells = tfoot.querySelectorAll('td');
+            if (cells.length >= 7) {
+                cells[0].textContent = totals.ip;
+                cells[1].textContent = totals.h;
+                cells[2].textContent = totals.r;
+                cells[3].textContent = totals.er;
+                cells[4].textContent = totals.bb;
+                cells[5].textContent = totals.so;
+                cells[6].textContent = totals.hr;
+            }
+        }
+    }
+}
+
+function esc(s) {
+    return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// Start polling if game is not final
+{% if not data.is_complete %}
+pollTimer = setInterval(refreshBoxscore, POLL_MS);
+{% endif %}
+</script>
+{% endblock %}

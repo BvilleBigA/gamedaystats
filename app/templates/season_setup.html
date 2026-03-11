@@ -1,0 +1,79 @@
+{% extends "team.html" %}
+
+{% block page_title %}{{ season.name }}: Setup — Seasons{% endblock %}
+
+{% block top_level_name %}Game day{% endblock %}
+
+{% block secondary_nav_links %}
+    <li class="{% if request.path == '/admin/team/gameday3/' or request.path == '/admin/team/gameday3' %}active{% endif %}">
+        <a href="/admin/team/gameday3/">Scores</a>
+    </li>
+    <li class="{% if request.path.startswith('/admin/team/checklist') %}active{% endif %}">
+        <a href="/admin/team/checklist/">Upcoming</a>
+    </li>
+    <li class="{% if request.path.startswith('/admin/team/season') %}active{% endif %}">
+        <a href="/admin/team/season/">Seasons</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+
+<table class="layout ">
+<tbody><tr>
+<td>
+
+<h1 style="clear: none">
+<a href="/admin/team/season/">Seasons</a>:
+<a href="/admin/team/season/sport.jsp?sport_id={{ season.sport_code }}">{{ sport_name }}</a>:
+<a href="/admin/team/season/season.jsp?season_id={{ season.id }}">{{ season.name }}</a>:
+Setup
+</h1>
+
+</td>
+<td align="right"></td>
+</tr>
+</tbody></table>
+
+<table class="layoutView ">
+  <tbody><tr>
+    <td id="view" valign="top">
+
+<table class="seasonlist">
+  <tbody><tr class="seasonlabel"><td>
+    <h3 style="float: left">Season setup</h3>
+    <a href="/admin/team/season/season.jsp?season_id={{ season.id }}">[manage season]</a>
+  </td>
+  </tr>
+  <tr>
+    <td>
+
+{% if tasks %}
+      This season has {{ tasks | length }} task{{ 's' if tasks | length != 1 }} left.
+      <br>
+      <br>
+      <table border="1" width="100%">
+        <tbody><tr>
+          <th>Task</th>
+          <th>Notes</th>
+        </tr>
+
+        {% for task_name, task_notes in tasks %}
+        <tr class="errorlabel">
+          <td>{{ task_name }}</td>
+          <td>{{ task_notes }}</td>
+        </tr>
+        {% endfor %}
+
+        </tbody></table>
+{% else %}
+      All tasks complete.
+{% endif %}
+
+    </td>
+  </tr>
+</tbody></table>
+
+    </td>
+  </tr></tbody></table>
+
+{% endblock %}

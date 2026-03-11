@@ -1,0 +1,222 @@
+{% extends "team.html" %}
+
+{% block page_title %}Manage Database — Gameday Stats{% endblock %}
+
+{% block top_level_name %}Manage Database{% endblock %}
+
+{% block secondary_nav_links %}
+    <li><a href="/admin/user">My profile</a></li>
+    <li><a href="/admin/user#password">Change password</a></li>
+    <li><a href="/admin/user/manage-users">Manage Users</a></li>
+    <li class="nav2on"><a href="/admin/user/manage-database">Manage Database</a></li>
+{% endblock %}
+
+{% block content %}
+<h1>Manage Database</h1>
+<p>Schools, seasons, and RPI.</p>
+
+{% if success %}<div class="alert-ok">{{ success }}</div>{% endif %}
+{% if error %}<div class="alert-err">{{ error }}</div>{% endif %}
+
+<div class="gs-card">
+    <h2>Schools</h2>
+    <form method="post" action="/admin/user/manage-database">
+        <input type="hidden" name="action" value="add_school">
+        <div class="sd-form-row">
+            <div class="sd-fg" style="flex:3; min-width:200px;">
+                <label>School Name *</label>
+                <input type="text" class="form-control" name="school_name" placeholder="e.g. Springfield High School" required>
+            </div>
+            <div class="sd-fg" style="max-width:110px;">
+                <label>RPI</label>
+                <input type="text" class="form-control" name="rpi" placeholder="e.g. 127">
+            </div>
+            <div class="sd-fg" style="max-width:110px;">
+                <label>Code</label>
+                <input type="text" class="form-control" name="code" placeholder="SPH" maxlength="10">
+            </div>
+            <div class="sd-fg">
+                <label>City</label>
+                <input type="text" class="form-control" name="city">
+            </div>
+            <div class="sd-fg" style="max-width:80px;">
+                <label>State</label>
+                <input type="text" class="form-control" name="state" maxlength="4">
+            </div>
+            <div class="sd-fg" style="display:flex; align-items:flex-end;">
+                <button type="submit" class="btn btn-gameday">Add School</button>
+            </div>
+        </div>
+    </form>
+
+    {% if schools %}
+    <table class="gs-table" style="margin-top:16px;">
+        <thead>
+            <tr>
+                <th>School</th>
+                <th>RPI</th>
+                <th>Code</th>
+                <th>City / State</th>
+                <th>Seasons</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for sc in schools %}
+        <tr>
+            <td><strong>{{ sc.name }}</strong></td>
+            <td>{{ sc.rpi or '—' }}</td>
+            <td>{{ sc.code or '—' }}</td>
+            <td>{{ sc.city }}{% if sc.city and sc.state %}, {% endif %}{{ sc.state }}</td>
+            <td>
+                {% set school_teams = sc.teams %}
+                {% if school_teams %}
+                    {% for t in school_teams %}
+                        <span style="display:inline-block; margin-bottom:2px;">
+                            {{ t.season.name if t.season else '—' }}
+                            <form method="post" action="/admin/user/manage-database" style="display:inline;">
+                                <input type="hidden" name="action" value="delete_school_season">
+                                <input type="hidden" name="team_id" value="{{ t.id }}">
+                                <button type="submit" class="btn btn-del" style="padding:1px 6px; font-size:11px;"
+                                        onclick="return confirm('Remove {{ sc.name }} from {{ t.season.name if t.season else 'this season' }}?')">✕</button>
+                            </form>
+                        </span>{% if not loop.last %}<br>{% endif %}
+                    {% endfor %}
+                {% else %}
+                    <em style="color:#999; font-size:12px;">None</em>
+                {% endif %}
+            </td>
+            <td style="white-space:nowrap; vertical-align:top;">
+                <details style="display:inline;">
+                    <summary class="btn btn-gameday" style="cursor:pointer; list-style:none; padding:3px 10px; font-size:12px;">+ Season</summary>
+                    <div style="position:absolute; z-index:100; background:#fff; border:1px solid #ccc; border-radius:4px; padding:12px; min-width:320px; box-shadow:0 4px 12px rgba(0,0,0,.15); margin-top:4px;">
+                        <form method="post" action="/admin/user/manage-database">
+                            <input type="hidden" name="action" value="add_school_season">
+                            <input type="hidden" name="school_id" value="{{ sc.id }}">
+                            <div style="margin-bottom:8px;">
+                                <label class="sd-fg" style="font-size:12px; font-weight:bold; color:#555;">Existing season</label>
+                                <select class="form-control" name="existing_season_id" style="margin-top:3px;">
+                                    <option value="">— new season (enter name below) —</option>
+                                    {% for s in seasons %}
+                                    <option value="{{ s.id }}">{{ s.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div style="margin-bottom:8px;">
+                                <label style="font-size:12px; font-weight:bold; color:#555;">— or — New season name</label>
+                                <input type="text" class="form-control" name="new_season_name" placeholder="e.g. 2026 Varsity Softball" style="margin-top:3px;">
+                            </div>
+                            <div class="sd-form-row" style="margin-bottom:8px;">
+                                <div class="sd-fg">
+                                    <label style="font-size:12px; font-weight:bold; color:#555;">Sport</label>
+                                    <select class="form-control" name="sport_code" style="margin-top:3px;">
+                                        {% for group_name, codes in sport_groups %}
+                                        <optgroup label="{{ group_name }}">
+                                            {% for code in codes %}
+                                            <option value="{{ code }}">{{ sport_codes[code][1] }}</option>
+                                            {% endfor %}
+                                        </optgroup>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="sd-fg">
+                                    <label style="font-size:12px; font-weight:bold; color:#555;">Gender</label>
+                                    <select class="form-control" name="gender" style="margin-top:3px;">
+                                        <option value="female">Female</option>
+                                        <option value="male">Male</option>
+                                        <option value="coed">Coed</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-gameday" style="width:100%;">Add to Season</button>
+                        </form>
+                    </div>
+                </details>
+                <form method="post" action="/admin/user/manage-database" style="display:inline; margin-left:4px;">
+                    <input type="hidden" name="action" value="delete_school">
+                    <input type="hidden" name="school_id" value="{{ sc.id }}">
+                    <button type="submit" class="btn btn-del"
+                            onclick="return confirm('Delete school \'{{ sc.name }}\'? This will not remove any teams already created.')">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p style="color:#999; font-style:italic; font-size:13px; margin-top:12px;">No schools added yet.</p>
+    {% endif %}
+</div>
+
+<div class="gs-card">
+    <h2>Add Season</h2>
+    <form method="post" action="/admin/user/manage-database">
+        <input type="hidden" name="action" value="add_season">
+        <div class="sd-form-row">
+            <div class="sd-fg" style="flex:2; min-width:200px;">
+                <label>Season Name</label>
+                <input type="text" class="form-control" name="season_name"
+                       placeholder="e.g. 2026 Varsity Softball" required>
+            </div>
+            <div class="sd-fg">
+                <label>Sport</label>
+                <select class="form-control" name="sport_code">
+                    {% for group_name, codes in sport_groups %}
+                    <optgroup label="{{ group_name }}">
+                        {% for code in codes %}
+                        <option value="{{ code }}">{{ sport_codes[code][1] }}</option>
+                        {% endfor %}
+                    </optgroup>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="sd-fg">
+                <label>Gender</label>
+                <select class="form-control" name="gender">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="coed">Coed</option>
+                </select>
+            </div>
+            <div class="sd-fg">
+                <label>Start Date</label>
+                <input type="date" class="form-control" name="start_date">
+            </div>
+            <div class="sd-fg">
+                <label>End Date</label>
+                <input type="date" class="form-control" name="end_date">
+            </div>
+            <div class="sd-fg" style="display:flex; align-items:flex-end;">
+                <button type="submit" class="btn btn-gameday">Add Season</button>
+            </div>
+        </div>
+    </form>
+
+    {% if seasons %}
+    <table class="gs-table" style="margin-top:16px;">
+        <thead>
+            <tr><th>Season</th><th>Sport</th><th>Gender</th><th>Start</th><th>End</th><th></th></tr>
+        </thead>
+        <tbody>
+        {% for s in seasons %}
+        <tr>
+            <td><strong>{{ s.name }}</strong></td>
+            <td>{{ sport_codes.get(s.sport_code, (None, s.sport_code or s.sport_id))[1] }}</td>
+            <td>{{ s.gender }}</td>
+            <td>{{ s.start_date | pretty_date or '—' }}</td>
+            <td>{{ s.end_date | pretty_date or '—' }}</td>
+            <td>
+                <form method="post" action="/admin/user/manage-database" style="display:inline;">
+                    <input type="hidden" name="action" value="delete_season">
+                    <input type="hidden" name="season_id" value="{{ s.id }}">
+                    <button type="submit" class="btn btn-del"
+                            onclick="return confirm('Delete season \'{{ s.name }}\'? This will also delete all teams, games, and stats in it.')">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,5549 @@
+/*--================ GENERAL 1.0 ================--*/
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 0.9em;
+    margin: 0px;
+    background: #000000 url('pattern.png');
+}
+
+p {
+    line-height: 1.5em;
+    cursor: default;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+.clear {
+    clear: both;
+}
+
+.clear.top {
+    height: 15px;
+}
+
+.logo {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+h1, h2, span, td, div, img {
+    cursor: default;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: -moz-none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+input, textarea {
+    -moz-user-select: text !important;
+}
+
+/*--================ LAYOUT ================--*/
+#main {
+    height: auto;
+    width: 994px;
+    margin: 0px auto;
+    padding: 15px;
+    position: relative;
+    /*-webkit-border-radius: 8px;
+		-moz-border-radius: 8px;
+		border-radius: 8px;*/
+    -webkit-box-shadow: #eeeeee 0px -1px 0px;
+    -moz-box-shadow: #eeeeee 0px -1px 0px;
+    box-shadow: #eeeeee 0px -1px 0px;
+    background-color: #999999;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#999999),
+    to(#eeeeee));
+    background-image: -moz-linear-gradient(#999999, #eeeeee);
+    background-image: linear-gradient(#999999, #eeeeee);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#999999',
+    endColorstr='#eeeeee', GradientType=0);
+}
+
+#navigation {
+    float: right;
+}
+
+/*-- HEADER --*/
+#header {
+    display: block;
+    color: #333333;
+    margin-bottom: 15px;
+}
+
+#header h1 {
+    font-size: 1em;
+    text-shadow: 0px 1px 0px #cccccc;
+    display: inline-block;
+    border-right: solid 1px #222222;
+    padding-right: 10px;
+    margin-right: 10px;
+    text-transform: Capitalize;
+}
+
+#header h2 {
+    text-shadow: 0px 1px 0px #cccccc;
+    display: inline-block;
+    font-weight: normal;
+}
+
+#header a {
+    font-size: 1em;
+    text-shadow: 0px 1px 0px #cccccc;
+    display: inline-block;
+    float: right;
+    font-weight: bold;
+}
+
+#header a.first {
+    border-right: solid 1px #222222;
+    padding-right: 10px;
+    margin-right: 10px;
+}
+
+/*-- TEAMS --*/
+table#teams {
+    width: auto;
+    padding: 0px 15px;
+    float: left;
+    margin-right: 15px;
+    overflow: visible;
+    height: 54px;
+    text-shadow: 0px 1px 0px #ffffff;
+    -webkit-box-shadow: #666666 0px -1px 0px;
+    -moz-box-shadow: #666666 0px 1px 0px;
+    box-shadow: #666666 0px 1px 0px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 4px;
+    background-color: #ffffff;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#ffffff),
+    to(#cccccc));
+    background-image: -moz-linear-gradient(#ffffff, #cccccc);
+    background-image: linear-gradient(#ffffff, #cccccc);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',
+    endColorstr='#cccccc', GradientType=0);
+}
+
+table#teams td {
+    width: 30px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: normal;
+}
+
+table#teams tr.first td {
+    padding-top: 15px;
+}
+
+table#teams tr.second td {
+    padding-bottom: 10px;
+}
+
+table#teams td:first-child {
+    width: 190px;
+    text-align: left;
+    padding-left: 10px;
+}
+
+table#teams.baseballScoreboard, table#teams.volleyballScoreboard {
+    background: #fff;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    border-radius: 7px;
+    overflow: hidden;
+}
+
+table#teams.volleyballScoreboard td {
+    width: 23px;
+}
+
+table#teams.baseballScoreboard td {
+    width: 17px;
+}
+
+table#teams.baseballScoreboard td:first-child, table#teams.volleyballScoreboard td:first-child {
+    width: 203px;
+    text-align: left;
+    padding-left: 10px;
+}
+
+table#teams.baseballScoreboard td:first-child, table#teams.volleyballScoreboard td:first-child {
+    background: #eee;
+}
+
+table#teams.baseballScoreboard tr.first td, table#teams.volleyballScoreboard tr.first td {
+    height: 10px;
+    padding-top: 4px;
+    padding-bottom: 3px;
+    background: #eee;
+}
+
+table#teams.baseballScoreboard tr.second td, table#teams.volleyballScoreboard tr.second td {
+    padding-top: 2px;
+    padding-bottom: 0;
+}
+
+table#teams.baseballScoreboard tr.third td, table#teams.volleyballScoreboard tr.third td {
+    padding-bottom: 4px;
+}
+
+table#teams.baseballScoreboard td.hilite, table#teams.volleyballScoreboard td.hilite {
+    color: orange;
+}
+
+/*-- MAIN NAVIGATION --*/
+#navigation a {
+    text-decoration: none;
+    color: #ffffff;
+    margin: 0px -1px;
+    font-size: 1.4em;
+    display: inline-block;
+    padding: 0px 15px;
+    font-weight: bold;
+    height: 54px;
+    line-height: 53px;
+    text-shadow: 0px -1px 0px #000000;
+    -webkit-box-shadow: #666666 0px -1px 0px;
+    -moz-box-shadow: #666666 0px 1px 0px;
+    box-shadow: #666666 0px 1px 0px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 4px;
+    background-color: #272c2d;
+    background-image: -moz-linear-gradient(top, #272c2d 0%, #282a2c 50%, #0a0e0a 51%, #0a0809 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #272c2d),
+    color-stop(50%, #282a2c), color-stop(51%, #0a0e0a),
+    color-stop(100%, #0a0809));
+    background-image: -webkit-linear-gradient(top, #272c2d 0%, #282a2c 50%, #0a0e0a 51%,
+    #0a0809 100%);
+    background-image: -o-linear-gradient(top, #272c2d 0%, #282a2c 50%, #0a0e0a 51%, #0a0809 100%);
+    background-image: -ms-linear-gradient(top, #272c2d 0%, #282a2c 50%, #0a0e0a 51%, #0a0809 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#272c2d',
+    endColorstr='#0a0809', GradientType=0);
+    background-image: linear-gradient(top, #272c2d 0%, #282a2c 50%, #0a0e0a 51%, #0a0809 100%);
+    cursor: pointer;
+    cursor: hand;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+#navigation a.selected {
+    color: #EEEEEE;
+    background-color: #333333;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#666666),
+    to(#333333));
+    background-image: -moz-linear-gradient(#666666, #333333);
+    background-image: linear-gradient(#666666, #333333);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#666666',
+    endColorstr='#333333', GradientType=0);
+}
+
+/*-- CLOCK ACTIVE-- 
+display: inline-block;		
+		background-image: -moz-linear-gradient(top, #308601 0%, #2daa01 50%, #154901 51%, #295f01 100%);
+		background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#308601), color-stop(50%,#2daa01), color-stop(51%,#154901), color-stop(100%,#295f01));
+		background-image: -webkit-linear-gradient(top, #308601 0%,#2daa01 50%,#154901 51%,#295f01 100%);
+		background-image: -o-linear-gradient(top, #308601 0%,#2daa01 50%,#154901 51%,#295f01 100%);
+		background-image: -ms-linear-gradient(top, #308601 0%,#2daa01 50%,#154901 51%,#295f01 100%);
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#308601', endColorstr='#295f01',GradientType=0 );
+		background-image: linear-gradient(top, #308601 0%,#2daa01 50%,#154901 51%,#295f01 100%);
+*/
+#clock {
+    float: left;
+}
+
+#clock a {
+    text-decoration: none;
+    color: #ffffff;
+    margin: 0px -1px;
+    font-size: 1.4em;
+    display: inline-block;
+    padding: 0px 15px;
+    font-weight: bold;
+    height: 54px;
+    line-height: 53px;
+    text-shadow: 0px -1px 0px #000000;
+    -webkit-box-shadow: #666666 0px -1px 0px;
+    -moz-box-shadow: #666666 0px 1px 0px;
+    box-shadow: #666666 0px 1px 0px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 4px;
+    background-color: #308601;
+    background-image: -moz-linear-gradient(top, #308601 0%, #2daa01 50%, #154901 51%, #295f01 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #308601),
+    color-stop(50%, #2daa01), color-stop(51%, #154901),
+    color-stop(100%, #295f01));
+    background-image: -webkit-linear-gradient(top, #308601 0%, #2daa01 50%, #154901 51%,
+    #295f01 100%);
+    background-image: -o-linear-gradient(top, #308601 0%, #2daa01 50%, #154901 51%, #295f01 100%);
+    background-image: -ms-linear-gradient(top, #308601 0%, #2daa01 50%, #154901 51%, #295f01 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#308601',
+    endColorstr='#295f01', GradientType=0);
+    background-image: linear-gradient(top, #308601 0%, #2daa01 50%, #154901 51%, #295f01 100%);
+    cursor: pointer;
+    cursor: hand;
+}
+
+#clock a.active {
+    background-color: #308601;
+}
+
+/* text-shadow: 0px 1px 0px #ffffff; */
+#clock_ a.active:hover {
+    cursor: pointer;
+    cursor: hand;
+    color: #ffffff;
+    background-image: -moz-linear-gradient(top, #7d0000 0%, #940101 50%, #450101 51%, #580101 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #7d0000),
+    color-stop(50%, #940101), color-stop(51%, #450101),
+    color-stop(100%, #580101));
+    background-image: -webkit-linear-gradient(top, #7d0000 0%, #940101 50%, #450101 51%,
+    #580101 100%);
+    background-image: -o-linear-gradient(top, #7d0000 0%, #940101 50%, #450101 51%, #580101 100%);
+    background-image: -ms-linear-gradient(top, #7d0000 0%, #940101 50%, #450101 51%, #580101 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7d0000',
+    endColorstr='#580101', GradientType=0);
+    background-image: linear-gradient(top, #7d0000 0%, #940101 50%, #450101 51%, #580101 100%);
+}
+
+#clock a.active span {
+    border-left: dotted 1px #eee;
+    padding-left: 10px;
+    margin-left: 8px;
+    font-weight: normal;
+}
+
+/*-- CLOCK STOPPED -- */
+#clock a.stopped {
+    background-image: -moz-linear-gradient(top, #7d0000 0%, #940101 50%, #450101 51%, #580101 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #7d0000),
+    color-stop(50%, #940101), color-stop(51%, #450101),
+    color-stop(100%, #580101));
+    background-image: -webkit-linear-gradient(top, #7d0000 0%, #940101 50%, #450101 51%,
+    #580101 100%);
+    background-image: -o-linear-gradient(top, #7d0000 0%, #940101 50%, #450101 51%, #580101 100%);
+    background-image: -ms-linear-gradient(top, #7d0000 0%, #940101 50%, #450101 51%, #580101 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7d0000',
+    endColorstr='#580101', GradientType=0);
+    background-image: linear-gradient(top, #7d0000 0%, #940101 50%, #450101 51%, #580101 100%);
+}
+
+#clock_ a.stopped:hover {
+    cursor: pointer;
+    cursor: hand;
+    background-image: -moz-linear-gradient(top, #308601 0%, #2daa01 50%, #154901 51%, #295f01 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #308601),
+    color-stop(50%, #2daa01), color-stop(51%, #154901),
+    color-stop(100%, #295f01));
+    background-image: -webkit-linear-gradient(top, #308601 0%, #2daa01 50%, #154901 51%,
+    #295f01 100%);
+    background-image: -o-linear-gradient(top, #308601 0%, #2daa01 50%, #154901 51%, #295f01 100%);
+    background-image: -ms-linear-gradient(top, #308601 0%, #2daa01 50%, #154901 51%, #295f01 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#308601',
+    endColorstr='#295f01', GradientType=0);
+    background-image: linear-gradient(top, #308601 0%, #2daa01 50%, #154901 51%, #295f01 100%);
+}
+
+#clock a.stopped span {
+    border-left: dotted 1px #eee;
+    padding-left: 10px;
+    margin-left: 8px;
+    font-weight: normal;
+}
+
+#clock a.set_clock {
+    background-color: #272c2d;
+    background-image: -moz-linear-gradient(top, #272c2d 0%, #282a2c 50%, #0a0e0a 51%, #0a0809 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #272c2d),
+    color-stop(50%, #282a2c), color-stop(51%, #0a0e0a),
+    color-stop(100%, #0a0809));
+    background-image: -webkit-linear-gradient(top, #272c2d 0%, #282a2c 50%, #0a0e0a 51%,
+    #0a0809 100%);
+    background-image: -o-linear-gradient(top, #272c2d 0%, #282a2c 50%, #0a0e0a 51%, #0a0809 100%);
+    background-image: -ms-linear-gradient(top, #272c2d 0%, #282a2c 50%, #0a0e0a 51%, #0a0809 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#272c2d',
+    endColorstr='#0a0809', GradientType=0);
+    background-image: linear-gradient(top, #272c2d 0%, #282a2c 50%, #0a0e0a 51%, #0a0809 100%);
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+#clock a.set_clock selected {
+    color: #EEEEEE;
+    background-color: #333333;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#666666),
+    to(#333333));
+    background-image: -moz-linear-gradient(#666666, #333333);
+    background-image: linear-gradient(#666666, #333333);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#666666',
+    endColorstr='#333333', GradientType=0);
+}
+
+/*		*/
+#clock a.set_clock:hover {
+    cursor: pointer;
+    cursor: hand;
+    color: #333333;
+    text-shadow: 0px 1px 0px #ffffff;
+    background-color: #ffffff;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#fff),
+    to(#cccccc));
+    background-image: -moz-linear-gradient(#ffffff, #cccccc);
+    background-image: linear-gradient(#ffffff, #cccccc);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',
+    endColorstr='#cccccc', GradientType=0);
+}
+
+/*--================ ACCORDIAN STYLES ================--*/
+ul#menu {
+    float: left;
+    margin: 0 15px 0 0;
+}
+
+ul#menu, ul#menu ul {
+    list-style-type: none;
+    padding: 0;
+    width: 230px;
+}
+
+ul#menu a {
+    display: block;
+    text-decoration: none;
+}
+
+ul#menu li {
+    margin-top: 0px;
+}
+
+ul#menu li a {
+    color: #ffffff;
+    padding: 0.5em 0.9em;
+    text-shadow: 0px -1px 0px #222222;
+    font-weight: normal;
+    line-height: 25px;
+    -webkit-box-shadow: #999999 0px -1px 0px;
+    -moz-box-shadow: #999999 0px 1px 0px;
+    box-shadow: #999999 0px 1px 0px;
+    background-color: #555555;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#555555),
+    to(#333333));
+    background-image: -moz-linear-gradient(#555555, #333333);
+    background-image: linear-gradient(#555555, #333333);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#555555',
+    endColorstr='#333333', GradientType=0);
+}
+
+ul#menu li a:hover {
+    cursor: pointer;
+    cursor: hand;
+    color: #ffffff;
+    background-color: #333333;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#111111),
+    to(#333333));
+    background-image: -moz-linear-gradient(#111111, #333333);
+    background-image: linear-gradient(#111111, #333333);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#111111',
+    endColorstr='#333333', GradientType=0);
+}
+
+ul#menu li:first-child a {
+    border-top-left-radius: 4px;
+    -moz-border-radius-topleft: 4px;
+    border-top-right-radius: 4px;
+    -moz-border-radius-topright: 4px;
+}
+
+ul#menu li:last-child a {
+    border-bottom-right-radius: 4px;
+    -moz-border-radius-bottomright: 4px;
+    border-bottom-left-radius: 4px;
+    -moz-border-radius-bottomleft: 4px;
+}
+
+ul#menu li a span {
+    font-size: 9px;
+    text-transform: uppercase;
+    padding-right: 8px;
+    margin-right: 8px;
+    border-right: dotted 1px #888888;
+    vertical-align: middle;
+    color: #999999;
+}
+
+/*-- FOR SUBMENU CONTENT --*/
+#menu li ul {
+    height: 299px;
+    width: 210px;
+    padding: 10px 10px 15px;
+    text-shadow: 0px -1px 0px #000000;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: #111111;
+    background-image: -moz-linear-gradient(top, #111111 0%, #333333 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #111111),
+    color-stop(100%, #333333));
+    background-image: -webkit-linear-gradient(top, #111111 0%, #333333 100%);
+    background-image: -o-linear-gradient(top, #111111 0%, #333333 100%);
+    background-image: -ms-linear-gradient(top, #111111 0%, #333333 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#111111',
+    endColorstr='#333333', GradientType=0);
+    background-image: linear-gradient(top, #111111 0%, #333333 100%);
+}
+
+/*-- RECENT PLAYS --*/
+ul#menu li ul#menu_1 li {
+    font-size: small;
+    margin-bottom: 10px;
+    color: #ffffff;
+    line-height: normal;
+}
+
+ul#menu li ul#menu_1 li a {
+    font-weight: bold;
+    font-size: large;
+    margin-right: 3px;
+    color: #f90;
+}
+
+ul#menu li ul#menu_1 li:last-child {
+    border-bottom: none;
+}
+
+ul#menu li ul#menu_1 li table.plays tr td {
+    padding-bottom: 3px;
+    vertical-align: top;
+    padding-top: 5px;
+}
+
+ul#menu li ul#menu_1 li table.plays tr td table tr td {
+    vertical-align: top;
+    padding-top: 5px;
+    padding-bottom: 10px;
+}
+
+ul#menu li ul#menu_1 li table.plays span.time {
+    color: #ffffff;
+    padding: 0px 6px;
+    font-size: small;
+    font-weight: bold;
+    background: transparent;
+    display: inline-block;
+    text-align: center;
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 2px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: #000000 0px 0px 3px;
+    -moz-box-shadow: #000000 0px 0px 3px;
+    box-shadow: #000000 0px 0px 3px;
+    background-color: #450101;
+    background-image: -moz-linear-gradient(top, #7d0000 0%, #450101 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #7d0000),
+    color-stop(100%, #450101));
+    background-image: -webkit-linear-gradient(top, #7d0000 0%, #450101 100%);
+    background-image: -o-linear-gradient(top, #7d0000 0%, #450101 100%);
+    background-image: -ms-linear-gradient(top, #7d0000 0%, #450101 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7d0000',
+    endColorstr='#450101', GradientType=0);
+    background-image: linear-gradient(top, #7d0000 0%, #450101 100%);
+    cursor: pointer;
+    cursor: hand;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+ul#menu li ul#menu_1 li a.time:hover {
+    cursor: pointer;
+    cursor: hand;
+    background: #222;
+}
+
+ul#menu a.txt_link, div#play_by_play a.txt_link {
+    line-height: normal;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 8px;
+    font-weight: bold;
+    margin-top: 8px;
+    color: #dddddd;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: #000000 0px 0px 3px;
+    -moz-box-shadow: #000000 0px 0px 3px;
+    box-shadow: #000000 0px 0px 3px;
+}
+
+ul#menu a.txt_link:hover, a.txt_link:hover {
+    cursor: pointer;
+    cursor: hand;
+    color: orange;
+    background: #222222;
+}
+
+ul#menu a.disabled_txt_link, ul#menu a.disabled_txt_link:hover {
+    cursor: default;
+    line-height: normal;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 8px;
+    font-weight: bold;
+    margin-top: 8px;
+    color: gray;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: #000000 0px 0px 3px;
+    -moz-box-shadow: #000000 0px 0px 3px;
+    box-shadow: #000000 0px 0px 3px;
+    background: #444;
+}
+
+/*-- GAME SUMMARY --*/
+ul#menu li ul#menu_2 li {
+    float: left;
+    width: 45px;
+    text-align: center;
+    overflow: hidden;
+    white-space: normal;
+    background-color: transparent;
+}
+
+ul#menu li ul#menu_2 li h1 {
+    color: #f90;
+    font-weight: bold;
+    text-transform: uppercase;
+    height: 20px;
+    font-size: x-small;
+}
+
+ul#menu li ul#menu_2 li p {
+    color: #ffffff;
+    font-size: small;
+    padding: 2px 4px;
+    background: transparent;
+}
+
+ul#menu li ul#menu_2 li p span {
+    color: #bbbbbb;
+    font-weight: normal;
+    font-size: x-small;
+}
+
+ul#menu li ul#menu_2 li p:nth-child(odd) {
+    background: #111;
+}
+
+ul#menu li ul#menu_2 li:first-child {
+    text-align: left;
+    width: auto;
+    font-weight: bold;
+}
+
+ul#menu li ul#menu_2 .buttons {
+    display: block;
+    padding-top: 10px;
+}
+
+ul#menu li ul#menu_2 ul li {
+    float: left;
+    width: auto;
+    text-align: center;
+    overflow: hidden;
+    white-space: normal;
+    background-color: transparent;
+}
+
+ul#menu li ul#menu_2 ul li h1 {
+    color: #f90;
+    font-weight: bold;
+    text-transform: uppercase;
+    height: 20px;
+    font-size: x-small;
+}
+
+ul#menu li ul#menu_2 ul li p {
+    color: #ffffff;
+    font-size: small;
+    padding: 1px 1px;
+    background: transparent;
+}
+
+ul#menu li ul#menu_2 ul li p span {
+    color: #bbbbbb;
+    font-weight: normal;
+    font-size: x-small;
+}
+
+ul#menu li ul#menu_2 ul li p:nth-child(odd) {
+    background: #111;
+}
+
+ul#menu li ul#menu_2 ul li:first-child {
+    text-align: left;
+    width: auto;
+    font-weight: bold;
+}
+
+ul#menu li ul#menu_2 ul .buttons {
+    display: block;
+    padding-top: 10px;
+}
+
+ul#menu li ul#menu_2 ul {
+    padding-bottom: 5px;
+    padding-top: 5px;
+    padding-right: 0px;
+    padding-left: 0px;
+    width: 100%;
+    height: auto;
+    background-color: transparent;
+}
+
+/*-- VISITOR / HOME STATS --*/
+ul#menu li ul#menu_3 li, ul#menu li ul#menu_4 li {
+    float: left;
+    width: auto;
+    text-align: left;
+    overflow: hidden;
+    white-space: normal;
+}
+
+ul#menu li ul#menu_3 li h1, ul#menu li ul#menu_4 li h1 {
+    color: #f90;
+    font-weight: bold;
+    text-transform: uppercase;
+    height: 20px;
+    font-size: x-small;
+    padding: 0px 0px;
+}
+
+ul#menu li ul#menu_3 li p, ul#menu li ul#menu_4 li p {
+    color: #ffffff;
+    font-size: 9pt;
+    padding: 1px 1px;
+}
+
+ul#menu li ul#menu_3 li p:nth-child(odd), ul#menu_4 li ul#menu_3 li p:nth-child(odd) {
+    background: #111;
+}
+
+ul#menu li ul#menu_3 .player p, ul#menu li ul#menu_4 .player p {
+    font-weight: bold;
+    width: 82px;
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+/*-- CONNECTIONS --*/
+ul#menu li ul#menu_5 li {
+    width: 100px;
+    float: left;
+    width: auto;
+    text-align: center;
+    overflow: hidden;
+    white-space: normal;
+}
+
+ul#menu li ul#menu_5 li h1 {
+    color: #f90;
+    font-weight: bold;
+    text-transform: uppercase;
+    height: 20px;
+    font-size: x-small;
+    padding: 4px 8px;
+}
+
+ul#menu li ul#menu_5 li p {
+    width: 80px;
+    color: #ffffff;
+    font-size: 9pt;
+    padding: 1px 1px;
+    text-align: right;
+}
+
+ul#menu li ul#menu_5 li p:nth-child(odd) {
+    background: #111;
+}
+
+/*-- SCOREBOARD --*/
+ul#menu li ul#scoreboard li {
+    margin: 30px 0px;
+}
+
+ul#menu li ul#scoreboard li:first-child {
+    margin-top: 0px;
+}
+
+ul#menu li ul#scoreboard li h1 {
+    color: #f90;
+    font-weight: bold;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+    border-bottom: dotted 1px #999;
+    text-transform: uppercase;
+    font-size: x-small;
+}
+
+ul#menu li ul#scoreboard li p {
+    color: #ffffff;
+    font-weight: bold;
+    display: block;
+}
+
+ul#menu li ul#scoreboard li p span {
+    color: #999999;
+    float: right;
+}
+
+ul#menu li ul#scoreboard li div.final {
+    margin-top: 8px;
+    text-align: right;
+    color: #308601;
+    font-size: x-small;
+    text-transform: uppercase;
+    line-height: 15px;
+}
+
+/*-- POWERED BY --*/
+#menu .powered_by {
+    text-align: center;
+}
+
+#menu .powered_by a:hover {
+    cursor: pointer;
+    cursor: hand;
+    background-color: #555555;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#555555),
+    to(#333333));
+    background-image: -moz-linear-gradient(#555555, #333333);
+    background-image: linear-gradient(#555555, #333333);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#555555',
+    endColorstr='#333333', GradientType=0);
+}
+
+#menu .powered_by a img {
+    vertical-align: middle;
+}
+
+#menu .powered_by #connStatus {
+    font-size: x-small;
+    font-weight: bold;
+}
+
+#menu .powered_by #connStatus span.online {
+    cursor: pointer;
+    cursor: hand;
+    background-color: #0303ff;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#0303ff),
+    to(#333333));
+    background-image: -moz-linear-gradient(#0303ff, #333333);
+    background-image: linear-gradient(#0303ff, #333333);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0303ff',
+    endColorstr='#333333', GradientType=0);
+}
+
+#menu .powered_by #connStatus span.offline {
+    cursor: pointer;
+    cursor: hand;
+    background-color: #ff0303;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#ff0303),
+    to(#333333));
+    background-image: -moz-linear-gradient(#ff0303, #333333);
+    background-image: linear-gradient(#ff0303, #333333);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0303',
+    endColorstr='#333333', GradientType=0);
+}
+
+/*--================ PLAY ENTRY AREA ================--*/
+/*#selection_area #events {margin-right: 15px; overflow-y: hidden;}*/
+#play_entry_area {
+    float: left;
+    width: 719px;
+    height: 530px;
+    padding: 15px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: #000000 0px 0px 3px;
+    -moz-box-shadow: #000000 0px 0px 3px;
+    box-shadow: #000000 0px 0px 3px;
+    background-color: #cccccc;
+    background-image: -moz-linear-gradient(top, #cccccc 0%, #eeeeee 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #cccccc),
+    color-stop(100%, #eeeeee));
+    background-image: -webkit-linear-gradient(top, #cccccc 0%, #eeeeee 100%);
+    background-image: -o-linear-gradient(top, #cccccc 0%, #eeeeee 100%);
+    background-image: -ms-linear-gradient(top, #cccccc 0%, #eeeeee 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cccccc',
+    endColorstr='#eeeeee', GradientType=0);
+    background-image: linear-gradient(top, #cccccc 0%, #eeeeee 100%);
+}
+
+#play_entry_area h1 {
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+#play_entry_area h1 span {
+    font-size: 30px;
+    vertical-align: middle;
+    margin-right: 5px;
+    font-weight: normal;
+}
+
+#play_entry_area .buttons a, #play_entry_area a.button, span.button, div.line_up a.button, div#end_summary a.button {
+    text-decoration: none;
+    padding: 5px 10px 5px 5px;
+    vertical-align: middle;
+    line-height: 30px;
+    display: inline-block;
+    text-transform: capitalize;
+    font-weight: bold;
+    font-size: small;
+    text-align: center;
+    color: #ffffff;
+    text-shadow: 0px -1px 0px #000000;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: #000000 0px 0px 3px;
+    -moz-box-shadow: #000000 0px 0px 3px;
+    box-shadow: #000000 0px 0px 3px;
+    background-color: #111111;
+    background-image: -moz-linear-gradient(top, #111111 0%, #333333 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #111111),
+    color-stop(100%, #333333));
+    background-image: -webkit-linear-gradient(top, #111111 0%, #333333 100%);
+    background-image: -o-linear-gradient(top, #111111 0%, #333333 100%);
+    background-image: -ms-linear-gradient(top, #111111 0%, #333333 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#111111',
+    endColorstr='#333333', GradientType=0);
+    background-image: linear-gradient(top, #111111 0%, #333333 100%);
+    cursor: pointer;
+    cursor: hand;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+#football_line_up div.line_up a.button {
+    width: 50px;
+    padding-left: 8px;
+}
+
+#play_entry_area .buttons a.blink {
+    text-decoration: blink;
+    color: orange;
+}
+
+#play_entry_area .buttons a.blink {
+    text-decoration: blink;
+    color: orange;
+}
+
+#play_entry_area .reports .buttons div a {
+    margin-bottom: 20px;
+}
+
+#play_entry_area .reports .buttons table tr td a {
+    margin-right: 10px;
+}
+
+#play_entry_area .buttons a.selected, #play_entry_area a.selected, div.line_up a.selected {
+    background: orange;
+    color: #222222;
+    text-shadow: none;
+}
+
+#play_entry_area #selectPlayers a.selected {
+    background: orange;
+    color: #222222;
+    text-shadow: none;
+}
+
+#play_entry_area #selectPlayers a.on_field {
+    background: orange;
+    color: #222222;
+    text-shadow: none;
+}
+
+#play_entry_area #selectPlayers a {
+    text-decoration: none;
+    padding: 0px 15px;
+    vertical-align: middle;
+    line-height: 30px;
+    display: inline-block;
+    text-transform: capitalize;
+    font-weight: bold;
+    font-size: small;
+    text-align: center;
+    color: #ffffff;
+    text-shadow: 0px -1px 0px #000000;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: #000000 0px 0px 3px;
+    -moz-box-shadow: #000000 0px 0px 3px;
+    box-shadow: #000000 0px 0px 3px;
+    background-color: #111111;
+    background-image: -moz-linear-gradient(top, #111111 0%, #333333 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #111111),
+    color-stop(100%, #333333));
+    background-image: -webkit-linear-gradient(top, #111111 0%, #333333 100%);
+    background-image: -o-linear-gradient(top, #111111 0%, #333333 100%);
+    background-image: -ms-linear-gradient(top, #111111 0%, #333333 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#111111',
+    endColorstr='#333333', GradientType=0);
+    background-image: linear-gradient(top, #111111 0%, #333333 100%);
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+#play_entry_area a.submit, span.submit {
+    background-color: #308601;
+    background-image: -moz-linear-gradient(top, #2daa01 0%, #154901 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2daa01),
+    color-stop(100%, #154901));
+    background-image: -webkit-linear-gradient(top, #2daa01 0%, #154901 100%);
+    background-image: -o-linear-gradient(top, #2daa01 0%, #154901 100%);
+    background-image: -ms-linear-gradient(top, #2daa01 0%, #154901 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2daa01',
+    endColorstr='#154901', GradientType=0);
+    background-image: linear-gradient(top, #2daa01 0%, #154901 100%);
+}
+
+#setup_table a.submit {
+    background-color: #308601;
+    background-image: -moz-linear-gradient(top, #2daa01 0%, #154901 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2daa01),
+    color-stop(100%, #154901));
+    background-image: -webkit-linear-gradient(top, #2daa01 0%, #154901 100%);
+    background-image: -o-linear-gradient(top, #2daa01 0%, #154901 100%);
+    background-image: -ms-linear-gradient(top, #2daa01 0%, #154901 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2daa01',
+    endColorstr='#154901', GradientType=0);
+    background-image: linear-gradient(top, #2daa01 0%, #154901 100%);
+    width: 80px;
+}
+
+/*-- SELECT PLAY --*/
+#selection_area {
+    float: left;
+    width: 719px;
+    height: 530px;
+    padding: 15px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: #000000 0px 0px 3px;
+    -moz-box-shadow: #000000 0px 0px 3px;
+    box-shadow: #000000 0px 0px 3px;
+    background-color: #cccccc;
+    background-image: -moz-linear-gradient(top, #cccccc 0%, #eeeeee 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #cccccc),
+    color-stop(100%, #eeeeee));
+    background-image: -webkit-linear-gradient(top, #cccccc 0%, #eeeeee 100%);
+    background-image: -o-linear-gradient(top, #cccccc 0%, #eeeeee 100%);
+    background-image: -ms-linear-gradient(top, #cccccc 0%, #eeeeee 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cccccc',
+    endColorstr='#eeeeee', GradientType=0);
+    background-image: linear-gradient(top, #cccccc 0%, #eeeeee 100%);
+}
+
+#selection_area #events h1, #selection_area #rosters h1, #selection_area #profiles h1 {
+    font-size: x-large;
+}
+
+#selection_area #events, #selection_area #rosters, #selection_area #profiles {
+    float: left;
+    padding: 20px;
+    width: 310px;
+    height: 580px;
+    margin-bottom: 15px;
+    /*overflow: auto;*/
+    text-shadow: 0px 1px 0px #ffffff;
+    -webkit-box-shadow: #ffffff 0px 1px 0px;
+    -moz-box-shadow: #ffffff 0px 1px 0px;
+    box-shadow: #ffffff 0px 1px 0px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 4px;
+    background-color: #ffffff;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#ffffff),
+    to(#cccccc));
+    background-image: -moz-linear-gradient(#ffffff, #cccccc);
+    background-image: linear-gradient(#ffffff, #cccccc);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',
+    endColorstr='#cccccc', GradientType=0);
+}
+
+#selection_area #events {
+    margin-right: 15px;
+    overflow-y: hidden;
+}
+
+#selection_area #events ul li, #selection_area #rosters ul li, #selection_area #profiles ul li {
+    float: left;
+    padding: 0px;
+    width: 80px;
+    margin-top: 15px;
+}
+
+#selection_area #events ul li:first-child, #selection_area #rosters ul li:first-child {
+    margin-right: 25px;
+    width: 200px;
+    white-space: nowrap;
+}
+
+#selection_area #events ul li ul li, #selection_area #rosters ul li ul li {
+    float: none;
+    border: none;
+    padding: 0px;
+    line-height: 30px;
+    margin: 0px;
+}
+
+#selection_area #events h1, #selection_area #rosters h1 {
+    font-size: 17px;
+    padding-bottom: 5px;
+    border-bottom: dotted 1px #666666;
+}
+
+#selection_area #events p, #selection_area #rosters p {
+    font-size: 22px;
+    line-height: normal;
+    margin-bottom: 15px;
+}
+
+#selection_area #events ul li ul li a, #selection_area #rosters ul li ul li a {
+    font-weight: bold;
+    color: #060;
+}
+
+#selection_area #events ul li ul li a:hover, #selection_area #rosters ul li ul li a:hover {
+    color: #666;
+}
+
+#selection_area #events a, #selection_area #rosters a, #selection_area #profiles a {
+    color: #006600;
+    font-weight: bold;
+}
+
+#selection_area #events a:hover, #selection_area #rosters a:hover, #selection_area #profiles a:hover {
+    color: #666;
+}
+
+#selection_area #events table tr td, #selection_area #rosters table tr td, #selection_area #profiles table tr td {
+    padding-top: 10px;
+}
+
+/*-- SELECT PLAY --*/
+#play_entry_area #select_play {
+    float: left;
+    margin-right: 15px;
+    padding-right: 15px;
+    height: 530px;
+    border-right: dotted 1px #666666;
+}
+
+#play_entry_area #select_play .buttons a {
+    width: 95%;
+    height: 30px;
+}
+
+#play_entry_area #select_play .buttons table tr td {
+    padding-bottom: 5px;
+    padding-left: 5px;
+}
+
+#play_entry_area #select_play .buttons {
+    margin-bottom: 5px;
+}
+
+#play_entry_area #select_play .buttons li:last-child {
+    margin-bottom: 0px;
+}
+
+/*-- SELECT TEAM --*/
+#play_entry_area #select_team {
+    float: left;
+    width: auto;
+    padding-right: 15px;
+    margin-right: 15px;
+    border-right: dotted 1px #666666;
+}
+
+/*-- SELECT PLAYER --*/
+#play_entry_area #select_team_player {
+    float: left;
+    width: auto;
+}
+
+#play_entry_area #select_team_player table tr td {
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+#play_entry_area #select_team_player {
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+/*-- SELECT SHOT RESULT --*/
+#play_entry_area #shot_result {
+    float: none;
+    margin: 15px auto 0;
+    padding: 15px 0px;
+    width: 550px;
+    border-top: dotted 1px #666666;
+    text-align: center;
+}
+
+#play_entry_area #shot_result .buttons,
+#play_entry_area #serve_result .buttons,
+#play_entry_area #dig_result .buttons,
+#play_entry_area #attack_result .buttons,
+#play_entry_area #set_result .buttons,
+#play_entry_area #block_result .buttons {
+    position: relative;
+    height: 220px;
+    cursor: pointer;
+    cursor: hand;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    background-color: #000;
+    background-image: url(soccer-goal.jpg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    -webkit-background-size: 100%;
+    -moz-background-size: 100%;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+/*Field hockey graphic*/
+#play_entry_area #shot_result .buttons.fieldhockey {
+    background-image: url(field-hockey-goal.jpg);
+}
+
+#play_entry_area #shot_result .buttons.fieldhockey a.one {
+    top: 80px;
+    left: 186px;
+}
+
+#play_entry_area #shot_result .buttons.fieldhockey a.two {
+    top: 165px;
+    left: 127px;
+}
+
+#play_entry_area #shot_result .buttons.fieldhockey a.three {
+    top: 165px;
+    left: 197px;
+}
+
+#play_entry_area #shot_result .buttons.fieldhockey a.four {
+    top: 80px;
+    left: 56px;
+}
+
+#play_entry_area #shot_result .buttons.fieldhockey a.five {
+    top: 80px;
+    left: 377px;
+}
+
+#play_entry_area #shot_result .buttons.fieldhockey a.six {
+    top: 165px;
+    left: 319px;
+}
+
+#play_entry_area #shot_result .buttons.fieldhockey a.seven {
+    top: 10px;
+    left: 186px;
+    width: 30px;
+}
+
+#play_entry_area #shot_result .buttons.fieldhockey a.eight {
+    top: 10px;
+    left: 277px;
+    width: 30px;
+}
+
+/*-- SELECT SHOT RESULT FOR ICE HOCKEY --*/
+#play_entry_area #shot_result .buttons.icehockey {
+    background-image: url(ice-hockey-goal.jpg);
+}
+
+#play_entry_area #shot_result .buttons.icehockey a.one {
+    top: 70px;
+    left: 196px;
+}
+
+#play_entry_area #shot_result .buttons.icehockey a.two {
+    top: 155px;
+    left: 156px;
+}
+
+#play_entry_area #shot_result .buttons.icehockey a.three {
+    top: 155px;
+    left: 222px;
+}
+
+#play_entry_area #shot_result .buttons.icehockey a.four {
+    top: 70px;
+    left: 377px;
+}
+
+#play_entry_area #shot_result .buttons.icehockey a.five {
+    top: 70px;
+    left: 56px;
+}
+
+#play_entry_area #shot_result .buttons.icehockey a.six {
+    top: 105px;
+    left: 156px;
+}
+
+/*-- SELECT SHOT RESULT FOR LACROSSE --*/
+#play_entry_area #shot_result .buttons.lacrosse {
+    background-image: url(lacrosse-goal.jpg);
+    height: 210px;
+    -webkit-background-size: 115% 140%;
+    -moz-background-size: 115% 140%;
+}
+
+#play_entry_area #shot_result .buttons.lacrosse a {
+    padding: 0px 15px;
+}
+
+#play_entry_area #shot_result .buttons.lacrosse a.one {
+    top: 46px;
+    left: 46%;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #shot_result .buttons.lacrosse a.two {
+    top: 82px;
+    left: 46%;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #shot_result .buttons.lacrosse a.three {
+    top: 80px;
+    left: 20%;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #shot_result .buttons.lacrosse a.four {
+    top: 10px;
+    left: 71%;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #shot_result .buttons.lacrosse a.five {
+    top: 9px;
+    left: 20%;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #shot_result .buttons.lacrosse a.six {
+    top: 119px;
+    left: 43%;
+    height: auto;
+    width: 60px;
+}
+
+#play_entry_area #shot_result .buttons.lacrosse a.seven {
+    top: 80px;
+    right: 20%;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #shot_result .buttons.lacrosse a.eight {
+    top: 10px;
+    left: 41%;
+    height: auto;
+    width: 80px;
+    white-space: nowrap;
+}
+
+/*-- SELECT SHOT RESULT FOR BASKETBALL --*/
+#play_entry_area #shot_result .buttons.basketball {
+    background-image: url(basketball-goal.jpg);
+}
+
+#play_entry_area #shot_result .buttons.basketball a.b_one {
+    top: 17px;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #shot_result .buttons.basketball a.b_two {
+    top: 55px;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #shot_result .buttons.basketball a.b_three {
+    top: 90px;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #shot_result .buttons.basketball a.b_four {
+    top: 129px;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #shot_result .buttons.basketball a.b_five {
+    top: 169px;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #shot_result .buttons.basketball a.b_six {
+    top: 90px;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #shot_result .buttons.basketball a.b_seven {
+    top: 55px;
+    height: auto;
+    width: 55px;
+}
+
+#play_entry_area #shot_result .buttons.basketball a.b_eight {
+    top: 129px;
+    height: auto;
+    width: 107px;
+}
+
+#play_entry_area #shot_result .buttons.basketball a.b_nine {
+    top: 169px;
+    height: auto;
+    width: 118px;
+}
+
+#play_entry_area #shot_result .buttons.basketball a.b_ten {
+    top: 17px;
+    height: 30px !important;
+    width: 49px;
+}
+
+#play_entry_area #shot_result .buttons.basketball a.b_one, #play_entry_area #shot_result .buttons.basketball a.b_two, #play_entry_area #shot_result .buttons.basketball a.b_three, #play_entry_area #shot_result .buttons.basketball a.b_four, #play_entry_area #shot_result .buttons.basketball a.b_five {
+    left: 2% !important;
+}
+
+#play_entry_area #shot_result .buttons.basketball a.b_six, #play_entry_area #shot_result .buttons.basketball a.b_seven, #play_entry_area #shot_result .buttons.basketball a.b_eight, #play_entry_area #shot_result .buttons.basketball a.b_nine, #play_entry_area #shot_result .buttons.basketball a.b_ten {
+    right: 2% !important;
+}
+
+#play_entry_area #shot_result .buttons.basketball a.b_six {
+    width: 97px;
+}
+
+/*********/
+
+/*-- SELECT SERVE PLAY RESULT --*/
+
+#play_entry_area #serve_result .buttons {
+    background-image: url(volleyball-serve.jpg);
+    float: none;
+    margin: 15px auto 0;
+    padding: 15px 0px;
+    width: 550px;
+    border-top: dotted 1px #666666;
+    text-align: center;
+}
+
+#play_entry_area #serve_result .buttons a {
+    padding: 0px 15px;
+    font-size: x-small;
+    position: relative;
+}
+
+#play_entry_area #serve_result .buttons a.one {
+    top: 45%;
+    left: -3.5%;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #serve_result .buttons a.two {
+    top: 45%;
+    left: -0.3%;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #serve_result .buttons a.three {
+    top: 45%;
+    left: 3%;
+    height: auto;
+    width: auto;
+}
+
+/*-- SELECT DIG RESULT --*/
+
+#play_entry_area #dig_result .buttons {
+    background-image: url(volleyball-dig.jpg);
+    float: none;
+    margin: 15px auto 0;
+    padding: 15px 0px;
+    width: 550px;
+    border-top: dotted 1px #666666;
+    text-align: center;
+}
+
+#play_entry_area #dig_result .buttons a {
+    padding: 0px 15px;
+    font-size: x-small;
+    position: relative;
+}
+
+#play_entry_area #dig_result .buttons a.one {
+    top: 35%;
+    left: 4.5%;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #dig_result .buttons a.two {
+    top: 35%;
+    left: 8%;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #dig_result .buttons a.three {
+    top: 35%;
+    left: 11.7%;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #dig_result .buttons a.four {
+    top: 55%;
+    left: -17.5%;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #dig_result .buttons a.five {
+    top: 55%;
+    left: -14%;
+    height: auto;
+    width: auto;
+}
+
+/*-- SELECT ATTACK RESULT --*/
+
+#play_entry_area #attack_result .buttons {
+    background-image: url(volleyball-attack.jpg);
+    float: none;
+    margin: 15px auto 0;
+    padding: 15px 0px;
+    width: 550px;
+    border-top: dotted 1px #666666;
+    text-align: center;
+}
+
+#play_entry_area #attack_result .buttons a {
+    padding: 0px 15px;
+    font-size: x-small;
+    position: relative;
+}
+
+#play_entry_area #attack_result .buttons a.one {
+    top: 35%;
+    left: 4.5%;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #attack_result .buttons a.two {
+    top: 35%;
+    left: 9%;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #attack_result .buttons a.three {
+    top: 35%;
+    left: 14%;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #attack_result .buttons a.four {
+    top: 55%;
+    left: -16%;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #attack_result .buttons a.five {
+    top: 55%;
+    left: -11.5%;
+    height: auto;
+    width: auto;
+}
+
+/*-- SELECT SET RESULT --*/
+
+#play_entry_area #set_result .buttons {
+    background-image: url(volleyball-set.jpg);
+    float: none;
+    margin: 15px auto 0;
+    padding: 15px 0px;
+    width: 550px;
+    border-top: dotted 1px #666666;
+    text-align: center;
+}
+
+#play_entry_area #set_result .buttons a {
+    padding: 0px 15px;
+    font-size: x-small;
+    position: relative;
+}
+
+#play_entry_area #set_result .buttons a.one {
+    top: 45%;
+    left: -4.5%;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #set_result .buttons a.two {
+    top: 45%;
+    left: -2%;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #set_result .buttons a.three {
+    top: 45%;
+    left: 1%;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #set_result .buttons a.four {
+    top: 45%;
+    left: 4%;
+    height: auto;
+    width: auto;
+}
+
+/*-- SELECT BLOCK RESULT --*/
+
+#play_entry_area #block_result .buttons {
+    background-image: url(volleyball-block.jpg);
+    float: none;
+    margin: 15px auto 0;
+    padding: 15px 0px;
+    width: 550px;
+    border-top: dotted 1px #666666;
+    text-align: center;
+}
+
+#play_entry_area #block_result .buttons a {
+    padding: 0px 15px;
+    font-size: x-small;
+    position: relative;
+}
+
+#play_entry_area #block_result .buttons a.one {
+    top: 45%;
+    left: -8.5%;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #block_result .buttons a.two {
+    top: 45%;
+    left: -3%;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #block_result .buttons a.three {
+    top: 45%;
+    left: 2%;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #block_result .buttons a.four {
+    top: 45%;
+    left: 7%;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area .options {
+    width: 71%;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+/*********/
+
+/*-- SELECT KICKOFF PLAY RESULT --*/
+
+#play_entry_area #kickoff_result {
+    float: none;
+    margin: 15px auto 0;
+    padding: 15px 0px;
+    width: 550px;
+    border-top: dotted 1px #666666;
+    text-align: center;
+}
+
+#play_entry_area #kickoff_result .buttons {
+    position: relative;
+    height: 220px;
+    cursor: pointer;
+    cursor: hand;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    background-color: #000;
+    background-image: url(kickoff.jpg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    -webkit-background-size: 100%;
+    -moz-background-size: 100%;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+#play_entry_area #kickoff_result .buttons.football a {
+    position: absolute;
+    padding: 5px 5px 5px 5px;
+    width: 20%;
+}
+
+#play_entry_area #kickoff_result .buttons.football a.one {
+    top: 80px;
+    left: 15%;
+    height: auto;
+
+}
+
+#play_entry_area #kickoff_result .buttons.football a.two {
+    top: 80px;
+    left: 40%;
+    height: auto;
+
+}
+
+#play_entry_area #kickoff_result .buttons.football a.three {
+    top: 80px;
+    left: 65%;
+    height: auto;
+
+}
+
+#play_entry_area #kickoff_result .buttons.football a.four {
+    top: 122px;
+    left: 15%;
+    height: auto;
+
+}
+
+#play_entry_area #kickoff_result .buttons.football a.five {
+    top: 122px;
+    left: 40%;
+    height: auto;
+
+}
+
+#play_entry_area #kickoff_result .buttons.football a.six {
+    top: 122px;
+    left: 65%;
+    height: auto;
+
+}
+
+/***/
+
+#play_entry_area #kicking_result .buttons.football {
+    background-image: url(kicking.jpg);
+    background-size: 100%;
+    position: relative;
+    height: 220px;
+    cursor: pointer;
+    cursor: hand;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    background-color: #000;
+    background-image: url(kickoff.jpg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    -webkit-background-size: 100%;
+    -moz-background-size: 100%;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+#play_entry_area #kicking_result .buttons.football a {
+    position: absolute;
+}
+
+#play_entry_area #kicking_result .buttons.football a.one {
+    top: 92px;
+    left: 15%;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #kicking_result .buttons.football a.two {
+    top: 92px;
+    left: 35%;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #kicking_result .buttons.football a.three {
+    top: 92px;
+    left: 55%;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #kicking_result .buttons.football a.four {
+    top: 92px;
+    left: 75%;
+    height: auto;
+    width: auto;
+}
+
+/***/
+
+#play_entry_area #fga_miss_result .buttons.football {
+    background-size: 100%;
+    background-size: 100%;
+    position: relative;
+    height: 220px;
+    cursor: pointer;
+    cursor: hand;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    -webkit-background-size: 100%;
+    -moz-background-size: 100%;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+#play_entry_area #fga_miss_result .buttons.football a {
+    position: absolute;
+}
+
+#play_entry_area #fga_miss_result .buttons.football a.one {
+    top: 50px;
+    left: 25%;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #fga_miss_result .buttons.football a.two {
+    top: 50px;
+    left: 44%;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #fga_miss_result .buttons.football a.three {
+    top: 50px;
+    left: 65%;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #fga_miss_result .buttons.football a.four {
+    top: 122px;
+    left: 15%;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #fga_miss_result .buttons.football a.five {
+    top: 122px;
+    left: 41%;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #fga_miss_result .buttons.football a.six {
+    top: 122px;
+    left: 70%;
+    height: auto;
+    width: auto;
+}
+
+/****/
+
+#play_entry_area #receiving .buttons.football {
+    background-image: url(receiving.jpg);
+    background-size: 100%;
+
+    position: relative;
+    height: 220px;
+    cursor: pointer;
+    cursor: hand;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    background-color: #000;
+    background-repeat: no-repeat;
+    background-position: center center;
+    -webkit-background-size: 100%;
+    -moz-background-size: 100%;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+#play_entry_area #receiving .buttons.football a {
+    position: absolute;
+}
+
+#play_entry_area #receiving .buttons.football a.one {
+    top: 92px;
+    left: 10%;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #receiving .buttons.football a.two {
+    top: 92px;
+    left: 27%;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #receiving .buttons.football a.three {
+    top: 92px;
+    left: 50%;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #receiving .buttons.football a.four {
+    top: 92px;
+    left: 75%;
+    height: auto;
+    width: auto;
+}
+
+/*-- SELECT PLAY RESULT --*/
+#play_entry_area #running .buttons.football, #play_entry_area #rush_type .buttons.football {
+    background-image: url(running.jpg);
+    background-size: 100%;
+    position: relative;
+    height: 220px;
+    cursor: pointer;
+    cursor: hand;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    background-color: #000;
+    background-repeat: no-repeat;
+    background-position: center center;
+    -webkit-background-size: 100%;
+    -moz-background-size: 100%;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+
+}
+
+#play_entry_area #running .buttons.football a {
+    position: absolute;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #running .buttons.football a.one {
+    top: 92px;
+    left: 10%;
+}
+
+#play_entry_area #running .buttons.football a.two {
+    top: 92px;
+    left: 30%;
+}
+
+#play_entry_area #running .buttons.football a.three {
+    top: 92px;
+    left: 55%;
+}
+
+#play_entry_area #running .buttons.football a.four {
+    top: 92px;
+    left: 80%;
+}
+
+#play_entry_area #rush_type .buttons.football a {
+    position: absolute;
+    height: auto;
+    width: 70px;
+}
+
+#play_entry_area #rush_type .buttons.football a.one {
+    top: 15px;
+    left: 15%;
+}
+
+#play_entry_area #rush_type .buttons.football a.two {
+    top: 15px;
+    left: 35%;
+}
+
+#play_entry_area #rush_type .buttons.football a.three {
+    top: 15px;
+    left: 55%;
+}
+
+#play_entry_area #rush_type .buttons.football a.four {
+    top: 15px;
+    left: 75%;
+}
+
+#play_entry_area #rush_type .buttons.football a.five {
+    top: 70px;
+    left: 15%;
+}
+
+#play_entry_area #rush_type .buttons.football a.six {
+    top: 70px;
+    left: 35%;
+}
+
+#play_entry_area #rush_type .buttons.football a.seven {
+    top: 70px;
+    left: 55%;
+}
+
+#play_entry_area #rush_type .buttons.football a.eight {
+    top: 70px;
+    left: 75%;
+}
+
+#play_entry_area #rush_type .buttons.football a.nine {
+    top: 125px;
+    left: 15%;
+}
+
+#play_entry_area #rush_type .buttons.football a.ten {
+    top: 125px;
+    left: 35%;
+}
+
+#play_entry_area #rush_type .buttons.football a.eleven {
+    top: 125px;
+    left: 55%;
+}
+
+/***/
+
+#play_entry_area #passing .buttons.football, #play_entry_area #pass_type .buttons.football {
+    background-image: url(passing.jpg);
+    background-size: 100%;
+
+    position: relative;
+    height: 220px;
+    cursor: pointer;
+    cursor: hand;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    background-color: #000;
+    background-repeat: no-repeat;
+    background-position: center center;
+    -webkit-background-size: 100%;
+    -moz-background-size: 100%;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+#play_entry_area #passing .buttons.football a {
+    position: absolute;
+    height: auto;
+    width: auto;
+}
+
+#play_entry_area #passing .buttons.football a.one {
+    top: 92px;
+    left: 4%;
+}
+
+#play_entry_area #passing .buttons.football a.two {
+    top: 92px;
+    left: 17%;
+}
+
+#play_entry_area #passing .buttons.football a.three {
+    top: 92px;
+    left: 31%;
+}
+
+#play_entry_area #passing .buttons.football a.four {
+    top: 92px;
+    left: 42%;
+}
+
+#play_entry_area #passing .buttons.football a.five {
+    top: 92px;
+    left: 56%;
+}
+
+#play_entry_area #passing .buttons.football a.six {
+    top: 92px;
+    left: 73%;
+}
+
+#play_entry_area #passing .buttons.football a.seven {
+    top: 92px;
+    left: 85%;
+}
+
+#play_entry_area #pass_type .buttons.football a {
+    position: absolute;
+    height: auto;
+    width: 111px;
+}
+
+#play_entry_area #pass_type .buttons.football a.one {
+    top: 10px;
+    left: 15%;
+}
+
+#play_entry_area #pass_type .buttons.football a.two {
+    top: 10px;
+    left: 40%;
+}
+
+#play_entry_area #pass_type .buttons.football a.three {
+    top: 10px;
+    left: 65%;
+}
+
+#play_entry_area #pass_type .buttons.football a.four {
+    top: 65px;
+    left: 15%;
+}
+
+#play_entry_area #pass_type .buttons.football a.five {
+    top: 65px;
+    left: 40%;
+}
+
+#play_entry_area #pass_type .buttons.football a.six {
+    top: 65px;
+    left: 65%;
+}
+
+#play_entry_area #pass_type .buttons.football a.seven {
+    top: 120px;
+    left: 15%;
+}
+
+#play_entry_area #pass_type .buttons.football a.eight {
+    top: 120px;
+    left: 40%;
+}
+
+#play_entry_area #pass_type .buttons.football a.nine {
+    top: 120px;
+    left: 65%;
+}
+
+#play_entry_area #pass_type .buttons.football a.ten {
+    top: 175px;
+    left: 15%;
+}
+
+#play_entry_area #pass_type .buttons.football a.eleven {
+    top: 175px;
+    left: 40%;
+}
+
+#play_entry_area #pass_type .buttons.football a.twelve {
+    top: 175px;
+    left: 65%;
+}
+
+/***** PUNTING *****/
+#play_entry_area #punt_result .buttons.football {
+    background-image: url(punting.jpg);
+    background-size: 100%;
+    position: relative;
+    height: 220px;
+    cursor: pointer;
+    cursor: hand;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    background-color: #000;
+    background-repeat: no-repeat;
+    background-position: center center;
+    -webkit-background-size: 100%;
+    -moz-background-size: 100%;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+#play_entry_area #punt_result .buttons.football a {
+    position: absolute;
+    height: auto;
+    width: 108px;
+}
+
+#play_entry_area #punt_result .buttons.football a.one {
+    top: 70px;
+    left: 15%;
+}
+
+#play_entry_area #punt_result .buttons.football a.two {
+    top: 70px;
+    left: 40%;
+}
+
+#play_entry_area #punt_result .buttons.football a.three {
+    top: 70px;
+    left: 65%;
+}
+
+#play_entry_area #punt_result .buttons.football a.four {
+    top: 130px;
+    left: 15%;
+}
+
+#play_entry_area #punt_result .buttons.football a.five {
+    top: 130px;
+    left: 40%;
+}
+
+#play_entry_area #punt_result .buttons.football a.six {
+    top: 130px;
+    left: 65%;
+}
+
+/* ****** */
+#play_entry_area #shot_result .buttons a {
+    position: absolute;
+    width: auto;
+    font-size: x-small;
+    height: 30px;
+}
+
+#play_entry_area #shot_result .buttons a.one {
+    top: 8%;
+    left: 35%;
+}
+
+#play_entry_area #shot_result .buttons a.two {
+    top: 8%;
+    left: 55%;
+}
+
+#play_entry_area #shot_result .buttons a.three {
+    top: 40%;
+    left: 47%;
+}
+
+#play_entry_area #shot_result .buttons a.four {
+    top: 20%;
+    left: 2%;
+}
+
+#play_entry_area #shot_result .buttons a.five {
+    top: 40%;
+    left: 2%;
+}
+
+#play_entry_area #shot_result .buttons a.six {
+    top: 60%;
+    left: 2%;
+}
+
+#play_entry_area #shot_result .buttons a.seven {
+    top: 20%;
+    right: 2%;
+}
+
+#play_entry_area #shot_result .buttons a.eight {
+    top: 40%;
+    right: 2%;
+}
+
+#play_entry_area #shot_result .buttons a.nine {
+    top: 60%;
+    right: 2%;
+}
+
+#play_entry_area #shot_result .buttons a.ten {
+    bottom: 5%;
+    left: 11%;
+}
+
+#play_entry_area #shot_result .buttons a.eleven {
+    bottom: 5%;
+    left: 27%;
+}
+
+#play_entry_area #shot_result .buttons a.twelve {
+    bottom: 5%;
+    left: 50%;
+}
+
+#play_entry_area #shot_result .buttons a.thirteen {
+    bottom: 5%;
+    left: 77%;
+}
+
+/*-- CONFIRM TIME / SEASON GOAL ASSIST --*/
+#play_entry_area #confirm_time,
+#play_entry_area #season_goal_assist {
+    float: left;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    width: 550px;
+}
+
+#play_entry_area #confirm_time ul li h2,
+#play_entry_area #season_goal_assist ul li h2 {
+    vertical-align: middle;
+    font-size: small;
+    text-transform: capitalize;
+    margin-bottom: 5px;
+    font-weight: normal;
+    color: #666666;
+}
+
+#play_entry_area #confirm_time ul li,
+#play_entry_area #season_goal_assist ul li {
+    float: left;
+}
+
+#play_entry_area #confirm_time ul li.comment {
+    padding-left: 15px;
+    margin-left: 15px;
+    border-left: dotted 1px #666666;
+    clear: right;
+    padding-bottom: 10px;
+}
+
+#play_entry_area #confirm_time ul .comment textarea {
+    width: 240px;
+}
+
+#play_entry_area #confirm_time ul li.buttons,
+#play_entry_area #season_goal_assist ul li.buttons {
+    float: none;
+    display: block;
+    clear: both;
+    padding-top: 1px;
+}
+
+#play_entry_area #confirm_time ul li.buttons a.submit,
+#play_entry_area #season_goal_assist ul li.buttons a.submit {
+    display: block;
+    margin-top: 15px;
+}
+
+/*** REPORTS **/
+#report {
+    width: 730px;
+    font-size: x-small;
+}
+
+#report_container {
+    width: 730px;
+    font-size: x-small;
+}
+
+div#team_0 {
+    position: relative;
+    float: left;
+    top: 0px;
+    width: 350px;
+}
+
+div#team_1 {
+    position: relative;
+    float: left;
+    top: 0px;
+    width: 350px;
+}
+
+div#team_0 ul, div#team_1 ul {
+    list-style-type: none;
+    width: 350px;
+}
+
+div#team_0 ul li, div#team_1 ul li {
+    float: left;
+    width: 30px;
+    text-align: center;
+    overflow: hidden;
+    white-space: normal;
+}
+
+div#team_0 ul li h1, div#team_1 ul li h1 {
+    color: #f90;
+    font-weight: bold;
+    text-transform: uppercase;
+    height: 15px;
+    font-size: small;
+}
+
+div#team_0 ul li p, div#team_1 ul li p {
+    color: #000000;
+    font-size: small;
+    height: 15px;
+    font-size: small;
+    padding: 0px 0px 0px 0px;
+}
+
+div#team_0 ul li p:nth-child(even), div#team_1 ul li p:nth-child(even) {
+    background: #c6c6c6;
+}
+
+div#team_0 ul li p:nth-child(odd), div#team_1 ul li p:nth-child(odd) {
+    background: #a7a7a7;
+}
+
+div#team_0 ul li.player, div#team_1 ul li.player {
+    width: 150px
+}
+
+div#team_0 ul li.player p, div#team_1 ul li.player p {
+    text-align: left;
+    width: 150px;
+}
+
+div#team_0 ul li.player h1, div#team_1 ul li.player h1 {
+    width: 70px;
+}
+
+div#goal_keeper {
+    position: relative;
+    float: left;
+    width: 330px;
+    padding: 2px 0px 0px 0px;
+    height: 70px;
+}
+
+div#goal_keeper ul {
+    width: 340px;
+}
+
+div#goal_keeper ul li {
+    float: left;
+    width: 50px;
+    text-align: center;
+    overflow: hidden;
+    white-space: normal;
+}
+
+div#goal_keeper ul li h1 {
+    color: #f90;
+    font-weight: bold;
+    text-transform: uppercase;
+    height: 15px;
+    font-size: small;
+}
+
+div#goal_keeper ul li p {
+    color: #000000;
+    font-size: small;
+    padding: 2px 2px;
+}
+
+div#goal_keeper ul li p span {
+    color: #bbbbbb;
+    font-weight: normal;
+    font-size: small;
+}
+
+div#goal_keeper ul li:first-child {
+    text-align: left;
+    width: auto;
+    font-weight: bold;
+}
+
+div#goal_keeper ul li.player p, div#team_1 ul li.player p {
+    font-weight: bold;
+    width: 150px;
+    text-align: left;
+    white-space: nowrap;
+    padding: 2px 2px;
+}
+
+div#goal_keeper ul li.wide {
+    width: 120px;
+    font-size: small;
+}
+
+div#goal_keeper ul li.wide p {
+    font-size: small;
+    width: 150px;
+    text-align: left;
+    white-space: nowrap;
+    padding: 2px 8px;
+}
+
+div#signature {
+    position: relative;
+    float: right;
+}
+
+div#play_by_play {
+    float: left;
+    position: relative;
+    width: 700px;
+    top: 20px;
+    font-size: small;
+}
+
+div#play_by_play ul li {
+    float: left;
+    width: 50px;
+    text-align: center;
+    overflow: hidden;
+    white-space: normal;
+}
+
+div#play_by_play ul li h1 {
+    color: #f90;
+    font-weight: bold;
+    text-transform: uppercase;
+    height: 15px;
+    font-size: small;
+}
+
+div#play_by_play ul li p {
+    color: #000000;
+    font-size: small;
+    padding: 2px 2px;
+    text-align: left;
+}
+
+div#play_by_play ul li p span {
+    color: #bbbbbb;
+    font-weight: normal;
+    font-size: small;
+}
+
+div#play_by_play ul li p:nth-child(even) {
+    background: #c6c6c6;
+}
+
+div#play_by_play ul li p:nth-child(odd) {
+    background: #a7a7a7;
+}
+
+div#play_by_play ul li:first-child {
+    width: auto;
+    font-weight: bold;
+}
+
+div#play_by_play div.plays table tr td {
+    padding-bottom: 20px;
+    border-bottom-style: dotted;
+}
+
+div#play_by_play ul li.play_by_play_data {
+    width: 400px
+}
+
+div#play_by_play ul li.player p {
+    text-align: left;
+    width: 400px;
+}
+
+div#play_by_play ul li.player h1 {
+    width: 400px;
+}
+
+div#event_info {
+    float: left;
+    width: 300px;
+}
+
+div#scoring_summary {
+    float: left;
+    position: relative;
+    width: 700px;
+    font-size: small;
+}
+
+div#scoring_summary table {
+    width: 100%;
+}
+
+div#title {
+    text-align: center;
+    font-weight: bold;
+    font-size: medium;
+}
+
+div#team_0 {
+    position: relative;
+    float: left;
+    top: 0px;
+    width: 340px
+}
+
+div#team_1 {
+    position: relative;
+    float: left;
+    top: 0px;
+    width: 340px
+}
+
+div#team_0 ul, div#team_1 ul {
+    list-style-type: none;
+    padding: 0;
+    width: 345px;
+}
+
+div#team_0 ul li, div#team_1 ul li {
+    float: left;
+    width: 25px;
+    text-align: center;
+    overflow: hidden;
+    white-space: normal;
+}
+
+div#team_0 ul li h1, div#team_1 ul li h1 {
+    color: #f90;
+    font-weight: bold;
+    text-transform: uppercase;
+    height: 15px;
+    font-size: small;
+}
+
+div#team_0 ul li p, div#team_1 ul li p {
+    color: #000000;
+    font-size: small;
+}
+
+div#team_0 ul li p:nth-child(even), div#team_1 ul li p:nth-child(even) {
+    background: #c6c6c6;
+}
+
+div#team_0 ul li p:nth-child(odd), div#team_1 ul li p:nth-child(odd) {
+    background: #a7a7a7;
+}
+
+div#team_0 ul li.player, div#team_1 ul li.player {
+    width: 150px
+}
+
+div#team_0 ul li.player p, div#team_1 ul li.player p {
+    text-align: left;
+    width: 200px;
+}
+
+div#team_0 ul li.player h1, div#team_1 ul li.player h1 {
+    width: 70px;
+}
+
+div#plays_prd {
+    float: left;
+    width: 430px;
+    height: 100px;
+    padding: 10px 0px 0px 0px;
+}
+
+div#plays_prd ul {
+    width: 440px;
+    height: 100px;
+}
+
+div#plays_prd ul li {
+    float: left;
+    width: 42px;
+    text-align: center;
+    overflow: hidden;
+    white-space: normal;
+}
+
+div#plays_prd ul li h1 {
+    color: #f90;
+    font-weight: bold;
+    text-transform: uppercase;
+    height: 20px;
+    font-size: small;
+}
+
+div#plays_prd ul li p {
+    color: #000000;
+    font-size: small;
+    padding: 2px 8px;
+}
+
+div#plays_prd ul li p span {
+    color: #bbbbbb;
+    font-weight: normal;
+    font-size: small;
+}
+
+div#plays_prd ul li.wide {
+    width: 120px;
+    font-size: small;
+}
+
+div#plays_prd ul li.wide p {
+    font-size: small;
+    font-weight: bold;
+    width: 150px;
+    text-align: left;
+    white-space: nowrap;
+    padding: 2px 8px;
+}
+
+div#plays_prd_shortbox {
+    float: left;
+    width: 430px;
+    height: 70px;
+}
+
+div#plays_prd_shortbox ul {
+    width: 440px;
+    height: 80px;
+}
+
+div#plays_prd_shortbox ul li {
+    float: left;
+    width: 30px;
+    text-align: center;
+    overflow: hidden;
+    white-space: normal;
+}
+
+div#plays_prd_shortbox ul li h1 {
+    color: #f90;
+    font-weight: bold;
+    text-transform: uppercase;
+    height: 20px;
+    font-size: small;
+}
+
+div#plays_prd_shortbox ul li p {
+    color: #000000;
+    font-size: small;
+}
+
+div#plays_prd_shortbox ul li p span {
+    color: #bbbbbb;
+    font-weight: normal;
+    font-size: small;
+}
+
+div#plays_prd_shortbox ul li.wide {
+    width: 120px;
+    font-size: small;
+}
+
+div#plays_prd_shortbox ul li.wide p {
+    font-size: small;
+    font-weight: bold;
+    width: 150px;
+    text-align: left;
+    white-space: nowrap;
+}
+
+div#goal_keeper {
+    position: relative;
+    float: left;
+    width: 330px;
+    height: 100px;
+    padding: 10px 0px 0px 0px;
+}
+
+div#goal_keeper ul {
+    width: 440px;
+    height: 100px;
+}
+
+div#goal_keeper ul li {
+    float: left;
+    width: 50px;
+    text-align: center;
+    overflow: hidden;
+    white-space: normal;
+}
+
+div#goal_keeper ul li h1 {
+    color: #f90;
+    font-weight: bold;
+    text-transform: uppercase;
+    height: 15px;
+    font-size: small;
+}
+
+div#goal_keeper ul li p {
+    color: #000000;
+    font-size: small;
+    padding: 2px 8px;
+}
+
+div#goal_keeper ul li p span {
+    color: #bbbbbb;
+    font-weight: normal;
+    font-size: small;
+}
+
+div#goal_keeper ul li:first-child {
+    text-align: left;
+    width: auto;
+}
+
+div#goal_keeper ul li.player p, div#team_1 ul li.player p {
+    font-size: small;
+    width: 150px;
+    text-align: left;
+    white-space: nowrap;
+    padding: 2px 8px;
+}
+
+div#goal_keeper ul li.wide {
+    width: 120px;
+    font-size: small;
+}
+
+div#goal_keeper ul li.wide p {
+    font-size: small;
+    width: 150px;
+    text-align: left;
+    white-space: nowrap;
+    padding: 2px 8px;
+}
+
+div#signature {
+    position: relative;
+    float: right;
+}
+
+div#play_by_play {
+    float: left;
+    position: relative;
+    width: 700px;
+    top: 20px
+}
+
+div#play_by_play ul li {
+    float: left;
+    width: 50px;
+    text-align: center;
+    overflow: hidden;
+    white-space: normal;
+}
+
+div#play_by_play ul li h1 {
+    color: #f90;
+    font-weight: bold;
+    text-transform: uppercase;
+    height: 15px;
+    font-size: small;
+}
+
+div#play_by_play ul li p {
+    color: #000000;
+    font-size: small;
+    padding: 2px 8px;
+    text-align: left;
+}
+
+div#play_by_play ul li p span {
+    color: #bbbbbb;
+    font-weight: normal;
+    font-size: small;
+}
+
+div#play_by_play ul li p:nth-child(even) {
+    background: #c6c6c6;
+}
+
+div#play_by_play ul li p:nth-child(odd) {
+    background: #a7a7a7;
+}
+
+div#play_by_play ul li:first-child {
+    width: auto;
+    font-weight: bold;
+}
+
+div#play_by_play ul li.play_by_play_data {
+    width: 400px
+}
+
+div#play_by_play ul li.player p {
+    text-align: left;
+    width: 400px;
+}
+
+div#play_by_play ul li.player h1 {
+    width: 400px;
+}
+
+div#event_info {
+    float: left;
+    width: 300px;
+    height: 100px;
+}
+
+div#event_info_shortbox {
+    float: left;
+    width: 300px;
+    height: 70px;
+}
+
+div#scoring_summary {
+    float: left;
+    position: relative;
+    width: 700px;
+}
+
+div#scoring_summary table {
+    width: 100%;
+}
+
+div#title {
+    text-align: center;
+    font-weight: bold;
+    font-size: medium;
+}
+
+div#players_roster {
+    height: 370px;
+    width: 700px;
+}
+
+/* overflow: auto; */
+div#players_roster a {
+    text-decoration: none;
+    padding: 0px 15px;
+    vertical-align: middle;
+    line-height: 30px;
+    display: inline-block;
+    text-transform: capitalize;
+    font-weight: bold;
+    font-size: small;
+    text-align: center;
+    color: #ffffff;
+    text-shadow: 0px -1px 0px #000000;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: #000000 0px 0px 3px;
+    -moz-box-shadow: #000000 0px 0px 3px;
+    box-shadow: #000000 0px 0px 3px;
+    background-color: #111111;
+    background-image: -moz-linear-gradient(top, #111111 0%, #333333 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #111111),
+    color-stop(100%, #333333));
+    background-image: -webkit-linear-gradient(top, #111111 0%, #333333 100%);
+    background-image: -o-linear-gradient(top, #111111 0%, #333333 100%);
+    background-image: -ms-linear-gradient(top, #111111 0%, #333333 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#111111',
+    endColorstr='#333333', GradientType=0);
+    background-image: linear-gradient(top, #111111 0%, #333333 100%);
+    cursor: pointer;
+    cursor: hand;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+div#play_by_play span.time {
+    color: #ffffff;
+    padding: 0px 6px;
+    font-size: small;
+    font-weight: bold;
+    background: transparent;
+    display: inline-block;
+    text-align: center;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 2px;
+    height: 20px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: #000000 0px 0px 3px;
+    -moz-box-shadow: #000000 0px 0px 3px;
+    box-shadow: #000000 0px 0px 3px;
+    background-color: #450101;
+    background-image: -moz-linear-gradient(top, #7d0000 0%, #450101 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #7d0000),
+    color-stop(100%, #450101));
+    background-image: -webkit-linear-gradient(top, #7d0000 0%, #450101 100%);
+    background-image: -o-linear-gradient(top, #7d0000 0%, #450101 100%);
+    background-image: -ms-linear-gradient(top, #7d0000 0%, #450101 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7d0000',
+    endColorstr='#450101', GradientType=0);
+    background-image: linear-gradient(top, #7d0000 0%, #450101 100%);
+    cursor: pointer;
+    cursor: hand;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+div#play_by_play .play_text {
+    line-height: 20px;
+}
+
+div#play_by_play table tr.title {
+    background-color: #555555;
+}
+
+div#play_by_play table tr.odd {
+    background-color: #111111;
+}
+
+div#play_by_play table tr.even {
+    background-color: #333333;
+}
+
+div#play_by_play table.plays {
+    background-color: #111111;
+    width: 100%;
+}
+
+div#play_entry_area table.plays {
+    background-color: #000000;
+    width: 100%;
+}
+
+div#connections {
+    color: #ffffff;
+    font-size: small;
+    padding: 2px 8px;
+}
+
+div#connections a.conn_timed_outttt {
+    background-color: #7d0000;
+    background-image: -moz-linear-gradient(top, #7d0000 0%, #940101 50%, #450101 51%, #580101 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #7d0000),
+    color-stop(50%, #940101), color-stop(51%, #450101),
+    color-stop(100%, #580101));
+    background-image: -webkit-linear-gradient(top, #7d0000 0%, #940101 50%, #450101 51%,
+    #580101 100%);
+    background-image: -o-linear-gradient(top, #7d0000 0%, #940101 50%, #450101 51%, #580101 100%);
+    background-image: -ms-linear-gradient(top, #7d0000 0%, #940101 50%, #450101 51%, #580101 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7d0000',
+    endColorstr='#580101', GradientType=0);
+    background-image: linear-gradient(top, #7d0000 0%, #940101 50%, #450101 51%, #580101 100%);
+}
+
+div#connections a.conn_okkkk {
+    background-color: #308601;
+    background-image: -moz-linear-gradient(top, #308601 0%, #2daa01 50%, #154901 51%, #295f01 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #308601),
+    color-stop(50%, #2daa01), color-stop(51%, #154901),
+    color-stop(100%, #295f01));
+    background-image: -webkit-linear-gradient(top, #308601 0%, #2daa01 50%, #154901 51%,
+    #295f01 100%);
+    background-image: -o-linear-gradient(top, #308601 0%, #2daa01 50%, #154901 51%, #295f01 100%);
+    background-image: -ms-linear-gradient(top, #308601 0%, #2daa01 50%, #154901 51%, #295f01 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#308601',
+    endColorstr='#295f01', GradientType=0);
+    background-image: linear-gradient(top, #308601 0%, #2daa01 50%, #154901 51%, #295f01 100%);
+}
+
+div#connections a.conn_ok {
+    background-color: #308601;
+    line-height: normal;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 8px;
+    font-weight: bold;
+    margin-top: 8px;
+    color: #ffffff;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: #308601 0px 0px 3px;
+    -moz-box-shadow: #308601 0px 0px 3px;
+    box-shadow: #308601 0px 0px 3px;
+    background-color: #308601;
+    background-image: -moz-linear-gradient(top, #308601 0%, #2daa01 50%, #154901 51%, #295f01 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #308601),
+    color-stop(50%, #2daa01), color-stop(51%, #154901),
+    color-stop(100%, #295f01));
+    background-image: -webkit-linear-gradient(top, #308601 0%, #2daa01 50%, #154901 51%,
+    #295f01 100%);
+    background-image: -o-linear-gradient(top, #308601 0%, #2daa01 50%, #154901 51%, #295f01 100%);
+    background-image: -ms-linear-gradient(top, #308601 0%, #2daa01 50%, #154901 51%, #295f01 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#308601',
+    endColorstr='#295f01', GradientType=0);
+    background-image: linear-gradient(top, #308601 0%, #2daa01 50%, #154901 51%, #295f01 100%);
+}
+
+div#connections a.conn_timed_out {
+    background-color: #7d0000;
+    line-height: normal;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 8px;
+    font-weight: bold;
+    margin-top: 8px;
+    color: #dddddd;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: #000000 0px 0px 3px;
+    -moz-box-shadow: #000000 0px 0px 3px;
+    box-shadow: #000000 0px 0px 3px;
+    background-image: -moz-linear-gradient(top, #7d0000 0%, #940101 50%, #450101 51%, #580101 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #7d0000),
+    color-stop(50%, #940101), color-stop(51%, #450101),
+    color-stop(100%, #580101));
+    background-image: -webkit-linear-gradient(top, #7d0000 0%, #940101 50%, #450101 51%,
+    #580101 100%);
+    background-image: -o-linear-gradient(top, #7d0000 0%, #940101 50%, #450101 51%, #580101 100%);
+    background-image: -ms-linear-gradient(top, #7d0000 0%, #940101 50%, #450101 51%, #580101 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7d0000',
+    endColorstr='#580101', GradientType=0);
+    background-image: linear-gradient(top, #7d0000 0%, #940101 50%, #450101 51%, #580101 100%);
+}
+
+div#back {
+    float: left;
+    width: 50px;
+}
+
+div#cancel {
+    float: right;
+    width: 50px;
+}
+
+div#cancel a, div#back a {
+    background-color: #7d0000;
+    line-height: normal;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 8px;
+    color: #dddddd;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: #000000 0px 0px 3px;
+    -moz-box-shadow: #000000 0px 0px 3px;
+    box-shadow: #000000 0px 0px 3px;
+    background-image: -moz-linear-gradient(top, #7d0000 0%, #940101 50%, #450101 51%, #580101 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #7d0000),
+    color-stop(50%, #940101), color-stop(51%, #450101),
+    color-stop(100%, #580101));
+    background-image: -webkit-linear-gradient(top, #7d0000 0%, #940101 50%, #450101 51%,
+    #580101 100%);
+    background-image: -o-linear-gradient(top, #7d0000 0%, #940101 50%, #450101 51%, #580101 100%);
+    background-image: -ms-linear-gradient(top, #7d0000 0%, #940101 50%, #450101 51%, #580101 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7d0000',
+    endColorstr='#580101', GradientType=0);
+    background-image: linear-gradient(top, #7d0000 0%, #940101 50%, #450101 51%, #580101 100%);
+}
+
+/*--================ PAGE CRUMB ================--*/
+#page_crumb {
+    height: auto;
+    margin-bottom: 20px;
+    overflow: hidden;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -khtml-border-radius: 3px;
+    background-color: #fff;
+    background-image: -moz-linear-gradient(bottom, #ddd, #fff);
+    background-image: -webkit-gradient(linear, left bottom, left top, from(#ddd),
+    to(#fff));
+    box-shadow: 0px 1px 0px #aaa;
+    -webkit-box-shadow: 0px 1px 0px #aaa;
+    -moz-box-shadow: 0px 1px 0px #aaa;
+}
+
+#page_crumb a {
+    font-size: 12px;
+    text-decoration: none;
+    text-transform: capitalize;
+    display: inline-block;
+    margin: 0px;
+    padding: 8px 7px;
+    color: #666;
+    text-shadow: 0px 1px 0px #fff;
+    border-left: solid 1px #fff;
+    border-right: solid 1px #ccc;
+    cursor: pointer;
+    cursor: hand;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+#page_crumb a:hover {
+    color: #111;
+}
+
+#page_crumb a:first-child {
+    border-left: none;
+}
+
+#page_crumb a.current {
+    font-weight: bold;
+    color: #fff;
+    border: none;
+    text-shadow: 0px -1px 0px #000;
+    color: #f90;
+    background-color: #000;
+    background-image: -moz-linear-gradient(bottom, #555, #000);
+    background-image: -webkit-gradient(linear, left bottom, left top, from(#555),
+    to(#000));
+}
+
+#play_entry_area .buttons a.current, a.current {
+    font-weight: bold;
+    color: #fff;
+    border: none;
+    text-shadow: 0px -1px 0px #000;
+    color: #f90;
+    background-color: #000;
+    background-image: -moz-linear-gradient(bottom, #555, #000);
+    background-image: -webkit-gradient(linear, left bottom, left top, from(#555),
+    to(#000));
+}
+
+#play_entry_area .buttons ul li a.current, #play_entry_area .buttons ul li span.current a, #play_entry_area #selectPlayers ul li span.current a, #play_entry_area #selectPlayers ul li span a.current {
+    font-weight: bold;
+    color: #fff;
+    border: none;
+    text-shadow: 0px -1px 0px #000;
+    color: #f90;
+    background-color: #000;
+    background-image: -moz-linear-gradient(bottom, #555, #000);
+    background-image: -webkit-gradient(linear, left bottom, left top, from(#555),
+    to(#000));
+}
+
+#play_entry_area .buttons ul li a.disabled, #play_entry_area .buttons ul li span.disabled a, #play_entry_area #selectPlayers ul li span.disabled a {
+    background-color: gray;
+    background-image: none;
+}
+
+#play_entry_area .buttons div.title {
+    text-align: center;
+    margin: 10px 0;
+}
+
+#play_entry_area .buttons ul.teams {
+    overflow: hidden;
+    margin: 0 auto;
+    width: 500px;
+}
+
+#play_entry_area .buttons ul.teams li:first-child {
+    float: left;
+}
+
+#play_entry_area .buttons ul.teams li:last-child {
+    float: right;
+}
+
+#play_entry_area .buttons ul.baseballLineup {
+    overflow: hidden;
+    float: left;
+    width: 27%;
+    height: 374px;
+    margin-bottom: 0;
+    margin-right: 2%;
+    padding: 3%;
+    background: #fff;
+    border-radius: 7px;
+    overflow: scroll;
+    overflow-x: hidden;
+    list-style: decimal inside none;
+}
+
+#play_entry_area .buttons ul.baseballLineup li {
+    line-height: 34px;
+    border-bottom: dotted 1px #999;
+    padding: 0 10px;
+}
+
+#play_entry_area .buttons ul.baseballLineup li.active {
+    font-weight: bold;
+    background: #eee;
+}
+
+#play_entry_area .buttons ul.baseballLineup li.active p {
+    color: green;
+}
+
+#play_entry_area .buttons ul.baseballLineup li:last-of-type {
+    border-bottom: none;
+}
+
+#play_entry_area .buttons ul.baseballLineup li p {
+    text-decoration: none;
+    color: #666;
+    font-size: 13px;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+#play_entry_area .buttons ul.baseballLineup li div.gwt-HTML {
+    display: inline-block;
+}
+
+#play_entry_area .buttons table.baseballField {
+    background-image: url(baseball-field.jpg);
+    background-size: 100%;
+    width: 62%;
+    float: left;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+#play_entry_area .buttons table.baseballField tr.row1 {
+    height: 40px;
+}
+
+#play_entry_area .buttons table.baseballField tr.row2 {
+    height: 46px;
+}
+
+#play_entry_area .buttons table.baseballField tr.row3 {
+    height: 26px;
+}
+
+#play_entry_area .buttons table.baseballField tr.row4 {
+    height: 56px;
+}
+
+#play_entry_area .buttons table.baseballField tr.row5 {
+    height: 61px;
+}
+
+#play_entry_area .buttons table.baseballField tr.row6 {
+    height: 51px;
+}
+
+#play_entry_area .buttons table.baseballField tr.row7 {
+    height: 41px;
+}
+
+#play_entry_area .buttons table.baseballField tr.row8 {
+    height: 36px;
+}
+
+#play_entry_area .buttons table.baseballField tr.row9 {
+    height: 60px;
+}
+
+#play_entry_area .buttons table.baseballField td {
+    text-align: center;
+}
+
+#play_entry_area .buttons table.baseballField td input.second {
+    margin-top: 5px;
+}
+
+#play_entry_area .buttons table.baseballField td input.home {
+    margin-top: 7px;
+}
+
+#play_entry_area .buttons table.baseballField td a.defensive {
+    font-size: x-small;
+    padding: 6px 6px 8px;
+    line-height: normal;
+    width: 100px;
+}
+
+#play_entry_area .buttons table.baseballField td a.defensiveOne {
+    margin-top: 35px;
+}
+
+#play_entry_area .buttons table.baseballField td a.defensiveTwo {
+    margin-top: 20px;
+}
+
+#play_entry_area .buttons table.baseballField td a.defensiveThree {
+    margin-top: 35px;
+}
+
+#play_entry_area .buttons table.baseballField td a.defensiveFour {
+    margin-top: 30px;
+    position: relative;
+    left: -35px;
+}
+
+#play_entry_area .buttons table.baseballField td a.defensiveFive {
+    margin-top: 35px;
+}
+
+#play_entry_area .buttons table.baseballField td a.defensiveSix {
+    margin-top: 30px;
+    position: relative;
+    left: 35px;
+}
+
+#play_entry_area .buttons table.baseballField td a.defensiveSeven {
+    margin-top: 20px;
+}
+
+#play_entry_area .buttons table.baseballField td a.defensiveEight {
+    margin-top: 14px;
+}
+
+#play_entry_area .buttons table.baseballField td a.defensiveNine {
+    margin-top: 20px;
+}
+
+#play_entry_area .buttons table.baseballField td a.offensive {
+    background: #ccc;
+    color: #333;
+    text-shadow: 0 1px 0 #fff;
+    font-size: x-small;
+    padding: 6px 6px 8px;
+    line-height: normal;
+    width: 100px;
+}
+
+#play_entry_area .buttons table.baseballField td a.offensive:hover {
+    background: #555;
+    color: #fff;
+    text-shadow: 0 -1px 0 #222;
+}
+
+#play_entry_area .buttons table.baseballField td a.offensiveOne {
+    margin-top: 15px;
+}
+
+#play_entry_area .buttons table.baseballField td a.offensiveTwo {
+    margin-top: 25px;
+}
+
+#play_entry_area .buttons table.baseballField td a.offensiveFour {
+    margin-top: 25px;
+}
+
+#play_entry_area .buttons table.baseballField td input.home {
+    width: 123px;
+}
+
+#play_entry_area .buttons table.baseballField td input.first {
+    width: 123px;
+}
+
+#play_entry_area .buttons table.baseballField td input.second {
+    width: 123px;
+}
+
+#play_entry_area .buttons table.baseballField td input.third {
+    width: 123px;
+}
+
+/***********/
+.buttons a {
+    text-decoration: none;
+    padding: 0px 15px;
+    vertical-align: middle;
+    line-height: 30px;
+    padding: 5px 0px;
+    display: inline-block;
+    text-transform: capitalize;
+    font-weight: bold;
+    font-size: small;
+    text-align: center;
+    color: #ffffff;
+    text-shadow: 0px -1px 0px #000000;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: #000000 0px 0px 3px;
+    -moz-box-shadow: #000000 0px 0px 3px;
+    box-shadow: #000000 0px 0px 3px;
+    background-color: #111111;
+    background-image: -moz-linear-gradient(top, #111111 0%, #333333 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #111111),
+    color-stop(100%, #333333));
+    background-image: -webkit-linear-gradient(top, #111111 0%, #333333 100%);
+    background-image: -o-linear-gradient(top, #111111 0%, #333333 100%);
+    background-image: -ms-linear-gradient(top, #111111 0%, #333333 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#111111',
+    endColorstr='#333333', GradientType=0);
+    background-image: linear-gradient(top, #111111 0%, #333333 100%);
+    cursor: pointer;
+    cursor: hand;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+.buttons a:hover {
+    background: #000000;
+    /*color: orange; */
+}
+
+/*--ADDED 8/3 DESI ARAGON ================ INTRO PAGES ================--*/
+#powered_by h1 {
+    float: right;
+    line-height: 48px;
+    margin-right: 15px;
+    font-size: x-small;
+    color: #fff;
+    text-shadow: 0 -1px 0 #000000;
+}
+
+#powered_by h1 span {
+    margin-left: 20px;
+    display: inline-block;
+    color: #ffffff;
+}
+
+#powered_by h2 {
+    color: #fff;
+}
+
+#powered_by h2 span {
+    display: inline-block;
+}
+
+#main #statentrydiv div #selection_area .event_selector {
+    height: auto;
+}
+
+#main #statentrydiv div #selection_area .event_selector {
+    height: auto;
+}
+
+#main #statentrydiv div #selection_area .event_selector div.date {
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: large;
+    -webkit-box-shadow: #ffffff 0px 1px 0px;
+    -moz-box-shadow: #ffffff 0px 1px 0px;
+    box-shadow: #ffffff 0px 1px 0px;
+    background-color: #999999;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#cccccc),
+    to(#888888));
+    background-image: -moz-linear-gradient(#cccccc, #888888);
+    background-image: linear-gradient(#cccccc, #888888);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cccccc',
+    endColorstr='#888888', GradientType=0);
+}
+
+#main #statentrydiv div #selection_area .event_selector div.date input {
+    vertical-align: middle;
+    margin: 0 5px;
+}
+
+#main #statentrydiv div #selection_area #events.event_selector ul, #main #statentrydiv div #selection_area #events.event_selector table {
+    height: auto;
+    padding: 0;
+    border: solid 1px #cccccc;
+    background: #eee;
+}
+
+#main #statentrydiv div #selection_area .event_selector ul li, #main #statentrydiv div #selection_area .event_selector table tr {
+    float: none;
+    width: auto;
+    font-size: small;
+    margin: 0;
+}
+
+#main #statentrydiv div #selection_area #events.event_selector table tr:first-child {
+    font-weight: bold;
+    background: #333;
+    color: #fff;
+    text-shadow: none;
+    height: 37px;
+}
+
+#main #statentrydiv div #selection_area #events.event_selector table tr:nth-child(even) {
+    background: var(--main-bg-color-gray);
+}
+
+#main #statentrydiv div #selection_area .event_selector table tr td {
+    text-align: center;
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+}
+
+#main #statentrydiv div #selection_area .event_selector table tr td span.date,
+#main #statentrydiv div #selection_area .event_selector table tr td span.time,
+#main #statentrydiv div #selection_area .event_selector table tr td span.teams,
+#main #statentrydiv div #selection_area .event_selector table tr td span.score,
+#main #statentrydiv div #selection_area .event_selector table tr td span.status {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#main #statentrydiv div #selection_area .event_selector ul li span.team,
+#main #statentrydiv div #selection_area .event_selector ul li span.players {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    padding: 0px 0px;
+    border-left: solid 1px #cccccc;
+}
+
+#main #statentrydiv div #selection_area .event_selector table tr td span.edit {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#main #statentrydiv div #selection_area .event_selector table tr td span.date {
+    border-right: solid 1px #cccccc;
+}
+
+#main #statentrydiv div #selection_area .event_selector table tr td.date {
+    width: 60px;
+    border-right: solid 1px #cccccc;
+}
+
+#main #statentrydiv div #selection_area .event_selector table tr td.time {
+    width: 60px;
+    border-right: solid 1px #cccccc;
+}
+
+#main #statentrydiv div #selection_area .event_selector table tr td.teams {
+    width: 190px;
+    font-weight: bold;
+    border-right: solid 1px #cccccc;
+}
+
+#main #statentrydiv div #selection_area .event_selector table tr td.score {
+    width: 50px;
+    border-right: solid 1px #cccccc;
+}
+
+#main #statentrydiv div #selection_area .event_selector table tr td.status {
+    width: 75px;
+    border-right: solid 1px #cccccc;
+}
+
+#main #statentrydiv div #selection_area .event_selector table tr td.remove {
+    text-align: center;
+    width: 60px;
+}
+
+#main #statentrydiv div #selection_area .event_selector table tr td.edit {
+    text-align: center;
+    width: 55px;
+}
+
+#main #statentrydiv div #selection_area #rosters.event_selector ul li:nth-child(even) {
+    background: var(--main-bg-color-gray);
+}
+
+#main #statentrydiv div #selection_area #rosters.event_selector ul li:first-child {
+    font-weight: bold;
+    background: #333;
+    color: #fff;
+    text-shadow: none;
+    height: 37px;
+}
+
+#main #statentrydiv div #selection_area #rosters.event_selector ul li {
+    float: none;
+    width: auto;
+    font-size: small;
+    margin: 0;
+    height: 30px;
+}
+
+#main #statentrydiv div #selection_area #rosters.event_selector ul {
+    height: 120px;
+    padding: 0;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border: solid 1px #cccccc;
+    margin-bottom: 15px;
+    background: #eee;
+}
+
+#main #statentrydiv div #selection_area #rosters.event_selector ul li:first-child {
+    font-weight: bold;
+    background: #333;
+    color: #fff;
+    text-shadow: none;
+    height: 37px;
+}
+
+#main #statentrydiv div #selection_area #rosters.event_selector ul li span.team,
+#main #statentrydiv div #selection_area #rosters.event_selector ul li span.players {
+    height: 20px;
+}
+
+#main #statentrydiv div #selection_area #rosters.event_selector ul li span.team {
+    width: 50%;
+}
+
+#main #statentrydiv div #selection_area #rosters.event_selector ul li span.players {
+    width: 43%;
+}
+
+#main #statentrydiv div #selection_area #rosters.event_selector ul li span.team {
+    border-left: none;
+}
+
+#main #statentrydiv div #selection_area #rosters.event_selector ul.opponents {
+    padding: 10px;
+    height: 367px;
+    line-height: 20px;
+    margin-bottom: 0;
+}
+
+/*--ADDED 8/4 DESI ARAGON ================ SIGN IN ================--*/
+
+/*-- PROFILE SCREENS --*/
+#selection_area #profile {
+    padding: 15px;
+    width: 70%;
+    margin: 0 auto;
+    border: solid 10px #bbbbbb;
+    -webkit-box-shadow: #ffffff 0px 1px 0px;
+    -moz-box-shadow: #ffffff 0px 1px 0px;
+    box-shadow: #ffffff 0px 1px 0px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#ffffff),
+    to(#cccccc));
+    background-image: -moz-linear-gradient(#ffffff, #cccccc);
+    background-image: linear-gradient(#ffffff, #cccccc);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',
+    endColorstr='#cccccc', GradientType=0);
+}
+
+#selection_area #profile.event_selector h1 {
+    margin-bottom: 20px;
+    font-size: 25px;
+    border-bottom: dotted 1px #999;
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+#selection_area #profile p, #statentrydiv div #selection_area #profile p.error {
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#selection_area #profile p.error {
+    color: #9b1d22;
+}
+
+#selection_area #profile.event_selector ul {
+    height: 200px;
+}
+
+#selection_area #profile.event_selector ul li {
+    line-height: 30px;
+    text-align: center;
+}
+
+#selection_area #profile.event_selector ul li:first-child {
+    font-weight: normal;
+    background: none;
+    color: inherit;
+    text-shadow: none;
+    height: auto;
+}
+
+#selection_area #profile.event_selector ul li:nth-child(even) {
+    background: none;
+}
+
+#selection_area #profile.event_selector ul li span {
+    display: inline-block;
+}
+
+#selection_area #profile.event_selector ul li span.label {
+    width: 30%;
+    font-weight: bold;
+    text-align: right;
+}
+
+#selection_area #profile.event_selector ul li span.form_field {
+    width: 67%;
+}
+
+#selection_area #profile.event_selector ul li span.form_field input {
+    width: 100%;
+}
+
+#selection_area #profile.event_selector ul li span.form_field.buttons input {
+    width: auto;
+}
+
+/* #selection_area #profile.event_selector ul li:last-child {margin-top: 20px; padding-top: 15px; text-align: center;} */
+#selection_area #profile.event_selector ul li a:first-child {
+    margin-right: 20px;
+}
+
+#selection_area #profile.event_selector ul li a {
+    width: 60%;
+}
+
+/* Create profile*/
+#profile {
+    padding: 15px;
+    width: 400px;
+    margin: 0 auto;
+    height: 300px;
+    background-color: #ffffff;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#ffffff),
+    to(#cccccc));
+    background-image: -moz-linear-gradient(#ffffff, #cccccc);
+    background-image: linear-gradient(#ffffff, #cccccc);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',
+    endColorstr='#cccccc', GradientType=0);
+}
+
+#profile.create h1 {
+    margin-bottom: 20px;
+    font-size: 25px;
+    border-bottom: dotted 1px #999;
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+#profile p, #profile p.error {
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#profile p.error {
+    color: #9b1d22;
+}
+
+.errors {
+    color: #9b1d22;
+    padding-bottom: 10px;
+}
+
+#profile.create ul li {
+    line-height: 30px;
+    text-align: center;
+}
+
+#profile.create ul li:first-child {
+    font-weight: normal;
+    background: none;
+    color: inherit;
+    text-shadow: none;
+    height: auto;
+}
+
+#profile.create ul li:nth-child(even) {
+    background: none;
+}
+
+#profile.create ul li span {
+    display: inline-block;
+}
+
+#profile.create ul li span.label {
+    width: 30%;
+    font-weight: bold;
+    text-align: right;
+}
+
+#profile.create ul li span.form_field {
+    width: 67%;
+}
+
+#profile.create ul li span.form_field input {
+    width: 80%;
+}
+
+#profile.create ul li span.form_field.buttons input {
+    width: auto;
+}
+
+#profile.create ul li:last-child {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: dotted 1px #fff;
+    text-align: center;
+}
+
+#profile.create ul li a:first-child {
+    margin-right: 20px;
+}
+
+#profile.create ul li a {
+    color: green;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 12px;
+    text-shadow: 0 1px 0 #fff;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+    cursor: hand;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+/*-- ALERT BOX --*/
+#alert {
+    padding: 15px;
+    margin: 0 auto 20px;
+    text-align: center;
+    font-weight: bold;
+    -webkit-box-shadow: #ffffff 0px 1px 0px;
+    -moz-box-shadow: #ffffff 0px 1px 0px;
+    box-shadow: #ffffff 0px 1px 0px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#ffffff),
+    to(#cccccc));
+    background-image: -moz-linear-gradient(#ffffff, #cccccc);
+    background-image: linear-gradient(#ffffff, #cccccc);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',
+    endColorstr='#cccccc', GradientType=0);
+}
+
+#alert span {
+    margin: 0 15px;
+}
+
+/*-- SEASON SELECTOR --*/
+#statentrydiv div #selection_area #season {
+    padding: 15px;
+    width: 50%;
+    margin: 0 auto;
+    border: solid 10px #bbbbbb;
+    text-align: center;
+    -webkit-box-shadow: #ffffff 0px 1px 0px;
+    -moz-box-shadow: #ffffff 0px 1px 0px;
+    box-shadow: #ffffff 0px 1px 0px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#ffffff),
+    to(#cccccc));
+    background-image: -moz-linear-gradient(#ffffff, #cccccc);
+    background-image: linear-gradient(#ffffff, #cccccc);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',
+    endColorstr='#cccccc', GradientType=0);
+}
+
+.event_selector h1 {
+    margin-bottom: 20px;
+    font-size: 25px;
+    border-bottom: dotted 1px #999;
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+#statentrydiv div #selection_area p {
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.event_selector ul {
+    height: 300px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.event_selector ul li {
+    line-height: 30px;
+    text-align: center;
+}
+
+.event_selector ul li:first-child {
+    font-weight: normal;
+    background: none;
+    color: inherit;
+    text-shadow: none;
+    height: auto;
+}
+
+.event_selector ul li:nth-child(even) {
+    background: none;
+}
+
+.event_selector ul li:last-child {
+    margin-top: 0;
+    padding-top: 0px;
+    border-top: none;
+    text-align: center;
+}
+
+.event_selector ul li a {
+    color: green;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 12px;
+    text-shadow: 0 1px 0 #fff;
+    cursor: pointer;
+    cursor: hand;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+.event_selector ul li a:first-child {
+    margin-right: 20px;
+}
+
+.event_selector ul li a.button {
+    margin: 5px;
+    padding: 5px 20px;
+    display: inline-block;
+    color: #fff;
+    text-shadow: 0 -1px 0 #000;
+    width: 80%;
+    cursor: pointer;
+    cursor: hand;
+    -webkit-box-shadow: #ffffff 0px 1px 0px;
+    -moz-box-shadow: #ffffff 0px 1px 0px;
+    box-shadow: #ffffff 0px 1px 0px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background-color: #308601;
+    background-image: -moz-linear-gradient(top, #2daa01 0%, #154901 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2daa01),
+    color-stop(100%, #154901));
+    background-image: -webkit-linear-gradient(top, #2daa01 0%, #154901 100%);
+    background-image: -o-linear-gradient(top, #2daa01 0%, #154901 100%);
+    background-image: -ms-linear-gradient(top, #2daa01 0%, #154901 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2daa01',
+    endColorstr='#154901', GradientType=0);
+    background-image: linear-gradient(top, #2daa01 0%, #154901 100%);
+}
+
+.event_selector ul li a.button:hover {
+    cursor: pointer;
+    cursor: hand;
+    background-color: #555555;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#555555),
+    to(#333333));
+    background-image: -moz-linear-gradient(#555555, #333333);
+    background-image: linear-gradient(#555555, #333333);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#555555',
+    endColorstr='#333333', GradientType=0);
+}
+
+#statentrydiv div #selection_area #season.event_selector input {
+    margin: 30px 0;
+}
+
+/*-- WEEK SELECTOR --*/
+#week {
+    padding: 15px;
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+    width: 400px;
+    height: 400px;
+    background-color: #ffffff;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#ffffff),
+    to(#cccccc));
+    background-image: -moz-linear-gradient(#ffffff, #cccccc);
+    background-image: linear-gradient(#ffffff, #cccccc);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',
+    endColorstr='#cccccc', GradientType=0);
+}
+
+#week.event_selector h1 {
+    margin-bottom: 20px;
+    font-size: 25px;
+    border-bottom: dotted 1px #999;
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+#week p {
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#week.event_selector ul {
+    height: 300px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+#week.event_selector #buttons {
+    text-align: center;
+    height: 50px;
+}
+
+#week.event_selector ul li {
+    line-height: 30px;
+    text-align: center;
+}
+
+#week.event_selector ul li:first-child {
+    font-weight: normal;
+    background: none;
+    color: inherit;
+    text-shadow: none;
+    height: auto;
+}
+
+#week.event_selector ul li:nth-child(even) {
+    background: none;
+}
+
+#week.event_selector ul li:last-child {
+    margin-top: 0;
+    padding-top: 0px;
+    border-top: none;
+    text-align: center;
+}
+
+#week.event_selector ul li a:first-child {
+    margin-right: 20px;
+}
+
+#week.event_selector input {
+    margin: 30px 10px;
+}
+
+#week.event_selector ul li a.selected {
+    cursor: auto;
+    background: #0c2901;
+}
+
+#week.event_selector ul li a.current {
+    cursor: auto;
+    color: #000000;
+    text-shadow: 0 1px 0 #ffcc66;
+    background-color: #663300;
+    background-image: -moz-linear-gradient(top, #663300 0%, #ff9900 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #663300),
+    color-stop(100%, #ff9900));
+    background-image: -webkit-linear-gradient(top, #663300 0%, #ff9900 100%);
+    background-image: -o-linear-gradient(top, #663300 0%, #ff9900 100%);
+    background-image: -ms-linear-gradient(top, #663300 0%, #ff9900 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#663300',
+    endColorstr='#ff9900', GradientType=0);
+    background-image: linear-gradient(top, #663300 0%, #ff9900 100%);
+}
+
+/*Sport selection */
+#sport {
+    padding: 15px;
+    width: 50%;
+    margin: 0 auto;
+    border: solid 10px #bbbbbb;
+    -webkit-box-shadow: #ffffff 0px 1px 0px;
+    -moz-box-shadow: #ffffff 0px 1px 0px;
+    box-shadow: #ffffff 0px 1px 0px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#ffffff),
+    to(#cccccc));
+    background-image: -moz-linear-gradient(#ffffff, #cccccc);
+    background-image: linear-gradient(#ffffff, #cccccc);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',
+    endColorstr='#cccccc', GradientType=0);
+}
+
+#sport.event_selector h1 {
+    margin-bottom: 20px;
+    font-size: 25px;
+    border-bottom: dotted 1px #999;
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+#sport p {
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#sport.event_selector ul {
+    height: 300px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+#sport.event_selector #buttons {
+    text-align: center;
+    height: 50px;
+}
+
+#sport.event_selector ul li {
+    line-height: 30px;
+    text-align: center;
+}
+
+#sport.event_selector ul li:first-child {
+    font-weight: normal;
+    background: none;
+    color: inherit;
+    text-shadow: none;
+    height: auto;
+}
+
+#sport.event_selector ul li:nth-child(even) {
+    background: none;
+}
+
+#sport.event_selector ul li:last-child {
+    margin-top: 0;
+    padding-top: 0px;
+    border-top: none;
+    text-align: center;
+}
+
+#sport.event_selector ul li a:first-child {
+    margin-right: 20px;
+}
+
+#sport.event_selector input {
+    margin: 30px 10px;
+}
+
+#sport.event_selector ul li a.selected {
+    cursor: auto;
+    background: #0c2901;
+}
+
+#sport.event_selector ul li a.current {
+    cursor: auto;
+    color: #000000;
+    text-shadow: 0 1px 0 #ffcc66;
+    background-color: #663300;
+    background-image: -moz-linear-gradient(top, #663300 0%, #ff9900 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #663300),
+    color-stop(100%, #ff9900));
+    background-image: -webkit-linear-gradient(top, #663300 0%, #ff9900 100%);
+    background-image: -o-linear-gradient(top, #663300 0%, #ff9900 100%);
+    background-image: -ms-linear-gradient(top, #663300 0%, #ff9900 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#663300',
+    endColorstr='#ff9900', GradientType=0);
+    background-image: linear-gradient(top, #663300 0%, #ff9900 100%);
+}
+
+/*-- START UP SCREENS --*/
+#main #statentryPanel #powered_by {
+    width: auto;
+}
+
+#main #statentryPanel #powered_by img {
+    padding: 0px 0 0;
+    margin-left: 4px !important;
+}
+
+#main #statentryPanel #powered_by h2 {
+    color: #FFFFFF;
+}
+
+#main #statentryPanel #powered_by h1 span {
+    margin-left: 5px;
+    display: inline-block;
+    color: #ffffff;
+}
+
+#powered_by #logo {
+    width: 180px;
+    height: 30px;
+    margin: 10px 10px;
+}
+
+#main #statentrydiv #statentryPanel div #play_entry_area h1 {
+    margin-bottom: 10px;
+    margin-left: 10px;
+    font-size: 18px;
+    border-bottom: dotted 1px #999;
+    padding-bottom: 20px;
+}
+
+.box {
+    float: left;
+    padding: 15px;
+    width: 40%;
+    height: 170px;
+    margin: 10px;
+    border: solid 10px #bbbbbb;
+    -webkit-box-shadow: #ffffff 0px 1px 0px;
+    -moz-box-shadow: #ffffff 0px 1px 0px;
+    box-shadow: #ffffff 0px 1px 0px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#ffffff),
+    to(#cccccc));
+    background-image: -moz-linear-gradient(#ffffff, #cccccc);
+    background-image: linear-gradient(#ffffff, #cccccc);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',
+    endColorstr='#cccccc', GradientType=0);
+}
+
+.box h1, .box div {
+    margin: 0 0 5px;
+    padding: 15px;
+    font-size: 15px;
+    border-bottom: none;
+    color: #fff;
+    text-shadow: 0 -1px 0 #000;
+    -webkit-box-shadow: #ffffff 0px 1px 0px;
+    -moz-box-shadow: #ffffff 0px 1px 0px;
+    box-shadow: #ffffff 0px 1px 0px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background-color: #308601;
+    background-image: -moz-linear-gradient(top, #2daa01 0%, #154901 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2daa01),
+    color-stop(100%, #154901));
+    background-image: -webkit-linear-gradient(top, #2daa01 0%, #154901 100%);
+    background-image: -o-linear-gradient(top, #2daa01 0%, #154901 100%);
+    background-image: -ms-linear-gradient(top, #2daa01 0%, #154901 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2daa01',
+    endColorstr='#154901', GradientType=0);
+    background-image: linear-gradient(top, #2daa01 0%, #154901 100%);
+}
+
+.box div {
+    height: 88px;
+    position: relative;
+    padding-top: 10px;
+    background-color: #444444;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#444444),
+    to(#111111));
+    background-image: -moz-linear-gradient(#444444, #111111);
+    background-image: linear-gradient(#444444, #111111);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444',
+    endColorstr='#111111', GradientType=0);
+}
+
+.box div ul li {
+    line-height: 20px;
+}
+
+.box div input {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    font-size: larger;
+}
+
+#main #powered_by {
+    height: 50px;
+    margin-bottom: 15px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    background-color: #343434;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#343434),
+    to(#1e1e1e));
+    background-image: -moz-linear-gradient(#343434, #1e1e1e);
+    background-image: linear-gradient(#343434, #1e1e1e);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#343434',
+    endColorstr='#1e1e1e', GradientType=0);
+}
+
+#main #powered_by #menu {
+    float: left;
+    padding: 10px 0 0;
+    margin-left: 0px !important;
+}
+
+#main #statentryPanel #powered_by #menu {
+    float: left;
+    padding: 12px 0 0;
+    margin-left: 0px !important;
+}
+
+#main #powered_by #serverComm {
+    width: auto;
+    color: #FFFFFF;
+    font-weight: bold;
+    line-height: normal;
+    text-align: left;
+
+}
+
+#main #powered_by #change_sport_btn {
+    position: absolute;
+    left: 60%;
+    top: 50px;
+}
+
+#main #powered_by #signout_btn {
+    position: absolute;
+    left: 90%;
+    top: 50px;
+}
+
+#main #powered_by #serverComm img {
+    height: 20px;
+}
+
+/*-- ADDED 8-10 ---- DESI ARAGON --*/
+#main #statentrydiv div #selection_area #events.event_selector {
+    width: 60%;
+}
+
+#main #statentrydiv div #selection_area #rosters.event_selector {
+    width: 30%;
+}
+
+#main #statentrydiv div #selection_area #events.event_selector ul {
+    height: 470px;
+}
+
+#main #statentrydiv div #selection_area .event_selector ul li span.teams {
+    width: 200px;
+}
+
+#main #statentrydiv div #selection_area #rosters.event_selector ul li span.team {
+    width: 63%;
+}
+
+#main #statentrydiv div #selection_area #rosters.event_selector ul li span.players {
+    width: 25%;
+}
+
+#main #statentrydiv div #selection_area #week {
+    position: relative;
+}
+
+#main #statentrydiv div #selection_area #week a.close {
+    position: absolute;
+    display: inline-block;
+    padding: 5px 10px 6px;
+    border: solid 1px #555;
+    text-align: center;
+    top: -15px;
+    right: -18px;
+    z-index: 1;
+    font-size: x-small;
+    text-transform: uppercase;
+    color: #555555;
+    text-shadow: 0 1px 0 #fff;
+    -webkit-box-shadow: #000000 0px 1px 5px;
+    -moz-box-shadow: #000000 0px 1px 5px;
+    box-shadow: #000000 0px 1px 5px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    background-color: #ffffff;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#ffffff),
+    to(#cccccc));
+    background-image: -moz-linear-gradient(#ffffff, #cccccc);
+    background-image: linear-gradient(#ffffff, #cccccc);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',
+    endColorstr='#cccccc', GradientType=0);
+}
+
+#main #statentrydiv div #selection_area #week a.close span {
+    font-weight: bold;
+}
+
+/*-- ADDED 9-1-11 - by Javier: support help -*/
+#helppanel {
+    height: 500px;
+    overflow: auto;
+}
+
+#helppanel ol {
+    list-style: decimal;
+    padding-left: 2em;
+    margin-bottom: 9px;
+}
+
+#helppanel ol:nth-child(1) {
+    list-style: lower-latin;
+}
+
+#helppanel li {
+    margin-bottom: 3px;
+}
+
+.browserversion {
+    font-size: 80%;
+    color: #444;
+    font-weight: normal;
+}
+
+#alert .betamessage {
+    color: #B00
+}
+
+.infraction_type {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.padding {
+    padding-bottom: 5px;
+    padding-right: 5px;
+}
+
+ul.table {
+    width: 250px;
+}
+
+ul.table li p:nth-child(odd) {
+    background: #cccccc;
+}
+
+/* Wrap up buttons */
+.wrapup_buttons ul {
+    width: 100%;
+    height: 500px;
+    overflow: auto;
+}
+
+.wrapup_buttons ul li {
+    width: 100%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.wrapup_buttons ul li a {
+    text-decoration: none;
+    padding: 5px 10px 5px 5px;
+    vertical-align: middle;
+    line-height: 30px;
+    display: inline-block;
+    text-transform: capitalize;
+    font-weight: bold;
+    font-size: small;
+    text-align: center;
+    color: #ffffff;
+    text-shadow: 0px -1px 0px #000000;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: #000000 0px 0px 3px;
+    -moz-box-shadow: #000000 0px 0px 3px;
+    box-shadow: #000000 0px 0px 3px;
+    background-color: #111111;
+    background-image: -moz-linear-gradient(top, #111111 0%, #333333 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #111111),
+    color-stop(100%, #333333));
+    background-image: -webkit-linear-gradient(top, #111111 0%, #333333 100%);
+    background-image: -o-linear-gradient(top, #111111 0%, #333333 100%);
+    background-image: -ms-linear-gradient(top, #111111 0%, #333333 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#111111',
+    endColorstr='#333333', GradientType=0);
+    background-image: linear-gradient(top, #111111 0%, #333333 100%);
+    cursor: pointer;
+    cursor: hand;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+.disabled {
+    background-color: gray;
+}
+
+.overflow-auto {
+    overflow: auto;
+}
+
+#content {
+    width: 95%;
+    height: 5px;
+    margin: 50px auto;
+    background: #000;
+}
+
+.expand {
+    width: 0px;
+    height: 1px;
+    margin: 2px 0;
+    background: #2187e7;
+    position: absolute;
+    box-shadow: 0px 0px 10px 1px rgba(0, 198, 255, 0.7);
+}
+
+/* Trigger button for javascript */
+
+.trigger, .triggerFull, .triggerBar {
+    background: #000000;
+    background: -moz-linear-gradient(top, #161616 0%, #000000 100%);
+    background: -webkit-linear-gradient(top, #161616 0%, #000000 100%);
+    border-left: 1px solid #111;
+    border-top: 1px solid #111;
+    border-right: 1px solid #333;
+    border-bottom: 1px solid #333;
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 0.8em;
+    text-decoration: none;
+    text-transform: lowercase;
+    text-align: center;
+    color: #fff;
+    padding: 10px;
+    border-radius: 3px;
+    display: block;
+    margin: 0 auto;
+    width: 140px;
+}
+
+.trigger:hover, .triggerFull:hover, .triggerBar:hover {
+    background: -moz-linear-gradient(top, #202020 0%, #161616 100%);
+    background: -webkit-linear-gradient(top, #202020 0%, #161616 100%);
+}
+
+/* Firefox */
+progress::-moz-progress-bar {
+    background: black;
+}
+
+/* Chrome */
+progress::-webkit-progress-value {
+    background: black;
+}
+
+/*--== BROWSER SUPPORT ISSUE MESSAGE =====================--*/
+.browser-support {
+    font-family: oswald, Arial, Helvetica, sans-serif;
+    padding: 20px 50px;
+    margin: 20px;
+    width: auto;
+    text-align: center;
+
+    border: solid 1px #999;
+
+    -webkit-box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.5);
+
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    border-radius: 7px;
+
+    /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwLjMiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwLjEzIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+    background: -moz-linear-gradient(top, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.13) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(0, 0, 0, 0.3)), color-stop(100%, rgba(0, 0, 0, 0.13))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.13) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.13) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.13) 100%); /* IE10+ */
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.13) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4d000000', endColorstr='#21000000', GradientType=0); /* IE6-8 */
+}
+
+.browser-support h1, .browser-support p {
+    padding: 0;
+    margin: 0;
+    text-shadow: 0 1px 0 #fff;
+    color: #333;
+}
+
+.browser-support h1 {
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 33px;
+    line-height: 36px;
+}
+
+.browser-support h1 strong {
+    font-size: 60px;
+    display: block;
+    line-height: 60px;
+    margin-bottom: 10px;
+}
+
+.browser-support p {
+    font-weight: 300;
+    font-size: 24px;
+    line-height: normal;
+    margin: 15px 0;
+}
+
+.browser-support p a.standard-button {
+    color: #535353;
+    text-shadow: 0 1px 0 #ffffff;
+    font-family: Helvetica, sans-serif;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 15px;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 5px 20px 7px;
+    text-transform: none;
+    line-height: normal;
+    margin: 0;
+
+    -webkit-box-shadow: 0px 0px 3px rgba(0, 0, 0, 1.0);
+    -moz-box-shadow: 0px 0px 3px rgba(0, 0, 0, 1.0);
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 1.0);
+
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+
+    background: rgb(244, 244, 244); /* Old browsers */
+    /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2Y0ZjRmNCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNiMmIyYjIiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top, rgba(244, 244, 244, 1) 0%, rgba(178, 178, 178, 1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(244, 244, 244, 1)), color-stop(100%, rgba(178, 178, 178, 1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, rgba(244, 244, 244, 1) 0%, rgba(178, 178, 178, 1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, rgba(244, 244, 244, 1) 0%, rgba(178, 178, 178, 1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, rgba(244, 244, 244, 1) 0%, rgba(178, 178, 178, 1) 100%); /* IE10+ */
+    background: linear-gradient(to bottom, rgba(244, 244, 244, 1) 0%, rgba(178, 178, 178, 1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f4f4f4', endColorstr='#b2b2b2', GradientType=0); /* IE6-8 */
+}
+
+.browser-support p a.standard-button:hover {
+    color: #ffffff;
+    text-shadow: 0 -1px 0 #000000;
+
+    background: rgb(14, 14, 14); /* Old browsers */
+    /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzBlMGUwZSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM0ZjRmNGYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top, rgba(14, 14, 14, 1) 0%, rgba(79, 79, 79, 1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(14, 14, 14, 1)), color-stop(100%, rgba(79, 79, 79, 1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, rgba(14, 14, 14, 1) 0%, rgba(79, 79, 79, 1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, rgba(14, 14, 14, 1) 0%, rgba(79, 79, 79, 1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, rgba(14, 14, 14, 1) 0%, rgba(79, 79, 79, 1) 100%); /* IE10+ */
+    background: linear-gradient(to bottom, rgba(14, 14, 14, 1) 0%, rgba(79, 79, 79, 1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0e0e0e', endColorstr='#4f4f4f', GradientType=0); /* IE6-8 */
+}
+
+/*--== / BROWSER SUPPORT ISSUE MESSAGE =====================--*/
+
+/*--== STATS ENTRY PAGE UPDATED 7-8-2013 =====================--*/
+#main #statentrydiv #selection_area #profile.event_selector.entry {
+    float: left;
+    width: 43%;
+    margin: 0 4px;
+    height: auto;
+}
+
+#main #statentrydiv #selection_area #profile.event_selector.entry h1 {
+    font-size: 21px;
+    font-weight: bold;
+    line-height: normal;
+}
+
+#main #statentrydiv #selection_area #profile.event_selector.entry h1 span {
+    display: block;
+    font-size: 15px;
+    font-weight: normal;
+    color: #888;
+    margin-top: 5px;
+}
+
+#main #statentrydiv #selection_area #profile.event_selector.entry div ul {
+    overflow-y: hidden;
+    min-height: 290px;
+    margin-bottom: 20px;
+}
+
+#main #statentrydiv #selection_area #profile.event_selector.entry div ul p {
+    text-align: center
+}
+
+#main #statentrydiv #selection_area #profile.event_selector.entry div ul li {
+    display: block;
+    margin: 0 0 5px;
+    padding: 0;
+    text-align: right;
+    height: auto;
+    box-shadow: 0 1px 0 #fff;
+    padding: 5px 5px 5px;
+    line-height: auto;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+
+    background: #ffffff; /* Old browsers */
+    background: -moz-linear-gradient(top, #ffffff 0%, #e5e5e5 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(100%, #e5e5e5)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #ffffff 0%, #e5e5e5 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #ffffff 0%, #e5e5e5 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #ffffff 0%, #e5e5e5 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #ffffff 0%, #e5e5e5 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#e5e5e5', GradientType=0); /* IE6-9 */
+}
+
+#main #statentrydiv #selection_area #profile.event_selector.entry div ul li span {
+    min-width: 120px;
+    color: #444;
+    font-weight: bold;
+    text-shadow: 0 1px 0 #fff;
+    vertical-align: middle;
+}
+
+#main #statentrydiv #selection_area #profile.event_selector.entry div ul li input,
+#main #statentrydiv #selection_area #profile.event_selector.entry div ul li textarea {
+    width: 60%;
+    margin: 0 0 0 10px;
+    vertical-align: middle;
+    color: #666;
+    padding: 5px 8px 7px;
+    font-size: 1em;
+}
+
+/*--================ LOADING SCREEN ================--*/
+.gwt-PopupPanel {
+    left: 449px;
+    top: 215px;
+    border: none !important;
+    visibility: visible;
+    position: absolute;
+    overflow: visible;
+
+    box-shadow: 0 1px 5px #444;
+    border: solid 4px #666 !important;
+
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+
+    background: #333333 !important;; /* Old browsers */
+    background: -moz-linear-gradient(top, #333333 0%, #7d7e7d 100%) !important;; /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #333333), color-stop(100%, #7d7e7d)) !important;; /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #333333 0%, #7d7e7d 100%) !important;; /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #333333 0%, #7d7e7d 100%) !important;; /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #333333 0%, #7d7e7d 100%) !important;; /* IE10+ */
+    background: linear-gradient(to bottom, #333333 0%, #7d7e7d 100%) !important;; /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#333333', endColorstr='#7d7e7d', GradientType=0) !important;; /* IE6-9 */
+}
+
+#loading .popupContent div:first-of-type {
+    width: 400px;
+}
+
+#loading .popupContent div .gwt-HTML {
+    text-align: center;
+    color: #ddd;
+    margin-top: 20px;
+    text-shadow: 0 -1px 0 #333;
+    font-size: medium;
+}
+
+#loading .popupContent #content {
+    margin: 30px auto 40px;
+    width: 85%;
+}
+
+#loading .popupContent #content .expand {
+    background: #2187e7 !important;
+    height: 1px;
+    width: 50%;
+}
+
+.plays_drag_proxy {
+    border-collapse: collapse;
+    opacity: 0.85;
+    width: 100%;
+    color: #9b1d22;
+    height: 60px;
+
+}
+
+.plays_drag_proxy tr {
+    background-color: #555555;
+    color: #9b1d22;
+}
+
+.plays_drag_proxy td {
+    background-color: #555555;
+    color: #9b1d22;
+}
+
+.plays_row {
+}
+
+.plays_header {
+    color: #ffffff;
+    font-size: 11pt;
+    font-weight: bold;
+}
+
+.plays_row:hover {
+    background-color: #555555;
+}
+
+.ps_table_positioner {
+    border: dotted 2px #FCFCFC;
+    height: 45px;
+    opacity: 0.6;
+    background-color: #CCCCCC;
+    margin-top: 5px;
+    padding-top: 5px;
+    width: 100%;
+}
+
+.space-for-drag {
+    height: 130px;
+    vertical-align: bottom;
+}
+
+/*--== Baseball PLAYER SUB LIST ===========--*/
+ul.player_sub_list {
+    display: none;
+    background: white;
+    height: 100px;
+    width: 140px;
+    padding: 0px;
+    font-size: 12px;
+    color: #555;
+    border-radius: 4px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+ul.player_sub_list li:hover {
+    background: #eee;
+    color: #222;
+}
+
+ul.player_sub_list li:first-of-type {
+    background: #666;
+}
+
+ul.player_sub_list li h1 {
+    color: #fff;
+    line-height: normal;
+    padding-bottom: 7px;
+}
+
+/*--== BATTING LINEUP ===========--*/
+ul.baseballLineup li {
+    position: relative;
+}
+
+ul.baseballLineup li h1 {
+    margin-bottom: 0 !important;
+    color: #fff
+}
+
+ul.baseballLineup li:hover, ul.baseballLineup li p:hover {
+    cursor: pointer;
+}
+
+ul.baseballLineup li:hover ul.player_sub_list {
+    display: block;
+}
+
+ul.baseballLineup li:nth-of-type(8):hover ul.player_sub_list,
+ul.baseballLineup li:nth-of-type(9):hover ul.player_sub_list,
+ul.baseballLineup li:nth-of-type(10):hover ul.player_sub_list {
+    top: -95px;
+}
+
+/*--== BASEBALL FIELD ===========--*/
+
+ul.player_sub_list {
+    display: block;
+    top: 40px;
+    left: 5%;
+}
+
+ul.player_sub_list li {
+    float: none;
+    text-align: left;
+    text-shadow: none;
+    font-weight: normal;
+    display: block;
+    padding: 10px;
+    border-bottom: dotted 1px #999;
+}
+
+ul.player_sub_list li h1 {
+    padding: 0px;
+    line-height: normal;
+    margin: 0;
+}
+
+ul.player_sub_list li:first-of-type {
+    background: #ac8446;
+    line-height: normal;
+    height: 20px;
+    padding: 8px 5px 5px 10px;
+}
+
+input[type=text], input[type="radio"], input[type=checkbox], textarea, select {
+    outline: none;
+    padding: 3px 0px 3px 3px;
+    margin: 5px 1px 3px 0px;
+    border: 1px solid #DDDDDD;
+}
+
+input[type=text]:focus, input[type="radio"]:focus,
+input[type=checkbox]:focus, textarea:focus, select:focus {
+    box-shadow: 0 0 5px rgba(0, 183, 238, 1);
+    padding: 3px 0px 3px 3px;
+    margin: 5px 1px 3px 0px;
+    border: 1px solid rgba(0, 183, 238, 1);
+}
+
+/*--== Menu ==--*/
+.gwt-MenuBar {
+    cursor: default;
+}
+
+.gwt-MenuBar .gwt-MenuItem {
+    cursor: default;
+}
+
+.gwt-MenuBar .gwt-MenuItem-selected {
+    background: #888888;
+}
+
+.gwt-MenuBar-horizontal {
+}
+
+.gwt-MenuBar-horizontal .gwt-MenuItem {
+    vertical-align: bottom;
+    color: #000;
+    font-weight: bold;
+}
+
+.gwt-MenuBar-horizontal .gwt-MenuItemSeparator {
+    width: 1px;
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+    border-left: 1px solid #ccc;
+    background-color: rgb(85, 85, 85);
+    background-image: linear-gradient(rgb(85, 85, 85), rgb(51, 51, 51));
+}
+
+.gwt-MenuBar-horizontal .gwt-MenuItemSeparator .menuSeparatorInner {
+    width: 1px;
+    height: 1px;
+    background-color: rgb(85, 85, 85);
+    background-image: linear-gradient(rgb(85, 85, 85), rgb(51, 51, 51));
+}
+
+.gwt-MenuBar-vertical {
+    margin-top: 0px;
+    margin-left: 0px;
+    background-color: rgb(85, 85, 85);
+    background-image: linear-gradient(rgb(85, 85, 85), rgb(51, 51, 51));
+    color: rgb(255, 255, 255);
+}
+
+.gwt-MenuBar-vertical table {
+    border-collapse: collapse;
+}
+
+.gwt-MenuBar-vertical .gwt-MenuItem {
+    padding: 2px 40px 2px 2px;
+}
+
+#gwt-uid-signout {
+    padding: 2px 90px 2px 2px;
+}
+
+#gwt-uid-changesport {
+    padding: 2px 58px 2px 2px;
+}
+
+#menuButton .gwt-MenuItem-selected {
+    background: transparent;
+}
+
+.gwt-MenuBar-vertical .gwt-MenuItemSeparator {
+    padding: 2px 0px;
+}
+
+.gwt-MenuBar-vertical .gwt-MenuItemSeparator .menuSeparatorInner {
+    height: 1px;
+    padding: 0px;
+    border: 0px;
+    border-top: 1px solid #ccc;
+    overflow: hidden;
+}
+
+.gwt-MenuBar-vertical .subMenuIcon {
+    padding-right: 4px;
+}
+
+.gwt-MenuBar-vertical .subMenuIcon-selected {
+    background: #E3E8F3;
+}
+
+.gwt-MenuBarPopup {
+    margin: 0px 0px 0px 3px;
+}
+
+.gwt-MenuBarPopup .menuPopupTopCenter {
+    background: url(hborder-dark.png) 0px -12px repeat-x;
+}
+
+.gwt-MenuBarPopup .menuPopupBottomCenter {
+    background: url(hborder-dark.png) 0px -13px repeat-x;
+    -background: url(hborder_ie6-dark.png) 0px -13px repeat-x;
+}
+
+.gwt-MenuBarPopup .menuPopupMiddleLeft {
+    background: url(vborder-dark.png) -12px 0px repeat-y;
+    -background: url(vborder_ie6-dark.png) -12px 0px repeat-y;
+}
+
+.gwt-MenuBarPopup .menuPopupMiddleRight {
+    background: url(vborder-dark.png) -13px 0px repeat-y;
+    -background: url(vborder_ie6-dark.png) -13px 0px repeat-y;
+}
+
+.gwt-MenuBarPopup .menuPopupTopLeftInner {
+    width: 5px;
+    height: 5px;
+    zoom: 1;
+}
+
+.gwt-MenuBarPopup .menuPopupTopRightInner {
+    width: 8px;
+    height: 5px;
+    zoom: 1;
+}
+
+.gwt-MenuBarPopup .menuPopupBottomLeftInner {
+    width: 5px;
+    height: 8px;
+    zoom: 1;
+}
+
+.gwt-MenuBarPopup .menuPopupBottomRightInner {
+    width: 8px;
+    height: 8px;
+    zoom: 1;
+}
+
+.gwt-MenuBarPopup .menuPopupTopLeft {
+    background: url(corner-dark.png) no-repeat 0px -36px;
+    -background: url(corner_ie6-dark.png) no-repeat 0px -36px;
+}
+
+.gwt-MenuBarPopup .menuPopupTopRight {
+    background: url(corner-dark.png) no-repeat -5px -36px;
+    -background: url(corner_ie6-dark.png) no-repeat -5px -36px;
+}
+
+.gwt-MenuBarPopup .menuPopupBottomLeft {
+    background: url(corner-dark.png) no-repeat 0px -41px;
+    -background: url(corner_ie6.png-dark) no-repeat 0px -41px;
+}
+
+.gwt-MenuBarPopup .menuPopupBottomRight {
+    background: url(corner-dark.png) no-repeat -5px -41px;
+    -background: url(corner_ie6-dark.png) no-repeat -5px -41px;
+}
+
+html > body .gwt-MenuBarPopup {
+}
+
+* html .gwt-MenuBarPopup .menuPopupTopLeftInner {
+    width: 5px;
+    height: 5px;
+    overflow: hidden;
+}
+
+* html .gwt-MenuBarPopup .menuPopupTopRightInner {
+    width: 8px;
+    height: 5px;
+    overflow: hidden;
+}
+
+* html .gwt-MenuBarPopup .menuPopupBottomLeftInner {
+    width: 5px;
+    height: 8px;
+    overflow: hidden;
+}
+
+* html .gwt-MenuBarPopup .menuPopupBottomRightInner {
+    width: 8px;
+    height: 8px;
+    overflow: hidden;
+}
+
+.msgBox-buttons {
+    margin-top: 10px;
+}
+
+.msgBox-buttons .gwt-Button {
+    margin-left: 5px;
+    margin-right: 5px;
+    width: 70px;
+}
+
+#play_entry_area a.normal-button {
+    background: #ccc;
+    color: #333;
+    text-shadow: 0 1px 0 #fff;
+    font-size: x-small;
+    padding: 5px 5px 5px;
+    line-height: normal;
+    margin: 10px;
+}
+
+#play_entry_area a.normal-button:hover {
+    background: #555;
+    color: #fff;
+    text-shadow: 0 -1px 0 #222;
+}
+
+#play_entry_area a.normal-button .disabled {
+    color: #fff;
+}
+
+#play_entry_area a.normal-button .disabled:hover {
+    color: #fff;
+}
+
+#play_entry_area a.normal-button.disabled {
+    color: #aaa;
+    text-shadow: none;
+    background-color: #ddd;
+}
+
+#play_entry_areaa.normal-button.disabled:hover {
+    color: #aaa;
+    background-color: #ddd;
+    text-shadow: none;
+}
+
+#play_entry_area div.baseball-wrapup {
+    width: 47.7em;
+    background: #fff;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    overflow: hidden;
+    /*text-align: center;*/
+    padding: 0px 3px 0px 7px;
+}
+
+#play_entry_area div.baseball-edit {
+    width: 29.7em;
+    background: #fff;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    overflow: hidden;
+    text-align: center;
+    padding: 10px 10px;
+}
+
+div.baseball-pitch-decisions {
+    width: 35em;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    overflow: hidden;
+    text-align: center;
+    padding: 10px 10px;
+}
+
+#play_entry_area div.baseball-edit a, div.baseball-pitch-decisions span {
+    margin: 3px;
+    line-height: normal;
+}
+
+/*  added by Yosel */
+#powered_by {
+    width: 100%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#powered_by.profileManagement {
+    text-align: left;
+}
+
+#powered_by > div {
+    width: 33%;
+    display: inline-block;
+    height: 100%;
+    vertical-align: top;
+}
+
+#powered_by .icon-status {
+    text-align: justify;
+}
+
+#powered_by .icon-status img, #powered_by .icon-status #serverComm {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#powered_by .icon-status img {
+    height: 40px;
+    float: left;
+    margin: 5px 0 0;
+    margin-left: 4px !important;
+}
+
+#sport_title {
+    color: #fff;
+    vertical-align: middle;
+    height: 100%;
+    padding-top: 12px;
+}
+
+#sport_title .sport {
+    font-size: 1.3em;
+    text-transform: uppercase;
+    vertical-align: middle;
+    display: block;
+}
+
+#sport_title .date {
+    font-weight: normal !important;
+    color: #eee;
+    font-size: 0.7em;
+    text-transform: uppercase;
+    display: block;
+}
+
+#connStatus {
+    margin-top: 5px;
+    display: table;
+    width: 130px;
+    height: 40px;
+}
+
+#connStatus > span {
+    display: table-cell;
+    vertical-align: middle;
+    height: 100%;
+}
+
+#connStatus .status {
+    font-size: 0.6em;
+    color: #a8a8a8;
+    line-height: 1.3em;
+    cursor: pointer;
+}
+
+#connStatus .status.sending {
+    padding-left: 3px;
+    padding-top: 2px;
+}
+
+#connStatus .icon-ok-circled {
+    font-size: 1.2em;
+    color: #00D515;
+    cursor: pointer;
+}
+
+#connStatus .icon-attention-circled {
+    font-size: 1.2em;
+    color: #C81C12;
+    cursor: pointer;
+}
+
+#connStatus .icon-spin6 {
+    color: #b4b4b4;
+    cursor: pointer;
+}
+
+.login-menu {
+    position: relative;
+}
+
+.login-menu .login-data {
+    position: absolute;
+    right: 55px;
+}
+
+.login-menu .login-data > span {
+    font-size: 0.6em;
+    display: block;
+    text-align: right;
+}
+
+.login-menu .login-data .version {
+    color: #a8a8a8;
+    text-transform: uppercase;
+    line-height: 2.2em;
+}
+
+#account_info {
+    color: #fff;
+    margin-top: 14px;
+    font-weight: bold;
+}
+
+#menuButton {
+    position: absolute;
+    right: 5px;
+}
+
+.history-box {
+    position: fixed;
+    width: 200px;
+    height: 100%;
+    display: block;
+    left: 0;
+    top: 0;
+    background-color: #000000 url('pattern.png');
+    z-index: 9999;
+    -webkit-box-shadow: 4px 0px 5px 1px rgba(0, 0, 0, 0.19);
+    -moz-box-shadow: 4px 0px 5px 1px rgba(0, 0, 0, 0.19);
+    box-shadow: 4px 0px 5px 1px rgba(0, 0, 0, 0.19);
+}
+
+.history-box .box-title {
+    padding: 18px 12px;
+    background-color: #343434;
+    color: #fff;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.history-box .box-title div {
+    width: 48.5%;
+    display: inline-block;
+}
+
+.history-box .box-title .close-btn {
+    text-align: right;
+    font-size: 0.8em;
+}
+
+.history-box .box-title .close-btn span.gwt-InlineHTML {
+    cursor: pointer;
+}
+
+.history-box .history-element {
+    background-color: #DEDEDE;
+    border-bottom: 1px solid #C0C0C0;
+}
+
+.history-box .history-element:hover {
+    background-color: #efefef;
+}
+
+.history-box .history-element .history-date {
+    color: #006600;
+    font-weight: bold;
+    font-size: 0.8em;
+    padding: 10px 0 4px 10px
+}
+
+.history-box .history-element .history-user {
+    padding: 0 0 10px 10px;
+    font-size: 0.75em;
+    color: #878787;
+}
+
+.history-box .history-element .history-user div {
+    display: inline-block;
+}
+
+.history-box .history-element .history-user .indicator {
+    width: 6px;
+    height: 6px;
+    background-color: #4d4d4d;
+    margin-right: 3px;
+}
+
+.history-box .history-element .history-error {
+    color: #C81C12;
+    font-weight: bold;
+    font-size: 0.8em;
+    padding: 10px 0 10px 30px
+}

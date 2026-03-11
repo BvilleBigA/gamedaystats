@@ -1,0 +1,461 @@
+{% set vis_name  = data.get('visitor_name', '') %}
+{% set home_name = data.get('home_name', '') %}
+{% set vis_runs  = data.get('visitor_runs', 0) %}
+{% set home_runs = data.get('home_runs', 0) %}
+{% set vis_hits  = data.get('visitor_hits', 0) %}
+{% set home_hits = data.get('home_hits', 0) %}
+{% set vis_errs  = data.get('visitor_errors', 0) %}
+{% set home_errs = data.get('home_errors', 0) %}
+{% set status    = data.get('status_label') or 'Scheduled' %}
+{% set innings   = data.get('innings', []) %}
+{% set vis_bat   = data.get('visitor_batting', []) %}
+{% set home_bat  = data.get('home_batting', []) %}
+{% set vis_bat_t = data.get('visitor_bat_totals', {}) %}
+{% set home_bat_t= data.get('home_bat_totals', {}) %}
+{% set vis_pit   = data.get('visitor_pitching', []) %}
+{% set home_pit  = data.get('home_pitching', []) %}
+{% set vis_pit_t = data.get('visitor_pit_totals', {}) %}
+{% set home_pit_t= data.get('home_pit_totals', {}) %}
+{% set vis_bs    = data.get('visitor_bat_summary', {}) %}
+{% set home_bs   = data.get('home_bat_summary', {}) %}
+{% set vis_ps    = data.get('visitor_pit_summary', []) %}
+{% set home_ps   = data.get('home_pit_summary', []) %}
+{% set scoring     = data.get('scoring', []) %}
+{% set pbp_innings = data.get('pbp_innings', []) %}
+{% set event_id    = data.get('game_id', '') %}
+{% set vkey        = version.version_key if version else '' %}
+
+{% macro bat_summary(bsum) %}
+  {% set bat_lines = [] %}
+  {% for key in ['2B','3B','HR','RBI','SB','HBP','SH','SF'] %}
+    {% if bsum.get(key) %}
+      {% if bat_lines.append(1) %}{% endif %}
+    {% endif %}
+  {% endfor %}
+  {% if bat_lines %}
+  <div class="stats-summary">
+    <div class="caption">Batting</div>
+    {% for key in ['2B','3B','HR','RBI','SB','HBP','SH','SF'] %}
+      {% if bsum.get(key) %}
+      <div>
+        <strong>{{ key }}:</strong>
+        <span>{{ bsum[key] | join(', ') }}</span>
+      </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+  {% endif %}
+{% endmacro %}
+
+{% macro pit_summary(psum) %}
+  {% if psum %}
+  <div class="stats-summary">
+    <div class="caption">Pitching</div>
+    {% for line in psum %}
+    <div>
+      <strong>{{ line.label }}:</strong>
+      <span>{{ line.value }}</span>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+{% endmacro %}
+
+{# ── download + info bar ─────────────────────────────────────────────────── #}
+{% if version %}
+Download this version:
+  <a href="/admin/team/stats/downloadVersion?id={{ vkey }}&f=json">[json]</a>
+  <a href="/admin/team/stats/downloadVersion?id={{ vkey }}&f=xml">[xml]</a>
+  &nbsp;-&nbsp;
+  Statistics updated using stats entry software
+  <br><br>
+{% endif %}
+
+<hr>
+<br>
+
+<div id="resultHtml">
+
+<article class="game-boxscore bsb clearfix">
+  <div class="head">
+    <h1>
+      <span class="date">{{ data.get('date', '') }}</span>
+      {{ vis_name }} at {{ home_name }}
+    </h1>
+    <div class="teams clearfix">
+{% set _sport = game.visitor_team.season.sport_code if game and game.visitor_team and game.visitor_team.season else '' %}
+{% set _vis_icon = game.visitor_team | team_logo(_sport) if game and game.visitor_team else (_sport | sport_icon) %}
+{% set _home_icon = game.home_team | team_logo(_sport) if game and game.home_team else (_sport | sport_icon) %}
+      <div class="team visitor {% if vis_runs < home_runs %}loser{% elif vis_runs > home_runs %}winner{% endif %} clearfix">
+        <div class="team-logo"><img src="{{ _vis_icon }}" alt="{{ vis_name }}" style="max-width:100%;vertical-align:middle;"></div>
+        <div class="team-record">({{ game.visitor_record or '0-0' if game else '0-0' }})</div>
+        <div class="team-score">{{ vis_runs }}</div>
+      </div>
+      <div class="team home {% if home_runs < vis_runs %}loser{% elif home_runs > vis_runs %}winner{% endif %} clearfix">
+        <div class="team-logo"><img src="{{ _home_icon }}" alt="{{ home_name }}" style="max-width:100%;vertical-align:middle;"></div>
+        <div class="team-record">({{ game.home_record or '0-0' if game else '0-0' }})</div>
+        <div class="team-score">{{ home_runs }}</div>
+      </div>
+
+      <div class="linescore">
+        <table>
+          <caption class="offscreen">Line Score</caption>
+          <thead>
+            <tr>
+              <th scope="col" class="pinned-col col-head text">
+                <span>{{ status }}</span>
+              </th>
+              {% for inn in innings %}
+              <th scope="col" class="col-head score">{{ inn.num }}</th>
+              {% endfor %}
+              <th scope="col" class="col-head score total" aria-label="Runs">R</th>
+              <th scope="col" class="col-head score total" aria-label="Hits">H</th>
+              <th scope="col" class="col-head score total" aria-label="Errors">E</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="{% if vis_runs > home_runs %}winner{% else %}loser{% endif %}">
+              <th scope="row" class="name pinned-col row-head text">{{ vis_name }}</th>
+              {% for inn in innings %}<td class="score">{{ inn.v }}</td>{% endfor %}
+              <td class="score total">{{ vis_runs }}</td>
+              <td class="score total">{{ vis_hits }}</td>
+              <td class="score total">{{ vis_errs }}</td>
+            </tr>
+            <tr class="{% if home_runs > vis_runs %}winner{% else %}loser{% endif %}">
+              <th scope="row" class="name pinned-col row-head text">{{ home_name }}</th>
+              {% for inn in innings %}<td class="score">{{ inn.h }}</td>{% endfor %}
+              <td class="score total">{{ home_runs }}</td>
+              <td class="score total">{{ home_hits }}</td>
+              <td class="score total">{{ home_errs }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-container primary clearfix" data-module="stats/tabs" data-type="primary">
+    <div class="tab-nav" data-module="jscroll" data-momentum="false">
+      <div class="clearfix">
+        <ul class="clearfix">
+          <li class="active"><a data-view="boxscore" href="/admin/team/event/viewStatHistory.jsp?event_id={{ event_id }}#{{ vkey }}">Box Score</a></li>
+          {# Play by Play tab hidden for now
+          {% if pbp_innings %}
+          <li><a href="/admin/team/event/viewStatHistory.jsp?event_id={{ event_id }}#{{ vkey }}&view=plays" data-view="plays" id="pbp">Play by Play</a></li>
+          {% endif %}
+          #}
+        </ul>
+      </div>
+    </div>
+
+    <div class="tab-panels">
+      <section class="tab-panel boxscore clearfix active" role="region" aria-label="Box Score">
+        <h1 class="offscreen">Box Score</h1>
+
+        <div class="player-stats" data-module="mod-team-tabs">
+          <div class="tab-labels">
+            <div class="tab-label" id="team-label-v">{{ vis_name }}</div>
+            <div class="tab-label" id="team-label-h">{{ home_name }}</div>
+          </div>
+
+          <div class="stats-wrap clearfix">
+
+            {# ── Visitor batting + pitching ─────────────────────────────── #}
+            <div class="stats-box half" data-panel-for="team-label-v">
+              <div class="scrollable">
+                <div class="clearfix">
+                  <div class="lineup-table">
+                    <table class="striped">
+                      <caption class="caption"><h2><span class="team-name">{{ vis_name }}</span> <span class="offscreen">Batters</span></h2></caption>
+                      <thead>
+                        <tr>
+                          <th scope="col" class="text pinned-col col-head">Hitters</th>
+                          <th scope="col" class="col-head">AB</th>
+                          <th scope="col" class="col-head">R</th>
+                          <th scope="col" class="col-head">H</th>
+                          <th scope="col" class="col-head">RBI</th>
+                          <th scope="col" class="col-head">BB</th>
+                          <th scope="col" class="col-head">SO</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for p in vis_bat %}
+                        <tr>
+                          <th scope="row" class="row-head pinned-col text">
+                            <span class="player-name ">{{ p.name }}</span>
+                            <span>{{ p.pos }}</span>
+                          </th>
+                          <td>{{ p.ab }}</td><td>{{ p.r }}</td><td>{{ p.h }}</td>
+                          <td>{{ p.rbi }}</td><td>{{ p.bb }}</td><td>{{ p.so }}</td>
+                        </tr>
+                        {% endfor %}
+                        {% if not vis_bat %}
+                        <tr><td colspan="7" style="text-align:center;padding:10px;color:#aaa;">No data</td></tr>
+                        {% endif %}
+                      </tbody>
+                      {% if vis_bat %}
+                      <tbody>
+                        <tr class="totals">
+                          <th scope="row" class="row-head pinned-col text">Totals</th>
+                          <td>{{ vis_bat_t.get('ab',0) }}</td>
+                          <td>{{ vis_bat_t.get('r',0) }}</td>
+                          <td>{{ vis_bat_t.get('h',0) }}</td>
+                          <td>{{ vis_bat_t.get('rbi',0) }}</td>
+                          <td>{{ vis_bat_t.get('bb',0) }}</td>
+                          <td>{{ vis_bat_t.get('so',0) }}</td>
+                        </tr>
+                      </tbody>
+                      {% endif %}
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              {{ bat_summary(vis_bs) }}
+
+              {% if vis_pit %}
+              <div class="scrollable" style="margin-top:14px;">
+                <div class="clearfix">
+                  <div class="lineup-table">
+                    <table class="striped">
+                      <caption class="caption"><h2><span class="team-name">{{ vis_name }}</span> <span class="offscreen">Pitchers</span></h2></caption>
+                      <thead>
+                        <tr>
+                          <th scope="col" class="text pinned-col col-head">Pitchers</th>
+                          <th scope="col" class="col-head">IP</th>
+                          <th scope="col" class="col-head">H</th>
+                          <th scope="col" class="col-head">R</th>
+                          <th scope="col" class="col-head">ER</th>
+                          <th scope="col" class="col-head">BB</th>
+                          <th scope="col" class="col-head">SO</th>
+                          <th scope="col" class="col-head">HR</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for p in vis_pit %}
+                        <tr>
+                          <th scope="row" class="row-head pinned-col text">
+                            <span class="player-name ">{{ p.name }}</span>
+                            {% if p.dec %}<span style="font-size:11px;color:#888;">({{ p.dec }})</span>{% endif %}
+                          </th>
+                          <td>{{ p.ip }}</td><td>{{ p.h }}</td><td>{{ p.r }}</td><td>{{ p.er }}</td>
+                          <td>{{ p.bb }}</td><td>{{ p.so }}</td><td>{{ p.hr }}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                      <tbody>
+                        <tr class="totals">
+                          <th scope="row" class="row-head pinned-col text">Totals</th>
+                          <td>{{ vis_pit_t.get('ip','0.0') }}</td>
+                          <td>{{ vis_pit_t.get('h',0) }}</td>
+                          <td>{{ vis_pit_t.get('r',0) }}</td>
+                          <td>{{ vis_pit_t.get('er',0) }}</td>
+                          <td>{{ vis_pit_t.get('bb',0) }}</td>
+                          <td>{{ vis_pit_t.get('so',0) }}</td>
+                          <td>{{ vis_pit_t.get('hr',0) }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              {{ pit_summary(vis_ps) }}
+              {% endif %}
+            </div>
+
+            {# ── Home batting + pitching ────────────────────────────────── #}
+            <div class="stats-box half" data-panel-for="team-label-h">
+              <div class="scrollable">
+                <div class="clearfix">
+                  <div class="lineup-table">
+                    <table class="striped">
+                      <caption class="caption"><h2><span class="team-name">{{ home_name }}</span> <span class="offscreen">Batters</span></h2></caption>
+                      <thead>
+                        <tr>
+                          <th scope="col" class="text pinned-col col-head">Hitters</th>
+                          <th scope="col" class="col-head">AB</th>
+                          <th scope="col" class="col-head">R</th>
+                          <th scope="col" class="col-head">H</th>
+                          <th scope="col" class="col-head">RBI</th>
+                          <th scope="col" class="col-head">BB</th>
+                          <th scope="col" class="col-head">SO</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for p in home_bat %}
+                        <tr>
+                          <th scope="row" class="row-head pinned-col text">
+                            <span class="player-name ">{{ p.name }}</span>
+                            <span>{{ p.pos }}</span>
+                          </th>
+                          <td>{{ p.ab }}</td><td>{{ p.r }}</td><td>{{ p.h }}</td>
+                          <td>{{ p.rbi }}</td><td>{{ p.bb }}</td><td>{{ p.so }}</td>
+                        </tr>
+                        {% endfor %}
+                        {% if not home_bat %}
+                        <tr><td colspan="7" style="text-align:center;padding:10px;color:#aaa;">No data</td></tr>
+                        {% endif %}
+                      </tbody>
+                      {% if home_bat %}
+                      <tbody>
+                        <tr class="totals">
+                          <th scope="row" class="row-head pinned-col text">Totals</th>
+                          <td>{{ home_bat_t.get('ab',0) }}</td>
+                          <td>{{ home_bat_t.get('r',0) }}</td>
+                          <td>{{ home_bat_t.get('h',0) }}</td>
+                          <td>{{ home_bat_t.get('rbi',0) }}</td>
+                          <td>{{ home_bat_t.get('bb',0) }}</td>
+                          <td>{{ home_bat_t.get('so',0) }}</td>
+                        </tr>
+                      </tbody>
+                      {% endif %}
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              {{ bat_summary(home_bs) }}
+
+              {% if home_pit %}
+              <div class="scrollable" style="margin-top:14px;">
+                <div class="clearfix">
+                  <div class="lineup-table">
+                    <table class="striped">
+                      <caption class="caption"><h2><span class="team-name">{{ home_name }}</span> <span class="offscreen">Pitchers</span></h2></caption>
+                      <thead>
+                        <tr>
+                          <th scope="col" class="text pinned-col col-head">Pitchers</th>
+                          <th scope="col" class="col-head">IP</th>
+                          <th scope="col" class="col-head">H</th>
+                          <th scope="col" class="col-head">R</th>
+                          <th scope="col" class="col-head">ER</th>
+                          <th scope="col" class="col-head">BB</th>
+                          <th scope="col" class="col-head">SO</th>
+                          <th scope="col" class="col-head">HR</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for p in home_pit %}
+                        <tr>
+                          <th scope="row" class="row-head pinned-col text">
+                            <span class="player-name ">{{ p.name }}</span>
+                            {% if p.dec %}<span style="font-size:11px;color:#888;">({{ p.dec }})</span>{% endif %}
+                          </th>
+                          <td>{{ p.ip }}</td><td>{{ p.h }}</td><td>{{ p.r }}</td><td>{{ p.er }}</td>
+                          <td>{{ p.bb }}</td><td>{{ p.so }}</td><td>{{ p.hr }}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                      <tbody>
+                        <tr class="totals">
+                          <th scope="row" class="row-head pinned-col text">Totals</th>
+                          <td>{{ home_pit_t.get('ip','0.0') }}</td>
+                          <td>{{ home_pit_t.get('h',0) }}</td>
+                          <td>{{ home_pit_t.get('r',0) }}</td>
+                          <td>{{ home_pit_t.get('er',0) }}</td>
+                          <td>{{ home_pit_t.get('bb',0) }}</td>
+                          <td>{{ home_pit_t.get('so',0) }}</td>
+                          <td>{{ home_pit_t.get('hr',0) }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              {{ pit_summary(home_ps) }}
+              {% endif %}
+            </div>
+
+          </div>
+        </div>
+
+        {# ── Scoring summary ──────────────────────────────────────────── #}
+        {% if scoring %}
+        <div class="stats-wrap clearfix" id="scoring-summary-section">
+          <div class="stats-box full scoring-summary clearfix">
+            <table class="striped">
+              <caption class="caption"><h2>Scoring Summary</h2></caption>
+              <thead>
+                <tr>
+                  <th class="col-head text" scope="col">Innings</th>
+                  <th class="col-head text" scope="col">Play</th>
+                  <th class="col-head nowrap" scope="col">V - H</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for sp in scoring %}
+                <tr>
+                  <th class="row-head nowrap text" scope="row">
+                    <span class="inning">
+                      {% if sp.half == 'top' %}
+                        <span class="gicon gicon-up1"></span>
+                      {% else %}
+                        <span class="gicon gicon-down1"></span>
+                      {% endif %}
+                      {{ sp.inning }}{{ 'st' if sp.inning==1 else ('nd' if sp.inning==2 else ('rd' if sp.inning==3 else 'th')) }}
+                    </span>
+                  </th>
+                  <td class="text">{{ sp.desc or sp.batter }}</td>
+                  <td class="nowrap">{{ sp.v_score }}-{{ sp.h_score }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        {% endif %}
+
+        {# ── Play-by-play — hidden for now #}
+        {% if false and pbp_innings %}
+        <div class="stats-wrap clearfix" id="pbp-section">
+          <div class="stats-box full clearfix">
+            <table class="striped pbp-table">
+              <caption class="caption"><h2>Play by Play</h2></caption>
+              <thead>
+                <tr>
+                  <th class="col-head text nowrap" scope="col" style="width:80px">Inning</th>
+                  <th class="col-head text" scope="col">Play</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for half_inn in pbp_innings %}
+                  <tr class="pbp-half-header">
+                    <td colspan="2" style="background:#f0f0f0;font-weight:bold;padding:4px 8px;">
+                      {% if half_inn.half == 'top' %}
+                        <span class="gicon gicon-up1"></span>
+                      {% else %}
+                        <span class="gicon gicon-down1"></span>
+                      {% endif %}
+                      {{ half_inn.label }}
+                    </td>
+                  </tr>
+                  {% for play in half_inn.plays %}
+                  <tr class="pbp-play{% if play.runs %} pbp-run{% endif %}">
+                    <td class="nowrap text" style="color:#888;font-size:11px;padding-left:16px;">
+                      {{ play.outs }} out{{ 's' if play.outs != 1 else '' }}
+                    </td>
+                    <td class="text" style="padding:3px 8px;">
+                      {% if play.narrative %}
+                        {{ play.narrative }}
+                      {% else %}
+                        {{ play.batter }}{% if play.action %} — {{ play.action }}{% endif %}
+                      {% endif %}
+                      {% if play.rbi %}
+                        <span style="color:#888;font-size:11px;">({{ play.rbi }} RBI)</span>
+                      {% endif %}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        {% endif %}
+
+      </section>
+    </div>
+  </div>
+</article>
+
+</div>

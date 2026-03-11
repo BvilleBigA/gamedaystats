@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Gameday Stats Entry</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="768px, maximum-scale=1" />
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+
+<link rel="stylesheet" type="text/css" href="reset.css" />
+<link rel="stylesheet" type="text/css" href="main.css" />
+<link type="text/css" rel="stylesheet" href="statentry.css">
+<link type="text/css" rel="stylesheet" href="statsentry_icons.css">
+<link href="portrait.css" rel="stylesheet" type="css" media="all and (orientation:portrait)">
+
+<style type="text/css">
+    div#cacheStatus {
+        width: 994px;
+        height: 25px;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+        margin-bottom: 10px;
+        -webkit-box-shadow: #eeeeee 0px 1px 0px;
+        -moz-box-shadow: #eeeeee 0px 1px 0px;
+        box-shadow: #000eeeeee000 0px 1px 0px;
+        background-color: #555555;
+        background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#555555), to(#333333));
+        background-image: -moz-linear-gradient(#555555, #333333);
+        background-image: linear-gradient(#555555, #333333);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#555555', endColorstr='#333333', GradientType=0);
+    }
+    div#cacheStatus a.txt_link {
+        -webkit-box-shadow: rgb(0, 0, 0) 0px 0px 3px 0px;
+        -webkit-user-select: none;
+        background-attachment: scroll;
+        background-clip: border-box;
+        background-color: #555;
+        background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#555), to(#333));
+        background-origin: padding-box;
+        border-radius: 4px;
+        border-width: 0px;
+        box-shadow: rgb(0, 0, 0) 0px 0px 3px 0px;
+        color: #DDD;
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 8px;
+        font-weight: bold;
+        height: 9px;
+        line-height: normal;
+        margin: 8px 0px 0px;
+        outline: none;
+        padding: 2px 4px;
+        text-align: center;
+        text-decoration: none;
+        text-shadow: #222 0px -1px 0px;
+        text-transform: uppercase;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -o-user-select: none;
+        user-select: none;
+        width: 100px;
+    }
+    div#cacheStatus a.txt_link:hover {
+        cursor: pointer;
+        color: orange;
+        background: #222222;
+    }
+</style>
+
+<script src="jquery.min.js" type="text/javascript"></script>
+<script src="util.js" type="text/javascript"></script>
+<script src="cjson.js" type="text/javascript"></script>
+<script src="jszip.min.js" type="text/javascript"></script>
+<script src="fileSaver.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+    window.demo = false;
+    window.onbeforeunload = function(evt) {
+        if(window.currentMode == null)
+            return;
+        if(window.currentMode != 'STAT_ENTRY')
+            return;
+        var message = 'Leaving so soon?';
+        if (typeof evt == 'undefined') {
+            evt = window.event;
+        }
+        if (evt) {
+            evt.returnValue = message;
+        }
+        return message;
+    }
+</script>
+
+<script type="text/javascript" language="javascript" src="./appCache.js"></script>
+<script type="text/javascript" language="javascript" src="./statentry/statentry.nocache.js"></script>
+
+<script>
+    var isIE = (navigator.userAgent.toLowerCase().indexOf("msie") != -1);
+    function interceptKeyDown(e) {
+        keyCode = e.keyCode;
+        if (keyCode == 112) {
+            var evt = (document.all ? window.event : e);
+            if (isIE) {
+                document.onhelp = function() { return false; };
+                window.onhelp = function() { return false; };
+            }
+            evt.returnValue = false;
+            evt.keyCode = 0;
+            evt.preventDefault();
+            evt.stopPropagation();
+            return false;
+        }
+        if (keyCode == 116) {
+            if (isIE) { e.keyCode = 505; }
+            return false;
+        }
+    }
+    function interceptKeyPress(e) {
+        if (!e) {
+            if (window.event) e = window.event;
+            else return;
+        }
+        if (typeof (e.which) == 'number') {
+            var keyCode = e.keyCode ? e.keyCode : e.which ? e.which : void 0;
+            if (e.charCode == null || e.charCode == 0) {
+                if (keyCode == 116 || keyCode == 112) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                }
+            }
+        }
+    }
+    function attachEventListener(obj, type, func, capture) {
+        if (window.addEventListener) {
+            obj.addEventListener(type, func, capture);
+        } else {
+            obj.attachEvent('on' + type, func);
+        }
+    }
+    attachEventListener(document, "keydown", interceptKeyDown, true);
+    attachEventListener(document, "keypress", interceptKeyPress, true);
+</script>
+</head>
+
+<style>
+    /* Override GWT-rendered PrestoSports logo */
+    #logo {
+        content: url('/static/images/gameday-stats-logo-white.png');
+    }
+</style>
+
+<script>
+    /* GWT renders #logo asynchronously — poll until it appears then swap src/alt */
+    (function swapLogo() {
+        var attempts = 0;
+        var timer = setInterval(function() {
+            var el = document.getElementById('logo');
+            if (el) {
+                el.src = '/static/images/gameday-stats-logo-white.png';
+                el.alt = 'Gameday Stats';
+                el.title = 'Gameday Stats';
+                clearInterval(timer);
+            }
+            if (++attempts > 200) clearInterval(timer);
+        }, 100);
+    })();
+
+    /* Auto-save every 5 seconds when in stat entry — persists pitch-level updates so XML reflects b/s/np after each pitch */
+    (function autoSavePitchUpdates() {
+        var lastClick = 0;
+        setInterval(function() {
+            if (typeof window.currentMode !== 'undefined' && window.currentMode !== 'STAT_ENTRY') return;
+            var now = Date.now();
+            if (now - lastClick < 4500) return;
+            var saveBtn = document.querySelector('button[title*="Save"], button[title*="save"]');
+            if (!saveBtn) {
+                var btns = document.querySelectorAll('button, .gwt-Button');
+                for (var i = 0; i < btns.length; i++) {
+                    if (/^\s*save\s*$/i.test((btns[i].textContent || '').trim()) && !btns[i].disabled) {
+                        saveBtn = btns[i];
+                        break;
+                    }
+                }
+            }
+            if (saveBtn) {
+                try {
+                    saveBtn.click();
+                    lastClick = now;
+                } catch (e) {}
+            }
+        }, 5000);
+    })();
+</script>
+
+<body>
+<div id="main">
+    <div id="databaseStatus"></div>
+    <div id="divHistory"></div>
+
+    <div id="statentrydiv" class="statentry"
+        url="/action/stats/"
+        profile_login="{{ current_user.username }}"
+        profile_password="{{ current_user.password_sha256 }}"
+        season_id="{{ season_id }}"
+        event_id="{{ event_id }}"
+        sport_code="{{ sport_code }}"
+        event_date="{{ event_date }}"
+        forgotpassurl="/login"
+        cleanUpStorageMinutesLimit="5"
+        error_support_message="Contact your administrator for support.">
+    </div>
+</div>
+</body>
+</html>
