@@ -22,7 +22,13 @@ export default function Layout({ children, user, onLogout }) {
                 src="/static/favicon.png"
                 alt="Gameday Stats"
                 className="jss11"
-                style={{ height: 36, width: 36, display: 'block', objectFit: 'contain' }}
+                style={{
+                  height: 32,
+                  width: 'auto',
+                  maxWidth: 160,
+                  display: 'block',
+                  objectFit: 'contain',
+                }}
               />
             </a>
             <p className="MuiTypography-root jss5 MuiTypography-body1">USER MANAGEMENT</p>
