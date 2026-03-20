@@ -11,6 +11,7 @@ from app.models import (
     Season, Team, Player, Game, InningScore,
     BattingStats, PitchingStats, FieldingStats,
     User, UserPermission, UserSchoolPermission, School, GameVersion, Play,
+    GameRosterEntry,
 )
 
 main_bp = Blueprint("main", __name__)
@@ -653,6 +654,7 @@ def api_admin_database_seasons():
         items.append({
             "id": s.id, "name": s.name, "sport_code": s.sport_code or "",
             "gender": s.gender or "", "start_date": s.start_date or "", "end_date": s.end_date or "",
+            "is_current": s.is_current,
         })
     return jsonify({"seasons": items, "sport_groups": SPORT_GROUPS, "sport_codes": {k: v[1] for k, v in SPORT_CODES.items()}})
 
@@ -1127,7 +1129,8 @@ def seasons_list():
     if err:
         return err
     all_seasons = _permitted_seasons(user)
-    # Build sorted unique sport codes from seasons in use
+    current_seasons = [s for s in all_seasons if s.is_current]
+    # Build sorted unique sport codes from all permitted seasons
     seen = set()
     sports = []
     for s in all_seasons:
@@ -1138,7 +1141,7 @@ def seasons_list():
     sports.sort(key=lambda x: x[1])
     return render_template('seasons.html',
                            current_user=user,
-                           seasons=all_seasons,
+                           current_seasons=current_seasons,
                            sports=sports)
 
 
@@ -1150,7 +1153,13 @@ def season_sport():
     sport_code = request.args.get('sport_id', '')
     sport_name = _sport_name(sport_code) if sport_code else ''
     permitted = _permitted_seasons(user)
-    seasons = [s for s in permitted if s.sport_code == sport_code] if sport_code else []
+    if sport_code:
+        seasons = sorted(
+            [s for s in permitted if s.sport_code == sport_code],
+            key=lambda s: (not s.is_current, (s.name or '').lower()),
+        )
+    else:
+        seasons = []
     # Sports sidebar: only sports the user can access
     seen = set()
     sports = []
@@ -1844,6 +1853,8 @@ def gameday_season_list():
     seasons = _permitted_seasons(user)
     result  = []
     for s in seasons:
+        if not s.is_current:
+            continue
         teams    = Team.query.filter_by(season_id=s.id).all()
         team_ids = [t.id for t in teams]
         sport_id = s.sport_id
@@ -2244,6 +2255,24 @@ def _play_sort_half(p):
     """Order plays by the half they were recorded in: top before bottom."""
     return 0 if (p.half or '').lower() == 'top' else 1
 
+
+def _uniform_sort_key(player):
+    u = (player.uniform_number or "").strip()
+    if not u:
+        return (2, 999999, "")
+    try:
+        return (0, int(u), "")
+    except (ValueError, TypeError):
+        return (1, 0, u.lower())
+
+
+def _active_roster_sorted(team):
+    if not team:
+        return []
+    players = [p for p in team.players if not getattr(p, "disabled", False)]
+    return sorted(players, key=_uniform_sort_key)
+
+
 @main_bp.route('/game/<int:game_id>')
 def game_detail(game_id):
     """Render the Add Play scoring UI (game_detail.html)."""
@@ -2292,6 +2321,19 @@ def game_detail(game_id):
         visitor_runs = game.visitor_runs or 0
         home_runs = game.home_runs or 0
 
+    v_roster = _active_roster_sorted(game.visitor_team)
+    h_roster = _active_roster_sorted(game.home_team)
+    game_overrides = GameRosterEntry.query.filter_by(game_id=game.id).all()
+    v_starter_count = sum(
+        1 for s in game.batting_stats
+        if s.team_id == game.visitor_team_id and s.is_starter
+    )
+    h_starter_count = sum(
+        1 for s in game.batting_stats
+        if s.team_id == game.home_team_id and s.is_starter
+    )
+    needs_roster = (v_starter_count < 9 or h_starter_count < 9)
+
     return render_template('game_detail.html',
                            current_user=user,
                            game=game,
@@ -2306,7 +2348,13 @@ def game_detail(game_id):
                            h_pitching=h_pitching,
                            is_new_game=is_new_game,
                            visitor_runs=visitor_runs,
-                           home_runs=home_runs)
+                           home_runs=home_runs,
+                           v_roster=v_roster,
+                           h_roster=h_roster,
+                           game_overrides=game_overrides,
+                           v_starter_count=v_starter_count,
+                           h_starter_count=h_starter_count,
+                           needs_roster=needs_roster)
 
 
 @main_bp.route('/api/games/<int:game_id>/action', methods=['POST'])

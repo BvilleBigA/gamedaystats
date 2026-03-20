@@ -93,6 +93,48 @@ def create_app(config_class=None):
         except (ValueError, TypeError):
             return s
 
+    def _uniform_sort_key_player(p):
+        u = (getattr(p, "uniform_number", None) or "").strip()
+        if not u:
+            return (2, 999999, "")
+        try:
+            return (0, int(u), "")
+        except (ValueError, TypeError):
+            return (1, 0, u.lower())
+
+    @app.template_filter("sort_players_by_uniform")
+    def sort_players_by_uniform_filter(players):
+        """Roster order: numeric by uniform (2 before 11), not string order."""
+        if not players:
+            return []
+        return sorted(players, key=_uniform_sort_key_player)
+
+    def _player_display_name(player):
+        """First Last; handles comma-form names and legacy name-only field."""
+        if not player:
+            return ""
+        fn = (getattr(player, "first_name", None) or "").strip()
+        ln = (getattr(player, "last_name", None) or "").strip()
+        if fn and ln:
+            return f"{fn} {ln}"
+        n = (getattr(player, "name", None) or "").strip()
+        if not n:
+            return ""
+        if ", " in n:
+            parts = n.split(", ", 1)
+            return f"{parts[1].strip()} {parts[0].strip()}"
+        return n
+
+    @app.template_filter("player_display_name")
+    def player_display_name_filter(player):
+        return _player_display_name(player)
+
+    @app.template_filter("player_last_name")
+    def player_last_name_filter(player):
+        full = _player_display_name(player)
+        parts = full.split()
+        return parts[-1] if parts else ""
+
     @app.template_filter("event_date")
     def event_date_filter(date_str):
         """Convert YYYY-MM-DD to MM/DD/YYYY for statGame.jsp URLs."""

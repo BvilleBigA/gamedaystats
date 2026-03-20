@@ -168,23 +168,49 @@
         }, 100);
     })();
 
-    /* Auto-save every 5 seconds when in stat entry — persists pitch-level updates so XML reflects b/s/np after each pitch */
+    /* Auto-save every 5s in stat entry — only the main game Save, never modal/dialog Save (add player, etc.) */
     (function autoSavePitchUpdates() {
         var lastClick = 0;
+        function isInsideGwtDialog(el) {
+            while (el) {
+                if (el.classList && el.classList.contains('gwt-DialogBox')) return true;
+                el = el.parentElement;
+            }
+            return false;
+        }
+        function isVisibleDialogOpen() {
+            var boxes = document.querySelectorAll('.gwt-DialogBox');
+            for (var i = 0; i < boxes.length; i++) {
+                var el = boxes[i];
+                var s = window.getComputedStyle(el);
+                if (s.display === 'none' || s.visibility === 'hidden' || parseFloat(s.opacity) === 0) continue;
+                if (el.offsetWidth > 0 && el.offsetHeight > 0) return true;
+            }
+            return false;
+        }
+        function findMainSaveButton() {
+            var candidates = document.querySelectorAll('button[title*="Save"], button[title*="save"]');
+            for (var i = 0; i < candidates.length; i++) {
+                var b = candidates[i];
+                if (b.disabled) continue;
+                if (!isInsideGwtDialog(b)) return b;
+            }
+            var btns = document.querySelectorAll('button, .gwt-Button');
+            for (var j = 0; j < btns.length; j++) {
+                var btn = btns[j];
+                if (btn.disabled) continue;
+                if (!/^\s*save\s*$/i.test((btn.textContent || '').trim())) continue;
+                if (!isInsideGwtDialog(btn)) return btn;
+            }
+            return null;
+        }
         setInterval(function() {
             if (typeof window.currentMode !== 'undefined' && window.currentMode !== 'STAT_ENTRY') return;
             var now = Date.now();
             if (now - lastClick < 4500) return;
-            var saveBtn = document.querySelector('button[title*="Save"], button[title*="save"]');
-            if (!saveBtn) {
-                var btns = document.querySelectorAll('button, .gwt-Button');
-                for (var i = 0; i < btns.length; i++) {
-                    if (/^\s*save\s*$/i.test((btns[i].textContent || '').trim()) && !btns[i].disabled) {
-                        saveBtn = btns[i];
-                        break;
-                    }
-                }
-            }
+            if (isVisibleDialogOpen()) return;
+            if (document.activeElement && isInsideGwtDialog(document.activeElement)) return;
+            var saveBtn = findMainSaveButton();
             if (saveBtn) {
                 try {
                     saveBtn.click();

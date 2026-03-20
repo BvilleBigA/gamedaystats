@@ -155,6 +155,85 @@ def _sanitize_boxscore_batting_order(boxscore):
             t["currentBattingOrder"] = bo[:max_batters]
 
 
+def _gwt_uniform_key(player_dict):
+    u = str((player_dict or {}).get("uniform") or "").strip()
+    return u
+
+
+def _merge_blob_roster_with_db(blob_team, db_players):
+    """Merge DB roster into a blob team without replacing GWT player objects.
+
+    Replacing ``teams[].players`` entirely desyncs ``currentBattingOrder`` and
+    in-game stats from what GWT saved; the client then re-initializes lineups
+    and appears to auto-add batters.  We keep each blob player dict and only
+    refresh names and profile fields from DB; roster adds from Gameday are
+    appended with lineup fields zeroed so they stay on the bench until chosen.
+    """
+    if not isinstance(blob_team, dict):
+        return list(db_players) if db_players else []
+    blob_players = blob_team.get("players")
+    if not isinstance(blob_players, list) or not blob_players:
+        return list(db_players) if db_players else []
+    if not db_players:
+        return blob_players
+
+    db_by_uni = {}
+    for dp in db_players:
+        if not isinstance(dp, dict):
+            continue
+        k = _gwt_uniform_key(dp)
+        if k:
+            db_by_uni[k] = dp
+
+    _SAFE_FROM_DB = (
+        "completeName", "firstName", "lastName",
+        "batProfile", "pitcherThrowsProfile", "class",
+    )
+
+    merged = []
+    blob_uni = set()
+    for bp in blob_players:
+        if not isinstance(bp, dict):
+            continue
+        u = _gwt_uniform_key(bp)
+        if u:
+            blob_uni.add(u)
+        dp = db_by_uni.get(u) if u else None
+        if dp:
+            out = dict(bp)
+            for fld in _SAFE_FROM_DB:
+                if fld not in dp:
+                    continue
+                val = dp[fld]
+                if val is None or val == "":
+                    continue
+                out[fld] = val
+            if "inactive" in dp:
+                out["inactive"] = dp["inactive"]
+            merged.append(out)
+        else:
+            merged.append(bp)
+
+    for dp in db_players:
+        if not isinstance(dp, dict):
+            continue
+        u = _gwt_uniform_key(dp)
+        if not u or u in blob_uni:
+            continue
+        np = dict(dp)
+        np["readOrder"] = 0
+        np["spot"] = 0
+        np["initialSpot"] = 0
+        np["starter"] = False
+        np["starterDef"] = False
+        np["starterOff"] = False
+        np["starterPosition"] = 0
+        merged.append(np)
+        blob_uni.add(u)
+
+    return merged
+
+
 def _pitch_count_from_sequence(raw):
     """Count pitches from a GWT pitch sequence string."""
     if not raw or not str(raw).strip():
@@ -845,10 +924,11 @@ def _build_player_obj(player, batting, pitching, fielding, participated, is_init
 def _build_event_payload(game, sport_code="1"):
     """Build the GWT event.json array element for a single game.
 
-    If a raw boxscore blob was saved by saveboxscore/saveGame, it is returned
-    verbatim for the 'boxscore' key so GWT reloads exactly the state it last
-    saved.  The wrapper fields (psId, teams, status) are always rebuilt from the
-    DB so the gameday page stays in sync.
+    If a raw boxscore blob was saved by saveboxscore/saveGame, it is used for
+    plays and most boxscore state.  teams[].players are merged with the DB by
+    uniform (names/profiles updated; GWT lineup objects preserved).  New DB-only
+    players are appended as bench.  periodstats come from the DB for line scores.
+    The wrapper fields (psId, teams, status) are always rebuilt from the DB.
     """
     import json as json_mod
     vis  = game.visitor_team
@@ -883,10 +963,6 @@ def _build_event_payload(game, sport_code="1"):
             pitching    = pitching_map.get(pid)
             fielding    = fielding_map.get(pid)
             participated = bool(batting or pitching or fielding)
-            
-            # Pregame report: only show the starting lineups (skip bench)
-            if is_initial and not participated:
-                continue
 
             result.append(_build_player_obj(
                 player, batting, pitching, fielding, participated,
@@ -953,8 +1029,7 @@ def _build_event_payload(game, sport_code="1"):
 
 
     # Use the stored GWT boxscore blob if available; otherwise build from DB.
-    # The blob is the raw 'bs' JSON GWT last saved via saveboxscore/saveGame —
-    # returning it verbatim lets GWT restore state exactly as it left it.
+    # Roster/periodstats are merged from DB after load (see below).
     if game.gwt_bs_blob:
         try:
             boxscore = json_mod.loads(game.gwt_bs_blob)
@@ -1022,6 +1097,15 @@ def _build_event_payload(game, sport_code="1"):
                 teams[1]["record"] = game.home_record or ""
             if not (teams[1].get("record_conf") or ""):
                 teams[1]["record_conf"] = game.home_conf or ""
+
+        # Roster: merge DB into blob by uniform — do not replace player dicts wholesale
+        # or GWT will desync currentBattingOrder and auto-fill the lineup.
+        if len(teams) >= 2 and len(boxscore_teams) >= 2:
+            for idx in (0, 1):
+                teams[idx]["players"] = _merge_blob_roster_with_db(
+                    teams[idx], boxscore_teams[idx]["players"]
+                )
+                teams[idx]["periodstats"] = boxscore_teams[idx]["periodstats"]
 
     if boxscore is None:
         # First load (no blob yet) — build boxscore from DB so GWT can initialise

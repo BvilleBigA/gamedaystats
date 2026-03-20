@@ -1,5 +1,5 @@
 import re
-from datetime import datetime
+from datetime import date as date_cls, datetime
 from app import db
 
 
@@ -77,6 +77,32 @@ class Season(db.Model):
         s = re.sub(r'[^a-z0-9\s-]', '', s)
         s = re.sub(r'[\s]+', '-', s)
         return s
+
+    @property
+    def is_current(self):
+        """True when today falls within start_date and end_date (inclusive) for any bound that is set.
+        If both dates are blank, returns True so legacy seasons without schedule metadata still appear."""
+        today = date_cls.today()
+        raw_start = (self.start_date or "").strip()
+        raw_end = (self.end_date or "").strip()
+        if not raw_start and not raw_end:
+            return True
+
+        def _parse_iso(s):
+            if not s or len(s) < 10:
+                return None
+            try:
+                return date_cls.fromisoformat(s[:10])
+            except ValueError:
+                return None
+
+        ds = _parse_iso(raw_start)
+        de = _parse_iso(raw_end)
+        if ds is not None and today < ds:
+            return False
+        if de is not None and today > de:
+            return False
+        return True
 
     def __repr__(self):
         return f"<Season {self.name}>"

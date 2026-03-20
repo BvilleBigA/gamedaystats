@@ -483,7 +483,7 @@
                         <select id="v-player-{{ i }}" class="lineup-player-select" data-side="v" data-slot="{{ i }}">
                             <option value="">Select Player</option>
                             {% for p in v_roster %}
-                            <option value="{{ p.id }}" data-number="{{ p.uniform_number | numfmt }}">{{ p.uniform_number | numfmt }} - {{ p.last_name or p.name.split()[-1] }}</option>
+                            <option value="{{ p.id }}" data-number="{{ p.uniform_number | numfmt }}">{{ p.uniform_number | numfmt }} - {{ p | player_display_name }}</option>
                             {% endfor %}
                         </select>
                     </td>
@@ -498,7 +498,7 @@
                         <select id="v-player-dp" class="lineup-player-select" data-side="v" data-slot="dp">
                             <option value="">Select Player</option>
                             {% for p in v_roster %}
-                            <option value="{{ p.id }}" data-number="{{ p.uniform_number | numfmt }}">{{ p.uniform_number | numfmt }} - {{ p.last_name or p.name.split()[-1] }}</option>
+                            <option value="{{ p.id }}" data-number="{{ p.uniform_number | numfmt }}">{{ p.uniform_number | numfmt }} - {{ p | player_display_name }}</option>
                             {% endfor %}
                         </select>
                     </td>
@@ -519,7 +519,7 @@
                         <select id="h-player-{{ i }}" class="lineup-player-select" data-side="h" data-slot="{{ i }}">
                             <option value="">Select Player</option>
                             {% for p in h_roster %}
-                            <option value="{{ p.id }}" data-number="{{ p.uniform_number | numfmt }}">{{ p.uniform_number | numfmt }} - {{ p.last_name or p.name.split()[-1] }}</option>
+                            <option value="{{ p.id }}" data-number="{{ p.uniform_number | numfmt }}">{{ p.uniform_number | numfmt }} - {{ p | player_display_name }}</option>
                             {% endfor %}
                         </select>
                     </td>
@@ -534,7 +534,7 @@
                         <select id="h-player-dp" class="lineup-player-select" data-side="h" data-slot="dp">
                             <option value="">Select Player</option>
                             {% for p in h_roster %}
-                            <option value="{{ p.id }}" data-number="{{ p.uniform_number | numfmt }}">{{ p.uniform_number | numfmt }} - {{ p.last_name or p.name.split()[-1] }}</option>
+                            <option value="{{ p.id }}" data-number="{{ p.uniform_number | numfmt }}">{{ p.uniform_number | numfmt }} - {{ p | player_display_name }}</option>
                             {% endfor %}
                         </select>
                     </td>
@@ -1148,8 +1148,8 @@
         {% for stat in v_batting %}
         {
             playerId: {{ stat.player_id }},
-            name: "{{ stat.player.name }}",
-            lastName: "{{ stat.player.last_name or stat.player.name.split()[-1] }}",
+            name: {{ (stat.player | player_display_name)|tojson }},
+            lastName: {{ (stat.player | player_last_name)|tojson }},
             num: "{{ stat.player.uniform_number | numfmt }}",
             pos: "{{ stat.position }}",
             ab: {{ stat.ab }}, r: {{ stat.r }}, h: {{ stat.h }},
@@ -1164,8 +1164,8 @@
         {% for stat in h_batting %}
         {
             playerId: {{ stat.player_id }},
-            name: "{{ stat.player.name }}",
-            lastName: "{{ stat.player.last_name or stat.player.name.split()[-1] }}",
+            name: {{ (stat.player | player_display_name)|tojson }},
+            lastName: {{ (stat.player | player_last_name)|tojson }},
             num: "{{ stat.player.uniform_number | numfmt }}",
             pos: "{{ stat.position }}",
             ab: {{ stat.ab }}, r: {{ stat.r }}, h: {{ stat.h }},
@@ -1182,8 +1182,8 @@
         {% for stat in v_pitching %}
         {
             playerId: {{ stat.player_id }},
-            name: "{{ stat.player.name }}",
-            lastName: "{{ stat.player.last_name or stat.player.name.split()[-1] }}",
+            name: {{ (stat.player | player_display_name)|tojson }},
+            lastName: {{ (stat.player | player_last_name)|tojson }},
             num: "{{ stat.player.uniform_number | numfmt }}",
             pitches: {{ stat.pitches }}, strikes: {{ stat.strikes }},
             ip: {{ stat.ip }}, h: {{ stat.h }}, r: {{ stat.r }},
@@ -1195,8 +1195,8 @@
         {% for stat in h_pitching %}
         {
             playerId: {{ stat.player_id }},
-            name: "{{ stat.player.name }}",
-            lastName: "{{ stat.player.last_name or stat.player.name.split()[-1] }}",
+            name: {{ (stat.player | player_display_name)|tojson }},
+            lastName: {{ (stat.player | player_last_name)|tojson }},
             num: "{{ stat.player.uniform_number | numfmt }}",
             pitches: {{ stat.pitches }}, strikes: {{ stat.strikes }},
             ip: {{ stat.ip }}, h: {{ stat.h }}, r: {{ stat.r }},
@@ -1700,12 +1700,12 @@
 
     var vRosterData = [
         {% for p in v_roster %}
-        {id: {{ p.id }}, num: "{{ p.uniform_number | numfmt }}", pos: "{{ p.position or '' }}", firstName: "{{ p.first_name or '' }}", lastName: "{{ p.last_name or p.name.split()[-1] }}", bats: "{{ p.bats or '' }}", throws: "{{ p.throws or '' }}"},
+        {id: {{ p.id }}, num: {{ (p.uniform_number | numfmt)|tojson }}, pos: {{ (p.position or '')|tojson }}, displayName: {{ (p | player_display_name)|tojson }}, bats: {{ (p.bats or '')|tojson }}, throws: {{ (p.throws or '')|tojson }}}{% if not loop.last %},{% endif %}
         {% endfor %}
     ];
     var hRosterData = [
         {% for p in h_roster %}
-        {id: {{ p.id }}, num: "{{ p.uniform_number | numfmt }}", pos: "{{ p.position or '' }}", firstName: "{{ p.first_name or '' }}", lastName: "{{ p.last_name or p.name.split()[-1] }}", bats: "{{ p.bats or '' }}", throws: "{{ p.throws or '' }}"},
+        {id: {{ p.id }}, num: {{ (p.uniform_number | numfmt)|tojson }}, pos: {{ (p.position or '')|tojson }}, displayName: {{ (p | player_display_name)|tojson }}, bats: {{ (p.bats or '')|tojson }}, throws: {{ (p.throws or '')|tojson }}}{% if not loop.last %},{% endif %}
         {% endfor %}
     ];
     var currentRosterSide = 'v';
@@ -1721,6 +1721,12 @@
         return String(s || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
     }
 
+    function _rosterUniformSortKey(numStr) {
+        var s = String(numStr || '').replace(/^0+/, '') || '0';
+        var n = parseInt(s, 10);
+        return isNaN(n) ? 99999 : n;
+    }
+
     function renderRosterTable() {
         var data = currentRosterSide === 'v' ? vRosterData : hRosterData;
         var battingData = currentRosterSide === 'v' ? vBattingData : hBattingData;
@@ -1733,25 +1739,34 @@
             battingByNum[battingData[i].num] = battingData[i];
         }
 
-        var html = '';
-        var starterCount = 0;
+        var rows = [];
         for (var i = 0; i < data.length; i++) {
             var p = data[i];
             var ov = gameRosterOverrides[p.id];
             if (ov && ov.is_removed) continue;
+            var dispNum = (ov && ov.uniform_number) ? ov.uniform_number : p.num;
+            rows.push({p: p, ov: ov, dispNum: dispNum});
+        }
+        rows.sort(function(a, b) {
+            return _rosterUniformSortKey(a.dispNum) - _rosterUniformSortKey(b.dispNum);
+        });
 
-            // Apply override values for display
-            var dispNum  = (ov && ov.uniform_number) ? ov.uniform_number : p.num;
-            var rawName  = (ov && ov.display_name)   ? ov.display_name : (p.firstName + ' ' + p.lastName).trim();
-            var nameParts = rawName.split(' ');
-            var dispName = (nameParts[0] ? nameParts[0].charAt(0) + '. ' : '') + nameParts.slice(1).join(' ');
-            var bt       = battingByNum[p.num];
+        var html = '';
+        var starterCount = 0;
+        for (var j = 0; j < rows.length; j++) {
+            var p = rows[j].p;
+            var ov = rows[j].ov;
+            var dispNum = rows[j].dispNum;
+
+            var rawName = (ov && ov.display_name) ? ov.display_name : (p.displayName || '');
+            var dispName = rawName;
+            var bt = battingByNum[p.num];
             var isStarter = bt && bt.isStarter;
             var participated = isStarter;
-            var dispPos  = (ov && ov.position) ? ov.position : (bt ? bt.pos : '');
+            var dispPos = (ov && ov.position) ? ov.position : (bt ? bt.pos : '');
             var dispBats = (ov && ov.bats) ? ov.bats : p.bats;
             var dispThrows = (ov && ov.throws) ? ov.throws : p.throws;
-            var btStr    = (dispBats ? dispBats.charAt(0) : '-') + '/' + (dispThrows ? dispThrows.charAt(0) : '-');
+            var btStr = (dispBats ? dispBats.charAt(0) : '-') + '/' + (dispThrows ? dispThrows.charAt(0) : '-');
             if (isStarter) starterCount++;
 
             html += '<tr>';
@@ -1991,7 +2006,7 @@
             if (!pos) {
                 var p = playerById[playerId];
                 var num  = p ? p.num : '';
-                var name = p ? (p.firstName ? p.firstName.charAt(0) + '. ' : '') + p.lastName : '';
+                var name = p ? (p.displayName || '') : '';
                 return 'Please set the position for player #' + num + ' ' + name + '.';
             }
 
@@ -1999,7 +2014,7 @@
             if (seenPlayers[playerId] !== undefined) {
                 var p = playerById[playerId];
                 var num  = p ? p.num : '';
-                var name = p ? (p.firstName ? p.firstName.charAt(0) + '. ' : '') + p.lastName : '';
+                var name = p ? (p.displayName || '') : '';
                 return num + '-' + name + ' was selected twice. Please choose a different player for each starting position.';
             }
             seenPlayers[playerId] = spot;

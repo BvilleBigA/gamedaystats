@@ -298,7 +298,7 @@ There are {{ tasks_left }} tasks left in <a href="/admin/team/season/setup.jsp?s
       </div>
     </td>
   </tr>
-  {% set sorted_players = t.players | sort(attribute='uniform_number') %}
+  {% set sorted_players = t.players | sort_players_by_uniform %}
   {% if sorted_players %}
   <tr class="seasonrow">
     <td align="left">Number</td>

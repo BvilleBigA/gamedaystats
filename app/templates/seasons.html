@@ -36,8 +36,8 @@
       <h3>Pick a current season</h3>
       <table width="300">
         <tbody>
-        {% if seasons %}
-          {% for s in seasons %}
+        {% if current_seasons %}
+          {% for s in current_seasons %}
           <tr>
             <td>
               <img src="{{ s.sport_code | sport_icon }}" alt="" style="width:20px;height:20px;object-fit:contain;vertical-align:middle;margin-right:6px;opacity:0.7;">

@@ -48,15 +48,13 @@ Select a season to manage.
     <td><b>Start</b></td>
     <td><b>End</b></td>
   </tr>
-
   {% for s in seasons %}
-  <tr{% if loop.first %} class="active"{% endif %}>
+  <tr{% if s.is_current %} class="active"{% endif %}>
     <td><a href="/admin/team/season/season.jsp?season_id={{ s.id }}">{{ s.name }}</a></td>
     <td>{{ s.start_date | pretty_date or '—' }}</td>
     <td>{{ s.end_date | pretty_date or '—' }}</td>
   </tr>
   {% endfor %}
-
   </tbody>
 </table>
 {% else %}
