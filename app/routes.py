@@ -1,11 +1,14 @@
 """Flask routes for Gameday Stats."""
 
 import hashlib
+import smtplib
+from email.message import EmailMessage
 from types import SimpleNamespace
 import json
 import os
 import re
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, session, send_from_directory, current_app
+from itsdangerous import URLSafeTimedSerializer
 from app import db
 from app.models import (
     Season, Team, Player, Game, InningScore,
@@ -18,6 +21,33 @@ main_bp = Blueprint("main", __name__)
 
 
 # ── Helper functions ──────────────────────────────────────────────────────────
+
+
+def send_email(to_email, subject, message_body):
+    """Send email via Resend SMTP using explicit TLS."""
+    _from_addr = "admin@bvillebiga.com"
+    
+    try:
+        msg = EmailMessage()
+        msg["Subject"] = subject
+        msg["From"] = _from_addr
+        msg["To"] = to_email
+        msg.set_content(message_body)
+        
+        # Use Port 587 with explicit TLS (Resend's recommended method)
+        with smtplib.SMTP('smtp.resend.com', 587) as smtp:
+            smtp.starttls() 
+            smtp.login("resend", os.environ.get("RESEND_API_KEY"))
+            smtp.send_message(msg)
+            print("Email sent successfully!")
+            
+    except Exception as e:
+        print(f"send_email failed: {e}")
+
+
+def get_serializer():
+    """URL-safe timed serializer for access / signup tokens."""
+    return URLSafeTimedSerializer(current_app.config["SECRET_KEY"])
 
 
 def _aggregate_batting(stats_query):
@@ -167,6 +197,103 @@ def login():
 def logout():
     session.pop('user_id', None)
     return redirect(url_for('main.login'))
+
+
+@main_bp.route('/request-access', methods=['GET', 'POST'])
+def request_access():
+    if request.method == 'POST':
+        email = (request.form.get('email') or '').strip()
+        name = (request.form.get('name') or '').strip()
+        if not email or not name:
+            flash('Email and name are required.')
+            return redirect(url_for('main.request_access'))
+        ser = get_serializer()
+        payload = {'email': email, 'name': name}
+        token = ser.dumps(payload, salt='request-access')
+        approve_url = url_for('main.approve_access', token=token, _external=True)
+        deny_url = url_for('main.deny_access', token=token, _external=True)
+        body = (
+            f"Access request\n\n"
+            f"Name: {name}\n"
+            f"Email: {email}\n\n"
+            f"Approve: {approve_url}\n\n"
+            f"Deny: {deny_url}\n"
+        )
+        send_email(
+            'admin@bvillebiga.com',
+            'Gameday Stats: account access request',
+            body,
+        )
+        flash('Your request has been submitted. We will email you when approved.')
+        return redirect(url_for('main.login'))
+    return render_template('request_access.html')
+
+
+@main_bp.route('/admin/approve/<token>')
+def approve_access(token):
+    try:
+        ser = get_serializer()
+        data = ser.loads(token, max_age=7 * 24 * 3600, salt='request-access')
+    except Exception as e:
+        return f"Invalid or expired link: {e}", 400
+    email = data['email']
+    name = data['name']
+    signup_tok = ser.dumps(data, salt='signup')
+    signup_url = url_for('main.signup', token=signup_tok, _external=True)
+    send_email(
+        email,
+        'Complete your Gameday Stats signup',
+        f"Hello {name},\n\n"
+        f"Your access request was approved. Set your password here:\n{signup_url}\n",
+    )
+    return f"Approval email sent to {email}."
+
+
+@main_bp.route('/admin/deny/<token>')
+def deny_access(token):
+    try:
+        ser = get_serializer()
+        ser.loads(token, max_age=7 * 24 * 3600, salt='request-access')
+    except Exception:
+        return "Invalid or expired link.", 400
+    return "The request was denied."
+
+
+@main_bp.route('/signup/<token>', methods=['GET', 'POST'])
+def signup(token):
+    ser = get_serializer()
+    max_age_signup = 24 * 3600
+    if request.method == 'POST':
+        password = (request.form.get('password') or '').strip()
+        if not password:
+            flash('Password is required.')
+            return redirect(url_for('main.signup', token=token))
+        try:
+            data = ser.loads(token, max_age=max_age_signup, salt='signup')
+        except Exception:
+            flash('This signup link is invalid or has expired.')
+            return redirect(url_for('main.login'))
+        email = data['email']
+        name = data['name']
+        if User.query.filter_by(username=email).first():
+            flash('An account with this email already exists.')
+            return redirect(url_for('main.login'))
+        new_user = User(
+            username=email,
+            password_sha256=hashlib.sha256(password.encode()).hexdigest(),
+            display_name=name,
+            role='scorer',
+        )
+        db.session.add(new_user)
+        db.session.commit()
+        flash('Account created. Sign in with your email and password.')
+        return redirect(url_for('main.login'))
+    try:
+        data = ser.loads(token, max_age=max_age_signup, salt='signup')
+    except Exception:
+        flash('This signup link is invalid or has expired.')
+        return redirect(url_for('main.login'))
+    return render_template('signup.html', token=token, email=data['email'], name=data['name'])
 
 
 @main_bp.route('/admin')
@@ -445,6 +572,11 @@ def api_admin_users_create():
     )
     db.session.add(new_user)
     db.session.commit()
+    send_email(
+        "admin@bvillebiga.com",
+        "New User Registered on Gameday Stats",
+        f"Email: {email}\nDisplay name: {display_name}\n",
+    )
     return jsonify({"ok": True, "user": _user_to_json(new_user)}, 201)
 
 

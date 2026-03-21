@@ -1,6 +1,6 @@
 {% extends "team.html" %}
 
-{% block page_title %}Sign in — Gameday Stats{% endblock %}
+{% block page_title %}Create password — Gameday Stats{% endblock %}
 
 {% block body_class %}gs-login-page{% endblock %}
 
@@ -12,7 +12,6 @@
 
 {% block head_extra %}
 <style>
-    /* Full-width main when sidebar is omitted (login) */
     body.gs-login-page .left-sidebar-row-offcanvas-left > .main-area {
         width: 100% !important;
         float: none !important;
@@ -29,15 +28,18 @@
 </style>
 {% endblock %}
 
-{% block top_level_name %}Sign in{% endblock %}
+{% block top_level_name %}Create account{% endblock %}
 
 {% block secondary_nav_links %}
-<li class="active"><a href="/login">Sign in</a></li>
+<li><a href="/login">Sign in</a></li>
 {% endblock %}
 
 {% block content %}
-<h1>Sign in</h1>
-<p class="text-muted" style="margin-bottom: 20px;">Enter your credentials to open Gameday Stats.</p>
+<h1>Create your password</h1>
+<p class="text-muted" style="margin-bottom: 20px;">
+    <strong>{{ name }}</strong><br>
+    <span style="font-size: 13px;">{{ email }}</span>
+</p>
 
 {% with messages = get_flashed_messages() %}
 {% if messages %}
@@ -46,20 +48,16 @@
 {% endwith %}
 
 <div class="gs-card">
-    <h2>Credentials</h2>
-    <form method="post" action="{{ url_for('main.login', next=request.args.get('next')) }}">
-        <div class="sd-fg" style="margin-bottom: 14px;">
-            <label for="email">Email</label>
-            <input type="text" class="form-control" id="email" name="email" autofocus autocomplete="email" required>
-        </div>
+    <h2>Password</h2>
+    <form method="post" action="{{ url_for('main.signup', token=token) }}">
         <div class="sd-fg" style="margin-bottom: 18px;">
             <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" name="password" autocomplete="current-password" required>
+            <input type="password" class="form-control" id="password" name="password" autocomplete="new-password" required minlength="8">
         </div>
-        <button type="submit" class="btn btn-gameday">Sign in</button>
+        <button type="submit" class="btn btn-gameday">Create account</button>
     </form>
 </div>
-<p class="text-muted" style="margin-top: 18px; font-size: 13px;">
-    Don&apos;t have an account? <a href="{{ url_for('main.request_access') }}">Request access</a>
+<p class="text-muted" style="margin-top: 16px; font-size: 13px;">
+    <a href="{{ url_for('main.login') }}">Back to sign in</a>
 </p>
 {% endblock %}
