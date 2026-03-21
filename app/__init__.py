@@ -1,9 +1,6 @@
-from dotenv import load_dotenv
 from flask import Flask
 from flask.wrappers import Request
 from flask_sqlalchemy import SQLAlchemy
-
-load_dotenv()
 
 db = SQLAlchemy()
 

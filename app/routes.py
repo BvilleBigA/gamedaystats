@@ -7,6 +7,7 @@ from types import SimpleNamespace
 import json
 import os
 import re
+from dotenv import load_dotenv
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, session, send_from_directory, current_app
 from itsdangerous import URLSafeTimedSerializer
 from app import db
@@ -17,6 +18,8 @@ from app.models import (
     GameRosterEntry,
 )
 
+# Load environment variables from the .env file
+load_dotenv()
 
 main_bp = Blueprint("main", __name__)
 
@@ -36,10 +39,18 @@ def send_email(to_email, subject, message_body):
         msg.set_content(message_body)
         
         # Use Port 587 with explicit TLS (Resend's recommended method)
-        with smtplib.SMTP("smtp.resend.com", 587) as smtp:
-            smtp.starttls()
-            smtp.login("resend", os.environ.get("RESEND_API_KEY") or "")
+        with smtplib.SMTP('smtp.resend.com', 587) as smtp:
+            smtp.starttls() 
+            
+            # Securely fetch the API key from the .env file
+            api_key = os.environ.get("RESEND_API_KEY")
+            if not api_key:
+                print("CRITICAL ERROR: RESEND_API_KEY is not set. Python cannot find the .env file.")
+                return
+                
+            smtp.login("resend", api_key)
             smtp.send_message(msg)
+            print("Email sent successfully!")
             
     except Exception as e:
         print(f"send_email failed: {e}")
@@ -1831,8 +1842,8 @@ def edit_event():
                 'name':     (s.name  if s else t.name)  or t.name,
                 'rpi':      (s.rpi   if s else t.code)  or '',
                 'code':     (s.code  if s else t.code)  or '',
-                'city':     (s.city  if s else '')       or '',
-                'state':    (s.state if s else '')       or '',
+                'city':     (s.city  if s else '')      or '',
+                'state':    (s.state if s else '')      or '',
             })
         return rows
 
