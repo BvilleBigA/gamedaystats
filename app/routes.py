@@ -1,7 +1,5 @@
 """Flask routes for Gameday Stats."""
 
-from dotenv import load_dotenv
-load_dotenv()
 import hashlib
 import smtplib
 from email.message import EmailMessage
@@ -38,11 +36,10 @@ def send_email(to_email, subject, message_body):
         msg.set_content(message_body)
         
         # Use Port 587 with explicit TLS (Resend's recommended method)
-        with smtplib.SMTP('smtp.resend.com', 587) as smtp:
-            smtp.starttls() 
-            smtp.login("resend", os.environ.get("RESEND_API_KEY"))
+        with smtplib.SMTP("smtp.resend.com", 587) as smtp:
+            smtp.starttls()
+            smtp.login("resend", os.environ.get("RESEND_API_KEY") or "")
             smtp.send_message(msg)
-            print("Email sent successfully!")
             
     except Exception as e:
         print(f"send_email failed: {e}")
