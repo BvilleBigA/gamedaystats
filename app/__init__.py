@@ -28,6 +28,9 @@ def create_app(config_class=None):
     from app.gwtapi import gwtapi_bp
     app.register_blueprint(gwtapi_bp, url_prefix='/action/stats')
 
+    from app.presto_pull_api import presto_pull_bp
+    app.register_blueprint(presto_pull_bp, url_prefix='/api')
+
     from app.xmlapi import xml_bp
     app.register_blueprint(xml_bp)
 
