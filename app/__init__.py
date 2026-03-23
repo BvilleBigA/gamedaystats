@@ -177,6 +177,20 @@ def create_app(config_class=None):
                 return
         print("User 'Anderson Long' not found.")
 
+    # PrestoSync 2.1 builds GET /api/me/events with newline/tab bytes inside PATH_INFO
+    # (broken template literal in their bundle). Flask won't match /me/events → 404 →
+    # the Electron client crashes on response.data.data. Strip whitespace from PATH_INFO.
+    _orig_wsgi = app.wsgi_app
+
+    def _normalize_path_wsgi(environ, start_response):
+        path = environ.get("PATH_INFO") or ""
+        if path and any(c in path for c in "\n\r\t"):
+            environ = environ.copy()
+            environ["PATH_INFO"] = "".join(c for c in path if c not in "\n\r\t")
+        return _orig_wsgi(environ, start_response)
+
+    app.wsgi_app = _normalize_path_wsgi
+
     return app
 
 
