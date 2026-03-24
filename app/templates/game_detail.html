@@ -1156,7 +1156,8 @@
             rbi: {{ stat.rbi }}, bb: {{ stat.bb }}, so: {{ stat.so }},
             doubles: {{ stat.doubles }}, triples: {{ stat.triples }}, hr: {{ stat.hr }},
             hbp: {{ stat.hbp }}, order: {{ stat.batting_order or 0 }},
-            isStarter: {{ 'true' if stat.is_starter else 'false' }}
+            isStarter: {{ 'true' if stat.is_starter else 'false' }},
+            isSub: {{ 'true' if stat.is_sub else 'false' }}
         },
         {% endfor %}
     ];
@@ -1172,7 +1173,8 @@
             rbi: {{ stat.rbi }}, bb: {{ stat.bb }}, so: {{ stat.so }},
             doubles: {{ stat.doubles }}, triples: {{ stat.triples }}, hr: {{ stat.hr }},
             hbp: {{ stat.hbp }}, order: {{ stat.batting_order or 0 }},
-            isStarter: {{ 'true' if stat.is_starter else 'false' }}
+            isStarter: {{ 'true' if stat.is_starter else 'false' }},
+            isSub: {{ 'true' if stat.is_sub else 'false' }}
         },
         {% endfor %}
     ];
@@ -1212,8 +1214,11 @@
     var currentOuts = 0;
     // Runners: null or {name, lastName, num, order, playerId}
     var runners = {first: null, second: null, third: null};
-    // Separate batter-index cursors per half so each team cycles independently
-    var batterIdx = {top: 0, bottom: 0};
+    // Separate batter-index cursors per half — seeded from play replay (see add_play_ui_batter_indices)
+    var batterIdx = {
+        top: {{ batter_idx_visitor|default(0) }},
+        bottom: {{ batter_idx_home|default(0) }}
+    };
 
     // Reconstruct inning/half/outs from the last recorded play
     {% if plays %}
@@ -1279,7 +1284,16 @@
         for (var slot = 1; slot <= 9; slot++) {
             var group = bySlot[slot];
             if (!group || !group.length) continue;
-            var nonPR = group.filter(function(b) { return !_isPinchRunnerPos(b.pos); });
+            var nonPR = group.filter(function(b) {
+                if (_isPinchRunnerPos(b.pos)) return false;
+                // GWT often leaves position blank for PR; subs who aren't PH and aren't starters
+                // share a spot with the starter — treat as runner-only for the card.
+                if (b.isSub && !b.isStarter && !_isPinchHitterPos(b.pos)) {
+                    var hasStarter = group.some(function(x) { return x.isStarter; });
+                    if (hasStarter) return false;
+                }
+                return true;
+            });
             var pool = nonPR.length ? nonPR : group;
             var ph = null;
             for (var j = 0; j < pool.length; j++) {
@@ -1296,7 +1310,15 @@
         return lineup;
     }
 
+    function _clampBatterIdxToLineup(half) {
+        var lineup = _battingOrderLineup(half === 'top' ? vBattingData : hBattingData);
+        if (!lineup.length) return;
+        var i = batterIdx[half];
+        if (i < 0 || i >= lineup.length) batterIdx[half] = 0;
+    }
+
     function updateFieldDisplay() {
+        _clampBatterIdxToLineup(currentHalf);
         var def = currentHalf === 'top' ? homeDefense : visDefense;
         // Fielders — update anchor text content directly
         for (var pos in POS_SLOTS) {

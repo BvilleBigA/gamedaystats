@@ -2498,6 +2498,10 @@ def game_detail(game_id):
     )
     needs_roster = (v_starter_count < 9 or h_starter_count < 9)
 
+    from app.xmlapi import add_play_ui_batter_indices
+
+    _bi = add_play_ui_batter_indices(game)
+
     return render_template('game_detail.html',
                            current_user=user,
                            game=game,
@@ -2518,7 +2522,9 @@ def game_detail(game_id):
                            game_overrides=game_overrides,
                            v_starter_count=v_starter_count,
                            h_starter_count=h_starter_count,
-                           needs_roster=needs_roster)
+                           needs_roster=needs_roster,
+                           batter_idx_visitor=_bi["visitor"],
+                           batter_idx_home=_bi["home"])
 
 
 @main_bp.route('/api/games/<int:game_id>/action', methods=['POST'])

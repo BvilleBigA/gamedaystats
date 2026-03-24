@@ -99,6 +99,160 @@ def _presto_name(player):
     return n
 
 
+def _pinch_runner_position(pos):
+    p = (str(pos or "").upper()).replace(" ", "")
+    return p in ("PR", "PINCHRUNNER")
+
+
+def _pinch_hitter_position(pos):
+    p = (str(pos or "").upper()).replace(" ", "")
+    return p in ("PH", "PINCHHITTER")
+
+
+def add_play_lineup_slot_rows(game, team_id):
+    """One BattingStats row per slot 1–9 for Add Play UI (excludes PR from owning a slot)."""
+    rows = [
+        s
+        for s in game.batting_stats
+        if s.team_id == team_id and s.batting_order and 1 <= int(s.batting_order) <= 9
+    ]
+    by_slot = {}
+    for s in rows:
+        o = int(s.batting_order)
+        by_slot.setdefault(o, []).append(s)
+    out = []
+    for slot in range(1, 10):
+        group = by_slot.get(slot) or []
+        if not group:
+            continue
+        non_pr = [b for b in group if not _pinch_runner_position(b.position)]
+        pool = non_pr if non_pr else group
+        phs = [b for b in pool if _pinch_hitter_position(b.position)]
+        if phs:
+            pick = phs[-1]
+        else:
+            starters = [b for b in pool if b.is_starter]
+            pick = starters[0] if starters else pool[0]
+        out.append(pick)
+    return out
+
+
+def _next_batting_spot_after_plays_for_half(game, team_id, half_key):
+    """
+    Batting-order spot (1–10) of the next batter for this team after replaying all plays
+    in that team's offensive halves. Matches boxscore status walk in this module.
+    """
+    bat_stats = [
+        s
+        for s in game.batting_stats
+        if s.team_id == team_id and s.batting_order and 1 <= int(s.batting_order) <= 10
+    ]
+    if not bat_stats:
+        return 1
+    orders = sorted(set(int(s.batting_order) for s in bat_stats))
+    spot_to_player = {}
+    for s in bat_stats:
+        if s.player and s.is_starter:
+            spot_to_player[int(s.batting_order)] = s.player
+    for s in bat_stats:
+        o = int(s.batting_order)
+        if s.player and not s.is_starter and o not in spot_to_player:
+            spot_to_player[o] = s.player
+    name_to_spot = {}
+    for s in bat_stats:
+        if s.player:
+            for n in (s.player.name, _short_name(s.player), _presto_name(s.player)):
+                if n:
+                    name_to_spot[(n or "").strip()] = int(s.batting_order)
+    all_plays = sorted(
+        game.plays,
+        key=lambda p: (p.inning, 0 if (p.half or "").lower() == "top" else 1, p.sequence),
+    )
+    cur_spot = orders[0] if orders else 1
+    half_key = (half_key or "").lower()
+
+    for p in all_plays:
+        if (p.half or "").lower() != half_key:
+            continue
+        if (p.action_type or "").upper() == "SUB":
+            spot = getattr(p, "sub_spot", None) or 0
+            if not (1 <= spot <= 10) and (p.sub_for or "").strip():
+                for_name = (p.sub_for or "").strip()
+                spot = name_to_spot.get(for_name, 0)
+            if 1 <= spot <= 10:
+                who = (p.sub_who or "").strip()
+                for s in bat_stats:
+                    if s.player and (
+                        who == (s.player.name or "")
+                        or who == _short_name(s.player)
+                        or who in (s.player.name or "")
+                    ):
+                        spot_to_player[spot] = s.player
+                        break
+            continue
+        if "DF" in (p.action_type or "").upper():
+            continue
+        if (p.action_type or "").upper().startswith("B:"):
+            try:
+                cur_spot = int((p.action_type or "").split(":")[1])
+            except (ValueError, IndexError):
+                pass
+            continue
+        _ar = (p.action_type or "").upper().strip()
+        _narr = (p.narrative or "").lower()
+        _ap = re.split(r"\s+", _ar)
+        _ab = _ap[-1] if _ap else ""
+        _is_runner_only = _ab in ("SB", "CS", "WP", "PB", "BK") or (
+            ("PO" in _ar or _ab == "PO" or (not _ar and "picked off" in _narr))
+            or ("BK" in _ar or "BALK" in _ar or (not _ar and "balk" in _narr))
+            or (not _ar and "stole" in _narr)
+            or (not _ar and "caught stealing" in _narr)
+            or (
+                not _ar
+                and "out at" in _narr
+                and " to " in _narr
+                and (p.runner_first or p.runner_second or p.runner_third)
+                and (p.outs_on_play or 0) >= 1
+            )
+        )
+        if _is_runner_only:
+            continue
+        bn = (p.batter_name or "").strip()
+        if bn and bn in name_to_spot:
+            cur_spot = name_to_spot[bn]
+        idx = orders.index(cur_spot) if cur_spot in orders else 0
+        cur_spot = orders[(idx + 1) % len(orders)] if orders else cur_spot
+    return cur_spot
+
+
+def _lineup_row_index_for_spot(lineup_rows, cur_spot):
+    if not lineup_rows:
+        return 0
+    cur_spot = int(cur_spot)
+    for i, row in enumerate(lineup_rows):
+        if int(row.batting_order or 0) == cur_spot:
+            return i
+    return 0
+
+
+def add_play_ui_batter_indices(game):
+    """0-based indices into add_play_lineup_slot_rows for visitor (top) and home (bottom)."""
+    if not game or not list(game.plays or []):
+        return {"visitor": 0, "home": 0}
+    vid = game.visitor_team_id
+    hid = game.home_team_id
+    v_idx = h_idx = 0
+    if vid:
+        v_lineup = add_play_lineup_slot_rows(game, vid)
+        v_spot = _next_batting_spot_after_plays_for_half(game, vid, "top")
+        v_idx = _lineup_row_index_for_spot(v_lineup, v_spot)
+    if hid:
+        h_lineup = add_play_lineup_slot_rows(game, hid)
+        h_spot = _next_batting_spot_after_plays_for_half(game, hid, "bottom")
+        h_idx = _lineup_row_index_for_spot(h_lineup, h_spot)
+    return {"visitor": v_idx, "home": h_idx}
+
+
 def _fmt_ip(ip_val):
     """Format innings-pitched: 1 out = .1, 2 outs = .2, 3 outs = 1.0."""
     if ip_val is None:
